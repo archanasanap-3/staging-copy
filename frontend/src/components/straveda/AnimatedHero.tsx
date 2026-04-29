@@ -235,13 +235,14 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       {/* ═══ CONTENT ═══ */}
       <div
         ref={containerRef}
-        className="relative z-10 mx-auto w-full max-w-[860px] px-4 sm:px-6 lg:px-8 pt-24 pb-14 sm:pt-28 sm:pb-20 md:py-28 text-left"
+        className="relative z-10 mx-auto w-full max-w-[860px] px-4 sm:px-6 lg:px-8 pt-24 pb-14 sm:pt-28 sm:pb-20 md:py-28 text-center md:text-left"
       >
         {/* Pill Badge */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5, ease }}
+          className="flex justify-center md:justify-start"
         >
           <span
             className={cn(
@@ -309,7 +310,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2, ease }}
-          className="w-full max-w-[600px] text-left text-[16px] font-normal leading-relaxed md:text-[20px]"
+          className="w-full max-w-[600px] mx-auto md:mx-0 text-center md:text-left text-[16px] font-normal leading-relaxed md:text-[20px]"
           style={{ color: colors.tagline, overflowWrap: 'break-word' }}
         >
           {taglineWords.map((word, i) => (
@@ -329,12 +330,12 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3, ease }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          className="mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-4"
         >
           <MagneticButton>
             <motion.button
               onClick={() => onNavigate('contact')}
-              className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-[14px] font-medium text-white shadow-lg shadow-orange-500/25 transition-all duration-200 hover:scale-[1.03] hover:shadow-xl"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-[14px] font-medium text-white shadow-lg shadow-orange-500/25 transition-all duration-200 hover:scale-[1.03] hover:shadow-xl"
               style={{ background: '#FF4800' }}
             >
               Book Strategy Call
@@ -343,7 +344,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           </MagneticButton>
           <motion.button
             onClick={() => onNavigate('services')}
-            className="inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] px-7 py-3.5 text-[14px] font-medium transition-all duration-200 hover:scale-[1.02] hover:border-[#FF4800]/50 backdrop-blur-sm"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] px-7 py-3.5 text-[14px] font-medium transition-all duration-200 hover:scale-[1.02] hover:border-[#FF4800]/50 backdrop-blur-sm"
             style={{
               borderColor: colors.secondaryBtnBorder,
               color: colors.secondaryBtnText,
@@ -362,8 +363,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           transition={{ duration: 0.5, delay: 0.4, ease }}
           className="mt-10"
         >
-          
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center md:justify-start gap-3">
             <span className="text-[13px]" style={{ color: colors.ratingLabel }}>
             </span>
           </div>
