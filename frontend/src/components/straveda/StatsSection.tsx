@@ -58,15 +58,15 @@ function StatRow({
       initial={{ opacity: 0, y: 24 }}
       animate={lineInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
       transition={{ duration: 0.65, delay: 0.25 + index * 0.15, ease }}
-      className="flex items-baseline gap-4 sm:gap-5 py-4 sm:py-5 border-b border-black/[0.06] dark:border-white/[0.06] last:border-0"
+      className="flex items-baseline gap-4 sm:gap-5 py-4 sm:py-5 border-b border-slate-200 dark:border-white/[0.06] last:border-0"
     >
       <span
-        className="min-w-[100px] sm:min-w-[110px] text-[30px] sm:text-[34px] md:text-[42px] font-bold leading-none tracking-tight text-[#1a1a2e] dark:text-[#f0f0f5]"
+        className="min-w-[100px] sm:min-w-[110px] text-[30px] sm:text-[34px] md:text-[42px] font-bold leading-none tracking-tight text-slate-900 dark:text-[#f0f0f5]"
         style={{ fontVariantNumeric: 'tabular-nums' }}
       >
         {displayValue}
       </span>
-      <span className="text-[13px] sm:text-[14px] md:text-[15px] leading-snug text-[#6b7280] dark:text-[#9ca3af]">
+      <span className="text-[13px] sm:text-[14px] md:text-[15px] leading-snug text-slate-600 dark:text-[#9ca3af]">
         {stat.label}
       </span>
     </motion.div>
@@ -154,7 +154,7 @@ export default function StatsSection() {
             initial={{ opacity: 0, y: 28 }}
             animate={lineInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2, ease }}
-            className="mb-6 text-[28px] sm:text-[32px] md:text-[40px] lg:text-[50px] font-bold leading-[1.08] tracking-[-1.5px] text-[#1a1a2e] dark:text-[#f0f0f5]"
+            className="mb-6 text-[28px] sm:text-[32px] md:text-[40px] lg:text-[50px] font-bold leading-[1.08] tracking-[-1.5px] text-slate-900 dark:text-[#f0f0f5]"
           >
             We Get It.{' '}
             <br className="hidden sm:block" />
@@ -167,12 +167,12 @@ export default function StatsSection() {
             transition={{ duration: 0.8, delay: 0.35, ease }}
             className="space-y-4"
           >
-            <p className="text-[15px] sm:text-[16px] leading-[1.8] text-[#6b7280] dark:text-[#9ca3af]">
+            <p className="text-[15px] sm:text-[16px] leading-[1.8] text-slate-600 dark:text-[#9ca3af]">
               A small team of operators and builders who&apos;ve been through the chaos of scaling.
               We&apos;ve felt the frustration of bloated software, long implementation timelines,
               and vendors who don&apos;t understand your business.
             </p>
-            <p className="text-[15px] sm:text-[16px] leading-[1.8] text-[#6b7280] dark:text-[#9ca3af]">
+            <p className="text-[15px] sm:text-[16px] leading-[1.8] text-slate-600 dark:text-[#9ca3af]">
               So we built Straveda as the antidote — an engineering first partner that ships fast,
               stays accountable, and measures success in operational outcomes, not slide decks.
             </p>

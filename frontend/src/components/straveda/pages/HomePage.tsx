@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Star,
@@ -230,27 +230,76 @@ function getInitials(name: string): string {
 }
 
 function TestimonialsCarousel() {
+  const { resolvedTheme } = useTheme();
+  const isDarkT = resolvedTheme === 'dark';
   const t = testimonials[0];
+
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0e0c1c 0%, #1a1535 50%, #0e0c1c 100%)' }}>
-      <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: '700px', height: '400px', background: 'radial-gradient(ellipse at center, rgba(255,72,0,0.10) 0%, rgba(255,72,0,0.03) 40%, transparent 70%)' }} />
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.4) 50%, transparent)' }} />
-      <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-        <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, ease }} className="mb-6 text-[11px] font-semibold uppercase tracking-widest" style={{ color: '#FF4800' }}>Client Feedback</motion.p>
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.1, ease }} className="mb-6 flex items-center justify-center gap-1">
-          {[...Array(t.stars)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" style={{ color: '#FBBF24' }} />)}
-        </motion.div>
-        <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.15, ease }} className="block leading-none mb-2" style={{ fontSize: '64px', color: '#FF4800', opacity: 0.6 }}>&#x275D;</motion.span>
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.7, delay: 0.2, ease }} className="text-[clamp(1.05rem,2.5vw,1.45rem)] italic leading-[1.75] font-light" style={{ color: 'rgba(255,255,255,0.85)' }}>{t.quote}</motion.p>
-        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.8, delay: 0.35, ease: [0.4, 0, 0.2, 1] }} className="mx-auto my-8" style={{ width: '3rem', height: '1px', background: 'rgba(255,72,0,0.6)', transformOrigin: 'center' }} />
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.4, ease }} className="flex items-center justify-center gap-3">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-[13px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF4800 0%, #2B2358 100%)' }}>{getInitials(t.name)}</div>
-          <div className="text-left">
-            <p className="text-[14px] font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{t.name}</p>
-            <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.45)' }}>{t.role}{t.company && <span> · <span style={{ color: 'rgba(255,72,0,0.8)' }}>{t.company}</span></span>}</p>
-          </div>
-        </motion.div>
+    <section
+      className="relative py-16 md:py-24 overflow-hidden"
+      style={{
+        background: isDarkT
+          ? 'linear-gradient(135deg, #0e0c1c 0%, #1a1535 50%, #0e0c1c 100%)'
+          : 'linear-gradient(135deg, #f8f8fc 0%, #ffffff 50%, #f0f0f8 100%)',
+      }}
+    >
+      {/* Dot grid */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: `radial-gradient(circle, ${isDarkT ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'} 1px, transparent 1px)`,
+          backgroundSize: '28px 28px',
+        }}
+      />
+      {/* Orange glow orb */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: '700px', height: '400px', background: 'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)' }} />
+      {/* Top rule */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35) 50%, transparent)' }} />
+
+      {/* Card */}
+      <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+        <div
+          className="rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center"
+          style={{
+            background: isDarkT ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.92)',
+            border: isDarkT ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.07)',
+            boxShadow: isDarkT
+              ? '0 8px 40px rgba(0,0,0,0.4)'
+              : '0 8px 40px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
+          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, ease }} className="mb-5 text-[11px] font-semibold uppercase tracking-widest" style={{ color: '#FF4800' }}>Client Feedback</motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.1, ease }} className="mb-5 flex items-center justify-center gap-1">
+            {[...Array(t.stars)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" style={{ color: '#FBBF24' }} />)}
+          </motion.div>
+
+          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.15, ease }} className="block leading-none mb-2" style={{ fontSize: '56px', color: '#FF4800', opacity: 0.5 }}>&#x275D;</motion.span>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, delay: 0.2, ease }}
+            className="text-[clamp(1rem,2.5vw,1.3rem)] italic leading-[1.8] font-normal"
+            style={{ color: isDarkT ? 'rgba(255,255,255,0.85)' : '#1e293b' }}
+          >
+            {t.quote}
+          </motion.p>
+
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.8, delay: 0.35, ease: [0.4, 0, 0.2, 1] }} className="mx-auto my-7" style={{ width: '3rem', height: '1px', background: 'rgba(255,72,0,0.5)', transformOrigin: 'center' }} />
+
+          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.4, ease }} className="flex items-center justify-center gap-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-[13px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF4800 0%, #2B2358 100%)' }}>{getInitials(t.name)}</div>
+            <div className="text-left">
+              <p className="text-[14px] font-semibold" style={{ color: isDarkT ? 'rgba(255,255,255,0.9)' : '#0f172a' }}>{t.name}</p>
+              <p className="text-[12px]" style={{ color: isDarkT ? 'rgba(255,255,255,0.4)' : '#64748b' }}>
+                {t.role}{t.company && <span> · <span style={{ color: '#FF4800' }}>{t.company}</span></span>}
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -336,22 +385,36 @@ function SectionHeader({
 export default function HomePage({ onNavigate }: HomePageProps) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
-  const capScrollRef = useRef<HTMLDivElement>(null);
   const [capActiveIdx, setCapActiveIdx] = useState(0);
+  const dragX     = useMotionValue(0);
+  const trackRef  = useRef<HTMLDivElement>(null);
 
-  const handleCapScroll = () => {
-    const el = capScrollRef.current;
-    if (!el) return;
-    const cardWidth = el.scrollWidth / bentoItems.length;
-    setCapActiveIdx(Math.round(el.scrollLeft / cardWidth));
-  };
+  // Returns the width of one card + its gap (px), used for snapping math
+  const getCardWidth = useCallback(() => {
+    const card = trackRef.current?.querySelector<HTMLElement>('[data-cap-card]');
+    return card ? card.offsetWidth + 20 : 300; // 20 = gap-5
+  }, []);
 
-  const scrollCapTo = (i: number) => {
-    const el = capScrollRef.current;
-    if (!el) return;
-    const cardWidth = el.scrollWidth / bentoItems.length;
-    el.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
-  };
+  const snapToCard = useCallback((idx: number) => {
+    const clamped = Math.max(0, Math.min(idx, bentoItems.length - 1));
+    animate(dragX, -clamped * getCardWidth(), {
+      type: 'spring', stiffness: 260, damping: 32, mass: 0.8,
+    });
+    setCapActiveIdx(clamped);
+  }, [dragX, getCardWidth]);
+
+  const handleDragEnd = useCallback(
+    (_: unknown, info: { velocity: { x: number } }) => {
+      const cardW = getCardWidth();
+      const vel   = info.velocity.x;
+      let idx: number;
+      if      (vel < -400) idx = Math.min(capActiveIdx + 1, bentoItems.length - 1);
+      else if (vel >  400) idx = Math.max(capActiveIdx - 1, 0);
+      else                 idx = Math.max(0, Math.min(Math.round(-dragX.get() / cardW), bentoItems.length - 1));
+      snapToCard(idx);
+    },
+    [capActiveIdx, dragX, getCardWidth, snapToCard],
+  );
 
   return (
     <div className="overflow-x-hidden w-full">
@@ -545,57 +608,66 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             />
           </motion.div>
 
-          {/* Horizontal scroll carousel */}
-          <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+          {/* Drag-to-swipe carousel — Framer Motion, no native scroll */}
+          <div
+            className="relative -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden"
+            style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
+          >
             <motion.div
-              ref={capScrollRef}
-              onScroll={handleCapScroll}
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="flex gap-4 sm:gap-5 overflow-x-auto pb-6 px-4 sm:px-6 lg:px-8 no-scrollbar snap-x snap-mandatory"
+              ref={trackRef}
+              style={{ x: dragX }}
+              drag="x"
+              dragConstraints={{ left: -(bentoItems.length - 1) * 320, right: 0 }}
+              dragMomentum={false}
+              dragElastic={0.05}
+              onDragEnd={handleDragEnd}
+              className="flex gap-5 cursor-grab active:cursor-grabbing px-4 sm:px-6 lg:px-8 pb-6 select-none"
             >
               {bentoItems.map((item) => (
-                <motion.div
+                <div
                   key={item.title}
-                  variants={cardVariants}
-                  className="group relative flex-shrink-0 snap-center overflow-hidden rounded-2xl transition-all duration-300 cursor-default flex flex-col"
+                  data-cap-card
+                  className="group relative flex-shrink-0 overflow-hidden rounded-2xl flex flex-col"
                   style={{
                     width: 'clamp(260px, 80vw, 440px)',
                     minHeight: '18.75rem',
                     padding: 'clamp(1.25rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2.25rem)',
-                    background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.75)',
+                    background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.85)',
                     backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
                     WebkitBackdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1.5px solid rgba(255,255,255,0.9)',
+                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1.5px solid rgba(0,0,0,0.08)',
                     boxShadow: isDark
                       ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                      : 'inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)',
+                      : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+                    transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255,72,0,0.35)';
-                    e.currentTarget.style.boxShadow = isDark
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = 'rgba(255,72,0,0.35)';
+                    el.style.boxShadow = isDark
                       ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 40px rgba(255,72,0,0.15), 0 24px 48px rgba(0,0,0,0.4)'
-                      : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 12px 40px rgba(255,72,0,0.12), 0 24px 48px rgba(0,0,0,0.08)';
-                    e.currentTarget.style.transform = 'translateY(-6px)';
+                      : '0 12px 40px rgba(255,72,0,0.12), 0 24px 48px rgba(0,0,0,0.06)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.9)';
-                    e.currentTarget.style.boxShadow = isDark
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)';
+                    el.style.boxShadow = isDark
                       ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                      : 'inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                      : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
                   }}
                 >
                   <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.04) 0%, transparent 55%)' }} />
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300" style={{ background: isDark ? 'rgba(255,72,0,0.12)' : 'rgba(255,72,0,0.08)' }}>
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl" style={{ background: isDark ? 'rgba(255,72,0,0.12)' : 'rgba(255,72,0,0.08)' }}>
                     <item.icon className="h-7 w-7" style={{ color: '#FF4800' }} />
                   </div>
-                  <h3 className="mb-3 font-normal" style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.6rem)', lineHeight: 1.15, letterSpacing: '-0.4px', color: isDark ? '#f0f0f5' : '#1a1a2e' }}>{item.title}</h3>
-                  <p className="text-[15px] leading-[1.7] flex-grow" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>{item.description}</p>
+                  <h3 className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-[14.5px] leading-[1.7] flex-grow text-slate-600 dark:text-[#9ca3af]">
+                    {item.description}
+                  </p>
                   <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.15))' }} />
-                </motion.div>
+                </div>
               ))}
             </motion.div>
           </div>
@@ -605,17 +677,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             {bentoItems.map((_, i) => (
               <button
                 key={i}
-                onClick={() => scrollCapTo(i)}
+                onClick={() => snapToCard(i)}
                 aria-label={`Go to card ${i + 1}`}
                 className="transition-all duration-300 flex items-center justify-center"
                 style={{
-                  width: capActiveIdx === i ? '2.25rem' : '0.5rem',
-                  height: capActiveIdx === i ? '2.25rem' : '0.5rem',
+                  width:        capActiveIdx === i ? '2.25rem' : '0.5rem',
+                  height:       capActiveIdx === i ? '2.25rem' : '0.5rem',
                   borderRadius: '50%',
-                  border: capActiveIdx === i ? `1.5px solid ${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'}` : 'none',
-                  background: capActiveIdx === i ? 'transparent' : (isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.18)'),
-                  padding: 0,
-                  cursor: 'pointer',
+                  border:       capActiveIdx === i ? `1.5px solid ${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'}` : 'none',
+                  background:   capActiveIdx === i ? 'transparent' : (isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.18)'),
+                  padding: 0, cursor: 'pointer',
                 }}
               >
                 {capActiveIdx === i && <div className="w-2 h-2 rounded-full" style={{ background: isDark ? '#f0f0f5' : '#1a1a2e' }} />}
