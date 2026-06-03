@@ -354,7 +354,7 @@ function WhoWorksHereSection() {
   ];
 
   return (
-    <section className="py-20 px-6 bg-white dark:bg-[#0d0d1a]">
+    <section className="pt-32 pb-20 px-6 bg-white dark:bg-[#0d0d1a]">
       <div className="max-w-5xl mx-auto">
         <motion.div {...fadeUp} className="mb-12">
           <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-[#FF4800] mb-4">Who We Are</p>
@@ -901,7 +901,7 @@ export default function CareersPage({ onNavigate: _onNavigate }: CareersPageProp
 
   return (
     <div>
-      <HeroSection onViewRoles={scrollToRoles} />
+      {/* <HeroSection onViewRoles={scrollToRoles} /> */}
       <WhoWorksHereSection />
       <GrowthSection />
       <HiringProcessSection />
