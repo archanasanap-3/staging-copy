@@ -1,0 +1,242 @@
+STRAVEDA TECH — COMPLETE KNOWLEDGE BASE
+========================================
+AI-powered business systems and custom software for mid-market companies in India.
+
+COMPANY OVERVIEW
+----------------
+Company Name: Straveda Tech
+Location: Pune, Maharashtra 411001, India
+Serving: Clients across India
+Focus: Mid-market companies (₹1Cr–₹50Cr annual revenue)
+Team Size: 20–25 people
+Email: hello@stravedatech.com
+Business Hours: Monday–Friday, 9:00 AM–6:00 PM IST
+Response Time: Within 1 business day
+
+WHAT WE DO
+----------
+We build AI-powered business systems and custom software that cut manual work by 50%.
+Our core mission: Systems that run without you.
+
+One sentence: "AI that eliminates work. Software that runs your operations."
+
+KEY STATISTICS
+--------------
+- 55% average manual work reduced for clients
+- 3–5x operational efficiency improvement
+- 100% code ownership — clients own everything
+- 15+ clients served
+- 20+ projects delivered
+- 3–5x average ROI
+- 88%+ client retention
+- 4–6 week implementation time
+- 99.5% system uptime
+- 14+ years combined experience
+- 5.0 Google Rating
+- 100% client satisfaction
+
+SERVICES (4 CORE SERVICES)
+---------------------------
+
+1. AI & BUSINESS AUTOMATION
+   What it does: Automates manual operations — WhatsApp flows, email sequences, AI support agents, workflow automation
+   Key features:
+   - WhatsApp flows that qualify leads and drive conversions
+   - Behaviour-triggered email sequences for engagement and retention
+   - AI agents handling tier-1 customer support
+   - Workflow automation reducing manual operational load
+   Result: 30–60% reduction in manual operations within the first 90 days
+
+2. CUSTOM SOFTWARE & SYSTEMS
+   What it does: Builds AI-powered CRMs, dashboards, internal tools, and data systems
+   Key features:
+   - AI-powered CRMs designed for real team adoption
+   - Real-time dashboards replacing fragmented monitoring tools
+   - Internal systems built around your workflows (not rigid SaaS tools)
+   - Centralized data systems for better decision making
+
+3. AI STRATEGY & INTEGRATION
+   What it does: Deploys GPT-class models, custom LLMs, RAG systems into your existing stack
+   Key features:
+   - Deployment of GPT-class models and advanced AI APIs
+   - Custom LLM integration tailored to business workflows
+   - End-to-end AI architecture, training, and deployment
+   - RAG systems: AI that answers questions using your private, secure data
+   - Seamless integration into your existing tech stack
+
+4. WEB DEVELOPMENT & 3D EXPERIENCES
+   What it does: High-performance websites, 3D experiences, conversion-focused landing pages
+   Key features:
+   - High-performance websites built with Next.js
+   - 3D interactive experiences for premium brand differentiation
+   - Conversion-focused landing pages (not just visual design)
+   - Fast-loading, SEO-ready, edge-deployed architecture
+   Result: 2–4x improvement in conversion rates vs template-based sites
+
+PRICING & ENGAGEMENT MODELS
+----------------------------
+Three flexible models (all include full source code ownership, zero vendor lock-in):
+
+1. FOCUSED AUTOMATION BUILDS
+   - One custom automation workflow
+   - Seamless integration with your tools
+   - Documentation & handover
+   - Timeline: 2–3 weeks
+   - Best for: Streamlining key workflows, reducing manual effort
+
+2. CUSTOM SOFTWARE & AI SYSTEMS (Most Popular)
+   - End-to-end custom development
+   - AI workflow integration
+   - Scalable, ownership-ready code
+   - Timeline: Based on scope
+   - Best for: Building scalable, business-specific systems
+
+3. ONGOING OPTIMIZATION & SCALE
+   - Performance monitoring
+   - Feature enhancements
+   - Continuous optimization
+   - Timeline: Monthly retainer
+   - Best for: Improving, upgrading, and scaling existing systems
+
+Pricing Note: All engagements are FIXED PRICE. Quote provided within 24 hours after a 30-minute discovery call. No hourly billing. No hidden costs.
+Starting from ₹5L for focused automation builds. Custom software and AI integrations: ₹15L–₹50L depending on scope.
+
+HOW TO GET STARTED
+------------------
+1. Book a 30-minute Strategy Call (free, no commitment)
+2. Get a Custom Proposal within 48 hours (fixed price, timeline, success metrics)
+3. Start Building — live in 4–6 weeks
+
+To book: Visit the contact page or email hello@stravedatech.com
+
+OUR PROCESS (5 STEPS)
+---------------------
+1. DISCOVERY (30-min strategy call): Analyze workflows, identify bottlenecks, define high-impact automation opportunities. You leave with a clear action plan — not a sales pitch.
+2. ARCHITECTURE: Design your custom solution, define the tech stack, scope the build. Fixed price proposal within 24 hours.
+3. BUILD: Develop in weekly sprints with full visibility. You review progress regularly and give feedback — no black box development.
+4. AUTOMATE: Wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before handover.
+5. SCALE: Full handover with documentation. Your team owns it. Available for retainer support, but you won't need us to operate it.
+
+WHY CHOOSE STRAVEDA (6 KEY DIFFERENTIATORS)
+--------------------------------------------
+1. Weekly Shipping, Not Quarterly Roadmaps: One-week sprints. See builds every Friday, approve Monday, ship Tuesday.
+2. Automation First, Always: We audit what can be removed before building anything. We prune scope, then automate what's left.
+3. You Own Everything: Full code ownership. Complete documentation. Zero vendor lock-in. If we disappear tomorrow, you can run every system we built.
+4. Priced to ROI in 60 Days: Every proposal includes projected time savings, cost reduction, or revenue lift. If a system doesn't pay for itself in one quarter, we don't recommend building it.
+5. One Team, End-to-End: Strategy, AI engineering, design, and deployment under one roof. One Slack channel. One point of accountability.
+6. Senior Execution: We cap engagements each quarter so clients get senior attention on every build.
+
+TECHNOLOGY STACK
+----------------
+Frontend: Next.js, React, TypeScript, Tailwind CSS
+AI & Automation: OpenAI GPT-4o, Claude API, LangChain, Vector DBs
+Infrastructure: AWS, Google Cloud, Docker, CI/CD, Security
+Data & Backend: PostgreSQL, Redis, Node.js, REST/GraphQL
+Automation Tools: n8n, WhatsApp API, Zapier
+
+INDUSTRIES SERVED
+-----------------
+- D2C (Direct-to-Consumer)
+- B2B SaaS
+- Professional Services
+- Healthcare
+- Finance
+- Retail & E-Commerce
+- Manufacturing
+- Education
+- Tech Startups
+
+CLIENT RESULTS (CASE STUDIES)
+------------------------------
+1. D2C Fashion Brand, Mumbai
+   Problem: Drowning in manual lead qualification
+   Solution: WhatsApp bot handling 80% of lead flow
+   Result: 80% manual work reduction, 6x lead throughput
+
+2. SaaS Startup, Bangalore
+   Problem: CRM didn't match sales process, low adoption
+   Solution: Custom CRM built in 8 weeks
+   Result: 3x sales velocity, 90% team adoption (up from 45% on Salesforce)
+
+3. E-Commerce, Delhi NCR
+   Problem: Paying for 6 different tools, none integrated
+   Solution: Consolidated into one integrated platform
+   Result: 50% cost reduction, unified data
+
+4. Insurance Broker, Mumbai
+   Problem: 5 minutes per document processing
+   Solution: Document processing automation
+   Result: 30 seconds per document, 3x faster claim approvals
+
+5. Operations Director, Mid-Market Company
+   Result: Reclaimed 90 hours/month of team capacity from one automation project
+
+6. D2C Brand, India
+   Problem: Lead response time 12 hours
+   Solution: WhatsApp automation
+   Result: Response time under 5 minutes
+
+COMMON PROBLEMS WE SOLVE
+--------------------------
+The Tool Tax: Companies paying 6–14 SaaS subscriptions that don't talk to each other, with teams spending 2 hours/day moving data manually.
+Integration Debt: Zapier hacks breaking monthly, IT unable to build proper integrations.
+Visibility Gap: Leadership can't see pipeline health, ops can't see inventory, finance finds out about problems too late.
+Manual Overload: Best people doing data entry instead of high-value work.
+
+FREQUENTLY ASKED QUESTIONS
+---------------------------
+Q: What services does Straveda Tech offer?
+A: We provide AI automation, custom software development, AI strategy & integration, and web development. Our solutions reduce manual work and scale your operations.
+
+Q: How can AI automation benefit my business?
+A: AI automation reduces repetitive tasks, lowers costs, and improves decision-making. Common use cases include lead qualification, customer support automation, and workflow automation — typically reducing manual work by 30–60% in the first 90 days.
+
+Q: Do you build custom solutions or use ready-made tools?
+A: We build fully custom solutions tailored to your workflows, goals, and scalability needs — ensuring better performance and long-term ROI.
+
+Q: How long does a project take?
+A: Focused automations: 2–3 weeks. Custom software projects: 4–6 weeks. Large solutions: 6–9+ weeks. We follow structured weekly sprints.
+
+Q: What does it cost?
+A: Engagements start at ₹5L for focused automation builds. Custom software and AI integrations: ₹15L–₹50L depending on scope. Fixed-price quotes after a 30-minute discovery call. No hourly billing.
+
+Q: Is AI automation suitable for startups?
+A: Yes. Startups use it to scale faster, enterprises to optimize operations. We tailor solutions to your growth stage.
+
+Q: How secure are your solutions?
+A: We follow industry standards including GDPR, ISO, SOC2, and HIPAA to ensure strong data protection and system security.
+
+Q: Do you provide post-launch support?
+A: Yes. We offer ongoing maintenance, optimization, and upgrades. We also provide retainer support, though systems are built to run without us.
+
+Q: Can you integrate with existing tools?
+A: Yes. We integrate with CRMs, ERPs, payment systems, and third-party APIs without disrupting your current setup.
+
+Q: What makes Straveda different from other agencies?
+A: Three things: (1) Priced for mid-market, not enterprise. (2) We ship weekly, not quarterly. (3) We automate before we build. Full code ownership, zero vendor lock-in.
+
+Q: How do I get started?
+A: Book a 30-minute strategy call at hello@stravedatech.com. You'll walk away with a working hypothesis for what to automate first. If it's a fit, we send a proposal within 48 hours.
+
+Q: Do you work with our existing team?
+A: Yes. We integrate with your in-house developers, ops team, or IT partner. We document thoroughly so knowledge doesn't live only in our heads.
+
+Q: Can you handle enterprise-scale deployments?
+A: We build scale-ready architecture from day one and are sized for mid-market execution — ideal for 50–500 person companies that need to move fast.
+
+Q: Where are you located?
+A: Pune, Maharashtra, India. We serve clients across India and work remotely.
+
+Q: What is your email / contact?
+A: hello@stravedatech.com | Business hours: Monday–Friday, 9 AM–6 PM IST
+
+CAREERS
+-------
+We're hiring! Open roles:
+- Full Stack Engineer (Next.js, TypeScript, Node.js) — Remote/Nashik
+- AI/ML Engineer (Python, LLMs, LangChain) — Remote/Nashik
+- Automation Specialist (n8n, WhatsApp API, Zapier) — Remote
+- Product Designer (Figma, UX Research) — Contract, Remote
+
+Team stats: 20–25 people, 52% women in technical roles, 100% remote-first, distributed across India and US.
+Hiring process takes 1–2 weeks from application to offer.

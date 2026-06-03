@@ -9,8 +9,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  output: 'export',        // Fully static export — zero Node.js server required
   images: {
-    unoptimized: true,
+    unoptimized: true,     // Required for static export (no Image Optimization API)
     remotePatterns: [
       {
         protocol: "https",
@@ -30,17 +31,12 @@ const nextConfig: NextConfig = {
     ],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  reactStrictMode: false,
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: securityHeaders,
-      },
-    ];
-  },
+  reactStrictMode: true,
+  // NOTE: headers() is a server-only Next.js feature and cannot be used with
+  // output: 'export'. Apply security headers at the hosting layer instead
+  // (Netlify _headers file, Vercel vercel.json headers, Cloudflare Transform Rules).
 };
 
 export default nextConfig;
