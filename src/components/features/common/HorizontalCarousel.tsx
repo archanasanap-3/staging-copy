@@ -1,37 +1,11 @@
 'use client';
 
-/**
- * HorizontalCarousel
- *
- * A responsive snap carousel that converts any grid into a swipeable
- * horizontal carousel on mobile, then reverts to a standard grid on desktop.
- *
- *   Mobile (< 768px):  flex · overflow-x-auto · snap-x mandatory
- *                       Cards use .hcarousel-item CSS class for vw-based widths.
- *                       Peek effect: 82vw card width leaves 18vw visible of next card.
- *
- *   Desktop (≥ 768px): display:grid · configurable column count
- *                       No scroll, no snap. Completely grid-native.
- *
- * Usage:
- *   <HorizontalCarousel cols={3}>
- *     <Card />
- *     <Card />
- *     <Card />
- *   </HorizontalCarousel>
- */
-
-import { useRef, useState, useCallback, useEffect } from 'react';
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { motion } from 'framer-motion';
-
-/* ─── Types ────────────────────────────────────────────────────── */
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type CarouselSize = 'sm' | 'md' | 'lg';
-// sm → 72vw  (stats, icons, compact chips)
-// md → 82vw  (standard cards — default)
-// lg → 85vw  (large feature cards, stronger peek)
-
 type CarouselCols = 2 | 3 | 4;
 
 export interface HorizontalCarouselProps {
@@ -41,29 +15,25 @@ export interface HorizontalCarouselProps {
   showDots?: boolean;
   showHint?: boolean;
   autoScrollInterval?: number;
-  /** Extra Tailwind classes on the outer wrapper */
   className?: string;
-  /** Extra Tailwind classes on the grid/scroll container */
   containerClassName?: string;
 }
 
-/* ─── Desktop grid column map ──────────────────────────────────── */
-const colsMap: Record<CarouselCols, string> = {
-  2: 'md:grid-cols-2',
-  3: 'md:grid-cols-3',
-  4: 'md:grid-cols-2 xl:grid-cols-4',
+// Embla requires each slide to have flex-[0_0_auto] and a specific width.
+// We map our desired columns and sizes to tailwind width classes.
+const getSlideClasses = (cols: CarouselCols, size: CarouselSize) => {
+  // Mobile uses size to determine peek
+  const mobileWidth = size === 'sm' ? 'w-[72vw]' : size === 'lg' ? 'w-[85vw]' : 'w-[82vw]';
+  
+  if (cols === 2) {
+    return `${mobileWidth} md:w-[calc(50%-10px)] flex-[0_0_auto] min-w-0`;
+  }
+  if (cols === 4) {
+    return `${mobileWidth} md:w-[calc(50%-10px)] xl:w-[calc(25%-18px)] flex-[0_0_auto] min-w-0`;
+  }
+  // cols = 3 (default)
+  return `${mobileWidth} md:w-[calc(50%-10px)] lg:w-[calc(33.333%-13.333px)] flex-[0_0_auto] min-w-0`;
 };
-
-/* ─── Card width CSS-class map ─────────────────────────────────── */
-const sizeMap: Record<CarouselSize, string> = {
-  sm: 'hcarousel-item-sm',
-  md: 'hcarousel-item',
-  lg: 'hcarousel-item-lg',
-};
-
-const ease = [0.4, 0, 0.2, 1] as const;
-
-/* ─── Component ────────────────────────────────────────────────── */
 
 export default function HorizontalCarousel({
   children,
@@ -75,111 +45,135 @@ export default function HorizontalCarousel({
   className = '',
   containerClassName = '',
 }: HorizontalCarouselProps) {
-  const scrollRef  = useRef<HTMLDivElement>(null);
+  
+  // Configure Embla with dynamic slidesToScroll based on breakpoints
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    align: 'start',
+    breakpoints: {
+      '(min-width: 768px)': { slidesToScroll: cols >= 2 ? 2 : 1 },
+      '(min-width: 1024px)': { slidesToScroll: cols === 4 ? 4 : cols === 3 ? 3 : 2 }
+    }
+  });
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const scrollTo = useCallback((index: number) => {
+    if (emblaApi) emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
+  useEffect(() => {
+    if (autoScrollInterval <= 0 || !emblaApi || isPaused) return;
+    const interval = setInterval(() => {
+      emblaApi.scrollNext();
+    }, autoScrollInterval);
+    return () => clearInterval(interval);
+  }, [emblaApi, autoScrollInterval, isPaused]);
 
   const items = React.Children.toArray(children);
   const count = items.length;
 
-  /* ── Track which card is snapped into view ── */
-  const updateActive = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const first = el.firstElementChild as HTMLElement | null;
-    // gap-4 = 16px; we measure the first child for accuracy
-    const cardW = first ? first.offsetWidth + 16 : window.innerWidth * 0.82 + 16;
-    setActiveIndex(Math.max(0, Math.min(Math.round(el.scrollLeft / cardW), count - 1)));
-  }, [count]);
+  if (count === 0) return null;
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', updateActive, { passive: true });
-    return () => el.removeEventListener('scroll', updateActive);
-  }, [updateActive]);
-
-  /* ── Programmatic scroll when a dot is tapped ── */
-  const scrollToCard = useCallback((idx: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const first = el.firstElementChild as HTMLElement | null;
-    const cardW = first ? first.offsetWidth + 16 : window.innerWidth * 0.82 + 16;
-    el.scrollTo({ left: idx * cardW, behavior: 'smooth' });
-  }, []);
-
-  /* ── Auto-scroll ── */
-  useEffect(() => {
-    if (autoScrollInterval <= 0 || count <= 1) return;
-    const intervalId = setInterval(() => {
-      // Only auto-scroll if we're on mobile view (where it actually scrolls)
-      if (window.innerWidth >= 768) return;
-      scrollToCard((activeIndex + 1) % count);
-    }, autoScrollInterval);
-    return () => clearInterval(intervalId);
-  }, [activeIndex, count, autoScrollInterval, scrollToCard]);
-
-  const itemClass = sizeMap[size];
+  const slideClass = getSlideClasses(cols, size);
 
   return (
-    <div className={className}>
-
-      {/* ════════════════════════════════════════════════════════
-          SCROLL CONTAINER (mobile) → GRID (md+)
-          display:flex overridden to display:grid at md breakpoint.
-          ════════════════════════════════════════════════════════ */}
-      <div
-        ref={scrollRef}
-        className={[
-          /* Mobile: snap carousel */
-          'flex overflow-x-auto snap-x snap-mandatory scrollbar-hide',
-          'gap-4 px-4 scroll-pl-4 pb-3',
-          /* Desktop: regular grid */
-          `md:grid ${colsMap[cols]} md:overflow-visible md:snap-none`,
-          'md:gap-5 md:px-0 md:pb-0 md:scroll-pl-0 xl:gap-6',
-          containerClassName,
-        ].filter(Boolean).join(' ')}
-      >
-        {items.map((child, i) => (
-          /* Each item gets the responsive vw width on mobile, auto on md+ */
-          <div key={i} className={itemClass}>
-            {child}
-          </div>
-        ))}
+    <div 
+      className={`relative group/carousel ${className}`}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Embla Viewport */}
+      <div className={`overflow-hidden ${containerClassName}`} ref={emblaRef}>
+        <div className="flex gap-4 md:gap-5 lg:gap-5 px-4 md:px-0 py-4">
+          {items.map((child, i) => (
+            <div key={i} className={slideClass}>
+              {child}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ── Pagination dots — mobile only ────────────────────── */}
-      {showDots && count > 1 && (
+      {/* Navigation Arrows (Desktop only, positioned outside the overflow) */}
+      {count > 1 && (
+        <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-[calc(100%+4rem)] -left-8 justify-between pointer-events-none z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
+          <button 
+            onClick={scrollPrev}
+            className="pointer-events-auto w-12 h-12 rounded-full bg-white dark:bg-[#1a1a2e] border border-black/10 dark:border-white/10 flex items-center justify-center text-black dark:text-white hover:scale-105 transition-transform shadow-xl"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button 
+            onClick={scrollNext}
+            className="pointer-events-auto w-12 h-12 rounded-full bg-white dark:bg-[#1a1a2e] border border-black/10 dark:border-white/10 flex items-center justify-center text-black dark:text-white hover:scale-105 transition-transform shadow-xl"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
+      )}
+
+      {/* Pagination Dots */}
+      {showDots && scrollSnaps.length > 1 && (
         <div
-          className="flex md:hidden items-center justify-center gap-[7px] mt-4"
+          className="flex items-center justify-center gap-[7px] mt-4 md:mt-8"
           role="tablist"
           aria-label="Carousel navigation"
         >
-          {items.map((_, i) => (
+          {scrollSnaps.map((_, i) => (
             <motion.button
               key={i}
               role="tab"
               aria-selected={activeIndex === i}
-              aria-label={`Item ${i + 1} of ${count}`}
-              onClick={() => scrollToCard(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => scrollTo(i)}
               animate={{
-                width:           activeIndex === i ? 20 : 7,
-                backgroundColor: activeIndex === i ? '#ff4d00' : 'rgba(0,0,0,0.14)',
+                width: activeIndex === i ? 24 : 8,
+                backgroundColor: activeIndex === i ? '#FF4800' : 'rgba(156, 163, 175, 0.4)',
               }}
-              transition={{ duration: 0.22, ease }}
-              className="h-[7px] rounded-full cursor-pointer shrink-0 dark:!bg-white/20"
-              style={{ minWidth: 7 }}
+              transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+              className="h-[8px] rounded-full cursor-pointer shrink-0"
+              style={{ minWidth: 8 }}
             />
           ))}
         </div>
       )}
-
-      {/* ── "Swipe to explore" hint — fades out after first swipe ── */}
+      
+      {/* Swipe Hint (Mobile only) */}
       {showHint && count > 1 && (
         <motion.p
           initial={{ opacity: 0.5 }}
           animate={{ opacity: activeIndex > 0 ? 0 : 0.5 }}
           transition={{ duration: 0.35 }}
-          className="flex md:hidden items-center justify-center gap-1 mt-2 text-[11px] tracking-wide text-[#9ca3af] dark:text-[#6b7280] select-none"
+          className="flex md:hidden items-center justify-center gap-1 mt-3 text-[11px] tracking-wide text-[#9ca3af] select-none"
           aria-hidden="true"
         >
           swipe to explore <span aria-hidden="true">→</span>

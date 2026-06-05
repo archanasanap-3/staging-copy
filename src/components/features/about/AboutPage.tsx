@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import MagneticButton from '@/components/features/common/MagneticButton';
 import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
+import { StackedCarousel } from '@/components/features/common/StackedCarousel';
 import AnimatedLiquidBackground from '@/components/animations/AnimatedLiquidBackground';
 import ParticleField from '@/components/animations/ParticleField';
 
@@ -268,7 +269,7 @@ function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
 
 function StatsSection() {
   return (
-    <section className="bg-white dark:bg-[#030303] py-16 md:py-24 overflow-hidden border-y border-black/5 dark:border-white/5">
+    <section className="bg-white dark:bg-[#030303] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-black/5 dark:border-white/5">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="mb-10 md:mb-16">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
@@ -332,13 +333,13 @@ const principles = [
 
 function PrinciplesSection() {
   return (
-    <section className="bg-white dark:bg-[#0a0a14] py-16 md:py-24">
+    <section className="bg-white dark:bg-[#0a0a14] pt-10 pb-10 md:pt-16 md:pb-16 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="relative pl-8 mb-10 md:mb-16">
           <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
           <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">Our operating principles.</h2>
         </div>
-        <HorizontalCarousel cols={3} size="md">
+        <HorizontalCarousel cols={3} size="md" autoScrollInterval={4000}>
           {principles.map((p, i) => (
             <motion.div key={i} {...fadeUp} className="group glass-card p-6 md:p-10 rounded-2xl hover:border-[#FF4800]/20 transition-all active:scale-95 h-full">
               <h4 className="text-[#1a1a2e] dark:text-white text-lg md:text-xl font-bold mb-3 md:mb-4 tracking-tight">{p.title}</h4>
@@ -375,7 +376,7 @@ const clarityItems = [
 
 function StorySection() {
   return (
-    <section className="bg-white dark:bg-[#0a0a14] py-16 md:py-24 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
+    <section className="bg-white dark:bg-[#0a0a14] pt-16 pb-8 md:pt-24 md:pb-12 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
         <motion.div {...fadeUp} className="mb-14 md:mb-16 text-center">
@@ -393,17 +394,14 @@ function StorySection() {
           </h2>
 
           <div className="mx-auto mt-6 mb-8 h-[3px] w-20 rounded-full" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.2))' }} />
-
-          <p className="text-[#475569] dark:text-[#9ca3af] text-[15px] md:text-[16px] leading-[1.75] max-w-2xl mx-auto">
-            Every growing company eventually hits the same wall. Too many tools. Spreadsheets that don&apos;t sync. Your best people spending Friday afternoons doing work that shouldn&apos;t exist. You don&apos;t need another vendor; you need someone who actually understands the problem.
-          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
             viewport={{ once: true }} transition={{ duration: 0.9, ease }}
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col"
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col hover:z-10"
           >
             <div className="mb-6">
               <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800]/60 border border-[#FF4800]/20 px-2.5 py-1 rounded-full mb-3">
@@ -424,8 +422,9 @@ function StorySection() {
 
           <motion.div
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
             viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.15, ease }}
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20"
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20 hover:z-10"
             style={{ background: 'rgba(255,72,0,0.05)' }}
           >
             <div className="mb-6">
@@ -478,23 +477,18 @@ const testimonials = [
 
 function ResultsSection() {
   return (
-    <section className="bg-white dark:bg-[#0a0a14] py-16 md:py-24">
+    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-8 md:pt-12 md:pb-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="relative pl-8 mb-10 md:mb-16">
           <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
           <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">Results that speak.</h2>
         </div>
-        <HorizontalCarousel cols={3} size="md" autoScrollInterval={3000}>
-          {testimonials.map((t, i) => (
-            <div key={i} className="flex flex-col glass-card rounded-2xl p-6 md:p-8 h-full active:scale-95 transition-transform">
-              <p className="text-[#475569] dark:text-[#9ca3af] text-base md:text-lg italic leading-relaxed mb-8 flex-grow">&ldquo;{t.quote}&rdquo;</p>
-              <div className="border-t border-black/5 dark:border-white/5 pt-6">
-                <p className="text-[#FF4800] text-[10px] font-bold uppercase tracking-widest mb-1">{t.impact}</p>
-                <p className="text-[#1a1a2e] dark:text-white text-xs font-medium uppercase tracking-widest opacity-60">— {t.role}, {t.company}</p>
-              </div>
-            </div>
-          ))}
-        </HorizontalCarousel>
+        <StackedCarousel 
+          items={testimonials} 
+          showArrows={false} 
+          showDots={false} 
+          autoScrollInterval={2000} 
+        />
       </div>
     </section>
   );
@@ -512,7 +506,7 @@ const roadmap = [
 
 function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] py-16 md:py-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-tighter mb-10 md:mb-16">Let's build something that matters.</h2>
         <div className="flex flex-col gap-12 md:gap-16 mb-16 md:mb-20">
@@ -538,7 +532,7 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
             </motion.div>
           ))}
         </div>
-        <div className="flex flex-col items-center">
+        {/* <div className="flex flex-col items-center">
           <MagneticButton>
             <button
               onClick={() => onNavigate('contact')}
@@ -547,7 +541,7 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
               Consult Now →
             </button>
           </MagneticButton>
-        </div>
+        </div> */}
       </div>
     </section>
   );

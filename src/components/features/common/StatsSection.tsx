@@ -119,7 +119,7 @@ export default function StatsSection() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
-    <section ref={containerRef} className="relative py-32 md:py-48 bg-white dark:bg-[#0a0a14] overflow-hidden">
+    <section ref={containerRef} className="relative pt-32 pb-16 md:pt-48 md:pb-24 bg-white dark:bg-[#0a0a14] overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Grid */}
