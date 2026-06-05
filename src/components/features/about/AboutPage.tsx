@@ -268,18 +268,18 @@ function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
 
 function StatsSection() {
   return (
-    <section className="bg-[#030303] py-16 md:py-24 overflow-hidden border-y border-white/5">
+    <section className="bg-white dark:bg-[#030303] py-16 md:py-24 overflow-hidden border-y border-black/5 dark:border-white/5">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="mb-10 md:mb-16">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
             By The Numbers
           </span>
-          <h2 className="text-white text-xl md:text-2xl font-normal tracking-tighter uppercase">
+          <h2 className="text-[#0f172a] dark:text-white text-xl md:text-2xl font-normal tracking-tighter uppercase">
             Measurable Operational Impact
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-white/5 pb-1">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-black/10 dark:border-white/5 pb-1">
           {stats.map((s, i) => (
             <div key={i} className="relative group flex flex-col items-center">
               <motion.div
@@ -289,7 +289,7 @@ function StatsSection() {
                 transition={{ delay: i * 0.1, ease }}
                 className="mb-4 md:mb-5"
               >
-                <p className="text-2xl md:text-4xl font-normal text-white tracking-tighter group-hover:text-[#FF4800] transition-colors duration-500 text-center">
+                <p className="text-2xl md:text-4xl font-normal text-[#0f172a] dark:text-white tracking-tighter group-hover:text-[#FF4800] transition-colors duration-500 text-center">
                   <AnimatedStatValue stat={s} />
                 </p>
                 <p className="text-[10px] text-[#666] uppercase tracking-widest mt-2 text-center">{s.label}</p>
@@ -341,7 +341,6 @@ function PrinciplesSection() {
         <HorizontalCarousel cols={3} size="md">
           {principles.map((p, i) => (
             <motion.div key={i} {...fadeUp} className="group glass-card p-6 md:p-10 rounded-2xl hover:border-[#FF4800]/20 transition-all active:scale-95 h-full">
-              <div className="text-[#FF4800] mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500">{p.icon}</div>
               <h4 className="text-[#1a1a2e] dark:text-white text-lg md:text-xl font-bold mb-3 md:mb-4 tracking-tight">{p.title}</h4>
               <p className="text-[#475569] dark:text-[#8a8a8a] text-sm leading-relaxed">{p.desc}</p>
             </motion.div>
@@ -387,7 +386,7 @@ function StorySection() {
           </div>
 
           <h2 className="font-black uppercase leading-[0.95] mx-auto text-[#1a1a2e] dark:text-white"
-            style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', letterSpacing: '-3px' }}>
+            style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)', letterSpacing: '-3px' }}>
             Two Paths.
             <br />
             <span style={{ color: '#FF4800' }}>One Choice.</span>
@@ -485,10 +484,9 @@ function ResultsSection() {
           <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
           <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">Results that speak.</h2>
         </div>
-        <HorizontalCarousel cols={3} size="md">
+        <HorizontalCarousel cols={3} size="md" autoScrollInterval={3000}>
           {testimonials.map((t, i) => (
             <div key={i} className="flex flex-col glass-card rounded-2xl p-6 md:p-8 h-full active:scale-95 transition-transform">
-              <Quote className="text-[#FF4800]/20 mb-6" size={36} />
               <p className="text-[#475569] dark:text-[#9ca3af] text-base md:text-lg italic leading-relaxed mb-8 flex-grow">&ldquo;{t.quote}&rdquo;</p>
               <div className="border-t border-black/5 dark:border-white/5 pt-6">
                 <p className="text-[#FF4800] text-[10px] font-bold uppercase tracking-widest mb-1">{t.impact}</p>
@@ -517,29 +515,29 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
     <section className="relative bg-white dark:bg-[#0a0a14] py-16 md:py-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-tighter mb-10 md:mb-16">Let's build something that matters.</h2>
-        <HorizontalCarousel cols={3} size="md" className="mb-12 md:mb-16">
+        <div className="flex flex-col gap-12 md:gap-16 mb-16 md:mb-20">
           {roadmap.map((r, i) => (
             <motion.div
               key={i}
               {...fadeUp}
-              className="flex flex-col p-6 md:p-10 rounded-3xl border border-black/5 dark:border-white/10 bg-white/50 dark:bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] active:scale-95 transition-transform h-full"
+              className="flex flex-col items-start"
             >
-              <div className="flex justify-end items-start mb-8 md:mb-10">
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold">{r.title}</h4>
                 <span className="text-[10px] font-bold uppercase text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full">{r.meta}</span>
               </div>
-              <h4 className="text-[#1a1a2e] dark:text-white text-lg md:text-xl font-normal mb-3 md:mb-4">{r.title}</h4>
-              <p className="text-[#475569] dark:text-[#8a8a8a] text-sm leading-relaxed flex-grow">{r.desc}</p>
+              <p className="text-[#475569] dark:text-[#8a8a8a] text-base leading-relaxed max-w-2xl mb-6">{r.desc}</p>
               {r.cta && (
                 <button
                   onClick={() => onNavigate('contact')}
-                  className="mt-6 md:mt-8 self-start bg-[#FF4800] text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#e03f00] transition-colors"
+                  className="bg-[#FF4800] text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#e03f00] transition-colors"
                 >
                   {r.cta} →
                 </button>
               )}
             </motion.div>
           ))}
-        </HorizontalCarousel>
+        </div>
         <div className="flex flex-col items-center">
           <MagneticButton>
             <button

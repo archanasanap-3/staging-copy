@@ -40,6 +40,7 @@ export interface HorizontalCarouselProps {
   size?: CarouselSize;
   showDots?: boolean;
   showHint?: boolean;
+  autoScrollInterval?: number;
   /** Extra Tailwind classes on the outer wrapper */
   className?: string;
   /** Extra Tailwind classes on the grid/scroll container */
@@ -70,6 +71,7 @@ export default function HorizontalCarousel({
   size = 'md',
   showDots = true,
   showHint = true,
+  autoScrollInterval = 0,
   className = '',
   containerClassName = '',
 }: HorizontalCarouselProps) {
@@ -104,6 +106,17 @@ export default function HorizontalCarousel({
     const cardW = first ? first.offsetWidth + 16 : window.innerWidth * 0.82 + 16;
     el.scrollTo({ left: idx * cardW, behavior: 'smooth' });
   }, []);
+
+  /* ── Auto-scroll ── */
+  useEffect(() => {
+    if (autoScrollInterval <= 0 || count <= 1) return;
+    const intervalId = setInterval(() => {
+      // Only auto-scroll if we're on mobile view (where it actually scrolls)
+      if (window.innerWidth >= 768) return;
+      scrollToCard((activeIndex + 1) % count);
+    }, autoScrollInterval);
+    return () => clearInterval(intervalId);
+  }, [activeIndex, count, autoScrollInterval, scrollToCard]);
 
   const itemClass = sizeMap[size];
 

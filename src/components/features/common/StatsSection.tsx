@@ -22,24 +22,43 @@ const statItems: StatItem[] = [
 ];
 
 function CharReveal({ text, delay = 0, className = "" }: { text: string; delay?: number, className?: string }) {
+  const words = text.split(' ');
+  let charIndex = 0;
+
   return (
     <span className={`inline-block ${className}`}>
-      {text.split('').map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: '110%', opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 1,
-            delay: delay + i * 0.02,
-            ease
-          }}
-          className="inline-block"
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </motion.span>
-      ))}
+      {words.map((word, wIdx) => {
+        if (word === '<br/>' || word === '<br>') {
+          return <br key={`br-${wIdx}`} />;
+        }
+        
+        return (
+          <span key={wIdx} className="inline-block whitespace-nowrap">
+            {word.split('').map((char) => {
+              const i = charIndex++;
+              return (
+              <motion.span
+                key={i}
+                initial={{ y: '110%', opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 1,
+                  delay: delay + i * 0.02,
+                  ease
+                }}
+                className="inline-block"
+              >
+                {char}
+              </motion.span>
+            );
+          })}
+          {wIdx < words.length - 1 && (
+            <span className="inline-block">&nbsp;</span>
+          )}
+        </span>
+        );
+      })}
     </span>
   );
 }
@@ -113,34 +132,10 @@ export default function StatsSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        <div className="flex justify-start">
 
-          {/* LEFT SIDE: Stats Cards */}
-          <div className="lg:col-span-5 relative">
-            {/* Vertical Glowing Line */}
-            <div className="absolute -left-12 top-0 bottom-0 w-px bg-black/5 dark:bg-white/5 hidden xl:block">
-              <motion.div
-                className="w-full bg-gradient-to-b from-transparent via-[#FF4800] to-transparent shadow-[0_0_15px_rgba(255,72,0,0.5)]"
-                style={{ height: '30%', top: '0%' }}
-                animate={{ top: ['0%', '70%', '0%'] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-6">
-                <StatCard stat={statItems[0]} index={0} inView={inView} />
-                <StatCard stat={statItems[2]} index={2} inView={inView} />
-              </div>
-              <div className="space-y-6 md:mt-12">
-                <StatCard stat={statItems[1]} index={1} inView={inView} />
-                <StatCard stat={statItems[3]} index={3} inView={inView} />
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT SIDE: Content */}
-          <div className="lg:col-span-7">
+          {/* CONTENT */}
+          <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -158,8 +153,8 @@ export default function StatsSection() {
                   Operations Reimagined
                 </motion.span>
 
-                <h6 className="text-[#1a1a2e] dark:text-white text-4xl md:text-7xl font-black uppercase leading-[1.05] tracking-tighter mb-10">
-                  <CharReveal text="We Get It . Because We've Lived It." delay={0.2} />
+                <h6 className="text-[#1a1a2e] dark:text-white text-3xl md:text-5xl font-bold uppercase leading-[1.05] tracking-tighter mb-10">
+                  <CharReveal text="We Get It. Because We've <br/> Lived It." delay={0.2} />
                 </h6>
 
                 {/* Animated Divider */}
@@ -174,7 +169,7 @@ export default function StatsSection() {
               </div>
 
               {/* Body Content */}
-              <div className="max-w-xl space-y-8">
+              <div className="max-w-3xl space-y-8">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}

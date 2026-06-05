@@ -396,7 +396,7 @@ function GrowthSection() {
   const [openTrack, setOpenTrack] = useState<string | null>('AI & Automation');
 
   return (
-    <section className="py-20 px-6 bg-[#f5f5f0] dark:bg-[#030303]">
+    <section className="pt-32 pb-20 px-6 bg-[#f5f5f0] dark:bg-[#030303]">
       <div className="max-w-5xl mx-auto">
         <motion.div {...fadeUp} className="mb-14">
           <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-[#FF4800] mb-4">Growth & Learning</p>
@@ -902,12 +902,12 @@ export default function CareersPage({ onNavigate: _onNavigate }: CareersPageProp
   return (
     <div>
       {/* <HeroSection onViewRoles={scrollToRoles} /> */}
-      <WhoWorksHereSection />
+      {/* <WhoWorksHereSection /> */}
       <GrowthSection />
-      <HiringProcessSection />
-      <ValuesSection />
       <OpenRolesSection />
       <OpenApplicationSection />
+      <HiringProcessSection />
+      <ValuesSection />
       <CTASection />
     </div>
   );
