@@ -269,18 +269,18 @@ function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
 
 function StatsSection() {
   return (
-    <section className="bg-white dark:bg-[#030303] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-black/5 dark:border-white/5">
+    <section className="bg-[#030303] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-white/5">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="mb-10 md:mb-16">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
             By The Numbers
           </span>
-          <h2 className="text-[#0f172a] dark:text-white text-xl md:text-2xl font-normal tracking-tighter uppercase">
+          <h2 className="text-white text-xl md:text-2xl font-normal tracking-tighter uppercase">
             Measurable Operational Impact
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-black/10 dark:border-white/5 pb-1">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-white/10 pb-1">
           {stats.map((s, i) => (
             <div key={i} className="relative group flex flex-col items-center">
               <motion.div
@@ -290,7 +290,7 @@ function StatsSection() {
                 transition={{ delay: i * 0.1, ease }}
                 className="mb-4 md:mb-5"
               >
-                <p className="text-2xl md:text-4xl font-normal text-[#0f172a] dark:text-white tracking-tighter group-hover:text-[#FF4800] transition-colors duration-500 text-center">
+                <p className="text-2xl md:text-4xl font-normal text-white tracking-tighter group-hover:text-[#FF4800] transition-colors duration-500 text-center">
                   <AnimatedStatValue stat={s} />
                 </p>
                 <p className="text-[10px] text-[#666] uppercase tracking-widest mt-2 text-center">{s.label}</p>
@@ -313,6 +313,15 @@ function StatsSection() {
               </div>
             </div>
           ))}
+        </div>
+        
+        <div className="flex justify-between items-center mt-4">
+          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
+            TYPICAL CLIENT SIZE: ₹1CR-₹50CR ANNUAL REVENUE
+          </span>
+          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
+            LOCATION: PUNE, MAHARASHTRA
+          </span>
         </div>
       </div>
     </section>
@@ -509,30 +518,34 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
     <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-tighter mb-10 md:mb-16">Let's build something that matters.</h2>
-        <div className="flex flex-col gap-12 md:gap-16 mb-16 md:mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 md:mb-20">
           {roadmap.map((r, i) => (
             <motion.div
               key={i}
               {...fadeUp}
-              className="flex flex-col items-start"
+              className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between h-full hover:border-[#FF4800]/20 transition-all active:scale-95"
             >
-              <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-3 md:mb-4">
-                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold">{r.title}</h4>
-                <span className="text-[10px] font-bold uppercase text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full">{r.meta}</span>
+              <div>
+                <div className="flex justify-end mb-8">
+                  <span className="text-[10px] font-bold uppercase text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full">{r.meta}</span>
+                </div>
+                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold mb-4">{r.title}</h4>
+                <p className="text-[#475569] dark:text-[#8a8a8a] text-sm md:text-base leading-relaxed mb-8">{r.desc}</p>
               </div>
-              <p className="text-[#475569] dark:text-[#8a8a8a] text-base leading-relaxed max-w-2xl mb-6">{r.desc}</p>
               {r.cta && (
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="bg-[#FF4800] text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#e03f00] transition-colors"
-                >
-                  {r.cta} →
-                </button>
+                <div className="mt-auto">
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="bg-[#FF4800] text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#e03f00] transition-colors"
+                  >
+                    {r.cta} →
+                  </button>
+                </div>
               )}
             </motion.div>
           ))}
         </div>
-        {/* <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center">
           <MagneticButton>
             <button
               onClick={() => onNavigate('contact')}
@@ -541,7 +554,7 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
               Consult Now →
             </button>
           </MagneticButton>
-        </div> */}
+        </div>
       </div>
     </section>
   );

@@ -19,11 +19,11 @@ interface Pillar {
 }
 
 const pillars: Pillar[] = [
-  { id: '1', title: 'Scale Faster', desc: 'Break growth ceilings with automated infrastructure.', icon: <Zap size={20} />, x: -35, y: -25, color: '#FF4800' },
-  { id: '2', title: 'Automate Ops', desc: 'Remove human bottlenecks from recurring workflows.', icon: <Cpu size={20} />, x: 35, y: -25, color: '#FF4800' },
-  { id: '3', title: 'Reduce Manual', desc: 'Replace 40 hours of data entry with 40ms of code.', icon: <Users size={20} />, x: -45, y: 15, color: '#FF4800' },
-  { id: '4', title: 'Reliable Systems', desc: 'Build architecture that scales without breaking.', icon: <Shield size={20} />, x: 45, y: 15, color: '#FF4800' },
-  { id: '5', title: 'Efficiency', desc: 'Optimize every micro-interaction in your stack.', icon: <Target size={20} />, x: 0, y: 35, color: '#FF4800' },
+  { id: '1', title: 'Scale Faster', desc: 'Break growth ceilings with automated infrastructure.', icon: <Zap size={20} />, x: -28, y: -25, color: '#FF4800' },
+  { id: '2', title: 'Automate Ops', desc: 'Remove human bottlenecks from recurring workflows.', icon: <Cpu size={20} />, x: 28, y: -25, color: '#FF4800' },
+  { id: '3', title: 'Reduce Manual', desc: 'Replace 40 hours of data entry with 40ms of code.', icon: <Users size={20} />, x: -36, y: 15, color: '#FF4800' },
+  { id: '4', title: 'Reliable Systems', desc: 'Build architecture that scales without breaking.', icon: <Shield size={20} />, x: 36, y: 15, color: '#FF4800' },
+  { id: '5', title: 'Efficiency', desc: 'Optimize every micro-interaction in your stack.', icon: <Target size={20} />, x: 0, y: 45, color: '#FF4800' },
 ];
 
 /* ─────────────────────────────────────────────────────────────────────── */
@@ -226,7 +226,7 @@ export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="relative z-20 mt-20 flex flex-col items-center"
+        className="relative z-20 mt-40 md:mt-48 flex flex-col items-center"
       >
         <button className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FF4800] text-white font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]">
           Build Your Core System

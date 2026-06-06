@@ -67,6 +67,7 @@ const HIRING_STAGES = [
     format: 'Share portfolio (designers, frontend), GitHub repos (engineers), or past projects. We review, ask questions on a Zoom call.',
     assesses: 'Your work. Quality. Process. Depth of thinking.',
   },
+  /*
   {
     stage: 'Stage 3',
     title: 'Take Home Project',
@@ -75,8 +76,9 @@ const HIRING_STAGES = [
     format: 'Real World problem from our work. Build a feature. Fix a design. No weird algorithmic puzzles.',
     assesses: 'How you code/design. Problem solving. Communication about Trade Offs.',
   },
+  */
   {
-    stage: 'Stage 4',
+    stage: 'Stage 3',
     title: 'Team Interview',
     duration: '20 min',
     timeline: '3 to 5 days after project submission',
@@ -84,7 +86,7 @@ const HIRING_STAGES = [
     assesses: 'Fit with team. Communication. How you think about problems.',
   },
   {
-    stage: 'Stage 5',
+    stage: 'Stage 4',
     title: 'Offer',
     duration: '~1 week',
     timeline: 'Within 3 to 5 days of final interview',
@@ -626,9 +628,6 @@ function ValuesSection() {
       <div className="max-w-5xl mx-auto">
         <motion.div {...fadeUp} className="mb-14">
           <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-[#FF4800] mb-4">Culture & Values</p>
-          <h2 className="text-[32px] md:text-[44px] font-light tracking-[-1px] text-[#1a1a2e] dark:text-[#f0f0f5]">
-            We Remove Friction.<br />We Own Outcomes.<br />We Grow Together.
-          </h2>
         </motion.div>
         <HorizontalCarousel cols={3} size="md">
           {VALUES.map((v, i) => (
@@ -640,10 +639,7 @@ function ValuesSection() {
               transition={{ duration: 0.6, delay: i * 0.1, ease }}
               className="glass-card rounded-xl p-7 h-full active:scale-95 transition-transform"
             >
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-5" style={{ background: 'rgba(255,72,0,0.1)' }}>
-                <span className="w-2 h-2 rounded-full" style={{ background: '#FF4800' }} />
-              </div>
-              <p className="text-[16px] font-semibold text-[#1a1a2e] dark:text-[#f0f0f5] mb-3">{v.title}</p>
+              <p className="text-[18px] font-semibold text-[#1a1a2e] dark:text-[#f0f0f5] mb-3">{v.title}</p>
               <p className="text-[13px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af] mb-4">{v.body}</p>
               <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
                 <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: '#FF4800' }}>In Practice</p>
@@ -689,7 +685,7 @@ function OpenRolesSection() {
           </div>
         </motion.div>
 
-        <div className="space-y-4">
+        <div className="columns-1 md:columns-2 gap-4">
           {filtered.map((role, i) => (
             <motion.div
               key={role.title}
@@ -697,7 +693,7 @@ function OpenRolesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.07, ease }}
-              className="glass-card rounded-xl overflow-hidden"
+              className="glass-card rounded-xl overflow-hidden mb-4 break-inside-avoid"
             >
               <div
                 className="px-7 py-6 cursor-pointer"

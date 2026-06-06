@@ -232,7 +232,13 @@ function getInitials(name: string): string {
 
 function TestimonialsCarousel() {
   const { resolvedTheme } = useTheme();
-  const isDarkT = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDarkT = mounted ? resolvedTheme === 'dark' : false;
   const t = testimonials[0];
 
   return (
@@ -259,7 +265,8 @@ function TestimonialsCarousel() {
 
       {/* Card */}
       <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-        <div
+        <motion.div
+          whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
           className="rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center"
           style={{
             background: isDarkT ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.92)',
@@ -300,7 +307,7 @@ function TestimonialsCarousel() {
               </p>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -554,6 +561,39 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* ── What We Build ── */}
+      <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, ease }}
+          >
+            <SectionHeader
+              label="WHAT WE BUILD"
+              heading={
+                <>
+                  One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You.</span>
+                </>
+              }
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.8, delay: 0.2, ease }}
+            className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          >
+            {services.map((service, i) => (
+              <ServiceCard key={i} service={service} onNavigate={onNavigate} isDark={isDark} />
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
       <div id="section-services">
         <SystemsCoreSection isDark={isDark} />

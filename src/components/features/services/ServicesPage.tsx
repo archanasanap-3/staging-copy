@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
+import {
   Diamond,
   TrendingDown,
   ShieldCheck,
@@ -33,7 +33,8 @@ import HorizontalCarousel from '@/components/features/common/HorizontalCarousel'
 
 function ServicesPageStyles() {
   return (
-    <style>{`
+    <style dangerouslySetInnerHTML={{
+      __html: `
       .btn-shine {
         position: relative;
         overflow: hidden;
@@ -89,7 +90,8 @@ function ServicesPageStyles() {
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-    `}</style>
+    `
+    }} />
   );
 }
 
@@ -188,12 +190,11 @@ function ServiceBlock({ service, index }: { service: ServiceBlockData; index: nu
   return (
     <motion.section
       ref={containerRef}
-      className={`relative overflow-hidden px-6 py-24 lg:px-16 ${
-        isEven ? 'bg-white dark:bg-[#0a0a14]' : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
-      }`}
+      className={`relative overflow-hidden px-6 py-24 lg:px-16 ${isEven ? 'bg-white dark:bg-[#0a0a14]' : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
+        }`}
     >
-      <motion.span 
-        style={{ y: yValue }} 
+      <motion.span
+        style={{ y: yValue }}
         className={`stroke-text absolute top-0 select-none text-[18rem] font-black leading-none lg:text-[28rem] ${isEven ? '-left-10' : '-right-10'}`}
       >
         {service.number}
@@ -204,15 +205,15 @@ function ServiceBlock({ service, index }: { service: ServiceBlockData; index: nu
           <span className="mb-6 inline-block rounded-full bg-[#FF4800]/15 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-[#FF4800]">
             {service.badge}
           </span>
-          
+
           <div className="relative pl-8">
             <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
-            <h2 
+            <h2
               className="masked-title mb-8 font-normal"
-              style={{ 
-                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', 
-                lineHeight: 1.1, 
-                letterSpacing: '-2.05px' 
+              style={{
+                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+                lineHeight: 1.1,
+                letterSpacing: '-2.05px'
               }}
             >
               {service.title}
@@ -385,7 +386,7 @@ export default function ServicesPage({ onNavigate }: { onNavigate: (page: string
       <ServicesSection />
       <WhyStravedaSection />
       <ServicesHoverModal onNavigate={onNavigate} />
-      
+
       <div className="flex flex-col">
         {services.map((service, index) => (
           <ServiceBlock key={service.id} service={service} index={index} />
@@ -394,7 +395,7 @@ export default function ServicesPage({ onNavigate }: { onNavigate: (page: string
 
       <TechStackSection />
       <ServiceComparison />
-      
+
     </main>
   );
 }
