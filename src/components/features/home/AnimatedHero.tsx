@@ -1,197 +1,166 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { ArrowRight, Building2, TrendingDown, Zap, CheckCircle } from 'lucide-react';
+import { useRef, useSyncExternalStore } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, TrendingDown, Zap, CheckCircle, Bot } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import AnimatedLiquidBackground from '@/components/animations/AnimatedLiquidBackground';
 
-// ─── Performance A: Prefetch contact page on first CTA hover ────────────────
-// Dynamic import triggers the browser to download ContactPage chunks
-// before the user clicks — making the next page feel instant.
 function usePrefetchContact() {
   const done = useRef(false);
   return () => {
     if (done.current) return;
     done.current = true;
-    import('@/components/features/contact/ContactPage').catch(() => { });
+    import('@/components/features/contact/ContactPage').catch(() => {});
   };
 }
 
-// ─── UI B: MetricCard — viewport entry reveal + CSS float loop ───────────────
-// Two-layer trick: Framer Motion handles the one-shot entry (opacity + scale),
-// a nested div carries an infinitely looping CSS keyframe for the float.
-// They don't fight because Framer owns transform on the outer div,
-// while CSS animates translateY on the inner div.
-function MetricCard({
-  children,
-  className,
-  entryDelay = 0,
-  floatDir = 'up',
+
+function NodeCard({
+  pos,
+  delay,
+  floatAnim,
+  floatDuration = 4.5,
+  isDark,
+  emoji,
+  label,
+  sub,
+  status,
 }: {
-  children: React.ReactNode;
-  className: string;
-  entryDelay?: number;
-  floatDir?: 'up' | 'down';
+  pos: { left: number; top: number };
+  delay: number;
+  floatAnim: string;
+  floatDuration?: number;
+  isDark: boolean;
+  emoji: string;
+  label: string;
+  sub: string;
+  status: 'success' | 'active';
 }) {
+  const statusColor = status === 'success' ? '#4ade80' : '#FF4800';
+  const statusLabel = status === 'success' ? 'Complete' : 'Running';
+  const bg   = isDark ? 'rgba(15,15,28,0.88)' : 'rgba(255,255,255,0.88)';
+  const bdr  = isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.95)';
+  const shdw = isDark ? '0 8px 32px rgba(0,0,0,0.45)' : '0 4px 24px rgba(0,0,0,0.10)';
+  const txt  = isDark ? '#f0f0f5' : '#0f172a';
+  const muted = isDark ? '#94a3b8' : '#64748b';
   return (
     <motion.div
-      className={className}
-      initial={{ opacity: 0, scale: 0.8, y: floatDir === 'up' ? 18 : -18 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ type: 'spring', stiffness: 220, damping: 22, delay: entryDelay }}
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+      transition={{ duration: 0.55, delay }}
+      style={{ position: 'absolute', left: `${pos.left}px`, top: `${pos.top}px`, zIndex: 8 }}
     >
-      {/* Inner div: CSS float starts after entry animation finishes */}
-      <div style={{ animation: `metric-${floatDir} 4s ease-in-out ${entryDelay + 0.9}s infinite` }}>
-        {children}
+      <div style={{ animation: `${floatAnim} ${floatDuration}s ease-in-out ${delay + 0.4}s infinite` }}>
+        <div style={{
+          width: '148px', borderRadius: '16px',
+          background: bg,
+          backdropFilter: 'blur(24px) saturate(1.8)',
+          WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
+          border: bdr, boxShadow: shdw,
+          padding: '11px 13px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px' }}>
+            <span style={{ fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>{emoji}</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: txt, lineHeight: 1.2 }}>{label}</span>
+          </div>
+          <p style={{ fontSize: '10px', color: muted, margin: '0 0 6px 0', lineHeight: 1.3 }}>{sub}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <div style={{
+              width: '6px', height: '6px', borderRadius: '50%',
+              background: statusColor, boxShadow: `0 0 5px ${statusColor}`,
+              flexShrink: 0,
+              animation: status === 'active' ? 'pulse-dot 1.8s ease-in-out infinite' : undefined,
+            }} />
+            <span style={{ fontSize: '9.5px', fontWeight: 600, color: statusColor }}>{statusLabel}</span>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
 }
 
-// ─── Types ───────────────────────────────────────────────────────────────────
 interface AnimatedHeroProps {
   onNavigate: (page: string) => void;
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
 export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const gradientRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const { theme, resolvedTheme } = useTheme();
   const prefetchContact = usePrefetchContact();
-
-  // Controls depth-of-field: image starts blurred, sharpens on first viewport entry
-  const imageInView = useInView(imageRef, { once: true, margin: '-60px' });
+  const { theme, resolvedTheme } = useTheme();
 
   const mounted = useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => true,
     () => false,
   );
   const isDark = mounted && (resolvedTheme === 'dark' || theme === 'dark');
 
-  // ── Color tokens ─────────────────────────────────────────────────────────
-  const C = useMemo(() => ({
-    headline: isDark ? '#f0f0f5' : '#0f172a',
-    // UX B: WCAG AA contrast — #374151 on white = 9.73:1 ratio, passes AA & AAA
-    tagline: isDark ? '#cbd5e1' : '#374151',
-    badgeText: isDark ? '#e5e5ea' : '#0f172a',
-    badgeBg: isDark ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.92)',
-    badgeBorder: 'rgba(255,72,0,0.28)',
-    badgeDiv: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)',
-    cardBg: isDark ? 'rgba(12,12,24,0.92)' : 'rgba(255,255,255,0.97)',
-    cardBorder: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.07)',
-    cardShadow: isDark ? '0 8px 32px rgba(0,0,0,0.55)' : '0 8px 28px rgba(0,0,0,0.09)',
-    cardNum: isDark ? '#f0f0f5' : '#0f172a',
-    cardSub: isDark ? '#94a3b8' : '#64748b',
-    border: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-    scrollLine: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(43,35,88,0.3)',
-    // bgColor used for the laminar gradient fade at image left-edge
-    bgColor: isDark ? '#0a0a14' : '#ffffff',
-  }), [isDark]);
+  const cardBorder = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.07)';
+  const cardShadow = isDark ? '0 8px 28px rgba(0,0,0,0.55)' : '0 8px 24px rgba(0,0,0,0.09)';
+  const textPrimary = isDark ? '#f0f0f5' : '#0f172a';
+  const textMuted = isDark ? '#94a3b8' : '#64748b';
 
-  // Full tagline (desktop, word-stagger animated)
-  const taglineWords = useMemo(
-    () => 'AI Powered Business Systems and Custom Software for Mid Market Companies in India. We build the Automation, CRMs, and Workflows that cut manual work by 50%.'.split(' '),
-    [],
-  );
-  // Short tagline (mobile, static — no stagger to avoid long wait on small screens)
-  const taglineMobile = 'AI powered systems that eliminate manual work by 50% — custom built for your business in 90 days.';
-
-  // Mouse-following gradient glow
-  useEffect(() => {
-    const section = containerRef.current?.parentElement;
-    const gradient = gradientRef.current;
-    if (!section || !gradient) return;
-    const el = gradient;
-    const move = (e: MouseEvent) => { el.style.left = e.clientX - 192 + 'px'; el.style.top = e.clientY - 192 + 'px'; el.style.opacity = '1'; };
-    const leave = () => { el.style.opacity = '0'; };
-    section.addEventListener('mousemove', move);
-    section.addEventListener('mouseleave', leave);
-    return () => { section.removeEventListener('mousemove', move); section.removeEventListener('mouseleave', leave); };
-  }, []);
-
-  // Desktop tagline word-stagger
-  useEffect(() => {
-    const c = containerRef.current;
-    if (!c) return;
-    c.querySelectorAll<HTMLElement>('.hero-word').forEach((w) => {
-      const d = parseInt(w.getAttribute('data-delay') || '0', 10);
-      setTimeout(() => { w.style.animation = 'hero-word-appear 0.75s ease-out forwards'; }, d);
-    });
-  }, []);
-
-  // ── Render ────────────────────────────────────────────────────────────────
   return (
-    // Performance 2C: min-h-[100dvh] uses Dynamic Viewport Height units.
-    // This accounts for the mobile browser chrome (address bar), preventing
-    // the hero from jumping/wiggling as the bar shows and hides on scroll.
     <section className="relative flex min-h-[100dvh] items-center overflow-hidden">
-
-      {/* ── Keyframes ── */}
       <style>{`
-        @keyframes hero-word-appear {
-          from { opacity:0; transform:translateY(8px); }
-          to   { opacity:1; transform:translateY(0);   }
-        }
-        /* Metric card float loops — intentionally gentle (±9 px) */
-        @keyframes metric-up   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-        @keyframes metric-down { 0%,100%{transform:translateY(0)} 50%{transform:translateY( 9px)} }
-        @keyframes pulse-dot   { 0%,100%{opacity:.2;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+        @keyframes fcard-up    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+        @keyframes fcard-down  { 0%,100%{transform:translateY(0)} 50%{transform:translateY( 9px)} }
+        @keyframes pulse-dot   { 0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:.9;transform:scale(1.4)} }
+        @keyframes wf-float-a  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+        @keyframes wf-float-b  { 0%,100%{transform:translateY(0)} 50%{transform:translateY( 7px)} }
+        @keyframes wf-flow     { 0%{stroke-dashoffset:0} 100%{stroke-dashoffset:-20} }
+        @keyframes hub-ring    { 0%,100%{box-shadow:0 8px 32px rgba(255,72,0,0.40),0 0 0 0 rgba(255,72,0,0.18)} 50%{box-shadow:0 12px 40px rgba(255,72,0,0.58),0 0 0 9px rgba(255,72,0,0)} }
       `}</style>
 
-      {/* ── Background ── */}
-      <AnimatedLiquidBackground />
-
-      {/* Mouse glow - Removed for performance and cleaner aesthetic */}
-
-      {/* Floating accent dots */}
-      {[
-        { cls: 'top-[18%] left-[47%] hidden lg:block', delay: '1s', size: 'w-2 h-2' },
-        { cls: 'bottom-[28%] left-[6%]', delay: '3s', size: 'w-1.5 h-1.5' },
-      ].map((d) => (
-        <div key={d.cls} aria-hidden="true"
-          className={`absolute rounded-full ${d.cls} ${d.size}`}
-          style={{ zIndex: 1, background: '#FF4800', animation: `pulse-dot 4s ease-in-out ${d.delay} infinite` }} />
-      ))}
-
-      {/* Vertical border lines */}
-      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 3 }}>
-        {['left-4 md:left-8', 'right-4 md:right-8'].map((p) => (
-          <div key={p} className={`absolute inset-y-0 ${p} w-px`}
-            style={{ background: `linear-gradient(to bottom,transparent,${C.border},${C.border})` }} />
-        ))}
+      {/* ── Spotlight background — directional radial gradient shading ── */}
+      <div aria-hidden="true" className="absolute inset-0" style={{ zIndex: 0 }}>
+        {/* Base colour */}
+        <div className="absolute inset-0" style={{
+          background: isDark ? '#06060c' : '#fdfcf9',
+        }} />
+        {/* Primary spotlight — strong orange glow from bottom-left */}
+        <div className="absolute inset-0" style={{
+          background: isDark
+            ? 'radial-gradient(ellipse 95% 85% at -2% 108%, rgba(255,72,0,0.55) 0%, rgba(180,50,0,0.28) 28%, rgba(30,10,0,0.18) 50%, transparent 70%)'
+            : 'radial-gradient(ellipse 95% 85% at -2% 108%, rgba(255,90,10,0.32) 0%, rgba(255,140,60,0.18) 28%, rgba(255,210,150,0.08) 52%, transparent 72%)',
+        }} />
+        {/* Secondary fill — warm halo around text area */}
+        <div className="absolute inset-0" style={{
+          background: isDark
+            ? 'radial-gradient(ellipse 60% 55% at 28% 72%, rgba(255,72,0,0.12) 0%, transparent 65%)'
+            : 'radial-gradient(ellipse 60% 55% at 28% 72%, rgba(255,120,40,0.10) 0%, transparent 65%)',
+        }} />
+        {/* Edge vignette — darkens corners away from spotlight */}
+        <div className="absolute inset-0" style={{
+          background: isDark
+            ? 'radial-gradient(ellipse 70% 80% at 75% 20%, rgba(0,0,0,0.55) 0%, transparent 60%)'
+            : 'radial-gradient(ellipse 70% 80% at 78% 15%, rgba(240,235,228,0.55) 0%, transparent 62%)',
+        }} />
       </div>
 
-      {/* ══════════════════════════════════════════════════════
-          TWO-COLUMN LAYOUT
-          Left  → text + CTAs
-          Right → image with floating metric cards (lg+ only)
-         ══════════════════════════════════════════════════════ */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 md:pt-28 md:pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      {/* ── Two-column layout ── */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-10 md:pt-24 md:pb-12 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-10 items-center">
 
-        {/* ─── LEFT: Text content ─────────────────────────────── */}
-        <div ref={containerRef} className="flex flex-col text-center lg:text-left">
+        {/* ─── LEFT: Text content ─────────────────────────── */}
+        <div className="flex flex-col text-center lg:text-left">
 
-          {/* Location badge */}
+          {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex justify-center lg:justify-start mb-6"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex justify-center lg:justify-start mb-5"
           >
-            <span className={cn('group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 shadow-sm cursor-default transition-shadow duration-300 hover:shadow-md backdrop-blur-sm')}
-              style={{ background: C.badgeBg, borderColor: C.badgeBorder }}>
-              <Building2 className="size-3 shrink-0" style={{ color: '#FF4800' }} />
-              <span className="text-xs font-medium truncate" style={{ color: C.badgeText }}>
-                Pune, Maharashtra · Serving clients across India
-              </span>
-              <span className="block h-5 w-px shrink-0" style={{ background: C.badgeDiv }} />
-              <ArrowRight className="size-3 shrink-0 transition-transform duration-150 group-hover:translate-x-1" style={{ color: '#FF4800' }} />
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold"
+              style={{
+                background: isDark ? 'rgba(255,72,0,0.15)' : 'rgba(255,72,0,0.09)',
+                border: '1px solid rgba(255,72,0,0.28)',
+                color: '#FF4800',
+              }}
+            >
+              <span
+                className="h-1.5 w-1.5 rounded-full shrink-0"
+                style={{ background: '#FF4800', animation: 'pulse-dot 2.5s ease-in-out infinite' }}
+              />
+              AI Studio · Pune, India
             </span>
           </motion.div>
 
@@ -200,46 +169,33 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.1 }}
             className="font-bold mb-5"
-            style={{ fontSize: 'clamp(2rem,4.5vw,4.25rem)', lineHeight: 1.06, letterSpacing: '-1.5px', wordBreak: 'break-word' }}
+            style={{
+              fontSize: 'clamp(1.9rem, 3.2vw, 3.5rem)',
+              lineHeight: 1.1,
+              letterSpacing: '-1.5px',
+              color: textPrimary,
+            }}
           >
-            <span className="block" style={{ color: C.headline }}>AI that eliminates work.</span>
-            <span className="block" style={{ color: '#FF4800' }}>Software that runs your operations.</span>
+            AI that eliminates work.{' '}
+            <span style={{ color: '#FF4800' }}>Software that runs your operations.</span>
           </motion.h1>
 
-          {/* UX B — Desktop tagline: word-stagger, font-medium, WCAG AA color */}
+          {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="hidden md:block max-w-[520px] mx-auto lg:mx-0 text-[16px] leading-[1.8] font-medium"
-            style={{ color: C.tagline }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="max-w-[480px] mx-auto lg:mx-0 text-[16px] leading-[1.8]"
+            style={{ color: textMuted }}
           >
-            {taglineWords.map((word, i) => (
-              <span key={i} className="hero-word inline-block opacity-0" data-delay={800 + i * 40}>
-                {word}{i < taglineWords.length - 1 ? '\u00A0' : ''}
-              </span>
-            ))}
+            We build AI-powered business systems and custom software for mid-market companies in India — cutting manual work by 50% in 90 days.
           </motion.p>
 
-          {/* UX B — Mobile tagline: shorter copy, immediately readable */}
-          <motion.p
-            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="md:hidden max-w-[400px] mx-auto text-[15px] leading-[1.75] font-medium"
-            style={{ color: C.tagline }}
-          >
-            {taglineMobile}
-          </motion.p>
-
-          {/* ── UX A — CTAs with clear visual hierarchy ── */}
+          {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.32 }}
-            className="mt-9 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.38 }}
+            className="mt-7 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3"
           >
-            {/*
-              PRIMARY — dominant orange, bold, larger padding, scale on hover.
-              onMouseEnter triggers Performance A: silent prefetch of ContactPage.
-            */}
             <motion.button
               type="button"
               onClick={() => onNavigate('contact')}
@@ -247,41 +203,37 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-[15px] text-[15px] font-bold text-white"
-              style={{ background: '#FF4800', boxShadow: '0 10px 36px rgba(255,72,0,0.44), 0 2px 8px rgba(255,72,0,0.22)' }}
+              style={{ background: '#FF4800', boxShadow: '0 10px 32px rgba(255,72,0,0.42)' }}
             >
-              Book Strategy Call <ArrowRight className="h-4 w-4" />
+              Book Strategy Call <ArrowUpRight className="h-4 w-4" />
             </motion.button>
 
-            {/*
-              SECONDARY — true ghost: transparent bg, subtle border.
-              Smaller padding, regular weight → clearly subordinate.
-            */}
             <motion.button
               type="button"
               onClick={() => onNavigate('services')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border px-7 py-[14px] text-[14px] font-normal transition-colors duration-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border px-8 py-[14px] text-[14px] font-medium transition-colors duration-200"
               style={{
                 background: 'transparent',
-                borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(43,35,88,0.28)',
-                color: isDark ? 'rgba(255,255,255,0.7)' : '#334155',
+                borderColor: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(15,23,42,0.2)',
+                color: isDark ? 'rgba(255,255,255,0.75)' : '#334155',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(43,35,88,0.04)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+              onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
             >
-              See What We Build
+              See What We Build <ArrowUpRight className="h-4 w-4" />
             </motion.button>
           </motion.div>
 
           {/* Trust signals */}
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.62 }}
-            className="mt-7 flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2"
+            transition={{ duration: 0.6, delay: 0.58 }}
+            className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2"
           >
-            {['Fixed price quote', 'Weekly delivery', 'Full code ownership'].map((item) => (
-              <span key={item} className="flex items-center gap-1.5 text-[12px] font-medium" style={{ color: C.tagline }}>
+            {['Fixed price quote', 'Weekly delivery', 'Full code ownership'].map(item => (
+              <span key={item} className="flex items-center gap-1.5 text-[12px] font-medium" style={{ color: textMuted }}>
                 <CheckCircle className="h-3.5 w-3.5 shrink-0" style={{ color: '#FF4800' }} />
                 {item}
               </span>
@@ -289,156 +241,162 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           </motion.div>
         </div>
 
-        {/* ─── RIGHT: Image + floating metric cards ──────────────
-             Mobile  (< lg): stacked below text, flat card, no perspective
-             Desktop (≥ lg): side-by-side, 3-D perspective, floating cards
-        ────────────────────────────────────────────────────── */}
+        {/* ─── RIGHT: Flat floating UI cards ─────────── */}
         <motion.div
-          ref={imageRef}
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.3 }}
-          className="relative w-full"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative hidden lg:flex items-center justify-center w-full"
+          style={{ minHeight: '520px' }}
         >
-          {/* Glow halo - Removed for performance and cleaner aesthetic */}
+          <div style={{ position: 'relative', width: '560px', height: '480px', flexShrink: 0 }}>
 
-          {/* Image card */}
-          <motion.div
-            className="relative rounded-2xl overflow-hidden"
-            initial={{ filter: 'blur(5px)', scale: 0.97 }}
-            animate={imageInView ? { filter: 'blur(0px)', scale: 1 } : {}}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              /* 3-D tilt on desktop only — looks wrong on narrow screens */
-              transform: 'perspective(1200px) rotateY(-3deg) rotateX(2deg)',
-              boxShadow: isDark
-                ? '0 24px 56px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06)'
-                : '0 16px 48px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.05)',
-            }}
-          >
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/hero-image.jpg"
-                alt="Developer building automation systems at Straveda Tech"
-                fill
-                className="object-cover"
-                sizes="(max-width:1024px) 95vw, (max-width:1280px) 50vw, 600px"
-                priority
-              />
-              {/* Depth overlay */}
-              <div className="absolute inset-0 pointer-events-none"
-                style={{ background: 'linear-gradient(135deg,rgba(10,10,20,0.30) 0%,rgba(0,0,0,0.02) 55%,transparent 100%)' }} />
-              {/*
-                UI A — Laminar gradient: blends the left edge of the image into
-                the left-column background color, eliminating the abrupt boundary.
-              */}
-              <div aria-hidden="true" className="absolute inset-y-0 left-0 w-28 pointer-events-none"
-                style={{ background: `linear-gradient(to right,${C.bgColor},transparent)` }} />
-            </div>
-
-            {/* Orange accent top line */}
-            <div className="absolute top-0 left-0 right-0 h-[3px]"
-              style={{ background: 'linear-gradient(90deg,#FF4800,rgba(255,72,0,0.3),transparent)' }} />
-
-            {/* Live system pill */}
-            <div className="absolute top-4 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur-md"
-              style={{ background: 'rgba(0,0,0,0.58)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <span className="h-2 w-2 rounded-full" style={{ background: '#4ade80', boxShadow: '0 0 6px rgba(74,222,128,0.8)' }} />
-              <span className="text-[11px] font-semibold text-white tracking-widest uppercase">Live System</span>
-            </div>
-          </motion.div>
-
-          {/*
-            Performance B: All metric "cards" are pure HTML + CSS.
-            No images → no bandwidth cost, fully accessible to screen readers,
-            indexable text content for SEO.
-
-            UI B: MetricCard = Framer Motion entry (once) + CSS float loop.
-          */}
-
-          {/* ── Floating metric cards — desktop only (lg+) ───────── */}
-          {/* On mobile these would overflow the card edge, so we show
-              the same data as a compact inline row instead (see below). */}
-
-          {/* −50% Manual Work — top-left */}
-          <MetricCard className="absolute -top-5 -left-6 hidden lg:block" entryDelay={0.55} floatDir="up">
-            <div className="rounded-xl px-4 py-3 backdrop-blur-md"
-              style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, boxShadow: C.cardShadow, minWidth: '158px' }}>
-              <div className="flex items-center gap-2 mb-1">
-                <TrendingDown className="h-4 w-4 shrink-0" style={{ color: '#FF4800' }} aria-hidden="true" />
-                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#FF4800' }}>Manual Work</span>
+            {/* ── Center Image: Dashboard ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              style={{ position: 'absolute', left: '60px', top: '70px', zIndex: 10, width: '440px' }}
+            >
+              <div style={{
+                filter: isDark ? 'drop-shadow(0px 20px 40px rgba(0,0,0,0.5))' : 'drop-shadow(0px 20px 40px rgba(0,0,0,0.06))',
+                animation: 'wf-float-a 6s ease-in-out infinite',
+              }}>
+                <img
+                  src="/images/center_dashboard_light.png"
+                  alt="AI Dashboard Interface"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    borderRadius: '20px',
+                    border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)',
+                  }}
+                />
               </div>
-              <p className="text-[28px] font-black leading-none" style={{ color: C.cardNum, letterSpacing: '-1.5px' }} aria-label="50% reduction">−50%</p>
-              <p className="text-[11px] mt-1" style={{ color: C.cardSub }}>First 90 days</p>
-            </div>
-          </MetricCard>
+            </motion.div>
 
-          {/* 3–5× Efficiency — bottom-right */}
-          <MetricCard className="absolute -bottom-5 -right-6 hidden lg:block" entryDelay={0.70} floatDir="down">
-            <div className="rounded-xl px-4 py-3 backdrop-blur-md"
-              style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, boxShadow: C.cardShadow, minWidth: '158px' }}>
-              <div className="flex items-center gap-2 mb-1">
-                <Zap className="h-4 w-4 shrink-0" style={{ color: '#FF4800' }} aria-hidden="true" />
-                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#FF4800' }}>Efficiency</span>
+            {/* ── Side Image 1: Cost Saved (Top Left) ── */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.7 }}
+              style={{ position: 'absolute', left: '10px', top: '20px', zIndex: 12, width: '180px' }}
+            >
+              <div style={{
+                filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
+                animation: 'wf-float-b 5.2s ease-in-out 0.4s infinite',
+              }}>
+                <img
+                  src="/images/cost_saved_card.png"
+                  alt="Cost Saved 60%"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    borderRadius: '16px',
+                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
+                  }}
+                />
               </div>
-              <p className="text-[28px] font-black leading-none" style={{ color: C.cardNum, letterSpacing: '-1.5px' }} aria-label="3 to 5x efficiency gain">3–5×</p>
-              <p className="text-[11px] mt-1" style={{ color: C.cardSub }}>Operational output</p>
-            </div>
-          </MetricCard>
+            </motion.div>
 
-          {/* AI Agent badge — bottom-left */}
-          <MetricCard className="absolute bottom-12 -left-5 hidden lg:block" entryDelay={0.85} floatDir="up">
-            <div className="rounded-lg px-3 py-2 backdrop-blur-md"
-              style={{ background: isDark ? 'rgba(255,72,0,0.16)' : 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.26)' }}>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full shrink-0" style={{ background: '#FF4800', boxShadow: '0 0 6px rgba(255,72,0,0.75)' }} aria-hidden="true" />
-                <span className="text-[11px] font-semibold" style={{ color: '#FF4800' }}>AI Agent Active</span>
+            {/* ── Side Image 2: Time to Live (Bottom Right) ── */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.9 }}
+              style={{ position: 'absolute', right: '-40px', bottom: '10px', zIndex: 11, width: '200px' }}
+            >
+              <div style={{
+                filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
+                animation: 'wf-float-a 4.8s ease-in-out 0.8s infinite',
+              }}>
+                <img
+                  src="/images/time_to_live_card.png"
+                  alt="Time To Live 90 Days"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    borderRadius: '16px',
+                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
+                  }}
+                />
               </div>
-            </div>
-          </MetricCard>
+            </motion.div>
 
-          {/* ── Mobile inline metric pills — below the image, lg:hidden ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.55 }}
-            className="lg:hidden mt-4 flex items-center justify-center gap-3 flex-wrap"
-          >
-            {[
-              { icon: <TrendingDown className="h-3.5 w-3.5" style={{ color: '#FF4800' }} />, value: '−50%', label: 'Manual Work' },
-              { icon: <Zap className="h-3.5 w-3.5" style={{ color: '#FF4800' }} />, value: '3–5×', label: 'Efficiency' },
-            ].map((m) => (
-              <div key={m.label} className="flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-sm"
-                style={{ background: C.cardBg, border: `1px solid ${C.cardBorder}`, boxShadow: C.cardShadow }}>
-                {m.icon}
-                <span className="text-[13px] font-black" style={{ color: C.cardNum, letterSpacing: '-0.5px' }}>{m.value}</span>
-                <span className="text-[11px]" style={{ color: C.cardSub }}>{m.label}</span>
+            {/* ── AI Agent Active Pill (Top Right, recreated in HTML) ── */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              style={{ position: 'absolute', right: '50px', top: '35px', zIndex: 9 }}
+            >
+              <div style={{
+                animation: 'wf-float-a 5s ease-in-out 0.6s infinite',
+              }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  background: 'rgba(255,72,0,0.08)',
+                  border: '1px solid rgba(255,72,0,0.2)',
+                  borderRadius: '100px',
+                  padding: '8px 16px',
+                  backdropFilter: 'blur(8px)',
+                }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#FF4800', boxShadow: '0 0 6px #FF4800', animation: 'pulse-dot 2s infinite' }} />
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#FF4800' }}>AI Agent Active</span>
+                </div>
               </div>
-            ))}
-            <div className="flex items-center gap-2 rounded-full px-3 py-2"
-              style={{ background: isDark ? 'rgba(255,72,0,0.14)' : 'rgba(255,72,0,0.08)', border: '1px solid rgba(255,72,0,0.25)' }}>
-              <div className="h-1.5 w-1.5 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 5px rgba(255,72,0,0.7)' }} />
-              <span className="text-[11px] font-semibold" style={{ color: '#FF4800' }}>AI Agent Active</span>
-            </div>
-          </motion.div>
+            </motion.div>
+
+          </div>
         </motion.div>
       </div>
 
-      {/* Bottom gradient fade into next section */}
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 right-0 h-36"
-        style={{ zIndex: 5, background: `linear-gradient(to bottom,transparent,${C.bgColor})` }} />
+      {/* Mobile: compact metric pills below text */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="lg:hidden absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-3 flex-wrap justify-center"
+      >
+        {[
+          { icon: TrendingDown, value: '−50%', label: 'Manual Work' },
+          { icon: Zap, value: '3–5×', label: 'Efficiency' },
+        ].map(({ icon: Icon, value, label }) => (
+          <div
+            key={label}
+            className="flex items-center gap-2 rounded-full px-4 py-2.5 backdrop-blur-sm"
+            style={{ background: isDark ? 'rgba(12,12,24,0.9)' : 'rgba(255,255,255,0.95)', border: `1px solid ${cardBorder}`, boxShadow: cardShadow }}
+          >
+            <Icon className="h-3.5 w-3.5" style={{ color: '#FF4800' }} />
+            <span className="text-[13px] font-black" style={{ color: isDark ? '#f0f0f5' : '#0f172a', letterSpacing: '-0.5px' }}>{value}</span>
+            <span className="text-[11px]" style={{ color: textMuted }}>{label}</span>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Bottom gradient fade */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
+        style={{
+          zIndex: 5,
+          background: `linear-gradient(to bottom, transparent, ${isDark ? '#06060c' : '#fdfcf9'})`,
+        }}
+      />
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1.1 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }}
+        className="absolute bottom-7 left-1/2 z-10 -translate-x-1/2"
       >
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex flex-col items-center gap-2">
-          <span className="text-[11px] uppercase tracking-widest" style={{ color: '#64748b' }}>Scroll</span>
-          <div className="flex h-8 w-5 items-start justify-center rounded-full pt-1.5"
-            style={{ border: `1.5px solid ${C.scrollLine}` }}>
-            <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-2 w-1 rounded-full" style={{ background: '#FF4800' }} />
+        <motion.div
+          animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="text-[11px] uppercase tracking-widest" style={{ color: '#94a3b8' }}>Scroll</span>
+          <div
+            className="flex h-8 w-5 items-start justify-center rounded-full pt-1.5"
+            style={{ border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(43,35,88,0.25)'}` }}
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="h-2 w-1 rounded-full"
+              style={{ background: '#FF4800' }}
+            />
           </div>
         </motion.div>
       </motion.div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Braces, Compass, ClipboardCheck, Server, GitCompareArrows } from 'lucide-react';
@@ -162,7 +162,13 @@ const value = service[criterion.key];
 export default function ServiceComparison() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted ? resolvedTheme === 'dark' : false;
 
   const toggleService = (id: string) => {
     setSelected((prev) => {
