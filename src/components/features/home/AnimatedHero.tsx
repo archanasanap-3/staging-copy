@@ -10,7 +10,7 @@ function usePrefetchContact() {
   return () => {
     if (done.current) return;
     done.current = true;
-    import('@/components/features/contact/ContactPage').catch(() => {});
+    import('@/components/features/contact/ContactPage').catch(() => { });
   };
 }
 
@@ -38,10 +38,10 @@ function NodeCard({
 }) {
   const statusColor = status === 'success' ? '#4ade80' : '#FF4800';
   const statusLabel = status === 'success' ? 'Complete' : 'Running';
-  const bg   = isDark ? 'rgba(15,15,28,0.88)' : 'rgba(255,255,255,0.88)';
-  const bdr  = isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.95)';
+  const bg = isDark ? 'rgba(15,15,28,0.88)' : 'rgba(255,255,255,0.88)';
+  const bdr = isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.95)';
   const shdw = isDark ? '0 8px 32px rgba(0,0,0,0.45)' : '0 4px 24px rgba(0,0,0,0.10)';
-  const txt  = isDark ? '#f0f0f5' : '#0f172a';
+  const txt = isDark ? '#f0f0f5' : '#0f172a';
   const muted = isDark ? '#94a3b8' : '#64748b';
   return (
     <motion.div
@@ -87,7 +87,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
   const { theme, resolvedTheme } = useTheme();
 
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
@@ -137,16 +137,16 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       </div>
 
       {/* ── Two-column layout ── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-10 md:pt-24 md:pb-12 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-10 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-10 md:pt-24 md:pb-12 grid grid-cols-1 xl:grid-cols-[1fr_1.05fr] gap-8 xl:gap-10 items-center">
 
         {/* ─── LEFT: Text content ─────────────────────────── */}
-        <div className="flex flex-col text-center lg:text-left">
+        <div className="flex flex-col text-center xl:text-left">
 
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center lg:justify-start mb-5"
+            className="flex justify-center xl:justify-start mb-5"
           >
             <span
               className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold"
@@ -160,7 +160,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
                 className="h-1.5 w-1.5 rounded-full shrink-0"
                 style={{ background: '#FF4800', animation: 'pulse-dot 2.5s ease-in-out infinite' }}
               />
-              AI Studio · Pune, India
+              Business Automation Experts
             </span>
           </motion.div>
 
@@ -170,7 +170,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             transition={{ duration: 0.65, delay: 0.1 }}
             className="font-bold mb-5"
             style={{
-              fontSize: 'clamp(1.9rem, 3.2vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 5vw, 3.25rem)',
               lineHeight: 1.1,
               letterSpacing: '-1.5px',
               color: textPrimary,
@@ -184,7 +184,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="max-w-[480px] mx-auto lg:mx-0 text-[16px] leading-[1.8]"
+            className="max-w-[480px] mx-auto xl:mx-0 text-[16px] leading-[1.8]"
             style={{ color: textMuted }}
           >
             We build AI-powered business systems and custom software for mid-market companies in India — cutting manual work by 50% in 90 days.
@@ -194,7 +194,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.38 }}
-            className="mt-7 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3"
+            className="mt-7 flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-3"
           >
             <motion.button
               type="button"
@@ -230,7 +230,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.58 }}
-            className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2"
+            className="mt-6 flex flex-wrap items-center justify-center xl:justify-start gap-x-5 gap-y-2"
           >
             {['Fixed price quote', 'Weekly delivery', 'Full code ownership'].map(item => (
               <span key={item} className="flex items-center gap-1.5 text-[12px] font-medium" style={{ color: textMuted }}>
@@ -239,13 +239,35 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               </span>
             ))}
           </motion.div>
+
+          {/* Metric pills — in-flow below the two-column (xl) breakpoint */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="xl:hidden mt-8 flex flex-wrap items-center justify-center gap-3"
+          >
+            {[
+              { icon: TrendingDown, value: '−50%', label: 'Manual Work' },
+              { icon: Zap, value: '3–5×', label: 'Efficiency' },
+            ].map(({ icon: Icon, value, label }) => (
+              <div
+                key={label}
+                className="flex items-center gap-2 rounded-full px-4 py-2.5 backdrop-blur-sm"
+                style={{ background: isDark ? 'rgba(12,12,24,0.9)' : 'rgba(255,255,255,0.95)', border: `1px solid ${cardBorder}`, boxShadow: cardShadow }}
+              >
+                <Icon className="h-3.5 w-3.5" style={{ color: '#FF4800' }} />
+                <span className="text-[13px] font-black" style={{ color: isDark ? '#f0f0f5' : '#0f172a', letterSpacing: '-0.5px' }}>{value}</span>
+                <span className="text-[11px]" style={{ color: textMuted }}>{label}</span>
+              </div>
+            ))}
+          </motion.div>
         </div>
 
         {/* ─── RIGHT: Flat floating UI cards ─────────── */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative hidden lg:flex items-center justify-center w-full"
+          className="relative hidden xl:flex items-center justify-center w-full"
           style={{ minHeight: '520px' }}
         >
           <div style={{ position: 'relative', width: '560px', height: '480px', flexShrink: 0 }}>
@@ -346,28 +368,6 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
         </motion.div>
       </div>
 
-      {/* Mobile: compact metric pills below text */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="lg:hidden absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-3 flex-wrap justify-center"
-      >
-        {[
-          { icon: TrendingDown, value: '−50%', label: 'Manual Work' },
-          { icon: Zap, value: '3–5×', label: 'Efficiency' },
-        ].map(({ icon: Icon, value, label }) => (
-          <div
-            key={label}
-            className="flex items-center gap-2 rounded-full px-4 py-2.5 backdrop-blur-sm"
-            style={{ background: isDark ? 'rgba(12,12,24,0.9)' : 'rgba(255,255,255,0.95)', border: `1px solid ${cardBorder}`, boxShadow: cardShadow }}
-          >
-            <Icon className="h-3.5 w-3.5" style={{ color: '#FF4800' }} />
-            <span className="text-[13px] font-black" style={{ color: isDark ? '#f0f0f5' : '#0f172a', letterSpacing: '-0.5px' }}>{value}</span>
-            <span className="text-[11px]" style={{ color: textMuted }}>{label}</span>
-          </div>
-        ))}
-      </motion.div>
-
       {/* Bottom gradient fade */}
       <div
         aria-hidden="true"
@@ -381,7 +381,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }}
-        className="absolute bottom-7 left-1/2 z-10 -translate-x-1/2"
+        className="hidden xl:block absolute bottom-7 left-1/2 z-10 -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}

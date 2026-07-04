@@ -127,13 +127,13 @@ export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
   return (
     <section 
       ref={containerRef} 
-      className="relative min-h-[120vh] flex flex-col items-center justify-start overflow-hidden py-24 md:py-32"
+      className="relative lg:min-h-[120vh] flex flex-col items-center justify-start overflow-hidden py-20 md:py-24 lg:py-32"
       style={{
         background: isDark ? '#0a0a14' : '#e8e8f0'
       }}
     >
       {/* 1. Header Area */}
-      <div className="relative z-20 max-w-4xl px-6 text-center mb-24">
+      <div className="relative z-20 max-w-4xl px-6 text-center mb-12 lg:mb-24">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -171,9 +171,9 @@ export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
       </div>
 
       {/* 2. Interactive Orbit Area */}
-      <motion.div 
+      <motion.div
         style={{ opacity, scale }}
-        className="relative w-full h-[600px] flex items-center justify-center pointer-events-auto"
+        className="relative w-full h-[600px] hidden lg:flex items-center justify-center pointer-events-auto"
       >
         {/* Background Grid/Mesh */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
@@ -222,11 +222,34 @@ export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
         ))}
       </motion.div>
 
+      {/* 2b. Mobile / tablet: stacked grid (orbit layout can't fit narrow screens) */}
+      <div className="lg:hidden relative z-20 w-full max-w-lg px-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {pillars.map((p) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: parseInt(p.id) * 0.08 }}
+            className={`relative overflow-hidden rounded-2xl p-6 ${
+              isDark ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]' : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
+            } ${p.id === '5' ? 'sm:col-span-2' : ''}`}
+            style={{ boxShadow: isDark ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 30px rgba(0,0,0,0.05)' }}
+          >
+            <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${isDark ? 'bg-[#FF4800]/15' : 'bg-[#FF4800]/10'}`}>
+              <div className="text-[#FF4800]">{p.icon}</div>
+            </div>
+            <h4 className={`text-lg font-bold mb-2 tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>{p.title}</h4>
+            <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{p.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+
       {/* 3. CTA Area */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="relative z-20 mt-40 md:mt-48 flex flex-col items-center"
+        className="relative z-20 mt-12 lg:mt-40 xl:mt-48 flex flex-col items-center"
       >
         <button className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FF4800] text-white font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]">
           Build Your Core System
