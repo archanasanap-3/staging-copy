@@ -12,7 +12,6 @@ const ease = [0.4, 0, 0.2, 1] as const;
 
 interface FormData {
   name: string
-  company: string
   email: string
   phone: string
   message: string
@@ -20,7 +19,6 @@ interface FormData {
 
 const initialFormData: FormData = {
   name: '',
-  company: '',
   email: '',
   phone: '',
   message: '',
@@ -202,7 +200,6 @@ export default function ContactPage() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          company: formData.company,
           phone: formData.phone,
           message: formData.message,
         }),
@@ -314,10 +311,9 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-[#6b7280] dark:text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+            className="text-[#6b7280] dark:text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed md:whitespace-nowrap"
           >
-            Tell us about your enterprise challenge. We&apos;ll respond within 1
-            business day.
+            Tell us about your enterprise challenge. We&apos;ll respond within 1 business day.
           </motion.p>
         </div>
       </section>
@@ -360,18 +356,18 @@ export default function ContactPage() {
                   delay={0.1}
                 />
                 <FloatingInput
-                  id="company"
-                  name="company"
-                  type="text"
+                  id="phone"
+                  name="phone"
+                  type="tel"
                   required
-                  value={formData.company}
+                  value={formData.phone}
                   onChange={handleChange}
-                  label="Company *"
+                  label="Phone Number *"
                   delay={0.2}
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+              <div className="grid grid-cols-1 relative z-10">
                 <FloatingInput
                   id="email"
                   name="email"
@@ -381,26 +377,15 @@ export default function ContactPage() {
                   label="Work Email (optional)"
                   delay={0.3}
                 />
-                <FloatingInput
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
-                  label="Phone Number *"
-                  delay={0.4}
-                />
               </div>
 
               <div className="relative z-10">
                 <FloatingTextarea
                   id="message"
                   name="message"
-                  required
                   value={formData.message}
                   onChange={handleChange}
-                  label="Tell us about your challenge... *"
+                  label="Tell us about your challenge... (optional)"
                   delay={0.5}
                 />
               </div>
@@ -510,8 +495,8 @@ export default function ContactPage() {
             >
               <Phone className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
               <div>
-                <a href="tel:9623095766" className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors">
-                  9623095766
+                <a href="tel:+917666353488" className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors">
+                  +91 76663 53488
                 </a>
               </div>
             </motion.div>
@@ -554,7 +539,7 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-            {/* Social */}
+            {/* Website */}
             <motion.div
               custom={4}
               variants={infoItemVariants}
@@ -563,12 +548,14 @@ export default function ContactPage() {
               viewport={{ once: true, margin: '-100px' }}
               className="flex items-start gap-4 mb-6"
             >
+              <Globe className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
               <a
-                href="#"
-                className="text-[#6b7280] dark:text-[#9ca3af] hover:text-[#FF4800] transition-colors"
-                aria-label="LinkedIn"
+                href="https://stravedatech.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors"
               >
-                <Globe className="w-5 h-5" />
+                stravedatech.com
               </a>
             </motion.div>
 
@@ -626,29 +613,6 @@ export default function ContactPage() {
               viewport={{ once: true, margin: '-100px' }}
               className="h-px bg-[#e5e7eb] dark:bg-white/[0.06] my-8"
             />
-
-            {/* Why work with us */}
-            <div className="space-y-4">
-              {[
-                'Response within 1 business day',
-                'Free initial consultation',
-                'No lock in contracts',
-                'Guaranteed satisfaction',
-              ].map((item, index) => (
-                <motion.div
-                  key={item}
-                  custom={7 + index}
-                  variants={infoItemVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-100px' }}
-                  className="flex items-center gap-3"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-[#FF4800] shrink-0" />
-                  <span className="text-[#6b7280] dark:text-[#9ca3af] text-[14px]">{item}</span>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -702,7 +666,8 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
-      {/* ── OFFICE LOCATIONS MAP ─────────────────────────────────────────── */}
+      {/* ── OFFICE LOCATIONS MAP (commented out) ─────────────────────────── */}
+      {false && (
       <section className="px-6 py-20 md:py-28 bg-[#fafafa] dark:bg-[#0d0d1a] border-t border-black/5 dark:border-white/5">
         <div className="max-w-7xl mx-auto">
 
@@ -833,6 +798,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      )}
 
     </div>
 
