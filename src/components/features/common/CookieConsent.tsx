@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -95,13 +96,13 @@ export default function CookieConsent() {
                   >
                     We use cookies to enhance your experience. By continuing to visit
                     this site, you agree to our use of cookies.{' '}
-                    <a
-                      href="#"
+                    <Link
+                      href="/privacy-policy"
                       className="font-medium underline underline-offset-2 transition-colors hover:opacity-80"
                       style={{ color: '#FF4800' }}
                     >
                       Privacy Policy
-                    </a>
+                    </Link>
                   </p>
                 </div>
                 <button

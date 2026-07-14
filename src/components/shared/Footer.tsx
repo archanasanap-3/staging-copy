@@ -119,7 +119,7 @@ export default function Footer() {
           <div className="border-t-2 border-[#0f172a]/5 dark:border-white/10 pt-4 w-full flex flex-col items-center gap-2 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
             <div className="flex gap-6">
-              <button className="hover:text-[#FF4800] dark:hover:text-[#FF4800]">Privacy Policy</button>
+              <Link href="/privacy-policy" className="hover:text-[#FF4800] dark:hover:text-[#FF4800]">Privacy Policy</Link>
               <button className="hover:text-[#FF4800] dark:hover:text-[#FF4800]">Terms of Service</button>
             </div>
           </div>
@@ -195,7 +195,7 @@ export default function Footer() {
           <div className="pt-5 border-t-2 border-[#0f172a]/5 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
             <div className="flex gap-10">
-              <button className="hover:text-[#FF4800]">Privacy Policy</button>
+              <Link href="/privacy-policy" className="hover:text-[#FF4800]">Privacy Policy</Link>
               <button className="hover:text-[#FF4800]">Terms of Service</button>
             </div>
           </div>
