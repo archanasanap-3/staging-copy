@@ -25,11 +25,11 @@ const timelineOptions = [
 ];
 
 const budgetOptions = [
-  { value: 0, label: '$10K–$50K', min: 10000, max: 50000 },
-  { value: 1, label: '$50K–$100K', min: 50000, max: 100000 },
-  { value: 2, label: '$100K–$250K', min: 100000, max: 250000 },
-  { value: 3, label: '$250K–$500K', min: 250000, max: 500000 },
-  { value: 4, label: '$500K+', min: 500000, max: 999999 },
+  { value: 0, labelUSD: '$10K–$50K', labelINR: '₹8L–₹40L', min: 10000, max: 50000 },
+  { value: 1, labelUSD: '$50K–$100K', labelINR: '₹40L–₹80L', min: 50000, max: 100000 },
+  { value: 2, labelUSD: '$100K–$250K', labelINR: '₹80L–₹2Cr', min: 100000, max: 250000 },
+  { value: 3, labelUSD: '$250K–$500K', labelINR: '₹2Cr–₹4Cr', min: 250000, max: 500000 },
+  { value: 4, labelUSD: '$500K+', labelINR: '₹4Cr+', min: 500000, max: 999999 },
 ];
 
 const teamSizeOptions = [
@@ -46,6 +46,7 @@ interface WizardData {
   description: string;
   timeline: string;
   budget: number;
+  budgetCurrency: 'INR' | 'USD';
   teamSize: string;
   name: string;
   email: string;
@@ -58,6 +59,7 @@ const initialData: WizardData = {
   description: '',
   timeline: '',
   budget: 1,
+  budgetCurrency: 'INR',
   teamSize: '',
   name: '',
   email: '',
@@ -372,23 +374,45 @@ function Step2({
 
       {/* Budget Slider */}
       <div>
-        <label className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] mb-3 block">
-          <DollarSign className="w-4 h-4 inline mr-1.5 text-[#FF4800]" />
-          Estimated Budget
-        </label>
+        <div className="flex items-center justify-between mb-3">
+          <label className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] block">
+            <DollarSign className="w-4 h-4 inline mr-1.5 text-[#FF4800]" />
+            Estimated Budget
+          </label>
+          <div className="flex rounded-full border border-[#e5e7eb] dark:border-white/[0.08] overflow-hidden">
+            {(['INR', 'USD'] as const).map((cur) => (
+              <button
+                key={cur}
+                type="button"
+                onClick={() => onChange({ budgetCurrency: cur })}
+                className={`px-3 py-1 text-xs font-semibold transition-colors ${
+                  data.budgetCurrency === cur
+                    ? 'bg-[#FF4800] text-white'
+                    : 'bg-[#f8f8fc] dark:bg-[#1e1a3f] text-[#6b7280] dark:text-[#A1A1A1]'
+                }`}
+              >
+                {cur === 'INR' ? '₹ INR' : '$ USD'}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="bg-[#f8f8fc] dark:bg-[#1e1a3f] border border-[#e5e7eb] dark:border-white/[0.08] rounded-lg px-6 py-5">
           <div className="flex justify-between mb-3">
-            <span className="text-[11px] text-[#9ca3af] dark:text-[#52525B] uppercase tracking-wider">$10K</span>
+            <span className="text-[11px] text-[#9ca3af] dark:text-[#52525B] uppercase tracking-wider">
+              {data.budgetCurrency === 'INR' ? budgetOptions[0].labelINR : budgetOptions[0].labelUSD}
+            </span>
             <motion.span
-              key={data.budget}
+              key={`${data.budget}-${data.budgetCurrency}`}
               initial={{ scale: 1.2, color: '#FF4800' }}
               animate={{ scale: 1, color: '#FF4800' }}
               transition={{ duration: 0.3 }}
               className="text-base font-semibold text-[#FF4800]"
             >
-              {budgetOptions[data.budget].label}
+              {data.budgetCurrency === 'INR' ? budgetOptions[data.budget].labelINR : budgetOptions[data.budget].labelUSD}
             </motion.span>
-            <span className="text-[11px] text-[#9ca3af] dark:text-[#52525B] uppercase tracking-wider">$500K+</span>
+            <span className="text-[11px] text-[#9ca3af] dark:text-[#52525B] uppercase tracking-wider">
+              {data.budgetCurrency === 'INR' ? budgetOptions[4].labelINR : budgetOptions[4].labelUSD}
+            </span>
           </div>
           <div className="relative">
             <input
@@ -583,7 +607,7 @@ function Step3({
             Timeline: {timelineOptions.find((t) => t.id === data.timeline)?.label}
             {' · '}
             <DollarSign className="w-3 h-3 inline mr-1" />
-            Budget: {budgetOptions[data.budget].label}
+            Budget: {data.budgetCurrency === 'INR' ? budgetOptions[data.budget].labelINR : budgetOptions[data.budget].labelUSD}
             {' · '}
             <Users className="w-3 h-3 inline mr-1" />
             Team: {teamSizeOptions.find((t) => t.id === data.teamSize)?.label || 'Not set'}

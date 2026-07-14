@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Loader2, X, User, Clock } from 'lucide-react';
-import { toast } from 'sonner';
+import { ArrowRight, X, User, Clock } from 'lucide-react';
 import PageHeader from '@/components/shared/PageHeader';
 import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
 
@@ -231,8 +230,6 @@ function InsightModal({
 }
 
 export default function InsightsPage() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState<FilterCategory>('All');
   const [activeTopic, setActiveTopic] = useState<string>('All');
@@ -241,19 +238,6 @@ export default function InsightsPage() {
     if (topic === 'All') return posts;
     return posts.filter((p) => p.filterCategory === topic);
   }, [activeTopic]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-
-    setIsSubmitting(true);
-    // Mocking the API response for static site
-    setTimeout(() => {
-      toast.success('Subscribed! (Static Mode)');
-      setEmail('');
-      setIsSubmitting(false);
-    }, 800);
-  };
 
   return (
     <div className="bg-white dark:bg-[#0a0a14] min-h-screen">
@@ -458,52 +442,6 @@ export default function InsightsPage() {
           />
         )}
       </AnimatePresence>
-
-      {/* NEWSLETTER CTA */}
-      <section className="px-6 py-16 md:py-24 bg-[#f8f8fc] dark:bg-[#0a0a14]">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="bg-white dark:bg-white/[0.04] rounded-xl py-16 px-6 md:px-12 text-center border border-[#e5e7eb] dark:border-white/[0.08] shadow-sm"
-          >
-            <h2 className="text-[28px] sm:text-[32px] md:text-[36px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5] mb-3">
-              Stay ahead of enterprise trends.
-            </h2>
-            <p className="text-[#6b7280] dark:text-[#d1d5db] text-[15px] sm:text-[16px] mb-8">
-              Monthly insights for enterprise leaders.
-            </p>
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mt-8">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                disabled={isSubmitting}
-                className="flex-1 bg-white dark:bg-white/[0.06] border border-[#e5e7eb] dark:border-white/[0.1] focus:border-[#FF4800] text-[#1a1a2e] dark:text-[#f0f0f5] rounded-lg px-4 py-3 text-[15px] placeholder-[#9ca3af] outline-none transition-colors disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-[#FF4800] hover:bg-[#e63f00] text-white font-medium text-[15px] rounded-lg px-6 py-3 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <ArrowRight className="w-4 h-4" />
-                )}
-                Subscribe
-              </button>
-            </form>
-            <p className="text-[#9ca3af] text-[12px] mt-4">
-              No spam. Unsubscribe anytime.
-            </p>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

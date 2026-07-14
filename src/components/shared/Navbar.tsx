@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
@@ -165,12 +166,19 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           {/* Wordmark */}
           <Link
             href="/"
-            className="z-10 shrink-0 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
-            style={{ fontFamily: 'Geist, sans-serif', fontSize: 15, fontWeight: 600, letterSpacing: '-0.3px', color: T.text, transition: 'color 0.3s ease' }}
+            className="z-10 shrink-0 select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
+            style={{ height: 52, width: 220 }}
             onMouseEnter={(e) => { e.stopPropagation(); setCursorStyle('link'); }}
             onMouseLeave={() => setCursorStyle('nav')}
           >
-            Str<span style={{ color: ORANGE }}>a</span>veda
+            <Image
+              src={isDarkMode ? '/logos/blackmain_logo.png' : '/logos/main_logo.png'}
+              alt="Straveda"
+              fill
+              sizes="220px"
+              className="object-contain object-left"
+              priority
+            />
           </Link>
 
           {/* CENTER: Nav links */}
@@ -269,11 +277,18 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
             >
               <Link
                 href="/"
-                className="text-[16px] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
-                style={{ fontFamily: 'Geist, sans-serif', fontWeight: 600, color: '#FFFFFF' }}
+                className="relative select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
+                style={{ height: 48, width: 220 }}
                 onClick={() => setMobileOpen(false)}
               >
-                Str<span style={{ color: ORANGE }}>a</span>veda
+                <Image
+                  src="/logos/blackmain_logo.png"
+                  alt="Straveda"
+                  fill
+                  sizes="220px"
+                  className="object-contain object-center"
+                  priority
+                />
               </Link>
               <button
                 className="absolute right-6 flex items-center justify-center w-11 h-11 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800]"

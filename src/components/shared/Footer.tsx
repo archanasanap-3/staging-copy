@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Mail, MapPin, ArrowUp, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -92,9 +93,10 @@ export default function Footer() {
 
         {/* MOBILE */}
         <div className="flex flex-col items-center text-center md:hidden pb-2">
-          <span className="text-2xl font-black tracking-tighter text-[#0f172a] dark:text-white mb-1">
-            Str<span className="text-[#FF4800]">a</span>veda
-          </span>
+          <div className="relative h-20 w-72 mb-1">
+            <Image src="/logos/main_logo.png" alt="Straveda" fill sizes="288px" className="object-contain dark:hidden" />
+            <Image src="/logos/blackmain_logo.png" alt="Straveda" fill sizes="288px" className="object-contain hidden dark:block" />
+          </div>
           <p className="text-[13px] text-[#0f172a] dark:text-gray-300 font-medium mb-5">
             Exceptional value. Cost effective solutions.
           </p>
@@ -140,9 +142,10 @@ export default function Footer() {
             {/* Brand */}
             <div className="lg:col-span-4 space-y-4">
               <div>
-                <span className="text-2xl font-black tracking-tighter text-[#0f172a] dark:text-white">
-                  Str<span className="text-[#FF4800]">a</span>veda
-                </span>
+                <div className="relative h-20 w-72">
+                  <Image src="/logos/main_logo.png" alt="Straveda" fill sizes="288px" className="object-contain object-left dark:hidden" />
+                  <Image src="/logos/blackmain_logo.png" alt="Straveda" fill sizes="288px" className="object-contain object-left hidden dark:block" />
+                </div>
                 <p className="mt-2 text-[14px] text-[#0f172a] dark:text-gray-300 font-bold leading-snug max-w-[280px]">
                   Exceptional value.<br />Cost effective solutions.
                 </p>
@@ -180,9 +183,9 @@ export default function Footer() {
                   <Mail size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
                   <span className="border-b-2 border-[#0f172a]/10 dark:border-white/10 group-hover:border-[#FF4800] transition-all">stravedatech@gmail.com</span>
                 </a>
-                <a href="tel:9623095766" className="flex items-center gap-3 group">
+                <a href="tel:+917666353488" className="flex items-center gap-3 group">
                   <Phone size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-                  <span className="border-b-2 border-[#0f172a]/10 dark:border-white/10 group-hover:border-[#FF4800] transition-all">9623095766</span>
+                  <span className="border-b-2 border-[#0f172a]/10 dark:border-white/10 group-hover:border-[#FF4800] transition-all">+91 76663 53488</span>
                 </a>
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
