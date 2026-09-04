@@ -187,7 +187,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             className="max-w-[480px] mx-auto xl:mx-0 text-[16px] leading-[1.8]"
             style={{ color: textMuted }}
           >
-            We build AI-powered business systems and custom software for mid-market companies in India — cutting manual work by 50% in 90 days.
+            We build AI-powered business systems and custom software for mid-market companies in India cutting manual work by 50% in 30 days.
           </motion.p>
 
           {/* CTAs */}
@@ -330,7 +330,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               }}>
                 <img
                   src="/images/time_to_live_card.png"
-                  alt="Time To Live 90 Days"
+                  alt="Time To Live 30 Days"
                   style={{
                     width: '100%',
                     height: 'auto',
