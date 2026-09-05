@@ -25,6 +25,11 @@ interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
+interface Props{
+  isDark:boolean;
+  onNavigate: (page: string) => void;
+}
+
 const ease = [0.4, 0, 0.2, 1] as const;
 
 const containerVariants = {
@@ -594,7 +599,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       <div id="section-services">
-        <SystemsCoreSection isDark={isDark} />
+        <SystemsCoreSection isDark={isDark} onNavigate={onNavigate} />
       </div>
 
       {/* ── Wave divider ── */}
