@@ -187,7 +187,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             className="max-w-[480px] mx-auto xl:mx-0 text-[16px] leading-[1.8]"
             style={{ color: textMuted }}
           >
-            We build AI-powered business systems and custom software for mid-market companies in India cutting manual work by 50% in 30 days.
+            We build AI-powered business systems and custom software for mid-market companies in India cutting manual work by 50% in 25 days.
           </motion.p>
 
           {/* CTAs */}
