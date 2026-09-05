@@ -189,6 +189,7 @@ function ServiceBlock({ service, index }: { service: ServiceBlockData; index: nu
 
   return (
     <motion.section
+    id={service.id}
       ref={containerRef}
       className={`relative overflow-hidden px-6 py-24 lg:px-16 ${isEven ? 'bg-white dark:bg-[#0a0a14]' : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
         }`}

@@ -177,7 +177,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             }}
           >
             AI that eliminates work.{' '}
-            <span style={{ color: '#FF4800' }}>Software that runs your operations.</span>
+            <span style={{ color: '#FF4800' }}>Software that runs your operations</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -268,7 +268,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative hidden xl:flex items-center justify-center w-full"
-          style={{ minHeight: '520px' }}
+          style={{ minHeight: '600px' }}
         >
           <div style={{ position: 'relative', width: '560px', height: '480px', flexShrink: 0 }}>
 
@@ -299,7 +299,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             <motion.div
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
-              style={{ position: 'absolute', left: '10px', top: '20px', zIndex: 12, width: '180px' }}
+              style={{ position: 'absolute', left: '5px', top: '10px', zIndex: 12, width: '180px' }}
             >
               <div style={{
                 filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
@@ -322,7 +322,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.9 }}
-              style={{ position: 'absolute', right: '-40px', bottom: '10px', zIndex: 11, width: '200px' }}
+              style={{ position: 'absolute', right: '10px', bottom: '-50px', zIndex: 11, width: '200px' }}
             >
               <div style={{
                 filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
