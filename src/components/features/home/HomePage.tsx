@@ -160,7 +160,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
         <span className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: '#FF4800', background: 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.15)' }}>
           {service.badge}
         </span>
-        <h3 className="text-xl font-bold leading-[1.2] tracking-tight text-gray-900 dark:text-white">
+        <h3 className="text-xl font-bold leading-[1.2] tracking-tight tFext-gray-900 dark:text-white">
           {service.title}
         </h3>
       </div>
@@ -379,7 +379,6 @@ function SectionHeader({
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#FF4800' }}>{label}</p>
       <div className={`flex gap-4 ${isCenter ? 'justify-center' : 'justify-center md:justify-start'}`}>
         {/* Accent bar — desktop only */}
-        <div className="mt-1 hidden lg:block flex-shrink-0 rounded-full" style={{ width: '3px', height: '52px', background: 'linear-gradient(180deg, #FF4800 0%, rgba(255,72,0,0.15) 100%)' }} />
         <h2 className="font-normal heading-gradient" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word' }}>
           {heading}
         </h2>
@@ -493,18 +492,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.7, ease }}
-        className="py-14 md:py-20 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+        className="py-12 md:py-16 lg:py-20 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-10 text-center md:text-left">
-            <div className="flex items-start gap-4 mb-3 justify-center md:justify-start">
-              <div className="mt-2 hidden lg:block flex-shrink-0 w-1 rounded-full" style={{ height: '52px', background: 'linear-gradient(180deg, #FF4800 0%, rgba(255,72,0,0.15) 100%)' }} />
-              <h2 className="font-normal heading-gradient" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1.5px', overflowWrap: 'break-word' }}>
+            <div className="flex items-start gap-3">
+              <h2 className="my-2 block text-left" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1.5px', overflowWrap: 'break-word'}}>
                 Built on enterprise grade infrastructure
               </h2>
             </div>
-            <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-auto md:mx-0 md:ml-6">
-              We use proven, scalable technologies not experimental tools. Your systems will be maintainable and upgradeable for years.
+            <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-0 ml-0 text-left">
+              We use proven, scalable technologies not experimental tools. Your systems will be maintainable and upgradable for years.
             </p>
             <div className="mt-6 h-px mx-auto md:mx-0" style={{ width: 'min(340px, 80%)', background: 'linear-gradient(to right, #FF4800, rgba(255,72,0,0.15))' }} />
           </div>
@@ -513,7 +511,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
           >
             {[
               { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png', w: 80, h: 40 },
@@ -757,7 +755,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           >
             <p className="mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
-              <div className="mt-2 hidden lg:block flex-shrink-0 w-1 rounded-full" style={{ height: '52px', background: 'linear-gradient(180deg, #FF4800 0%, rgba(255,72,0,0.15) 100%)' }} />
               <h2 className="font-normal heading-gradient text-center md:text-left" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-1px' }}>
                 We Get It. Because We've Lived It.
               </h2>
