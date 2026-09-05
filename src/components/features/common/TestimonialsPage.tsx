@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
@@ -127,6 +127,7 @@ function TestimonialScrollColumn({
       <div
         className="absolute top-0 left-0 right-0 h-32 z-10 pointer-events-none bg-gradient-to-b from-white to-transparent dark:from-[#0a0a14]"
       />
+
       {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none bg-gradient-to-t from-white to-transparent dark:from-[#0a0a14]"
@@ -187,10 +188,12 @@ function TestimonialScrollColumn({
                   >
                     {name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                   </div>
+
                   <div>
                     <div className="font-medium text-[14px] text-[#1a1a2e] dark:text-[#f0f0f5] tracking-tight">
                       {name}
                     </div>
+
                     <div className="text-[12px] opacity-60 tracking-tight text-[#6b7280] dark:text-[#9ca3af]">
                       {role}
                     </div>
@@ -206,6 +209,11 @@ function TestimonialScrollColumn({
 }
 
 export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
+  const [current, setCurrent] = useState(0);
+
+  const nextSlide = () => setCurrent((p) => (p + 1) % 3);
+  const prevSlide = () => setCurrent((p) => (p - 1 + 3) % 3);
+
   return (
     <div>
       {/* ═══════════════════════════════════════════════ */}
@@ -236,6 +244,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
           >
             TESTIMONIALS
           </motion.p>
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -246,6 +255,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
             Trusted by{' '}
             <span style={{ color: '#FF4800' }}>industry leaders.</span>
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -271,6 +281,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
                 <div className="text-[28px] md:text-[36px] font-bold text-[#1a1a2e] dark:text-[#f0f0f5]">
                   {stat.icon} {stat.value}
                 </div>
+
                 <div className="text-[12px] uppercase tracking-wider mt-1 text-[#6b7280] dark:text-[#9ca3af]">
                   {stat.label}
                 </div>
@@ -302,6 +313,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
             >
               WHAT CLIENTS SAY
             </p>
+
             <h2
               className="text-[32px] md:text-[42px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5]"
               style={{ fontWeight: 500 }}
@@ -317,17 +329,36 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
               duration={35}
               direction="up"
             />
+
             <TestimonialScrollColumn
               testimonials={testimonialsColumn2}
               duration={40}
               direction="down"
             />
+
             <TestimonialScrollColumn
               testimonials={testimonialsColumn3}
               duration={30}
               direction="up"
             />
           </HorizontalCarousel>
+
+          {/* CENTER ARROWS */}
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <button
+              onClick={prevSlide}
+              className="w-10 h-10 rounded-full border border-[#FF4800] flex items-center justify-center text-[#FF4800] hover:bg-[#FF4800] hover:text-white transition"
+            >
+              ←
+            </button>
+
+            <button
+              onClick={nextSlide}
+              className="w-10 h-10 rounded-full border border-[#FF4800] flex items-center justify-center text-[#FF4800] hover:bg-[#FF4800] hover:text-white transition"
+            >
+              →
+            </button>
+          </div>
         </div>
       </section>
 
@@ -364,15 +395,25 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
               >
                 JR
               </div>
+
               <div className="text-left">
-                <div className="text-[#1a1a2e] dark:text-[#f0f0f5] font-semibold text-[16px]">James Richardson</div>
-                <div className="text-[14px] text-[#6b7280] dark:text-[#9ca3af]">Senior VP · Accenture</div>
+                <div className="text-[#1a1a2e] dark:text-[#f0f0f5] font-semibold text-[16px]">
+                  James Richardson
+                </div>
+
+                <div className="text-[14px] text-[#6b7280] dark:text-[#9ca3af]">
+                  Senior VP · Accenture
+                </div>
               </div>
             </div>
 
             <div className="flex items-center justify-center gap-1 mt-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-current" style={{ color: '#FBBF24' }} />
+                <Star
+                  key={i}
+                  className="h-4 w-4 fill-current"
+                  style={{ color: '#FBBF24' }}
+                />
               ))}
             </div>
           </motion.div>
@@ -396,9 +437,11 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
             <h2 className="text-[32px] md:text-[42px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5] mb-4">
               Ready to join our success stories?
             </h2>
+
             <p className="text-[18px] mb-8 text-[#6b7280] dark:text-[#d1d5db]">
               Let&apos;s discuss how Straveda can transform your enterprise IT landscape.
             </p>
+
             <motion.button
               onClick={() => onNavigate('contact')}
               whileHover={{ scale: 1.03 }}
@@ -407,6 +450,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
               style={{ background: '#FF4800' }}
             >
               Start your project
+
               <motion.span
                 animate={{ x: [0, 4, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

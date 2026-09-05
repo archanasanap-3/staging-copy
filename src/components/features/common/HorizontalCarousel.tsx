@@ -3,7 +3,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type CarouselSize = 'sm' | 'md' | 'lg';
 type CarouselCols = 2 | 3 | 4;
@@ -23,16 +22,25 @@ export interface HorizontalCarouselProps {
 // We map our desired columns and sizes to tailwind width classes.
 const getSlideClasses = (cols: CarouselCols, size: CarouselSize) => {
   // Mobile uses size to determine peek
-  const mobileWidth = size === 'sm' ? 'w-[72vw]' : size === 'lg' ? 'w-[85vw]' : 'w-[82vw]';
-  
+  const mobileWidth =
+    size === 'sm'
+      ? 'w-[72vw]'
+      : size === 'lg'
+        ? 'w-[85vw]'
+        : 'w-[82vw]';
+
   if (cols === 2) {
     return `${mobileWidth} md:w-[calc(50%-10px)] flex-[0_0_auto] min-w-0`;
   }
+
   if (cols === 4) {
     return `${mobileWidth} md:w-[calc(50%-10px)] xl:w-[calc(25%-18px)] flex-[0_0_auto] min-w-0`;
   }
-  // cols = 3 (default)
-  return `${mobileWidth} md:w-[calc(50%-10px)] lg:w-[calc(33.333%-13.333px)] flex-[0_0_auto] min-w-0`;
+
+  // cols = 3
+  // Keep mobile same, but show 2 slides at desktop
+  // so horizontal arrow navigation is visible.
+  return `${mobileWidth} md:w-[calc(50%-10px)] lg:w-[calc(50%-10px)] flex-[0_0_auto] min-w-0`;
 };
 
 export default function HorizontalCarousel({
@@ -45,15 +53,17 @@ export default function HorizontalCarousel({
   className = '',
   containerClassName = '',
 }: HorizontalCarouselProps) {
-  
-  // Configure Embla with dynamic slidesToScroll based on breakpoints
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+  const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'start',
     breakpoints: {
-      '(min-width: 768px)': { slidesToScroll: cols >= 2 ? 2 : 1 },
-      '(min-width: 1024px)': { slidesToScroll: cols === 4 ? 4 : cols === 3 ? 3 : 2 }
-    }
+      '(min-width: 768px)': {
+        slidesToScroll: 1,
+      },
+      '(min-width: 1024px)': {
+        slidesToScroll: 1,
+      },
+    },
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -61,28 +71,41 @@ export default function HorizontalCarousel({
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
+    if (emblaApi) {
+      emblaApi.scrollPrev();
+    }
   }, [emblaApi]);
 
   const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
+    if (emblaApi) {
+      emblaApi.scrollNext();
+    }
   }, [emblaApi]);
 
-  const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index);
-  }, [emblaApi]);
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) {
+        emblaApi.scrollTo(index);
+      }
+    },
+    [emblaApi]
+  );
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
+
     setActiveIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
+
     onSelect();
     setScrollSnaps(emblaApi.scrollSnapList());
+
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
+
     return () => {
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
@@ -91,9 +114,11 @@ export default function HorizontalCarousel({
 
   useEffect(() => {
     if (autoScrollInterval <= 0 || !emblaApi || isPaused) return;
+
     const interval = setInterval(() => {
       emblaApi.scrollNext();
     }, autoScrollInterval);
+
     return () => clearInterval(interval);
   }, [emblaApi, autoScrollInterval, isPaused]);
 
@@ -105,13 +130,16 @@ export default function HorizontalCarousel({
   const slideClass = getSlideClasses(cols, size);
 
   return (
-    <div 
+    <div
       className={`relative group/carousel ${className}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Embla Viewport */}
-      <div className={`overflow-hidden ${containerClassName}`} ref={emblaRef}>
+      <div
+        className={`overflow-hidden ${containerClassName}`}
+        ref={emblaRef}
+      >
         <div className="flex gap-4 md:gap-5 lg:gap-5 px-4 md:px-0 py-4">
           {items.map((child, i) => (
             <div key={i} className={slideClass}>
@@ -121,22 +149,23 @@ export default function HorizontalCarousel({
         </div>
       </div>
 
-      {/* Navigation Arrows (Desktop only, positioned outside the overflow) */}
+      {/* Navigation Arrows */}
       {count > 1 && (
-        <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-[calc(100%+4rem)] -left-8 justify-between pointer-events-none z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
-          <button 
+        <div className="flex absolute top-1/2 -translate-y-1/2 w-[calc(100%+4rem)] -left-8 justify-between pointer-events-none z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
+          <button
             onClick={scrollPrev}
             className="pointer-events-auto w-12 h-12 rounded-full bg-white dark:bg-[#1a1a2e] border border-black/10 dark:border-white/10 flex items-center justify-center text-black dark:text-white hover:scale-105 transition-transform shadow-xl"
             aria-label="Previous slide"
           >
-            <ChevronLeft size={24} />
+            <span className="text-3xl leading-none font-light">‹</span>
           </button>
-          <button 
+
+          <button
             onClick={scrollNext}
             className="pointer-events-auto w-12 h-12 rounded-full bg-white dark:bg-[#1a1a2e] border border-black/10 dark:border-white/10 flex items-center justify-center text-black dark:text-white hover:scale-105 transition-transform shadow-xl"
             aria-label="Next slide"
           >
-            <ChevronRight size={24} />
+            <span className="text-3xl leading-none font-light">›</span>
           </button>
         </div>
       )}
@@ -157,26 +186,35 @@ export default function HorizontalCarousel({
               onClick={() => scrollTo(i)}
               animate={{
                 width: activeIndex === i ? 24 : 8,
-                backgroundColor: activeIndex === i ? '#FF4800' : 'rgba(156, 163, 175, 0.4)',
+                backgroundColor:
+                  activeIndex === i
+                    ? '#FF4800'
+                    : 'rgba(156, 163, 175, 0.4)',
               }}
-              transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+              transition={{
+                duration: 0.22,
+                ease: [0.4, 0, 0.2, 1],
+              }}
               className="h-[8px] rounded-full cursor-pointer shrink-0"
               style={{ minWidth: 8 }}
             />
           ))}
         </div>
       )}
-      
+
       {/* Swipe Hint (Mobile only) */}
       {showHint && count > 1 && (
         <motion.p
           initial={{ opacity: 0.5 }}
-          animate={{ opacity: activeIndex > 0 ? 0 : 0.5 }}
+          animate={{
+            opacity: activeIndex > 0 ? 0 : 0.5,
+          }}
           transition={{ duration: 0.35 }}
           className="flex md:hidden items-center justify-center gap-1 mt-3 text-[11px] tracking-wide text-[#9ca3af] select-none"
           aria-hidden="true"
         >
-          swipe to explore <span aria-hidden="true">→</span>
+          swipe to explore{' '}
+          <span aria-hidden="true">→</span>
         </motion.p>
       )}
     </div>

@@ -1,260 +1,869 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import { Zap, Target, TrendingUp, Users, Shield, Cpu, ArrowRight } from 'lucide-react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+} from 'framer-motion';
+import { useRef, useState } from 'react';
+import {
+  Zap,
+  Target,
+  TrendingUp,
+  Shield,
+  Cpu,
+  ArrowRight,
+} from 'lucide-react';
 
-/* ─────────────────────────────────────────────────────────────────────── */
-/* 1. Types & Constants                                                    */
-/* ─────────────────────────────────────────────────────────────────────── */
-
-interface Pillar {
-  id: string;
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-  x: number; // Percent from center
-  y: number; // Percent from center
-  color: string;
+interface Props {
+  isDark: boolean;
+  onNavigate: (page: string) => void;
 }
 
-const pillars: Pillar[] = [
-  { id: '1', title: 'Scale Faster', desc: 'Break growth ceilings with automated infrastructure.', icon: <Zap size={20} />, x: -28, y: -25, color: '#FF4800' },
-  { id: '2', title: 'Automate Ops', desc: 'Remove human bottlenecks from recurring workflows.', icon: <Cpu size={20} />, x: 28, y: -25, color: '#FF4800' },
-  { id: '3', title: 'Reduce Manual', desc: 'Replace 40 hours of data entry with 40ms of code.', icon: <Users size={20} />, x: -36, y: 15, color: '#FF4800' },
-  { id: '4', title: 'Reliable Systems', desc: 'Build architecture that scales without breaking.', icon: <Shield size={20} />, x: 36, y: 15, color: '#FF4800' },
-  { id: '5', title: 'Efficiency', desc: 'Optimize every micro-interaction in your stack.', icon: <Target size={20} />, x: 0, y: 45, color: '#FF4800' },
-];
+/* ================= CONNECTION LINE ================= */
 
-/* ─────────────────────────────────────────────────────────────────────── */
-/* 2. Sub-Components                                                       */
-/* ─────────────────────────────────────────────────────────────────────── */
-
-function ConnectionLine({ active, x, y }: { active: boolean; x: number; y: number }) {
+const ConnectionLine = ({
+  x1,
+  y1,
+  x2,
+  y2,
+  visible,
+}: {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  visible: boolean;
+}) => {
   return (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ overflow: 'visible' }}>
-      <motion.line
-        x1="50%" y1="50%"
-        x2={`${50 + x}%`} y2={`${50 + y}%`}
-        stroke="rgba(255, 72, 0, 0.15)"
-        strokeWidth="1.5"
-        strokeDasharray="4 4"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ 
-          pathLength: active ? 1 : 0, 
-          opacity: active ? 1 : 0.2,
-          stroke: active ? 'rgba(255, 72, 0, 0.4)' : 'rgba(255, 72, 0, 0.15)'
-        }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      />
-    </svg>
+    <motion.line
+      x1={x1}
+      y1={y1}
+      x2={x2}
+      y2={y2}
+      stroke="#FF4800"
+      strokeWidth="1.5"
+      strokeDasharray="6 6"
+      initial={false}
+      animate={{
+        opacity: visible ? 0.35 : 0,
+        pathLength: visible ? 1 : 0,
+      }}
+      transition={{
+        duration: 0.4,
+        ease: 'easeInOut',
+      }}
+    />
   );
-}
+};
 
-function PillarCard({ pillar, active, onHover, isDark }: { pillar: Pillar; active: boolean; onHover: (id: string | null) => void; isDark: boolean }) {
+/* ================= PILLAR CARD ================= */
+
+const PillarCard = ({
+  icon: Icon,
+  title,
+  description,
+  index,
+  isDark,
+  onHover,
+  onLeave,
+}: {
+  icon: any;
+  title: string;
+  description: string;
+  index: number;
+  isDark: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const [mousePosition, setMousePosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
     if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: (e.clientX - rect.left) / rect.width - 0.5,
-      y: (e.clientY - rect.top) / rect.height - 0.5,
+
+    const rect =
+      cardRef.current.getBoundingClientRect();
+
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
     });
   };
+
+  const handleMouseLeave = () => {
+    setMousePosition({
+      x: 0,
+      y: 0,
+    });
+
+    onLeave();
+  };
+
+  const cardBackground = isDark
+    ? 'rgba(20,20,32,0.75)'
+    : 'rgba(255,255,255,0.9)';
+
+  const cardBorder = isDark
+    ? 'rgba(255,255,255,0.08)'
+    : 'rgba(15,23,42,0.1)';
+
+  const textColor = isDark
+    ? '#f5f5f7'
+    : '#111827';
+
+  const mutedColor = isDark
+    ? '#9ca3af'
+    : '#6b7280';
 
   return (
     <motion.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => onHover(pillar.id)}
-      onMouseLeave={() => { onHover(null); setMousePos({ x: 0, y: 0 }); }}
-      initial={{ opacity: 0, scale: 0.8, x: `${pillar.x * 0.5}vw`, y: `${pillar.y * 0.5}vh` }}
-      whileInView={{ opacity: 1, scale: 1, x: `${pillar.x}vw`, y: `${pillar.y}vh` }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: parseInt(pillar.id) * 0.1 }}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
+      onMouseEnter={onHover}
+      onMouseLeave={handleMouseLeave}
+      initial={{
+        opacity: 0,
+        y: 30,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.2,
+      }}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.1,
+      }}
+      whileHover={{
+        y: -8,
+      }}
+      className="group relative overflow-hidden rounded-2xl p-6"
       style={{
-        width: '240px',
-        perspective: '1000px',
+        background: cardBackground,
+        border: `1px solid ${cardBorder}`,
+        backdropFilter: 'blur(20px)',
       }}
     >
+      {/* Mouse Glow */}
+
       <motion.div
-        animate={{ 
-          rotateY: mousePos.x * 20, 
-          rotateX: -mousePos.y * 20,
-          scale: active ? 1.05 : 1,
-          boxShadow: active 
-            ? '0 20px 40px rgba(255, 72, 0, 0.15), 0 0 0 1px rgba(255, 72, 0, 0.3)' 
-            : '0 10px 30px rgba(0, 0, 0, 0.05)',
+        className="pointer-events-none absolute h-40 w-40 rounded-full"
+        style={{
+          left: mousePosition.x - 80,
+          top: mousePosition.y - 80,
+          background:
+            'radial-gradient(circle, rgba(255,72,0,0.15), transparent 70%)',
         }}
-        className={`relative overflow-hidden rounded-2xl p-6 transition-colors duration-500 ${
-          isDark ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]' : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
-        }`}
+      />
+
+      {/* Icon */}
+
+      <div
+        className="relative z-10 mb-5 flex h-12 w-12 items-center justify-center rounded-xl"
+        style={{
+          background: 'rgba(255,72,0,0.1)',
+          border:
+            '1px solid rgba(255,72,0,0.2)',
+        }}
       >
-        <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${isDark ? 'bg-[#FF4800]/15' : 'bg-[#FF4800]/10'}`}>
-          <div className="text-[#FF4800]">{pillar.icon}</div>
-        </div>
-        <h4 className={`text-lg font-bold mb-2 tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>{pillar.title}</h4>
-        <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{pillar.desc}</p>
-        
-        {/* Glow effect */}
-        <div className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: `radial-gradient(circle at center, ${pillar.color}10 0%, transparent 70%)` }} />
-      </motion.div>
+        <Icon
+          className="h-5 w-5"
+          style={{
+            color: '#FF4800',
+          }}
+        />
+      </div>
+
+      {/* Title */}
+
+      <h3
+        className="relative z-10 mb-2 text-lg font-bold"
+        style={{
+          color: textColor,
+        }}
+      >
+        {title}
+      </h3>
+
+      {/* Description */}
+
+      <p
+        className="relative z-10 text-sm leading-relaxed"
+        style={{
+          color: mutedColor,
+        }}
+      >
+        {description}
+      </p>
+
+      {/* Number */}
+
+      <div
+        className="absolute right-5 top-5 text-xs font-bold"
+        style={{
+          color: isDark
+            ? 'rgba(255,255,255,0.15)'
+            : 'rgba(15,23,42,0.1)',
+        }}
+      >
+        0{index + 1}
+      </div>
     </motion.div>
   );
-}
+};
 
-/* ─────────────────────────────────────────────────────────────────────── */
-/* 3. Main Section                                                         */
-/* ─────────────────────────────────────────────────────────────────────── */
+/* ================= MAIN SECTION ================= */
 
-export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activePillar, setActivePillar] = useState<string | null>(null);
-  
+export default function SystemsCoreSection({
+  isDark,
+  onNavigate,
+}: Props) {
+  const containerRef =
+    useRef<HTMLDivElement>(null);
+
+  const [hoveredCard, setHoveredCard] =
+    useState<number | null>(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start'],
   });
 
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 45]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.3, 1, 1, 0.3]
+  );
+
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.9, 1, 1, 0.9]
+  );
+
+  const smoothOpacity = useSpring(opacity, {
+    stiffness: 100,
+    damping: 30,
+  });
+
+  const smoothScale = useSpring(scale, {
+    stiffness: 100,
+    damping: 30,
+  });
+
+  /* ================= PILLARS ================= */
+
+  const pillars = [
+    {
+      icon: TrendingUp,
+      title: 'Scale Faster',
+      description:
+        'Build systems that grow with your business without adding operational complexity.',
+    },
+    {
+      icon: Zap,
+      title: 'Automate Ops',
+      description:
+        'Replace repetitive workflows with intelligent automation that runs continuously.',
+    },
+    {
+      icon: Target,
+      title: 'Reduce Manual',
+      description:
+        'Eliminate unnecessary human intervention and keep your team focused on growth.',
+    },
+    {
+      icon: Shield,
+      title: 'Reliable Systems',
+      description:
+        'Create resilient infrastructure designed to perform consistently at scale.',
+    },
+    {
+      icon: Cpu,
+      title: 'Efficiency',
+      description:
+        'Connect your technology, data and processes into one high-performance system.',
+    },
+  ];
+
+  const background = isDark
+    ? '#0a0a14'
+    : '#e8e8f0';
+
+  const textMuted = isDark
+    ? '#9ca3af'
+    : '#64748b';
 
   return (
-    <section 
-      ref={containerRef} 
-      className="relative lg:min-h-[120vh] flex flex-col items-center justify-start overflow-hidden py-20 md:py-24 lg:py-32"
+    <section
+      ref={containerRef}
+      className="
+        relative
+        flex
+        min-h-[120vh]
+        flex-col
+        items-center
+        justify-start
+        overflow-hidden
+        py-16
+        md:py-20
+        lg:py-32
+      "
       style={{
-        background: isDark ? '#0a0a14' : '#e8e8f0'
+        background,
       }}
     >
-      {/* 1. Header Area */}
-      <div className="relative z-20 max-w-4xl px-6 text-center mb-12 lg:mb-24">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#FF4800] mb-6"
-        >
-          Systems Core
-        </motion.p>
-        <h2 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase mb-8 leading-[0.9] dark:text-white">
-          {"One Goal: Systems That Run Without You.".split(" ").map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
-              whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-block mr-[0.2em]"
-            >
-              {word}
-            </motion.span>
-          ))}
-        </h2>
-        <motion.div
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          className="h-px w-24 bg-[#FF4800]/40 mx-auto mb-8"
+      {/* ================= BACKGROUND ================= */}
+
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="
+            absolute
+            left-1/2
+            top-20
+            h-[500px]
+            w-[500px]
+            -translate-x-1/2
+            rounded-full
+            blur-3xl
+          "
+          style={{
+            background: isDark
+              ? 'rgba(255,72,0,0.06)'
+              : 'rgba(255,72,0,0.05)',
+          }}
         />
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-base md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed"
+      </div>
+
+      {/* ================= HEADER ================= */}
+
+      <div
+        className="
+          relative
+          z-20
+          mb-12
+          w-full
+          max-w-5xl
+          px-6
+          text-center
+          lg:mb-24
+        "
+      >
+        {/* Label */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 10,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="mb-5 flex items-center justify-center gap-3"
         >
-          We build integrated AI-powered architecture that transforms chaotic operations into high-velocity engines. 
-          Zero manual friction. Infinite scalability.
+          <span
+            className="h-px w-10"
+            style={{
+              background: '#FF4800',
+            }}
+          />
+
+          <span
+            className="
+              text-xs
+              font-bold
+              uppercase
+              tracking-[0.25em]
+            "
+            style={{
+              color: '#FF4800',
+            }}
+          >
+            SYSTEMS CORE
+          </span>
+
+          <span
+            className="h-px w-10"
+            style={{
+              background: '#FF4800',
+            }}
+          />
+        </motion.div>
+
+        {/* ================= MAIN HEADING ================= */}
+
+        <h2
+          className="
+            mx-auto
+            mb-8
+            max-w-5xl
+            text-center
+            text-4xl
+            font-bold
+            uppercase
+            leading-[0.95]
+            tracking-tighter
+            md:text-7xl
+            dark:text-white
+          "
+        >
+          {'One Goal: Systems That Run Without You.'
+            .split(' ')
+            .map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{
+                  opacity: 0,
+                  filter: 'blur(10px)',
+                  y: 20,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  filter: 'blur(0px)',
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  delay: i * 0.1,
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="mr-[0.2em] inline-block"
+              >
+                {word}
+              </motion.span>
+            ))}
+        </h2>
+
+        {/* Orange Line */}
+
+        <motion.div
+          initial={{
+            width: 0,
+            opacity: 0,
+          }}
+          whileInView={{
+            width: 80,
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.8,
+            delay: 0.5,
+          }}
+          className="
+            mx-auto
+            mb-7
+            h-1
+            rounded-full
+          "
+          style={{
+            background: '#FF4800',
+          }}
+        />
+
+        {/* Description */}
+
+        <motion.p
+          initial={{
+            opacity: 0,
+            y: 15,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+            delay: 0.6,
+          }}
+          className="
+            mx-auto
+            max-w-2xl
+            text-center
+            text-base
+            leading-relaxed
+            md:text-lg
+          "
+          style={{
+            color: textMuted,
+          }}
+        >
+          We build integrated AI-powered architecture
+          that transforms chaotic operations into
+          high-velocity engines. Zero manual friction.
+          Infinite scalability.
         </motion.p>
       </div>
 
-      {/* 2. Interactive Orbit Area */}
-      <motion.div
-        style={{ opacity, scale }}
-        className="relative w-full h-[600px] hidden lg:flex items-center justify-center pointer-events-auto"
-      >
-        {/* Background Grid/Mesh */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at center, #FF480010 0%, transparent 70%)` }} />
-        </div>
+      {/* ================= DESKTOP ORBIT ================= */}
 
-        {/* Central Core */}
-        <motion.div 
-          style={{ rotate }}
-          className="relative z-10 flex items-center justify-center"
+      <motion.div
+        style={{
+          opacity: smoothOpacity,
+          scale: smoothScale,
+        }}
+        className="
+          relative
+          z-10
+          hidden
+          h-[600px]
+          w-full
+          items-center
+          justify-center
+          lg:flex
+        "
+      >
+
+        {/* ================= SVG CONNECTIONS ================= */}
+
+        <svg
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            h-full
+            w-full
+          "
+          viewBox="0 0 1200 600"
+          preserveAspectRatio="xMidYMid meet"
         >
-          {/* Animated Rings */}
-          <div className="absolute w-[400px] h-[400px] rounded-full border border-[#FF4800]/10 animate-[spin_20s_linear_infinite]" />
-          <div className="absolute w-[500px] h-[500px] rounded-full border border-[#FF4800]/5 animate-[spin_30s_linear_infinite_reverse]" />
-          
-          {/* The Core Orb */}
-          <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center overflow-hidden shadow-[0_0_80px_rgba(255,72,0,0.2)]">
-            <div className="absolute inset-0 bg-[#FF4800] opacity-10 blur-xl" />
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FF4800] to-[#2B2358] opacity-20" />
-            <motion.div
-              animate={{ 
-                scale: [1, 1.1, 1],
-                opacity: [0.5, 0.8, 0.5]
+          {/* Top */}
+          <ConnectionLine
+            x1={600}
+            y1={212}
+            x2={600}
+            y2={80}
+            visible={hoveredCard === 0}
+          />
+
+          {/* Top Right */}
+          <ConnectionLine
+            x1={677}
+            y1={265}
+            x2={930}
+            y2={150}
+            visible={hoveredCard === 2}
+          />
+
+          {/* Bottom Right */}
+          <ConnectionLine
+            x1={677}
+            y1={335}
+            x2={930}
+            y2={450}
+            visible={hoveredCard === 4}
+          />
+
+          {/* Bottom Left */}
+          <ConnectionLine
+            x1={523}
+            y1={335}
+            x2={270}
+            y2={450}
+            visible={hoveredCard === 3}
+          />
+
+          {/* Top Left */}
+          <ConnectionLine
+            x1={523}
+            y1={265}
+            x2={270}
+            y2={150}
+            visible={hoveredCard === 1}
+          />
+        </svg>
+
+        {/* ================= CENTER AI ================= */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.8,
+          }}
+          whileInView={{
+            opacity: 1,
+            scale: 1,
+          }}
+          className="
+            relative
+            z-20
+            flex
+            h-44
+            w-44
+            items-center
+            justify-center
+            rounded-full
+          "
+          style={{
+            background: isDark
+              ? 'rgba(20,20,32,0.95)'
+              : 'rgba(255,255,255,0.95)',
+            border:
+              '2px solid rgba(255,72,0,0.5)',
+            boxShadow:
+              '0 0 80px rgba(255,72,0,0.15)',
+          }}
+        >
+          <div className="text-center">
+            <Cpu
+              className="mx-auto mb-3 h-8 w-8"
+              style={{
+                color: '#FF4800',
               }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-4 rounded-full bg-[#FF4800]/20 blur-md"
             />
-            <Zap size={40} className="text-[#FF4800] relative z-10" />
+
+            <div
+              className="text-sm font-black uppercase tracking-widest"
+              style={{
+                color: isDark
+                  ? '#ffffff'
+                  : '#111827',
+              }}
+            >
+              AI
+            </div>
+
+            <div
+              className="
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.2em]
+              "
+              style={{
+                color: textMuted,
+              }}
+            >
+              ENGINE
+            </div>
           </div>
         </motion.div>
 
-        {/* Connection Lines */}
-        {pillars.map((p) => (
-          <ConnectionLine key={p.id} active={activePillar === p.id} x={p.x} y={p.y} />
-        ))}
+        {/* ================= DESKTOP CARDS ================= */}
 
-        {/* Pillars */}
-        {pillars.map((p) => (
-          <PillarCard 
-            key={p.id} 
-            pillar={p} 
-            active={activePillar === p.id} 
-            onHover={setActivePillar}
+        {/* Top */}
+
+        <div
+          className="
+            absolute
+            left-1/2
+            top-0
+            w-64
+            -translate-x-1/2
+          "
+        >
+          <PillarCard
+            {...pillars[0]}
+            index={0}
             isDark={isDark}
+            onHover={() => setHoveredCard(0)}
+            onLeave={() => setHoveredCard(null)}
           />
-        ))}
+        </div>
+
+        {/* Top Left */}
+
+        <div
+          className="
+            absolute
+            left-[10%]
+            top-[15%]
+            w-64
+          "
+        >
+          <PillarCard
+            {...pillars[1]}
+            index={1}
+            isDark={isDark}
+            onHover={() => setHoveredCard(1)}
+            onLeave={() => setHoveredCard(null)}
+          />
+        </div>
+
+        {/* Top Right */}
+
+        <div
+          className="
+            absolute
+            right-[10%]
+            top-[15%]
+            w-64
+          "
+        >
+          <PillarCard
+            {...pillars[2]}
+            index={2}
+            isDark={isDark}
+            onHover={() => setHoveredCard(2)}
+            onLeave={() => setHoveredCard(null)}
+          />
+        </div>
+
+        {/* Bottom Left */}
+
+        <div
+          className="
+            absolute
+            bottom-[8%]
+            left-[10%]
+            w-64
+          "
+        >
+          <PillarCard
+            {...pillars[3]}
+            index={3}
+            isDark={isDark}
+            onHover={() => setHoveredCard(3)}
+            onLeave={() => setHoveredCard(null)}
+          />
+        </div>
+
+        {/* Bottom Right */}
+
+        <div
+          className="
+            absolute
+            bottom-[8%]
+            right-[10%]
+            w-64
+          "
+        >
+          <PillarCard
+            {...pillars[4]}
+            index={4}
+            isDark={isDark}
+            onHover={() => setHoveredCard(4)}
+            onLeave={() => setHoveredCard(null)}
+          />
+        </div>
       </motion.div>
 
-      {/* 2b. Mobile / tablet: stacked grid (orbit layout can't fit narrow screens) */}
-      <div className="lg:hidden relative z-20 w-full max-w-lg px-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {pillars.map((p) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: parseInt(p.id) * 0.08 }}
-            className={`relative overflow-hidden rounded-2xl p-6 ${
-              isDark ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]' : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
-            } ${p.id === '5' ? 'sm:col-span-2' : ''}`}
-            style={{ boxShadow: isDark ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 30px rgba(0,0,0,0.05)' }}
-          >
-            <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${isDark ? 'bg-[#FF4800]/15' : 'bg-[#FF4800]/10'}`}>
-              <div className="text-[#FF4800]">{p.icon}</div>
-            </div>
-            <h4 className={`text-lg font-bold mb-2 tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>{p.title}</h4>
-            <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{p.desc}</p>
-          </motion.div>
+      {/* ================= MOBILE / TABLET ================= */}
+
+      <div
+        className="
+          relative
+          z-20
+          grid
+          w-full
+          max-w-lg
+          grid-cols-1
+          gap-4
+          px-6
+          sm:grid-cols-2
+          lg:hidden
+        "
+      >
+        {pillars.map((pillar, index) => (
+          <PillarCard
+            key={pillar.title}
+            {...pillar}
+            index={index}
+            isDark={isDark}
+            onHover={() => {}}
+            onLeave={() => {}}
+          />
         ))}
       </div>
 
-      {/* 3. CTA Area */}
+      {/* ================= CTA ================= */}
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="relative z-20 mt-12 lg:mt-40 xl:mt-48 flex flex-col items-center"
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+        }}
+        transition={{
+          duration: 0.7,
+          delay: 0.3,
+        }}
+        className="
+          relative
+          z-20
+          mt-12
+          flex
+          flex-col
+          items-center
+        "
       >
-        <button className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FF4800] text-white font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]">
-          Build Your Core System
-          <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+        <button
+          onClick={() => onNavigate('contact')}
+          className="
+            group
+            flex
+            items-center
+            gap-3
+            rounded-full
+            px-7
+            py-4
+            text-sm
+            font-bold
+            uppercase
+            tracking-wider
+            transition-all
+            duration-300
+          "
+          style={{
+            background: '#FF4800',
+            color: '#ffffff',
+            boxShadow:
+              '0 15px 40px rgba(255,72,0,0.2)',
+          }}
+        >
+          Build Your System
+
+          <ArrowRight
+            className="
+              h-4
+              w-4
+              transition-transform
+              duration-300
+              group-hover:translate-x-1
+            "
+          />
         </button>
+
+        <p
+          className="mt-4 text-xs"
+          style={{
+            color: textMuted,
+          }}
+        >
+          Designed for scale. Built for autonomy.
+        </p>
       </motion.div>
     </section>
   );
