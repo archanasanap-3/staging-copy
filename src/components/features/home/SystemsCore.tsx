@@ -227,14 +227,12 @@ const PillarCard = ({
 
 export default function SystemsCoreSection({
   isDark,
-  onNavigate,
-}: Props) {
-  const containerRef =
-    useRef<HTMLDivElement>(null);
-
-  const [hoveredCard, setHoveredCard] =
-    useState<number | null>(null);
-
+}: {
+  isDark: boolean;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activePillar, setActivePillar] = useState<string | null>(null);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
@@ -819,51 +817,15 @@ export default function SystemsCoreSection({
           items-center
         "
       >
-        <button
-          onClick={() => onNavigate('contact')}
-          className="
-            group
-            flex
-            items-center
-            gap-3
-            rounded-full
-            px-7
-            py-4
-            text-sm
-            font-bold
-            uppercase
-            tracking-wider
-            transition-all
-            duration-300
-          "
-          style={{
-            background: '#FF4800',
-            color: '#ffffff',
-            boxShadow:
-              '0 15px 40px rgba(255,72,0,0.2)',
-          }}
-        >
-          Build Your System
-
-          <ArrowRight
-            className="
-              h-4
-              w-4
-              transition-transform
-              duration-300
-              group-hover:translate-x-1
-            "
-          />
-        </button>
-
-        <p
-          className="mt-4 text-xs"
-          style={{
-            color: textMuted,
-          }}
-        >
-          Designed for scale. Built for autonomy.
-        </p>
+       <button
+  onClick={() => {
+  window.location.href = '/contact';
+}}
+  className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FF4800] text-white font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]"
+>
+  Build Your Core System
+  <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+</button>
       </motion.div>
     </section>
   );
