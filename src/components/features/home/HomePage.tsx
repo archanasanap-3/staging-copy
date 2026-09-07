@@ -839,8 +839,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <div key={item.num} className="glass-card rounded-xl p-5 sm:p-6 md:p-8" style={{ backdropFilter: 'blur(18px) saturate(1.6)', WebkitBackdropFilter: 'blur(18px) saturate(1.6)' }}>
                 <p className="text-[36px] sm:text-[40px] font-light mb-4" style={{
   color: ['01', '02', '03'].includes(item.num)
-    ? 'rgba(255,72,0,0.45)'
-    : 'rgba(255,72,0,0.25)',
+    ? 'rgba(255,72,0,0.85)'
+    : 'rgba(255,72,0,0.55)',
   lineHeight: 1
 }}>{item.num}</p>
                 <h3 className="text-[17px] sm:text-[18px] font-medium mb-3 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
