@@ -111,7 +111,11 @@ function PillarCard({ pillar, active, onHover, isDark }: { pillar: Pillar; activ
 /* 3. Main Section                                                         */
 /* ─────────────────────────────────────────────────────────────────────── */
 
-export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
+export default function SystemsCoreSection({
+  isDark,
+}: {
+  isDark: boolean;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activePillar, setActivePillar] = useState<string | null>(null);
   
@@ -251,10 +255,15 @@ export default function SystemsCoreSection({ isDark }: { isDark: boolean }) {
         whileInView={{ opacity: 1, y: 0 }}
         className="relative z-20 mt-12 lg:mt-40 xl:mt-48 flex flex-col items-center"
       >
-        <button className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FF4800] text-white font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]">
-          Build Your Core System
-          <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-        </button>
+       <button
+  onClick={() => {
+  window.location.href = '/contact';
+}}
+  className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FF4800] text-white font-bold uppercase tracking-widest text-xs transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]"
+>
+  Build Your Core System
+  <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+</button>
       </motion.div>
     </section>
   );

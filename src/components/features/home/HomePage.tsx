@@ -123,7 +123,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
 
   return (
     <div
-      className="svc-card relative flex h-full flex-col overflow-hidden rounded-[24px]"
+      className="svc-card relative flex h-full flex-col overflow-hidden rounded-[20px]"
       style={{
         background: bg,
         backdropFilter: 'blur(16px) saturate(1.8)',
@@ -156,7 +156,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
       <div className="svc-glow pointer-events-none absolute inset-x-[10%] top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.6), transparent)', opacity: 0, transition: 'opacity 0.3s ease' }} />
 
       {/* Badge + Title */}
-      <div className="flex h-auto min-h-[7rem] flex-1 flex-col justify-start p-6 pb-0">
+      <div className="flex h-[7rem] flex flex-col  justify-start p-6 pb-0">
         <span className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: '#FF4800', background: 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.15)' }}>
           {service.badge}
         </span>
@@ -166,11 +166,11 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
       </div>
 
       {/* Divider */}
-      <div className="mx-6 my-5 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03), rgba(0,0,0,0.06))' }} />
+      <div className="mx-6 my-4 mb-2 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03), rgba(0,0,0,0.06))' }} />
 
       {/* Bullet list */}
-      <div className="flex-1 px-6">
-        <ul className="flex flex-col gap-3">
+      <div className="px-6">
+        <ul className="flex flex-col gap-2.5">
           {service.bullets.map((bullet, i) => (
             <li key={i} className="flex items-start gap-3 text-[13.5px] font-normal leading-[1.5] text-gray-700 dark:text-gray-300">
               <span className="mt-2 h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 4px rgba(255,72,0,0.4)' }} />
@@ -186,13 +186,13 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           <p className="text-[12px] font-semibold leading-[1.55]" style={{ color: '#FF4800' }}>→ {service.metric}</p>
         </div>
       ) : (
-        <div className="mx-6 mt-5 px-4 py-3 invisible" aria-hidden="true" style={{ minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
+        <div className="mx-6 mt-2 px-4 py-1 invisible" aria-hidden="true" style={{ minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
           <p className="text-[12px] leading-[1.55]">30–60% reduction in manual operations within the first 90 days</p>
         </div>
       )}
 
       {/* Orange footer strip */}
-      <div className="relative mt-5 flex items-center justify-between gap-3 px-6 pb-6 pt-4" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)', borderTop: '1px solid rgba(255,72,0,0.12)' }}>
+      <div className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)', borderTop: '1px solid rgba(255,72,0,0.12)' }}>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)' }} />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]" style={{ color: '#FF4800' }}>{service.ctaLabel} →</span>
@@ -510,7 +510,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-6 md:gap-8"
           >
             {[
               { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png', w: 80, h: 40 },
@@ -566,14 +566,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.7, ease }}
+            transition={{ duration: 0.8, ease }}
+            className="mt-12 md:mt-16 "
           >
             <SectionHeader
               label="WHAT WE BUILD"
               heading={
-                <>
+                <span className='whitespace-nowrap'>
                   One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You.</span>
-                </>
+                </span>
               }
             />
           </motion.div>
@@ -593,8 +594,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       <div id="section-services">
-        <SystemsCoreSection isDark={isDark} />
-      </div>
+  <SystemsCoreSection isDark={isDark} />
+</div>
 
       {/* ── Wave divider ── */}
       <WaveDivider color={isDark ? '#12121e' : '#f8f8fc'} flip />
@@ -823,7 +824,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid w-full grid-cols-7 gap-4 sm:gap-6"
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6"
           >
             {[
               { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
@@ -831,7 +832,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               { num: '03', heading: 'The Visibility Gap', body: "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct." },
             ].map((item) => (
               <div key={item.num} className="glass-card rounded-xl p-5 sm:p-6 md:p-8" style={{ backdropFilter: 'blur(18px) saturate(1.6)', WebkitBackdropFilter: 'blur(18px) saturate(1.6)' }}>
-                <p className="text-[36px] sm:text-[40px] font-light mb-4" style={{ color: 'rgba(255,72,0,0.25)', lineHeight: 1 }}>{item.num}</p>
+                <p className="text-[36px] sm:text-[40px] font-light mb-4" style={{
+  color: ['01', '02', '03'].includes(item.num)
+    ? 'rgba(255,72,0,0.45)'
+    : 'rgba(255,72,0,0.25)',
+  lineHeight: 1
+}}>{item.num}</p>
                 <h3 className="text-[17px] sm:text-[18px] font-medium mb-3 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
                 <p className="text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.body}</p>
               </div>
