@@ -470,7 +470,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             className="font-normal heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
-            A Strong Foundation for Scalable Growth.
+            A Strong Foundation for Scalable Growth
           </h2>
           <p className="mt-4 text-base leading-[1.7] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto">
             We take on a limited number of engagements each quarter so we can ship fast and stay accountable. Our current clients are in D2C, B2B SaaS, and professional services.
@@ -509,7 +509,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-0 ml-0 text-left">
               We use proven, scalable technologies not experimental tools. Your systems will be maintainable and upgradable for years.
             </p>
-            <div className="mt-6 h-px mx-auto md:mx-0" style={{ width: 'min(340px, 80%)', background: 'linear-gradient(to right, #FF4800, rgba(255,72,0,0.15))' }} />
           </div>
           <motion.div
             variants={containerVariants}
@@ -624,10 +623,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </motion.div>
 
           {/* Drag-to-swipe carousel — Framer Motion, no native scroll */}
-          <div
-            className="relative -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden"
-            style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
-          >
+     <div
+  className="relative overflow-hidden"
+  style={{
+    maskImage:
+      'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+  }}
+>
             <motion.div
               ref={trackRef}
               style={{ x: dragX }}
@@ -638,7 +640,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               onDragEnd={handleDragEnd}
               className="flex gap-5 cursor-grab active:cursor-grabbing px-4 sm:px-6 lg:px-8 pb-6 select-none"
             >
-              {bentoItems.map((item) => (
+              {bentoItems.map((item,index) => (
                 <div
                   key={item.title}
                   data-cap-card
@@ -689,27 +691,56 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </motion.div>
           </div>
 
-          {/* Pagination dots */}
-          <div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
-            {bentoItems.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => snapToCard(i)}
-                aria-label={`Go to card ${i + 1}`}
-                className="transition-all duration-300 flex items-center justify-center"
-                style={{
-                  width: capActiveIdx === i ? '2.25rem' : '0.5rem',
-                  height: capActiveIdx === i ? '2.25rem' : '0.5rem',
-                  borderRadius: '50%',
-                  border: capActiveIdx === i ? `1.5px solid ${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'}` : 'none',
-                  background: capActiveIdx === i ? 'transparent' : (isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.18)'),
-                  padding: 0, cursor: 'pointer',
-                }}
-              >
-                {capActiveIdx === i && <div className="w-2 h-2 rounded-full" style={{ background: isDark ? '#f0f0f5' : '#1a1a2e' }} />}
-              </button>
-            ))}
-          </div>
+          {/* Pagination arrows */}
+<div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
+  <button
+    type="button"
+    onClick={() => snapToCard(Math.max(0, capActiveIdx - 1))}
+    aria-label="Previous card"
+    className="flex items-center justify-center transition-all duration-300"
+    style={{
+      width: '2.25rem',
+      height: '2.25rem',
+      borderRadius: '50%',
+      border: `1.5px solid ${
+        isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
+      }`,
+      background: 'transparent',
+      color: isDark ? '#f0f0f5' : '#1a1a2e',
+      padding: 0,
+      cursor: 'pointer',
+      fontSize: '1.5rem',
+      lineHeight: 1,
+    }}
+  >
+    ‹
+  </button>
+
+  <button
+    type="button"
+    onClick={() =>
+      snapToCard(Math.min(bentoItems.length - 1, capActiveIdx + 1))
+    }
+    aria-label="Next card"
+    className="flex items-center justify-center transition-all duration-300"
+    style={{
+      width: '2.25rem',
+      height: '2.25rem',
+      borderRadius: '50%',
+      border: `1.5px solid ${
+        isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
+      }`,
+      background: 'transparent',
+      color: isDark ? '#f0f0f5' : '#1a1a2e',
+      padding: 0,
+      cursor: 'pointer',
+      fontSize: '1.5rem',
+      lineHeight: 1,
+    }}
+  >
+    ›
+  </button>
+</div>
         </div>
       </section>
 
@@ -728,7 +759,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             className="flex w-full flex-col justify-center lg:w-[40%]"
           >
             {/* On mobile: centered stats block; on desktop: left-bordered */}
-            <div className="grid grid-cols-2 gap-6 sm:gap-8 md:flex md:flex-col md:gap-8 md:pl-6 md:border-l-[4px] md:border-[#FF4800]">
+            <div className="grid grid-cols-1 gap-8 md:gap-10 border-l-[3px] border-[#FF4800] pl-6">
               {[
                 { val: '55%', label: 'Manual Work Reduced' },
                 { val: '3–5x', label: 'Operational Efficiency' },
@@ -760,11 +791,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           >
             <p className="mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
-              <h2 className="font-normal heading-gradient text-center md:text-left" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-1px' }}>
-                We Get It. Because We've Lived It.
+              <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
+                  We Get It. Because We've Lived It.
               </h2>
             </div>
-            <p className="text-base sm:text-[18px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af] text-left">
+            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-left">
               Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexity. We move fast. We're completely transparent. And we measure success the only way that matters—by what changes in your business: hours reclaimed, decisions accelerated, operations that scale without proportional headcount growth.
             </p>
           </motion.div>
@@ -774,7 +805,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <TestimonialsCarousel />
 
       {/* ── Problem Section ── */}
-      <section className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+      <section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -797,7 +828,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6"
+            className="grid w-full grid-cols-7 gap-4 sm:gap-6"
           >
             {[
               { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
