@@ -232,6 +232,7 @@ export default function SystemsCoreSection({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activePillar, setActivePillar] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
