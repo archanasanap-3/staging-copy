@@ -12,6 +12,7 @@ export interface ServiceCardProps {
   capabilities: string[];
   index: number;
   isActive?: boolean;
+  route: string;
 }
 
 export default function ServiceCard({
@@ -22,9 +23,11 @@ export default function ServiceCard({
   capabilities,
   index,
   isActive,
+  route,
 }: ServiceCardProps) {
   return (
     <motion.div
+      onClick={() => window.location.href = route}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}

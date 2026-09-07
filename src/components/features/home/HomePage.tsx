@@ -20,6 +20,7 @@ import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SubscribeSection from '@/components/features/common/SubscribeSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 import SystemsCoreSection from '@/components/features/home/SystemsCore';
+import { strategy } from 'sharp';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -64,6 +65,7 @@ interface ServiceItem {
   metric?: string;
   ctaLabel: string;
   ctaDesc: string;
+  page : string;
 }
 
 const services: ServiceItem[] = [
@@ -79,6 +81,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'See automation',
     ctaDesc: 'Book a free strategy call',
+    page : 'automation',
   },
   {
     badge: 'Software',
@@ -91,6 +94,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Explore custom',
     ctaDesc: 'Built around your workflow',
+    page : 'software',
   },
   {
     badge: 'Strategy',
@@ -103,6 +107,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Talk AI strategy',
     ctaDesc: 'Embedded in your operations',
+    page : 'strategy',
   },
   {
     badge: 'Digital',
@@ -116,6 +121,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'View web capabilities',
     ctaDesc: 'Edge Deployed, conversion first',
+    page : 'digital',
   },
 ];
 
@@ -179,7 +185,8 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           {service.bullets.map((bullet, i) => (
             <li key={i} className="flex items-start gap-3 text-[13.5px] font-normal leading-[1.5] text-gray-700 dark:text-gray-300">
               <span className="mt-2 h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 4px rgba(255,72,0,0.4)' }} />
-              <span>{bullet}</span>
+              <span 
+              style={{textAlign: 'justify'}}>{bullet}</span>
             </li>
           ))}
         </ul>
@@ -204,7 +211,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           <span className="text-[11.5px] font-medium leading-[1.3]" style={{ color: 'rgba(255,72,0,0.75)' }}>{service.ctaDesc}</span>
         </div>
         <button
-          onClick={() => onNavigate('services')}
+          onClick={() => onNavigate('service.page')}
           aria-label={service.ctaLabel}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
           style={{ background: '#FF4800', boxShadow: '0 4px 12px rgba(255,72,0,0.35)' }}
@@ -578,7 +585,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               label="WHAT WE BUILD"
               heading={
                 <span className='whitespace-nowrap'>
-                  One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You.</span>
+                  One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You</span>
                 </span>
               }
             />
@@ -796,7 +803,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   We Get It. Because We've Lived It.
               </h2>
             </div>
-            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-left">
+            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify">
               Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexity. We move fast. We're completely transparent. And we measure success the only way that matters—by what changes in your business: hours reclaimed, decisions accelerated, operations that scale without proportional headcount growth.
             </p>
           </motion.div>
@@ -821,7 +828,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
-              You&apos;re not short on software.<br />You&apos;re drowning in it.
+              You&apos;re not short on software<br />You&apos;re drowning in it
             </h2>
           </motion.div>
           <motion.div
@@ -829,7 +836,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6"
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-justify"
           >
             {[
               { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
@@ -873,12 +880,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           >
             <SectionHeader
               label="HOW WE WORK"
-              heading="From Strategy Call to Live System."
+              heading="From Strategy Call to Live System"
             />
           </motion.div>
           <div className="relative">
             <div className="hidden md:block absolute top-6 left-6 right-6 h-px" style={{ background: 'linear-gradient(to right, #FF4800, rgba(255,72,0,0.1))' }} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 relative">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 relative textAlign:'justify' ">
               {[
                 { step: '1', label: 'Discovery', desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.' },
                 { step: '2', label: 'Architecture', desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.' },
