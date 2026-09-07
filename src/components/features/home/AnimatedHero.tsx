@@ -146,7 +146,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center xl:justify-start mb-5"
+            className="flex justify-start xl:justify-start mb-5"
           >
             <span
               className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold"
@@ -157,7 +157,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               }}
             >
               <span
-                className="h-1.5 w-1.5 rounded-full shrink-0"
+                className="h-1.5 w-1.5 rounded-full shrink-0 text-left"
                 style={{ background: '#FF4800', animation: 'pulse-dot 2.5s ease-in-out infinite' }}
               />
               Business Automation Experts
@@ -168,7 +168,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.h1
             initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.1 }}
-            className="font-bold mb-5"
+            className="font-bold mb-5 text-left"
             style={{
               fontSize: 'clamp(2rem, 5vw, 3.25rem)',
               lineHeight: 1.1,
@@ -176,7 +176,8 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               color: textPrimary,
             }}
           >
-            AI that eliminates work.{' '}
+            AI that eliminates work.
+            <br />
             <span style={{ color: '#FF4800' }}>Software that runs your operations</span>
           </motion.h1>
 
@@ -184,7 +185,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="max-w-[480px] mx-auto xl:mx-0 text-[16px] leading-[1.8]"
+            className="text-left max-w-[480px] text-[16px] leading-[1.8]"
             style={{ color: textMuted }}
           >
             We build AI-powered business systems and custom software for mid-market companies in India cutting manual work by 50% in 25 days.
@@ -194,7 +195,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.38 }}
-            className="mt-7 flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-3"
+            className="flex flex-col sm:flex-row sm:items=start gap-3"
           >
             <motion.button
               type="button"
@@ -202,7 +203,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               onMouseEnter={prefetchContact}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-[15px] text-[15px] font-bold text-white"
+              className="w-full sm:w-auto inline-flex  justify-center gap-2 rounded-full px-8 py-[15px] text-[15px] font-bold text-white"
               style={{ background: '#FF4800', boxShadow: '0 10px 32px rgba(255,72,0,0.42)' }}
             >
               Book Strategy Call <ArrowUpRight className="h-4 w-4" />
@@ -230,7 +231,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.58 }}
-            className="mt-6 flex flex-wrap items-center justify-center xl:justify-start gap-x-5 gap-y-2"
+            className="mt-6 flex flex-wrap items-center justify-start  gap-x-5 gap-y-2"
           >
             {['Fixed price quote', 'Weekly delivery', 'Full code ownership'].map(item => (
               <span key={item} className="flex items-center gap-1.5 text-[12px] font-medium" style={{ color: textMuted }}>
@@ -299,7 +300,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             <motion.div
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
-              style={{ position: 'absolute', left: '5px', top: '10px', zIndex: 12, width: '180px' }}
+              style={{ position: 'absolute', left: '10px', top: '10px', zIndex: 12, width: '180px' }}
             >
               <div style={{
                 filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
@@ -322,7 +323,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.9 }}
-              style={{ position: 'absolute', right: '10px', bottom: '-50px', zIndex: 11, width: '200px' }}
+              style={{ position: 'absolute', right: '10px', bottom: '-80px', transform:'translateY(30x)', zIndex: 11, width: '200px' }}
             >
               <div style={{
                 filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
@@ -385,7 +386,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       >
         <motion.div
           animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex flex-col items-center gap-2"
+          className="flex flex-col text-left"
         >
           <span className="text-[11px] uppercase tracking-widest" style={{ color: '#94a3b8' }}>Scroll</span>
           <div
