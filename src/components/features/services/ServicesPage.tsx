@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   Diamond,
@@ -33,12 +33,14 @@ import HorizontalCarousel from '@/components/features/common/HorizontalCarousel'
 
 function ServicesPageStyles() {
   return (
-    <style dangerouslySetInnerHTML={{
-      __html: `
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `
       .btn-shine {
         position: relative;
         overflow: hidden;
       }
+
       .btn-shine::after {
         content: '';
         position: absolute;
@@ -55,6 +57,7 @@ function ServicesPageStyles() {
         transform: rotate(45deg);
         transition: 0.6s;
       }
+
       .btn-shine:hover::after {
         left: 120%;
       }
@@ -63,6 +66,7 @@ function ServicesPageStyles() {
         -webkit-text-stroke: 2px rgba(255, 72, 0, 0.08);
         color: transparent;
       }
+
       .dark .stroke-text {
         -webkit-text-stroke: 2px rgba(255, 72, 0, 0.12);
       }
@@ -91,7 +95,8 @@ function ServicesPageStyles() {
         -webkit-text-fill-color: transparent;
       }
     `
-    }} />
+      }}
+    />
   );
 }
 
@@ -181,40 +186,59 @@ function HeroSection() {
 /* Service Block                                                      */
 /* ------------------------------------------------------------------ */
 
-function ServiceBlock({ service, index }: { service: ServiceBlockData; index: number }) {
+function ServiceBlock({
+  service,
+  index,
+}: {
+  service: ServiceBlockData;
+  index: number;
+}) {
   const isEven = index % 2 === 0;
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  });
   const yValue = useTransform(scrollYProgress, [0, 1], [-60, 60]);
 
   return (
     <motion.section
-    id={service.id}
+      id={service.id}
       ref={containerRef}
-      className={`relative overflow-hidden px-6 py-24 lg:px-16 ${isEven ? 'bg-white dark:bg-[#0a0a14]' : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
-        }`}
+      className={`relative overflow-hidden px-6 py-24 lg:px-16 ${
+        isEven
+          ? 'bg-white dark:bg-[#0a0a14]'
+          : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
+      }`}
     >
       <motion.span
         style={{ y: yValue }}
-        className={`stroke-text absolute top-0 select-none text-[18rem] font-black leading-none lg:text-[28rem] ${isEven ? '-left-10' : '-right-10'}`}
+        className={`stroke-text absolute top-0 select-none text-[18rem] font-black leading-none lg:text-[28rem] ${
+          isEven ? '-left-10' : '-right-10'
+        }`}
       >
         {service.number}
       </motion.span>
 
       <div className="relative z-10 mx-auto grid max-w-7xl gap-16 lg:grid-cols-12 lg:items-center">
-        <div className={`lg:col-span-5 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+        <div
+          className={`lg:col-span-5 ${
+            isEven ? 'lg:order-1' : 'lg:order-2'
+          }`}
+        >
           <span className="mb-6 inline-block rounded-full bg-[#FF4800]/15 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-[#FF4800]">
             {service.badge}
           </span>
 
           <div className="relative pl-8">
             <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
+
             <h2
               className="masked-title mb-8 font-normal"
               style={{
                 fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
                 lineHeight: 1.1,
-                letterSpacing: '-2.05px'
+                letterSpacing: '-2.05px',
               }}
             >
               {service.title}
@@ -224,6 +248,7 @@ function ServiceBlock({ service, index }: { service: ServiceBlockData; index: nu
           <p className="mb-10 text-lg leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
             {service.body}
           </p>
+
           <MagneticButton>
             <button className="btn-shine rounded-xl bg-[#FF4800] px-10 py-4 text-[13px] font-bold uppercase tracking-widest text-white shadow-lg">
               Book Strategy Call
@@ -231,18 +256,28 @@ function ServiceBlock({ service, index }: { service: ServiceBlockData; index: nu
           </MagneticButton>
         </div>
 
-        <div className={`lg:col-span-7 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+        <div
+          className={`lg:col-span-7 ${
+            isEven ? 'lg:order-2' : 'lg:order-1'
+          }`}
+        >
           <div className="grid gap-5 sm:grid-cols-2">
             {service.capabilities.map((cap, i) => {
               const [label, desc] = cap.split(':');
+
               return (
-                <div key={i} className="group glass-card rounded-2xl p-7 transition-colors hover:border-[#FF4800]/30">
+                <div
+                  key={i}
+                  className="group glass-card rounded-2xl p-7 transition-colors hover:border-[#FF4800]/30"
+                >
                   <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF4800]/10 text-[#FF4800]">
                     <ArrowRight size={20} />
                   </div>
+
                   <h4 className="font-normal tracking-tight text-[#1a1a2e] dark:text-white">
                     {label}
                   </h4>
+
                   <p className="mt-2 text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
                     {desc}
                   </p>
@@ -268,12 +303,16 @@ function WhyStravedaSection() {
       body: 'We audit what can be removed before we build. We prune scope—then automate what remains.',
     },
     {
-      icon: <TrendingDown size={32} className="text-[#FF4800]" strokeWidth={1.5} />,
+      icon: (
+        <TrendingDown size={32} className="text-[#FF4800]" strokeWidth={1.5} />
+      ),
       title: 'Weekly Shipping',
       body: 'One week sprints with visible builds every Friday. You see working code, not slide decks.',
     },
     {
-      icon: <ShieldCheck size={32} className="text-[#FF4800]" strokeWidth={1.5} />,
+      icon: (
+        <ShieldCheck size={32} className="text-[#FF4800]" strokeWidth={1.5} />
+      ),
       title: 'Full Ownership',
       body: 'Zero vendor lock in. You own 100% of the source code and the intellectual property.',
     },
@@ -292,8 +331,14 @@ function WhyStravedaSection() {
               className="glass-card flex flex-col h-full rounded-2xl p-8 active:scale-95 transition-transform"
             >
               <div className="mb-6">{card.icon}</div>
-              <h4 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{card.title}</h4>
-              <p className="mt-4 flex-1 text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">{card.body}</p>
+
+              <h4 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {card.title}
+              </h4>
+
+              <p className="mt-4 flex-1 text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">
+                {card.body}
+              </p>
             </motion.div>
           ))}
         </HorizontalCarousel>
@@ -307,37 +352,85 @@ function TechStackSection() {
     {
       label: 'Frontend',
       items: [
-        { name: 'Next.js', icon: <Code size={24} className="text-[#FF4800]" /> },
-        { name: 'React', icon: <Layers size={24} className="text-[#FF4800]" /> },
-        { name: 'TypeScript', icon: <Code size={24} className="text-[#FF4800]" /> },
-        { name: 'Tailwind CSS', icon: <Zap size={24} className="text-[#FF4800]" /> },
+        {
+          name: 'Next.js',
+          icon: <Code size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'React',
+          icon: <Layers size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'TypeScript',
+          icon: <Code size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Tailwind CSS',
+          icon: <Zap size={24} className="text-[#FF4800]" />,
+        },
       ],
     },
     {
       label: 'AI & Automation',
       items: [
-        { name: 'OpenAI GPT-4o', icon: <Network size={24} className="text-[#FF4800]" /> },
-        { name: 'Claude API', icon: <Cpu size={24} className="text-[#FF4800]" /> },
-        { name: 'LangChain', icon: <Workflow size={24} className="text-[#FF4800]" /> },
-        { name: 'Vector DBs', icon: <BarChart3 size={24} className="text-[#FF4800]" /> },
+        {
+          name: 'OpenAI GPT-4o',
+          icon: <Network size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Claude API',
+          icon: <Cpu size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'LangChain',
+          icon: <Workflow size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Vector DBs',
+          icon: <BarChart3 size={24} className="text-[#FF4800]" />,
+        },
       ],
     },
     {
       label: 'Infrastructure',
       items: [
-        { name: 'AWS / GCP', icon: <Cloud size={24} className="text-[#FF4800]" /> },
-        { name: 'Docker', icon: <Globe size={24} className="text-[#FF4800]" /> },
-        { name: 'CI/CD', icon: <GitBranch size={24} className="text-[#FF4800]" /> },
-        { name: 'Security', icon: <Lock size={24} className="text-[#FF4800]" /> },
+        {
+          name: 'AWS / GCP',
+          icon: <Cloud size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Docker',
+          icon: <Globe size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'CI/CD',
+          icon: <GitBranch size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Security',
+          icon: <Lock size={24} className="text-[#FF4800]" />,
+        },
       ],
     },
     {
       label: 'Data & Backend',
       items: [
-        { name: 'PostgreSQL', icon: <Database size={24} className="text-[#FF4800]" /> },
-        { name: 'Redis', icon: <Database size={24} className="text-[#FF4800]" /> },
-        { name: 'Node.js', icon: <Zap size={24} className="text-[#FF4800]" /> },
-        { name: 'REST / GraphQL', icon: <Network size={24} className="text-[#FF4800]" /> },
+        {
+          name: 'PostgreSQL',
+          icon: <Database size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Redis',
+          icon: <Database size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'Node.js',
+          icon: <Zap size={24} className="text-[#FF4800]" />,
+        },
+        {
+          name: 'REST / GraphQL',
+          icon: <Network size={24} className="text-[#FF4800]" />,
+        },
       ],
     },
   ];
@@ -347,22 +440,42 @@ function TechStackSection() {
       <div className="mx-auto max-w-6xl px-6 text-center">
         <h2
           className="masked-title mb-4 font-normal"
-          style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-2.05px' }}
+          style={{
+            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+            lineHeight: 1.1,
+            letterSpacing: '-2.05px',
+          }}
         >
           Mastered Technologies
         </h2>
+
         <p className="mb-16 text-sm text-[#6b7280] dark:text-[#9ca3af]">
           A full-stack toolkit — from interface to inference.
         </p>
+
         <div className="flex flex-col gap-10">
           {techCategories.map((category) => (
             <div key={category.label}>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#FF4800]">{category.label}</p>
-              <HorizontalCarousel cols={4} size="sm" showHint={false} showDots={false}>
+              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#FF4800]">
+                {category.label}
+              </p>
+
+              <HorizontalCarousel
+                cols={4}
+                size="sm"
+                showHint={false}
+                showDots={false}
+              >
                 {category.items.map((tech, i) => (
-                  <div key={i} className="glass-card flex flex-col items-center justify-center gap-3 rounded-2xl p-6 sm:p-8 active:scale-95 transition-transform h-full">
+                  <div
+                    key={i}
+                    className="glass-card flex flex-col items-center justify-center gap-3 rounded-2xl p-6 sm:p-8 active:scale-95 transition-transform h-full"
+                  >
                     {tech.icon}
-                    <span className="text-[11px] sm:text-sm font-bold uppercase tracking-widest text-[#1a1a2e] dark:text-white text-center">{tech.name}</span>
+
+                    <span className="text-[11px] sm:text-sm font-bold uppercase tracking-widest text-[#1a1a2e] dark:text-white text-center">
+                      {tech.name}
+                    </span>
                   </div>
                 ))}
               </HorizontalCarousel>
@@ -378,25 +491,58 @@ function TechStackSection() {
 /* Main Page Export                                                   */
 /* ------------------------------------------------------------------ */
 
-export default function ServicesPage({ onNavigate }: { onNavigate: (page: string) => void }) {
+export default function ServicesPage({
+  onNavigate,
+}: {
+  onNavigate: (page: string) => void;
+}) {
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+
+  useEffect(() => {
+    const updateService = () => {
+      setSelectedService(window.location.hash.replace('#', '') || null);
+    };
+
+    updateService();
+
+    window.addEventListener('hashchange', updateService);
+
+    return () => {
+      window.removeEventListener('hashchange', updateService);
+    };
+  }, []);
+
   return (
     <main className="min-h-screen bg-white dark:bg-[#0a0a14]">
       <ServicesPageStyles />
+
       <HeroSection />
+
       {/* ── Service card grid/carousel — mobile carousel, desktop grid ── */}
       <ServicesSection />
+
       <WhyStravedaSection />
+
       <ServicesHoverModal onNavigate={onNavigate} />
 
       <div className="flex flex-col">
-        {services.map((service, index) => (
-          <ServiceBlock key={service.id} service={service} index={index} />
-        ))}
+        {services
+          .filter(
+            (service) =>
+              !selectedService || service.id === selectedService
+          )
+          .map((service, index) => (
+            <ServiceBlock
+              key={service.id}
+              service={service}
+              index={index}
+            />
+          ))}
       </div>
 
       <TechStackSection />
-      <ServiceComparison />
 
+      <ServiceComparison />
     </main>
   );
 }

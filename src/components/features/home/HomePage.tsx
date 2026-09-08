@@ -211,7 +211,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           <span className="text-[11.5px] font-medium leading-[1.3]" style={{ color: 'rgba(255,72,0,0.75)' }}>{service.ctaDesc}</span>
         </div>
         <button
-          onClick={() => onNavigate('service.page')}
+          onClick={() => onNavigate(service.page)}
           aria-label={service.ctaLabel}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
           style={{ background: '#FF4800', boxShadow: '0 4px 12px rgba(255,72,0,0.35)' }}
@@ -472,7 +472,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="py-14 md:py-24 bg-white dark:bg-[#0a0a14] relative border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative text-center">
-          <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
+          <p className="-mt-6 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
             className="font-normal heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
@@ -507,11 +507,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="py-6 md:py-10 lg:py-12 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 text-center md:text-left">
+          <div className="-mt-6 mb-10 text-center md:text-left">
             <div className="flex items-start gap-3">
-              <h2 className="my-2 block text-left" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1.5px', overflowWrap: 'break-word'}}>
-                Built on enterprise grade infrastructure
-              </h2>
+              <h2
+  className="my-2 block text-left"
+  style={{
+    fontSize: 'clamp(1.75rem, 4vw, 3rem)',
+    lineHeight: 1.1,
+    letterSpacing: '-1.5px',
+    overflowWrap: 'break-word',
+  }}
+>
+  Built on <span className="heading-gradient">Enterprise Grade Infrastructure</span>
+</h2>
             </div>
             <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-0 ml-0 text-left">
               We use proven, scalable technologies not experimental tools. Your systems will be maintainable and upgradable for years.
@@ -573,7 +581,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── What We Build ── */}
       <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="-mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -605,7 +613,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <div id="section-services">
+      <div id="section-services" className='-mt-10'>
   <SystemsCoreSection isDark={isDark} />
 </div>
 
@@ -622,7 +630,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="mb-8 md:mb-16"
+            className="-mt-10 mb-8 md:mb-16"
           >
             <SectionHeader
               label="WHY STRAVEDA"
@@ -797,13 +805,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8, ease }}
             className="flex w-full flex-col justify-center lg:w-[60%]"
           >
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
+            <p className="-mt-3 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
               <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
                   We Get It. Because We've Lived It.
               </h2>
             </div>
-            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify">
+            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
               Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexity. We move fast. We're completely transparent. And we measure success the only way that matters—by what changes in your business: hours reclaimed, decisions accelerated, operations that scale without proportional headcount growth.
             </p>
           </motion.div>
@@ -876,7 +884,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="mb-10 md:mb-16"
+            className="-mt-10 mb-10 md:mb-16"
           >
             <SectionHeader
               label="HOW WE WORK"
@@ -919,7 +927,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Pricing Section ── */}
       <section className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="-mt-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1013,7 +1021,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,72,0,0.12) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }}>
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>GET STARTED</p>
+            <p className="-mt-10 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>GET STARTED</p>
             <h2
               className="text-white font-normal text-[clamp(1.75rem,5vw,3.75rem)] mb-6"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
