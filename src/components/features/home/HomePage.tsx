@@ -875,54 +875,138 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* ── Process Section ── */}
-      <section className="relative py-16 md:py-28" style={{ background: isDark ? '#12121e' : '#ffffff' }}>
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="-mt-10 mb-10 md:mb-16"
-          >
-            <SectionHeader
-              label="HOW WE WORK"
-              heading="From Strategy Call to Live System"
-            />
-          </motion.div>
-          <div className="relative">
-            <div className="hidden md:block absolute top-6 left-6 right-6 h-px" style={{ background: 'linear-gradient(to right, #FF4800, rgba(255,72,0,0.1))' }} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 relative textAlign:'justify' ">
-              {[
-                { step: '1', label: 'Discovery', desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.' },
-                { step: '2', label: 'Architecture', desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.' },
-                { step: '3', label: 'Build', desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.' },
-                { step: '4', label: 'Automate', desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.' },
-                { step: '5', label: 'Scale', desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it." },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.6, delay: parseInt(item.step) * 0.08, ease }}
-                  className="flex flex-col items-center md:items-start text-center md:text-left"
-                >
-                  <div
-                    className="flex items-center justify-center w-12 h-12 rounded-full mb-4 text-white text-[14px] font-semibold flex-shrink-0 relative z-10"
-                    style={{ background: '#FF4800' }}
-                  >
-                    {item.step}
-                  </div>
-                  <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.label}</h3>
-                  <p className="text-[14px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+<section
+  className="relative py-16 md:py-28"
+  style={{ background: isDark ? '#12121e' : '#ffffff' }}
+>
+  <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
 
+  <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.8, ease }}
+      className="-mt-10 mb-10 md:mb-16"
+    >
+      <SectionHeader
+        label="HOW WE WORK"
+        heading="From Strategy Call to Live System"
+      />
+    </motion.div>
+
+    <div className="relative">
+
+      {/* Horizontal line */}
+      <div
+        className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px"
+        style={{
+          background:
+            'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
+        }}
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 relative ">
+
+        {[
+          {
+            step: '01',
+            label: 'Discovery',
+            desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.',
+            icon: Activity,
+          },
+          {
+            step: '02',
+            label: 'Architecture',
+            desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.',
+            icon: Brain,
+          },
+          {
+            step: '03',
+            label: 'Build',
+            desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.',
+            icon: Shield,
+          },
+          {
+            step: '04',
+            label: 'Automate',
+            desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.',
+            icon: Globe,
+          },
+          {
+            step: '05',
+            label: 'Scale',
+            desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it.",
+            icon: Cloud,
+          },
+        ].map((item) => (
+          <motion.div
+            key={item.step}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{
+              duration: 0.6,
+              delay: parseInt(item.step) * 0.08,
+              ease,
+            }}
+            className="flex flex-col items-center text-center"
+          >
+
+            {/* Icon */}
+            <div
+                className="group relative z-10 flex items-center justify-center w-20 h-20 rounded-full mb-4 transition-colors duration-200 hover:bg-[#cc3a00]"
+                style={{
+                         background: isDark ? '#12121e' : '#ffffff',
+                         border: '1px solid rgba(255,72,0,0.15)',
+                         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              }}
+            >
+              <item.icon
+              size={24}
+              strokeWidth={1.8}
+              className="text-[#FF4800] transition-colors duration-200 group-hover:text-white"
+            />
+            </div>
+
+            {/* Step */}
+            <p
+              className="text-[14px] font-semibold uppercase tracking-wide mb-2"
+              style={{ color: '#FF4800' }}
+            >
+              STEP {item.step}
+            </p>
+
+            {/* Title */}
+            <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">
+              {item.label}
+            </h3>
+
+            {/* Description - SAME */}
+            <p className="w-full text-center text-[14px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">
+              {item.desc}
+            </p>
+
+            {/* Badge */}
+            <span
+              className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium"
+              style={{
+                color: '#FF4800',
+                background: 'rgba(255,72,0,0.05)',
+                border: '1px solid rgba(255,72,0,0.15)',
+              }}
+            >
+              ✓ Fast & Secure
+            </span>
+
+          </motion.div>
+        ))}
+
+      </div>
+    </div>
+  </div>
+</section>
       {/* ── Pricing Section ── */}
       <section className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />

@@ -300,7 +300,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             <motion.div
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
-              style={{ position: 'absolute', left: '10px', top: '10px', zIndex: 12, width: '180px' }}
+              style={{ position: 'absolute', left: '50px', top: '10px', zIndex: 12, width: '200px' }}
             >
               <div style={{
                 filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
@@ -323,7 +323,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.9 }}
-              style={{ position: 'absolute', right: '10px', bottom: '-80px', transform:'translateY(30x)', zIndex: 11, width: '200px' }}
+              style={{ position: 'absolute', right: '50px', bottom: '-80px', transform:'translateY(30x)', zIndex: 11, width: '200px' }}
             >
               <div style={{
                 filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
