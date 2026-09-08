@@ -185,8 +185,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           {service.bullets.map((bullet, i) => (
             <li key={i} className="flex items-start gap-3 text-[13.5px] font-normal leading-[1.5] text-gray-700 dark:text-gray-300">
               <span className="mt-2 h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 4px rgba(255,72,0,0.4)' }} />
-              <span 
-              style={{textAlign: 'justify'}}>{bullet}</span>
+              <span>{bullet}</span>
             </li>
           ))}
         </ul>
@@ -808,7 +807,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             <p className="-mt-3 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
               <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
-                  We Get It. Because We've Lived It.
+                  We Get It. Because We've Lived It
               </h2>
             </div>
             <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
@@ -844,7 +843,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-justify"
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left"
           >
             {[
               { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
