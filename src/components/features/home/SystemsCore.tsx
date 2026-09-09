@@ -279,7 +279,7 @@ export default function SystemsCoreSection({
       className="
         relative
         flex
-        min-h-[120vh]
+        min-h-[105vh]
         flex-col
         items-center
         justify-start
@@ -397,7 +397,7 @@ export default function SystemsCoreSection({
           relative
           z-10
           hidden
-          h-[600px]
+          h-[500px]
           w-full
           items-center
           justify-center
@@ -585,15 +585,15 @@ export default function SystemsCoreSection({
             gap-3
             rounded-2xl
             bg-[#FF4800]
-            px-8
-            py-4
+            px-4
+            py-2
             text-xs
             font-bold
             uppercase
             tracking-widest
             text-white
             transition-all
-            hover:scale-105
+            hover:scale-100
             hover:shadow-[0_0_30px_rgba(255,72,0,0.4)]
           "
         >

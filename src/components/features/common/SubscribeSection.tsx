@@ -53,7 +53,7 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
 
   return (
     <section
-      className="subscribe-section relative overflow-hidden py-24 md:py-28"
+      className="subscribe-section relative overflow-hidden py-10 md:py-14"
       style={{ background: isDark ? '#12121e' : '#f8f8fc' }}
     >
       {/* Decorative background elements */}
@@ -85,7 +85,7 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
           {/* Left — Text content */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -140,7 +140,7 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
             className="w-full md:w-auto md:min-w-[400px]"
           >
             <div
-              className="subscribe-card rounded-2xl p-8 md:p-10"
+              className="subscribe-card rounded-2xl p-8 md:p-8"
               style={{
                 background: isDark ? '#1a1a2e' : '#FFFFFF',
                 border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.06)',

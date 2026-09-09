@@ -19,7 +19,6 @@ import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SubscribeSection from '@/components/features/common/SubscribeSection';
 import WaveDivider from '@/components/animations/WaveDivider';
-import SystemsCoreSection from '@/components/features/home/SystemsCore';
 import { strategy } from 'sharp';
 
 interface HomePageProps {
@@ -381,7 +380,7 @@ function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const toggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
   return (
-    <section id="section-faq" className="glow-hover py-16 md:py-24 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]">
+    <section id="section-faq" className="glow-hover py-8 md:py-12 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }} className="mb-10 md:mb-14 text-center">
           <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>FREQUENTLY ASKED QUESTIONS</p>
@@ -442,6 +441,70 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const isDark = resolvedTheme === 'dark';
   const [capActiveIdx, setCapActiveIdx] = useState(0);
   const [activeService, setActiveService] = useState<string | null>(null);
+  const [count55, setCount55] = useState(0);
+  const [count3, setCount3] = useState(0);
+const [count5, setCount5] = useState(0);
+const [count100, setCount100] = useState(0);
+const statsRef = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  const element = statsRef.current;
+  if (!element) return;
+
+  let animationFrame: number | null = null;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        // Reset counters
+        setCount55(0);
+        setCount3(0);
+        setCount5(0);
+        setCount100(0);
+
+        const duration = 1500;
+        const start = performance.now();
+
+        const update = (time: number) => {
+          const progress = Math.min((time - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+
+          setCount55(Math.floor(55 * eased));
+          setCount3(Math.floor(3 * eased));
+          setCount5(Math.floor(5 * eased));
+          setCount100(Math.floor(100 * eased));
+
+          if (progress < 1) {
+            animationFrame = requestAnimationFrame(update);
+          }
+        };
+
+        animationFrame = requestAnimationFrame(update);
+      } else {
+        // Reset when section leaves viewport
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+        }
+
+        setCount55(0);
+        setCount3(0);
+        setCount5(0);
+        setCount100(0);
+      }
+    },
+    { threshold: 0.4 }
+  );
+
+  observer.observe(element);
+
+  return () => {
+    observer.disconnect();
+
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+    }
+  };
+}, []);
 
 useEffect(() => {
   const syncServiceFromHash = () => {
@@ -554,86 +617,125 @@ useEffect(() => {
       </motion.section>
 
       {/* ── Technology Partners ── */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, ease }}
-        className="py-6 md:py-10 lg:py-12 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="-mt-6 mb-10 text-center md:text-left">
-            <div className="flex items-start gap-3">
-              <h2
-  className="my-2 block text-left"
-  style={{
-    fontSize: 'clamp(1.75rem, 4vw, 3rem)',
-    lineHeight: 1.1,
-    letterSpacing: '-1.5px',
-    overflowWrap: 'break-word',
-  }}
->
-  Built on <span className="heading-gradient">Enterprise Grade Infrastructure</span>
-</h2>
-            </div>
-            <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-0 ml-0 text-left">
-              We use proven, scalable technologies not experimental tools.<br/>
-              Your systems will be maintainable and upgradable for years.
-            </p>
+     <div className="relative w-full overflow-hidden">
+  <motion.div
+    className="flex w-max"
+    animate={{ x: ['0%', '-50%'] }}
+    transition={{
+      duration: 25,
+      ease: 'linear',
+      repeat: Infinity,
+    }}
+  >
+    {/* First set */}
+    <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
+      {[
+        { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
+        { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
+        { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
+        { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
+        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.png' },
+        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.jpg' },
+        { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
+      ].map((partner) => (
+        <motion.div
+          key={`first-${partner.name}`}
+          whileHover={{ y: -5}}
+          transition={{ duration: 0.25, ease }}
+          className="group relative flex h-[125px] w-[170px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+          style={{
+            background: isDark
+              ? 'rgba(255,255,255,0.06)'
+              : 'rgba(255,255,255,0.75)',
+            backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+            WebkitBackdropFilter:
+              'blur(20px) saturate(1.8) brightness(1.02)',
+            border: isDark
+              ? '1px solid rgba(255,255,255,0.12)'
+              : '1.5px solid rgba(255,255,255,0.9)',
+            boxShadow: isDark
+              ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
+              : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 8px 24px rgba(0,0,0,0.08)',
+          }}
+        >
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
+            style={{ backgroundColor: partner.brandColor }}
+          />
+
+          {/* Colored Logo */}
+          <div className="relative h-12 w-full">
+  <Image
+    src={partner.src}
+    alt={partner.name}
+    fill
+    sizes="170px"
+    className="object-contain"
+  />
+</div>
+
+          <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
+            {partner.name}
+          </span>
+        </motion.div>
+      ))}
+    </div>
+
+    {/* Duplicate set for seamless auto-scroll */}
+    <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
+      {[
+        { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
+        { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
+        { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
+        { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
+        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.png' },
+        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.jpg' },
+        { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
+      ].map((partner) => (
+        <motion.div
+          key={`second-${partner.name}`}
+          whileHover={{y: -5}}
+          transition={{ duration: 0.25, ease }}
+          className="group relative flex h-[140px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+          style={{
+            background: isDark
+              ? 'rgba(255,255,255,0.06)'
+              : 'rgba(255,255,255,0.75)',
+            backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+            WebkitBackdropFilter:
+              'blur(20px) saturate(1.8) brightness(1.02)',
+            border: isDark
+              ? '1px solid rgba(255,255,255,0.12)'
+              : '1.5px solid rgba(255,255,255,0.9)',
+            boxShadow: isDark
+              ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
+              : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 8px 24px rgba(0,0,0,0.08)',
+          }}
+        >
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
+            style={{ backgroundColor: partner.brandColor }}
+          />
+
+          <div className="relative h-10 w-full">
+            <Image
+              src={partner.src}
+              alt={partner.name}
+              fill
+              sizes="170px"
+              className="object-contain"
+            />
           </div>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-6 md:gap-8"
-          >
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png', w: 80, h: 40 },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png', w: 100, h: 40 },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png', w: 90, h: 40 },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png', w: 90, h: 40 },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.png', w: 90, h: 40 },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.jpg', w: 90, h: 40 },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg', w: 90, h: 40 },
-            ].map((partner) => (
-              <motion.div
-                key={partner.name}
-                variants={cardVariants}
-                whileHover={{ y: -5, scale: 1.02 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex flex-col items-center justify-center gap-2 sm:gap-3 rounded-xl px-3 sm:px-6 py-4 sm:py-6 overflow-hidden cursor-default"
-                style={{
-                  background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.75)',
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1.5px solid rgba(255,255,255,0.9)',
-                  boxShadow: isDark ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)' : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 8px 24px rgba(0,0,0,0.08)',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${partner.brandColor}88`;
-                  e.currentTarget.style.boxShadow = isDark
-                    ? `inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 40px ${partner.brandColor}22`
-                    : `inset 0 2px 0 rgba(255,255,255,0.95), 0 12px 40px ${partner.brandColor}22`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.9)';
-                  e.currentTarget.style.boxShadow = isDark
-                    ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                    : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 8px 24px rgba(0,0,0,0.08)';
-                }}
-              >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl" style={{ backgroundColor: partner.brandColor }} />
-                <div className="relative h-8 sm:h-10 w-full grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-                  <Image src={partner.src} alt={partner.name} fill sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 14vw" className="object-contain" />
-                </div>
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#9ca3af] dark:text-[#6b7280]">{partner.name}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
+
+          <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
+            {partner.name}
+          </span>
+        </motion.div>
+      ))}
+    </div>
+  </motion.div>
+</div>
+  
 
       {/* ── What We Build ── */}
       <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
@@ -679,15 +781,9 @@ useEffect(() => {
         </div>
       </section>
 
-      <div id="section-services" className='-mt-10'>
-  <SystemsCoreSection isDark={isDark} />
-</div>
-
-      {/* ── Wave divider ── */}
-      <WaveDivider color={isDark ? '#12121e' : '#f8f8fc'} flip />
 
       {/* ── Capabilities (Bento) ── */}
-      <section id="section-capabilities" className="py-12 md:py-24 section-glow-top relative" style={{ background: isDark ? '#12121e' : '#f8f8fc' }}>
+      <section id="section-capabilities" className="py-12 md:py-14 md:pb-6  section-glow-top relative" style={{ background: isDark ? '#12121e' : '#f8f8fc' }}>
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -730,7 +826,7 @@ useEffect(() => {
                   style={{
                     // FIX: Mathematically calculates width to fit exactly 3 cards in view on desktop/tablet,
                     // accounting for 40px gaps and responsive container padding, with a 20px safety buffer for scrollbars.
-                    width: 'clamp(280px, calc((100vw - 124px) / 3), 385px)',
+                    width: 'calc((100% - 40px) / 3)',
                     minHeight: '18.75rem',
                     padding: 'clamp(1.25rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2.25rem)',
                     background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.85)',
@@ -798,39 +894,58 @@ useEffect(() => {
     ‹
   </button>
 
-  <button
-    type="button"
-    onClick={() =>
-      snapToCard(Math.min(bentoItems.length - 1, capActiveIdx + 1))
-    }
-    aria-label="Next card"
-    className="flex items-center justify-center transition-all duration-300"
-    style={{
-      width: '2.25rem',
-      height: '2.25rem',
-      borderRadius: '50%',
-      border: `1.5px solid ${
-        isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
-      }`,
-      background: 'transparent',
-      color: isDark ? '#f0f0f5' : '#1a1a2e',
-      padding: 0,
-      cursor: 'pointer',
-      fontSize: '1.5rem',
-      lineHeight: 1,
-    }}
-  >
-    ›
-  </button>
+ <button
+  type="button"
+  onClick={() =>
+    snapToCard(Math.min(bentoItems.length - 1, capActiveIdx + 1))
+  }
+  disabled={capActiveIdx === bentoItems.length - 1}
+  aria-label="Next card"
+  className="flex items-center justify-center transition-all duration-300 disabled:cursor-not-allowed"
+  style={{
+    width: '2.25rem',
+    height: '2.25rem',
+    borderRadius: '50%',
+    border: `1.5px solid ${
+      capActiveIdx === bentoItems.length - 1
+        ? 'rgba(0,0,0,0.10)'
+        : isDark
+          ? 'rgba(255,255,255,0.25)'
+          : 'rgba(0,0,0,0.25)'
+    }`,
+    background:
+      capActiveIdx === bentoItems.length - 1
+        ? 'rgba(0,0,0,0.05)'
+        : 'transparent',
+    color:
+      capActiveIdx === bentoItems.length - 1
+        ? 'rgba(0,0,0,0.25)'
+        : isDark
+          ? '#f0f0f5'
+          : '#1a1a2e',
+    padding: 0,
+    cursor:
+      capActiveIdx === bentoItems.length - 1
+        ? 'not-allowed'
+        : 'pointer',
+    fontSize: '1.5rem',
+    lineHeight: 1,
+  }}
+>
+  ›
+</button>
 </div>
         </div>
       </section>
 
       {/* ── About / Stats ── */}
-      <section id="section-about" className="relative pt-0 pb-12 md:pt-8 md:py-24 bg-[#f8f8fc] dark:bg-[#0a0a14]">
+      <section
+  id="section-about"
+  className="relative py-8 md:py-14 bg-[#f8f8fc] dark:bg-[#0a0a14]"
+>
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 md:gap-16 px-4 sm:px-6 lg:px-8 lg:flex-row relative">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row relative">
 
           {/* Stats column */}
           <motion.div
@@ -841,19 +956,27 @@ useEffect(() => {
             className="flex w-full flex-col justify-center lg:w-[40%]"
           >
             {/* On mobile: centered stats block; on desktop: left-bordered */}
-            <div className="grid grid-cols-1 gap-8 md:gap-10 border-l-[3px] border-[#FF4800] pl-6">
+            <div 
+            ref={statsRef}
+            className="grid grid-cols-1 gap-6 md:gap-8 border-l-[3px] border-[#FF4800] pl-6">
               {[
-                { val: '55%', label: 'Manual Work Reduced' },
-                { val: '3–5x', label: 'Operational Efficiency' },
-                { val: '100%', label: 'Code Ownership' },
-                { val: 'End-to-End', label: 'Strategy → Build → Deploy' },
-              ].map(s => (
+  { val: `${count55}%`, label: 'Manual Work Reduced' },
+{ val: `${count3}–${count5}x`, label: 'Operational Efficiency' },
+{ val: `${count100}%`, label: 'Code Ownership' },
+{ val: 'End-to-End', label: 'Strategy → Build → Deploy' },
+].map(s => (
                 <div key={s.label} className="text-center md:text-left">
                   <p
                     className="text-[#1a1a2e] dark:text-[#f0f0f5]"
                     style={{ fontSize: 'clamp(2rem, 5.5vw, 4rem)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em' }}
                   >
-                    {s.val}
+                    {s.label === 'Manual Work Reduced'
+  ? `${count55}%`
+  : s.label === 'Operational Efficiency'
+    ? `3–${count5}x`
+    : s.label === 'Code Ownership'
+      ? `${count100}%`
+      : s.val}
                   </p>
                   <p className="mt-1.5 text-[13px] sm:text-[14px] font-normal tracking-wide" style={{ color: '#6b7280', letterSpacing: '0.01em' }}>
                     {s.label}
@@ -910,22 +1033,22 @@ useEffect(() => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left"
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch  text-left"
           >
             {[
               { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
               { num: '02', heading: 'The Integration Debt', body: "Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a \"proper integration\" is a 6 Month project. So nothing gets built." },
               { num: '03', heading: 'The Visibility Gap', body: "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct." },
             ].map((item) => (
-              <div key={item.num} className="glass-card rounded-xl p-5 sm:p-6 md:p-8" style={{ backdropFilter: 'blur(18px) saturate(1.6)', WebkitBackdropFilter: 'blur(18px) saturate(1.6)' }}>
-                <p className="text-[36px] sm:text-[40px] font-light mb-4" style={{
+              <div key={item.num} className="glass-card rounded-xl p-5 sm:p-6 md:p-8 flex flex-col" style={{ backdropFilter: 'blur(18px) saturate(1.6)', WebkitBackdropFilter: 'blur(18px) saturate(1.6)' }}>
+                <p className="text-[36px] sm:text-[40px] font-light mb-5" style={{
   color: ['01', '02', '03'].includes(item.num)
     ? 'rgba(255,72,0,0.85)'
     : 'rgba(255,72,0,0.55)',
   lineHeight: 1
 }}>{item.num}</p>
-                <h3 className="text-[17px] sm:text-[18px] font-medium mb-3 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
-                <p className="text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.body}</p>
+                <h3 className="text-[17px] sm:text-[18px] font-medium mb-4 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
+                <p className="w-full text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.body}</p>
               </div>
             ))}
           </motion.div>
