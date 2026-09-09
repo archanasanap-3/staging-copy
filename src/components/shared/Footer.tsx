@@ -17,11 +17,11 @@ const FOOTER_LINKS = {
     { label: 'Contact',       href: '/contact' },
   ],
   SERVICES: [
-    { label: 'AI & Automation',           href: '/services' },
-    { label: 'Custom Software',           href: '/services' },
-    { label: 'AI Strategy & Integration', href: '/services' },
-    { label: 'Web Development & 3D',      href: '/services' },
-  ],
+  { label: 'AI & Automation',           href: '/services#automation' },
+  { label: 'Custom Software',           href: '/services#custom-software' },
+  { label: 'AI Strategy & Integration', href: '/services#ai-strategy' },
+  { label: 'Web Development & 3D',      href: '/services#web-development' },
+],
   RESOURCES: [
     { label: 'Insights',               href: '/insights' },
     { label: 'Discovery Call Guide',   href: '/contact' },
