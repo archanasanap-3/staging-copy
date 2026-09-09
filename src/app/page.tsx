@@ -14,11 +14,11 @@ export default function Home() {
             ? '/'
             : page === 'automation'
               ? '/services#automation'
-              : page === 'software'
+              : page === 'custom-software'
                 ? '/services#custom-software'
-                : page === 'strategy'
+                : page === 'ai-strategy'
                   ? '/services#ai-strategy'
-                  : page === 'digital'
+                  : page === 'web-development'
                     ? '/services#web-development'
                     : `/${page}`
         )

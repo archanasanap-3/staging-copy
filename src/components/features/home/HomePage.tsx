@@ -94,7 +94,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Explore custom',
     ctaDesc: 'Built around your workflow',
-    page : 'software',
+    page : 'custom-software',
   },
   {
     badge: 'Strategy',
@@ -107,7 +107,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Talk AI strategy',
     ctaDesc: 'Embedded in your operations',
-    page : 'strategy',
+    page : 'ai-strategy',
   },
   {
     badge: 'Digital',
@@ -121,7 +121,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'View web capabilities',
     ctaDesc: 'Edge Deployed, conversion first',
-    page : 'digital',
+    page : 'web-development',
   },
 ];
 
@@ -203,23 +203,60 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
       )}
 
       {/* Orange footer strip */}
-      <div className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)', borderTop: '1px solid rgba(255,72,0,0.12)' }}>
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)' }} />
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <span className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]" style={{ color: '#FF4800' }}>{service.ctaLabel} →</span>
-          <span className="text-[11.5px] font-medium leading-[1.3]" style={{ color: 'rgba(255,72,0,0.75)' }}>{service.ctaDesc}</span>
-        </div>
-        <button
-          onClick={() => onNavigate(service.page)}
-          aria-label={service.ctaLabel}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
-          style={{ background: '#FF4800', boxShadow: '0 4px 12px rgba(255,72,0,0.35)' }}
-          onMouseEnter={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = '#e03e00'; b.style.transform = 'scale(1.1) translateX(1px)'; b.style.boxShadow = '0 6px 20px rgba(255,72,0,0.45)'; }}
-          onMouseLeave={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = '#FF4800'; b.style.transform = ''; b.style.boxShadow = '0 4px 12px rgba(255,72,0,0.35)'; }}
-        >
-          <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
-        </button>
-      </div>
+      <div
+  className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4"
+  style={{
+    background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)',
+    borderTop: '1px solid rgba(255,72,0,0.12)',
+  }}
+>
+  <div
+    className="pointer-events-none absolute inset-x-0 top-0 h-px"
+    style={{
+      background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)',
+    }}
+  />
+
+  <div className="flex min-w-0 flex-1 flex-col gap-1">
+    <span
+      className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]"
+      style={{ color: '#FF4800' }}
+    >
+      {service.ctaLabel} →
+    </span>
+
+    <span
+      className="text-[11.5px] font-medium leading-[1.3]"
+      style={{ color: 'rgba(255,72,0,0.75)' }}
+    >
+      {service.ctaDesc}
+    </span>
+  </div>
+
+  <button
+    onClick={() => onNavigate(service.page)}
+    aria-label={service.ctaLabel}
+    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
+    style={{
+      background: '#FF4800',
+      boxShadow: '0 4px 12px rgba(255,72,0,0.35)',
+    }}
+    onMouseEnter={e => {
+      const b = e.currentTarget as HTMLButtonElement;
+      b.style.background = '#e03e00';
+      b.style.transform = 'scale(1.1) translateX(1px)';
+      b.style.boxShadow = '0 6px 20px rgba(255,72,0,0.45)';
+    }}
+    onMouseLeave={e => {
+      const b = e.currentTarget as HTMLButtonElement;
+      b.style.background = '#FF4800';
+      b.style.transform = '';
+      b.style.boxShadow = '0 4px 12px rgba(255,72,0,0.35)';
+    }}
+  >
+    <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
+  </button>
+</div>
     </div>
   );
 }
@@ -348,7 +385,7 @@ function FAQSection() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }} className="mb-10 md:mb-14 text-center">
           <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>FREQUENTLY ASKED QUESTIONS</p>
-          <h2 className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] tracking-tight md:tracking-[-2.05px]" style={{ lineHeight: 1.0 }}>Questions? Here's what teams ask first.</h2>
+          <h2 className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] tracking-tight md:tracking-[-2.05px]" style={{ lineHeight: 1.0 }}>Questions? Here's what teams ask first</h2>
         </motion.div>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}>
           {faqs.map((faq, index) => (
@@ -404,6 +441,25 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
   const [capActiveIdx, setCapActiveIdx] = useState(0);
+  const [activeService, setActiveService] = useState<string | null>(null);
+
+useEffect(() => {
+  const syncServiceFromHash = () => {
+    const hash = window.location.hash.replace('#', '');
+    const validServices = ['automation', 'custom-software', 'ai-strategy', 'web-development'];
+
+    setActiveService(
+      validServices.includes(hash) ? hash : null
+    );
+  };
+
+  syncServiceFromHash();
+  window.addEventListener('hashchange', syncServiceFromHash);
+
+  return () => {
+    window.removeEventListener('hashchange', syncServiceFromHash);
+  };
+}, []);
   const dragX = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -521,7 +577,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 </h2>
             </div>
             <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-0 ml-0 text-left">
-              We use proven, scalable technologies not experimental tools. Your systems will be maintainable and upgradable for years.
+              We use proven, scalable technologies not experimental tools.<br/>
+              Your systems will be maintainable and upgradable for years.
             </p>
           </div>
           <motion.div
@@ -592,7 +649,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               label="WHAT WE BUILD"
               heading={
                 <span className='whitespace-nowrap'>
-                  One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You</span>
+                  One Goal: Systems That Make<span style={{ color: '#FF4800' }}>Your Business Run Better</span>
                 </span>
               }
             />
@@ -605,9 +662,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8, delay: 0.2, ease }}
             className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
           >
-            {services.map((service, i) => (
-              <ServiceCard key={i} service={service} onNavigate={onNavigate} isDark={isDark} />
-            ))}
+            {services
+  .filter(
+    (service) =>
+      !activeService || service.page === activeService
+  )
+  .map((service, i) => (
+    <ServiceCard
+      key={i}
+      service={service}
+      onNavigate={onNavigate}
+      isDark={isDark}
+    />
+  ))}
           </motion.div>
         </div>
       </section>
@@ -760,7 +827,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* ── About / Stats ── */}
-      <section id="section-about" className="relative py-12 md:py-24 bg-[#f8f8fc] dark:bg-[#0a0a14]">
+      <section id="section-about" className="relative pt-0 pb-12 md:pt-8 md:py-24 bg-[#f8f8fc] dark:bg-[#0a0a14]">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 md:gap-16 px-4 sm:px-6 lg:px-8 lg:flex-row relative">
@@ -804,7 +871,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8, ease }}
             className="flex w-full flex-col justify-center lg:w-[60%]"
           >
-            <p className="-mt-3 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
+            <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
               <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
                   We Get It. Because We've Lived It
@@ -896,18 +963,18 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       />
     </motion.div>
 
-    <div className="relative">
+    <div className="relative isolate">
 
       {/* Horizontal line */}
       <div
-        className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px"
+        className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px z-0 pointer-events-none"
         style={{
           background:
             'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
         }}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 relative ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 relative z-10 ">
 
         {[
           {
@@ -954,21 +1021,37 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             className="flex flex-col items-center text-center"
           >
 
-            {/* Icon */}
-            <div
-                className="group relative z-10 flex items-center justify-center w-20 h-20 rounded-full mb-4 transition-colors duration-200 hover:bg-[#cc3a00]"
-                style={{
-                         background: isDark ? '#12121e' : '#ffffff',
-                         border: '1px solid rgba(255,72,0,0.15)',
-                         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-              }}
-            >
-              <item.icon
-              size={24}
-              strokeWidth={1.8}
-              className="text-[#FF4800] transition-colors duration-200 group-hover:text-white"
-            />
-            </div>
+           {/* Icon */}
+<div
+  className="group relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4"
+  style={{
+    background: isDark ? '#12121e' : '#ffffff',
+    border: '1px solid #FF4800',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+    transition: 'background-color 200ms ease',
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.backgroundColor = '#FF4800';
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = isDark ? '#12121e' : '#ffffff';
+  }}
+>
+  <item.icon
+    size={24}
+    strokeWidth={1.8}
+    style={{
+      color: '#FF4800',
+      transition: 'color 200ms ease',
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.color = '#ffffff';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.color = '#FF4800';
+    }}
+  />
+</div>
 
             {/* Step */}
             <p
@@ -984,13 +1067,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </h3>
 
             {/* Description - SAME */}
-            <p className="w-full text-center text-[14px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">
+            <p className="w-full max-w-[240px] mx-auto text-center text-[14px] leading-[1.6] min-h-[154px] text-[#6b7280] dark:text-[#9ca3af]">
               {item.desc}
             </p>
 
             {/* Badge */}
             <span
-              className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium"
+              className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium whitespace-nowrap"
               style={{
                 color: '#FF4800',
                 background: 'rgba(255,72,0,0.05)',
