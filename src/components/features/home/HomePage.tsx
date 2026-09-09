@@ -20,6 +20,7 @@ import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SubscribeSection from '@/components/features/common/SubscribeSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 import SystemsCoreSection from '@/components/features/home/SystemsCore';
+import { strategy } from 'sharp';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -64,6 +65,7 @@ interface ServiceItem {
   metric?: string;
   ctaLabel: string;
   ctaDesc: string;
+  page : string;
 }
 
 const services: ServiceItem[] = [
@@ -79,6 +81,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'See automation',
     ctaDesc: 'Book a free strategy call',
+    page : 'automation',
   },
   {
     badge: 'Software',
@@ -91,6 +94,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Explore custom',
     ctaDesc: 'Built around your workflow',
+    page : 'software',
   },
   {
     badge: 'Strategy',
@@ -103,6 +107,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Talk AI strategy',
     ctaDesc: 'Embedded in your operations',
+    page : 'strategy',
   },
   {
     badge: 'Digital',
@@ -116,6 +121,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'View web capabilities',
     ctaDesc: 'Edge Deployed, conversion first',
+    page : 'digital',
   },
 ];
 
@@ -128,7 +134,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
 
   return (
     <div
-      className="svc-card relative flex h-full flex-col overflow-hidden rounded-[24px]"
+      className="svc-card relative flex h-full flex-col overflow-hidden rounded-[20px]"
       style={{
         background: bg,
         backdropFilter: 'blur(16px) saturate(1.8)',
@@ -161,7 +167,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
       <div className="svc-glow pointer-events-none absolute inset-x-[10%] top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.6), transparent)', opacity: 0, transition: 'opacity 0.3s ease' }} />
 
       {/* Badge + Title */}
-      <div className="flex h-auto min-h-[7rem] flex-1 flex-col justify-start p-6 pb-0">
+      <div className="flex h-[7rem] flex flex-col  justify-start p-6 pb-0">
         <span className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: '#FF4800', background: 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.15)' }}>
           {service.badge}
         </span>
@@ -171,11 +177,11 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
       </div>
 
       {/* Divider */}
-      <div className="mx-6 my-5 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03), rgba(0,0,0,0.06))' }} />
+      <div className="mx-6 my-4 mb-2 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03), rgba(0,0,0,0.06))' }} />
 
       {/* Bullet list */}
-      <div className="flex-1 px-6">
-        <ul className="flex flex-col gap-3">
+      <div className="px-6">
+        <ul className="flex flex-col gap-2.5">
           {service.bullets.map((bullet, i) => (
             <li key={i} className="flex items-start gap-3 text-[13.5px] font-normal leading-[1.5] text-gray-700 dark:text-gray-300">
               <span className="mt-2 h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 4px rgba(255,72,0,0.4)' }} />
@@ -191,20 +197,20 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           <p className="text-[12px] font-semibold leading-[1.55]" style={{ color: '#FF4800' }}>→ {service.metric}</p>
         </div>
       ) : (
-        <div className="mx-6 mt-5 px-4 py-3 invisible" aria-hidden="true" style={{ minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
+        <div className="mx-6 mt-2 px-4 py-1 invisible" aria-hidden="true" style={{ minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
           <p className="text-[12px] leading-[1.55]">30–60% reduction in manual operations within the first 90 days</p>
         </div>
       )}
 
       {/* Orange footer strip */}
-      <div className="relative mt-5 flex items-center justify-between gap-3 px-6 pb-6 pt-4" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)', borderTop: '1px solid rgba(255,72,0,0.12)' }}>
+      <div className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)', borderTop: '1px solid rgba(255,72,0,0.12)' }}>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)' }} />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]" style={{ color: '#FF4800' }}>{service.ctaLabel} →</span>
           <span className="text-[11.5px] font-medium leading-[1.3]" style={{ color: 'rgba(255,72,0,0.75)' }}>{service.ctaDesc}</span>
         </div>
         <button
-          onClick={() => onNavigate('services')}
+          onClick={() => onNavigate(service.page)}
           aria-label={service.ctaLabel}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
           style={{ background: '#FF4800', boxShadow: '0 4px 12px rgba(255,72,0,0.35)' }}
@@ -465,7 +471,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="py-14 md:py-24 bg-white dark:bg-[#0a0a14] relative border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative text-center">
-          <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
+          <p className="-mt-6 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
             className="font-normal heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
@@ -497,14 +503,22 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.7, ease }}
-        className="py-12 md:py-16 lg:py-20 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+        className="py-6 md:py-10 lg:py-12 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 text-center md:text-left">
+          <div className="-mt-6 mb-10 text-center md:text-left">
             <div className="flex items-start gap-3">
-              <h2 className="my-2 block text-left" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1.5px', overflowWrap: 'break-word'}}>
-                Built on enterprise grade infrastructure
-              </h2>
+              <h2
+  className="my-2 block text-left"
+  style={{
+    fontSize: 'clamp(1.75rem, 4vw, 3rem)',
+    lineHeight: 1.1,
+    letterSpacing: '-1.5px',
+    overflowWrap: 'break-word',
+  }}
+>
+  Built on <span className="heading-gradient">Enterprise Grade Infrastructure</span>
+</h2>
             </div>
             <p className="text-[15px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] max-w-lg mx-0 ml-0 text-left">
               We use proven, scalable technologies not experimental tools. Your systems will be maintainable and upgradable for years.
@@ -515,7 +529,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-6 md:gap-8"
           >
             {[
               { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png', w: 80, h: 40 },
@@ -566,19 +580,20 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── What We Build ── */}
       <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="-mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.7, ease }}
+            transition={{ duration: 0.8, ease }}
+            className="mt-12 md:mt-16 "
           >
             <SectionHeader
               label="WHAT WE BUILD"
               heading={
-                <>
-                  One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You.</span>
-                </>
+                <span className='whitespace-nowrap'>
+                  One Goal: Systems That <span style={{ color: '#FF4800' }}>Run Without You</span>
+                </span>
               }
             />
           </motion.div>
@@ -597,9 +612,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <div id="section-services">
-        <SystemsCoreSection isDark={isDark} onNavigate={onNavigate} />
-      </div>
+      <div id="section-services" className='-mt-10'>
+  <SystemsCoreSection isDark={isDark} />
+</div>
 
       {/* ── Wave divider ── */}
       <WaveDivider color={isDark ? '#12121e' : '#f8f8fc'} flip />
@@ -614,7 +629,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="mb-8 md:mb-16"
+            className="-mt-10 mb-8 md:mb-16"
           >
             <SectionHeader
               label="WHY STRAVEDA"
@@ -789,13 +804,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8, ease }}
             className="flex w-full flex-col justify-center lg:w-[60%]"
           >
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
+            <p className="-mt-3 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
               <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
-                  We Get It. Because We've Lived It.
+                  We Get It. Because We've Lived It
               </h2>
             </div>
-            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-left">
+            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
               Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexity. We move fast. We're completely transparent. And we measure success the only way that matters—by what changes in your business: hours reclaimed, decisions accelerated, operations that scale without proportional headcount growth.
             </p>
           </motion.div>
@@ -820,7 +835,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
-              You&apos;re not short on software.<br />You&apos;re drowning in it.
+              You&apos;re not short on software<br />You&apos;re drowning in it
             </h2>
           </motion.div>
           <motion.div
@@ -828,7 +843,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid w-full grid-cols-7 gap-4 sm:gap-6"
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-left"
           >
             {[
               { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
@@ -836,7 +851,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               { num: '03', heading: 'The Visibility Gap', body: "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct." },
             ].map((item) => (
               <div key={item.num} className="glass-card rounded-xl p-5 sm:p-6 md:p-8" style={{ backdropFilter: 'blur(18px) saturate(1.6)', WebkitBackdropFilter: 'blur(18px) saturate(1.6)' }}>
-                <p className="text-[36px] sm:text-[40px] font-light mb-4" style={{ color: 'rgba(255,72,0,0.25)', lineHeight: 1 }}>{item.num}</p>
+                <p className="text-[36px] sm:text-[40px] font-light mb-4" style={{
+  color: ['01', '02', '03'].includes(item.num)
+    ? 'rgba(255,72,0,0.85)'
+    : 'rgba(255,72,0,0.55)',
+  lineHeight: 1
+}}>{item.num}</p>
                 <h3 className="text-[17px] sm:text-[18px] font-medium mb-3 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
                 <p className="text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.body}</p>
               </div>
@@ -855,58 +875,142 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* ── Process Section ── */}
-      <section className="relative py-16 md:py-28" style={{ background: isDark ? '#12121e' : '#ffffff' }}>
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="mb-10 md:mb-16"
-          >
-            <SectionHeader
-              label="HOW WE WORK"
-              heading="From Strategy Call to Live System."
-            />
-          </motion.div>
-          <div className="relative">
-            <div className="hidden md:block absolute top-6 left-6 right-6 h-px" style={{ background: 'linear-gradient(to right, #FF4800, rgba(255,72,0,0.1))' }} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 relative">
-              {[
-                { step: '1', label: 'Discovery', desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.' },
-                { step: '2', label: 'Architecture', desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.' },
-                { step: '3', label: 'Build', desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.' },
-                { step: '4', label: 'Automate', desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.' },
-                { step: '5', label: 'Scale', desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it." },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.6, delay: parseInt(item.step) * 0.08, ease }}
-                  className="flex flex-col items-center md:items-start text-center md:text-left"
-                >
-                  <div
-                    className="flex items-center justify-center w-12 h-12 rounded-full mb-4 text-white text-[14px] font-semibold flex-shrink-0 relative z-10"
-                    style={{ background: '#FF4800' }}
-                  >
-                    {item.step}
-                  </div>
-                  <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.label}</h3>
-                  <p className="text-[14px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+<section
+  className="relative py-16 md:py-28"
+  style={{ background: isDark ? '#12121e' : '#ffffff' }}
+>
+  <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
 
+  <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.8, ease }}
+      className="-mt-10 mb-10 md:mb-16"
+    >
+      <SectionHeader
+        label="HOW WE WORK"
+        heading="From Strategy Call to Live System"
+      />
+    </motion.div>
+
+    <div className="relative">
+
+      {/* Horizontal line */}
+      <div
+        className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px"
+        style={{
+          background:
+            'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
+        }}
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 relative ">
+
+        {[
+          {
+            step: '01',
+            label: 'Discovery',
+            desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.',
+            icon: Activity,
+          },
+          {
+            step: '02',
+            label: 'Architecture',
+            desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.',
+            icon: Brain,
+          },
+          {
+            step: '03',
+            label: 'Build',
+            desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.',
+            icon: Shield,
+          },
+          {
+            step: '04',
+            label: 'Automate',
+            desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.',
+            icon: Globe,
+          },
+          {
+            step: '05',
+            label: 'Scale',
+            desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it.",
+            icon: Cloud,
+          },
+        ].map((item) => (
+          <motion.div
+            key={item.step}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{
+              duration: 0.6,
+              delay: parseInt(item.step) * 0.08,
+              ease,
+            }}
+            className="flex flex-col items-center text-center"
+          >
+
+            {/* Icon */}
+            <div
+                className="group relative z-10 flex items-center justify-center w-20 h-20 rounded-full mb-4 transition-colors duration-200 hover:bg-[#cc3a00]"
+                style={{
+                         background: isDark ? '#12121e' : '#ffffff',
+                         border: '1px solid rgba(255,72,0,0.15)',
+                         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              }}
+            >
+              <item.icon
+              size={24}
+              strokeWidth={1.8}
+              className="text-[#FF4800] transition-colors duration-200 group-hover:text-white"
+            />
+            </div>
+
+            {/* Step */}
+            <p
+              className="text-[14px] font-semibold uppercase tracking-wide mb-2"
+              style={{ color: '#FF4800' }}
+            >
+              STEP {item.step}
+            </p>
+
+            {/* Title */}
+            <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">
+              {item.label}
+            </h3>
+
+            {/* Description - SAME */}
+            <p className="w-full text-center text-[14px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">
+              {item.desc}
+            </p>
+
+            {/* Badge */}
+            <span
+              className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium"
+              style={{
+                color: '#FF4800',
+                background: 'rgba(255,72,0,0.05)',
+                border: '1px solid rgba(255,72,0,0.15)',
+              }}
+            >
+              ✓ Fast & Secure
+            </span>
+
+          </motion.div>
+        ))}
+
+      </div>
+    </div>
+  </div>
+</section>
       {/* ── Pricing Section ── */}
       <section className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="-mt-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1000,7 +1104,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,72,0,0.12) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }}>
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>GET STARTED</p>
+            <p className="-mt-10 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>GET STARTED</p>
             <h2
               className="text-white font-normal text-[clamp(1.75rem,5vw,3.75rem)] mb-6"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
