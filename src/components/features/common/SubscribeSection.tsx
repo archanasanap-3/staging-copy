@@ -109,10 +109,10 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
               className="text-[32px] md:text-[40px] font-normal mb-4"
               style={{ fontWeight: 400, color: isDark ? '#f0f0f5' : '#1a1a2e', lineHeight: 1.15, letterSpacing: '-1.5px' }}
             >
-              Stay ahead on <span className="heading-gradient">AI and Automation.</span>
+              Stay ahead on <span className="heading-gradient">AI and Automation</span>
             </h2>
             <p
-              className="text-[16px] leading-[1.5] max-w-[440px]"
+              className="text-[16px] leading-[1.5] max-w-[550px]"
               style={{ color: isDark ? '#9ca3af' : '#6b7280', fontWeight: 400 }}
             >
               Weekly insights on AI integration, automation strategy, and mid-market technology. No fluff. No vendor pitches. Unsubscribe anytime.

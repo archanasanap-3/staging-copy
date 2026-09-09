@@ -498,20 +498,37 @@ export default function ServicesPage({
 }) {
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
-  useEffect(() => {
-    const updateService = () => {
-      setSelectedService(window.location.hash.replace('#', '') || null);
-    };
+ useEffect(() => {
+  const updateService = () => {
+    const hash = window.location.hash.replace('#', '') || null;
+    setSelectedService(hash);
+  };
 
-    updateService();
+  updateService();
 
-    window.addEventListener('hashchange', updateService);
+  window.addEventListener('hashchange', updateService);
 
-    return () => {
-      window.removeEventListener('hashchange', updateService);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener('hashchange', updateService);
+  };
+}, []);
 
+useEffect(() => {
+  if (!selectedService) return;
+
+  const timer = setTimeout(() => {
+    const element = document.getElementById(selectedService);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, 200);
+
+  return () => clearTimeout(timer);
+}, [selectedService]);
   return (
     <main className="min-h-screen bg-white dark:bg-[#0a0a14]">
       <ServicesPageStyles />

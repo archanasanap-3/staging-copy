@@ -382,7 +382,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }}
-        className="hidden xl:block absolute bottom-7 left-1/2 z-10 -translate-x-1/2"
+        className="hidden xl:block absolute bottom-7 left-[50%] z-10 -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}

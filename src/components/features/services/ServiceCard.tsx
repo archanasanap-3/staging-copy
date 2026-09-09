@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 import type { LucideIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -48,14 +49,15 @@ export default function ServiceCard({
 
 }: ServiceCardProps) {
 
+   const router = useRouter();
+
   return (
 
     <motion.div
-
-      onClick={() => {
-  window.history.pushState({}, '', `/services${route}`);
+onClick={() => {
+  router.push(`/services${route}`);
 }}
-
+    
       initial={{ opacity: 0, y: 24 }}
 
       whileInView={{ opacity: 1, y: 0 }}
