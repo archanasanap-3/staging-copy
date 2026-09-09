@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SubscribeSection from '@/components/features/common/SubscribeSection';
+import SystemsCoreSection from '@/components/features/home/SystemsCore';
 import WaveDivider from '@/components/animations/WaveDivider';
 import { strategy } from 'sharp';
 
@@ -780,6 +781,12 @@ useEffect(() => {
           </motion.div>
         </div>
       </section>
+              
+      {/* ── Systems Core ── */}
+      <div id="section-services" className="-mt-10">
+        <SystemsCoreSection isDark={isDark} />
+      </div>
+
 
 
       {/* ── Capabilities (Bento) ── */}
@@ -939,6 +946,7 @@ useEffect(() => {
       </section>
 
       {/* ── About / Stats ── */}
+      
       <section
   id="section-about"
   className="relative py-8 md:py-14 bg-[#f8f8fc] dark:bg-[#0a0a14]"

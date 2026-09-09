@@ -500,7 +500,7 @@ export default function ServicesPage({
 
  useEffect(() => {
   const updateService = () => {
-    const hash = window.location.hash.replace('#', '') || null;
+    const hash = window.location.hash.substring(1).split('#')[0] || null;
     setSelectedService(hash);
   };
 
@@ -543,19 +543,14 @@ useEffect(() => {
       <ServicesHoverModal onNavigate={onNavigate} />
 
       <div className="flex flex-col">
-        {services
-          .filter(
-            (service) =>
-              !selectedService || service.id === selectedService
-          )
-          .map((service, index) => (
-            <ServiceBlock
-              key={service.id}
-              service={service}
-              index={index}
-            />
-          ))}
-      </div>
+  {services.map((service, index) => (
+    <ServiceBlock
+      key={service.id}
+      service={service}
+      index={index}
+    />
+  ))}
+</div>
 
       <TechStackSection />
 
