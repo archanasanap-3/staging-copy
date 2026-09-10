@@ -268,7 +268,24 @@ const testimonials = [
     name: 'Rachel M.',
     role: 'Director of Operations',
     company: 'Professional Services',
-    quote: 'We had too many manual processes before working with Straveda Tech. Their business process automation streamlined our workflows and reporting. Now everything runs faster with fewer errors and much better visibility.',
+    quote:
+      'We had too many manual processes before working with Straveda Tech. Their business process automation streamlined our workflows and reporting. Now everything runs faster with fewer errors and much better visibility.',
+    stars: 5,
+  },
+  {
+    name: 'Daniel K.',
+    role: 'Head of Operations',
+    company: 'Technology Solutions',
+    quote:
+      'Straveda Tech helped us simplify complex workflows and automate repetitive tasks across our operations. The new systems save our team significant time and give us much better visibility into our daily processes.',
+    stars: 5,
+  },
+  {
+    name: 'Sophia R.',
+    role: 'Founder & CEO',
+    company: 'Growth & Consulting',
+    quote:
+      'The team understood our business goals and turned them into practical technology solutions. Our workflows are now more efficient, our team spends less time on manual work, and we can scale with much more confidence.',
     stars: 5,
   },
 ];
@@ -281,6 +298,14 @@ function TestimonialsCarousel() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+  }, 4000);
+
+  return () => clearInterval(interval);
+}, []);
   
   useEffect(() => {
     setMounted(true);
@@ -315,7 +340,7 @@ function TestimonialsCarousel() {
       <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
         <motion.div
           whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
-          className="rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center"
+          className="rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center shadow-[0_18px_40px_rgba(0,0,0,0.16),0_30px_60px_rgba(0,0,0,0.10)]"
           style={{
             background: isDarkT ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.92)',
             border: isDarkT ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.07)',
@@ -332,7 +357,7 @@ function TestimonialsCarousel() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, ease }}
-            className="mb-4 text-[11px] font-semibold uppercase tracking-widest"
+            className="mb-4 text-[11px] font-semibold uppercase tracking-widest "
             style={{ color: '#FF4800' }}
           >
             Client Feedback
@@ -1234,7 +1259,7 @@ useEffect(() => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.8, ease }}
-      className="-mt-10 mb-10 md:mb-16"
+      className="-mt-20 mb-10 md:mb-16"
     >
       <SectionHeader
         label="HOW WE WORK"
@@ -1370,9 +1395,9 @@ useEffect(() => {
 </section>
       {/* ── Pricing Section ── */}
       <section id = "pricing"
-      className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+      className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="-mt-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="-mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}

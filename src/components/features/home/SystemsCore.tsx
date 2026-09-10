@@ -285,8 +285,11 @@ export default function SystemsCoreSection({
         justify-start
         overflow-hidden
         py-20
-        md:py-24
-        lg:py-32
+        pb-8
+        md:pt-24
+        md:pb-8
+        lg:pt-32
+        lg:pb-8
       "
       style={{
         background: isDark ? '#0a0a14' : '#e8e8f0',
@@ -304,6 +307,7 @@ export default function SystemsCoreSection({
           px-6
           text-center
           lg:mb-24
+          lg:-translate-y-16
         "
       >
         <motion.p
@@ -566,8 +570,8 @@ export default function SystemsCoreSection({
           relative
           z-20
           mt-12
-          lg:mt-40
-          xl:mt-48
+          lg:mt-30
+          xl:mt-30
           flex
           flex-col
           items-center
