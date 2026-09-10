@@ -14,7 +14,7 @@ export default function WAFloat() {
         width:           52,
         height:          52,
         borderRadius:    '50%',
-        background:      '#111827',
+        background:      '#ffffff',
         boxShadow:       '0 4px 20px rgba(0,0,0,0.35)',
         transition:      'transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease',
         flexShrink:      0,

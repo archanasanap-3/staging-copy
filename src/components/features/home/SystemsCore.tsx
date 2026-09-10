@@ -32,8 +32,8 @@ const pillars: Pillar[] = [
     title: 'Scale Faster',
     desc: 'Break growth ceilings with automated infrastructure.',
     icon: <Zap size={20} />,
-    x: -28,
-    y: -25,
+    x: -20,
+    y: -18,
     color: '#FF4800',
   },
   {
@@ -41,8 +41,8 @@ const pillars: Pillar[] = [
     title: 'Automate Ops',
     desc: 'Remove human bottlenecks from recurring workflows.',
     icon: <Cpu size={20} />,
-    x: 28,
-    y: -25,
+    x: 20,
+    y: -18,
     color: '#FF4800',
   },
   {
@@ -50,8 +50,8 @@ const pillars: Pillar[] = [
     title: 'Reduce Manual',
     desc: 'Replace 40 hours of data entry with 40ms of code.',
     icon: <Users size={20} />,
-    x: -36,
-    y: 15,
+    x: -27,
+    y: 12,
     color: '#FF4800',
   },
   {
@@ -59,8 +59,8 @@ const pillars: Pillar[] = [
     title: 'Reliable Systems',
     desc: 'Build architecture that scales without breaking.',
     icon: <Shield size={20} />,
-    x: 36,
-    y: 15,
+    x: 27,
+    y: 12,
     color: '#FF4800',
   },
   {
@@ -69,7 +69,7 @@ const pillars: Pillar[] = [
     desc: 'Optimize every micro-interaction in your stack.',
     icon: <Target size={20} />,
     x: 0,
-    y: 45,
+    y: 40,
     color: '#FF4800',
   },
 ];
@@ -333,7 +333,7 @@ export default function SystemsCoreSection({
             dark:text-white
           "
         >
-          {'One Goal: Systems That Run Without You.'
+          {'One Goal: Systems That Run Without You'
             .split(' ')
             .map((word, i) => (
               <motion.span
