@@ -92,34 +92,34 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="flex-1 text-left md:text-left -ml-30 "
+            className="flex-1 text-left md:text-left -ml-30 -translate-y-8"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.5, delay: 0.1, ease }}
-              className="inline-flex items-center justify-center w-10 h-14 rounded-2xl mb-6"
+              className="inline-flex items-center justify-center w-10 h-14 rounded-2xl mb-6 -translate-y-8"
               style={{ background: 'rgba(255,72,0,0.1)' }}
             >
               <Mail className="h-6 w-6" style={{ color: '#FF4800' }} />
             </motion.div>
 
             <h2
-              className="text-[32px] md:text-[40px] font-normal mb-4"
+              className="text-[32px] md:text-[40px] font-normal mb-4 -translate-y-8"
               style={{ fontWeight: 400, color: isDark ? '#f0f0f5' : '#1a1a2e', lineHeight: 1.15, letterSpacing: '-1.5px' }}
             >
               Stay ahead on <span className="heading-gradient">AI and Automation</span>
             </h2>
             <p
-              className="text-[16px] leading-[1.5] max-w-[550px]"
+              className="text-[16px] leading-[1.5] max-w-[550px] -translate-y-8"
               style={{ color: isDark ? '#9ca3af' : '#6b7280', fontWeight: 400 }}
             >
               Weekly insights on AI integration, automation strategy, and mid-market technology. No fluff. No vendor pitches. Unsubscribe anytime.
             </p>
 
             {/* Trust badges */}
-            <div className="mt-8 flex items-center gap-6 justify-center md:justify-start">
+            <div className="mt-1 flex items-center gap-4 justify-center md:justify-start ">
               {[
                 { label: 'Weekly digest', icon: '●' },
               ].map((badge, i) => (

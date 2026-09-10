@@ -20,7 +20,6 @@ import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SubscribeSection from '@/components/features/common/SubscribeSection';
 import SystemsCoreSection from '@/components/features/home/SystemsCore';
 import WaveDivider from '@/components/animations/WaveDivider';
-import { strategy } from 'sharp';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -281,13 +280,14 @@ function getInitials(name: string): string {
 function TestimonialsCarousel() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
   
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const isDarkT = mounted ? resolvedTheme === 'dark' : false;
-  const t = testimonials[0];
+  const t = testimonials[testimonialIndex];
 
   return (
     <section
@@ -325,36 +325,201 @@ function TestimonialsCarousel() {
             backdropFilter: 'blur(12px)',
           }}
         >
-          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, ease }} className="mb-5 text-[11px] font-semibold uppercase tracking-widest" style={{ color: '#FF4800' }}>Client Feedback</motion.p>
+          {/* Previous Arrow */}
+          <button
+            type="button"
+            onClick={() =>
+              setTestimonialIndex(
+                (testimonialIndex - 1 + testimonials.length) %
+                  testimonials.length
+              )
+            }
+            aria-label="Previous testimonial"
+            className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300"
+            style={{
+              border: isDarkT
+                ? '1px solid rgba(255,255,255,0.18)'
+                : '1px solid rgba(0,0,0,0.12)',
+              background: 'transparent',
+              color: isDarkT ? '#f0f0f5' : '#1e293b',
+            }}
+          >
+            ←
+          </button>
 
-          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.1, ease }} className="mb-5 flex items-center justify-center gap-1">
-            {[...Array(t.stars)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" style={{ color: '#FBBF24' }} />)}
-          </motion.div>
+          {/* Next Arrow */}
+          <button
+            type="button"
+            onClick={() =>
+              setTestimonialIndex(
+                (testimonialIndex + 1) % testimonials.length
+              )
+            }
+            aria-label="Next testimonial"
+            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300"
+            style={{
+              border: isDarkT
+                ? '1px solid rgba(255,255,255,0.18)'
+                : '1px solid rgba(0,0,0,0.12)',
+              background: 'transparent',
+              color: isDarkT ? '#f0f0f5' : '#1e293b',
+            }}
+          >
+            →
+          </button>
 
-          <motion.span initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay: 0.15, ease }} className="block leading-none mb-2" style={{ fontSize: '56px', color: '#FF4800', opacity: 0.5 }}>&#x275D;</motion.span>
+          {/* Client Feedback */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, ease }}
+            className="mb-4 text-[11px] font-semibold uppercase tracking-widest"
+            style={{ color: '#FF4800' }}
+          >
+            Client Feedback
+          </motion.p>
 
+          {/* Stars */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5, delay: 0.1, ease }}
+            className="mb-4 flex items-center justify-center gap-1"
+          >
+            {[...Array(t.stars)].map((_, i) => (
+    <motion.div
+      key={i}
+      initial={{ opacity: 0, scale: 0.5 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.3,
+        delay: 0.15 + i * 0.08,
+        ease,
+      }}
+    >
+      <Star
+        className="h-4 w-4 fill-current"
+        style={{ color: '#FBBF24' }}
+      />
+    </motion.div>
+  ))}
+</motion.div>
+
+          {/* Quote Icon */}
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.5, delay: 0.15, ease }}
+            className="mb-2 block leading-none"
+            style={{
+              fontSize: '48px',
+              color: '#FF4800',
+              opacity: 0.5,
+            }}
+          >
+            &#x275D;
+          </motion.span>
+
+          {/* Testimonial */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, delay: 0.2, ease }}
-            className="text-[clamp(1rem,2.5vw,1.3rem)] italic leading-[1.8] font-normal"
-            style={{ color: isDarkT ? 'rgba(255,255,255,0.85)' : '#1e293b' }}
+            className="text-[clamp(0.95rem,2.2vw,1.15rem)] italic leading-[1.7] font-normal"
+            style={{
+              color: isDarkT
+                ? 'rgba(255,255,255,0.85)'
+                : '#1e293b',
+            }}
           >
             {t.quote}
           </motion.p>
 
-          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.8, delay: 0.35, ease: [0.4, 0, 0.2, 1] }} className="mx-auto my-7" style={{ width: '3rem', height: '1px', background: 'rgba(255,72,0,0.5)', transformOrigin: 'center' }} />
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{
+              duration: 0.8,
+              delay: 0.35,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+            className="mx-auto my-6"
+            style={{
+              width: '3rem',
+              height: '1px',
+              background: 'rgba(255,72,0,0.5)',
+              transformOrigin: 'center',
+            }}
+          />
 
-          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.4, ease }} className="flex items-center justify-center gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-[13px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF4800 0%, #2B2358 100%)' }}>{getInitials(t.name)}</div>
-            <div className="text-left">
-              <p className="text-[14px] font-semibold" style={{ color: isDarkT ? 'rgba(255,255,255,0.9)' : '#0f172a' }}>{t.name}</p>
-              <p className="text-[12px]" style={{ color: isDarkT ? 'rgba(255,255,255,0.4)' : '#64748b' }}>
-                {t.role}{t.company && <span> · <span style={{ color: '#FF4800' }}>{t.company}</span></span>}
-              </p>
-            </div>
+          {/* Name + Role — NO PHOTO */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.4, ease }}
+            className="text-center"
+          >
+            <p
+              className="text-[14px] font-semibold"
+              style={{
+                color: isDarkT
+                  ? 'rgba(255,255,255,0.9)'
+                  : '#0f172a',
+              }}
+            >
+              {t.name}
+            </p>
+
+            <p
+              className="text-[12px]"
+              style={{
+                color: isDarkT
+                  ? 'rgba(255,255,255,0.4)'
+                  : '#64748b',
+              }}
+            >
+              {t.role}
+              {t.company && (
+                <span>
+                  {' · '}
+                  <span style={{ color: '#FF4800' }}>
+                    {t.company}
+                  </span>
+                </span>
+              )}
+            </p>
           </motion.div>
+
+          {/* Pagination Dots */}
+          <div className="mt-5 flex items-center justify-center gap-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setTestimonialIndex(index)}
+                aria-label={`Go to testimonial ${index + 1}`}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  width: index === testimonialIndex ? '8px' : '7px',
+                  height: index === testimonialIndex ? '8px' : '7px',
+                  background:
+                    index === testimonialIndex
+                      ? '#FF4800'
+                      : isDarkT
+                      ? 'rgba(255,255,255,0.25)'
+                      : 'rgba(0,0,0,0.18)',
+                }}
+              />
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
@@ -618,7 +783,7 @@ useEffect(() => {
       </motion.section>
 
       {/* ── Technology Partners ── */}
-     <div className="relative w-full overflow-hidden">
+     <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
   <motion.div
     className="flex w-max"
     animate={{ x: ['0%', '-50%'] }}
@@ -1235,7 +1400,8 @@ useEffect(() => {
   </div>
 </section>
       {/* ── Pricing Section ── */}
-      <section className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+      <section id = "pricing"
+      className="relative py-16 md:py-28 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="-mt-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -1336,7 +1502,7 @@ useEffect(() => {
               className="text-white font-normal text-[clamp(1.75rem,5vw,3.75rem)] mb-6"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
-              Stop paying a monthly tax on manual work.
+              Stop paying a monthly tax on manual work
             </h2>
             <p className="text-base sm:text-[17px] leading-[1.6] mb-10 max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               Book a 30 Minute strategy call. You&apos;ll walk away with a working hypothesis for what to automate first. If it&apos;s a fit, we send a proposal within 48 hours.
