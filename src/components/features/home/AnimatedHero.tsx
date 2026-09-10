@@ -381,26 +381,50 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }}
-        className="hidden xl:block absolute bottom-7 left-[50%] z-10 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex flex-col text-left"
-        >
-          <span className="text-[11px] uppercase tracking-widest" style={{ color: '#94a3b8' }}>Scroll</span>
-          <div
-            className="flex h-8 w-5 items-start justify-center rounded-full pt-1.5"
-            style={{ border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(43,35,88,0.25)'}` }}
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-2 w-1 rounded-full"
-              style={{ background: '#FF4800' }}
-            />
-          </div>
-        </motion.div>
-      </motion.div>
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.6, delay: 1.2 }}
+  className="hidden xl:flex absolute bottom-2 left-1/2 z-10 -translate-x-1/2 flex-col items-center"
+>
+  <motion.div
+    animate={{ y: [0, 8, 0] }}
+    transition={{
+      duration: 2,
+      repeat: Infinity,
+      ease: 'easeInOut',
+    }}
+    className="flex flex-col items-center text-center"
+  >
+    <span
+      className="text-[11px] uppercase tracking-widest"
+      style={{ color: '#94a3b8' }}
+    >
+      Scroll
+    </span>
+
+    <div
+      className="mt-1 flex h-8 w-5 items-start justify-center rounded-full pt-1.5"
+      style={{
+        border: `1.5px solid ${
+          isDark
+            ? 'rgba(255,255,255,0.2)'
+            : 'rgba(43,35,88,0.25)'
+        }`,
+      }}
+    >
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="h-2 w-1 rounded-full"
+        style={{ background: '#FF4800' }}
+      />
+    </div>
+  </motion.div>
+</motion.div>
     </section>
   );
 }

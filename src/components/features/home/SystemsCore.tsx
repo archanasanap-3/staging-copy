@@ -33,7 +33,7 @@ const pillars: Pillar[] = [
     desc: 'Break growth ceilings with automated infrastructure.',
     icon: <Zap size={20} />,
     x: -20,
-    y: -18,
+    y: -24,
     color: '#FF4800',
   },
   {
@@ -42,7 +42,7 @@ const pillars: Pillar[] = [
     desc: 'Remove human bottlenecks from recurring workflows.',
     icon: <Cpu size={20} />,
     x: 20,
-    y: -18,
+    y: -24,
     color: '#FF4800',
   },
   {
@@ -50,8 +50,8 @@ const pillars: Pillar[] = [
     title: 'Reduce Manual',
     desc: 'Replace 40 hours of data entry with 40ms of code.',
     icon: <Users size={20} />,
-    x: -27,
-    y: 12,
+    x: -24,
+    y: 15,
     color: '#FF4800',
   },
   {
@@ -59,8 +59,8 @@ const pillars: Pillar[] = [
     title: 'Reliable Systems',
     desc: 'Build architecture that scales without breaking.',
     icon: <Shield size={20} />,
-    x: 27,
-    y: 12,
+    x: 24,
+    y: 15,
     color: '#FF4800',
   },
   {
@@ -69,7 +69,7 @@ const pillars: Pillar[] = [
     desc: 'Optimize every micro-interaction in your stack.',
     icon: <Target size={20} />,
     x: 0,
-    y: 40,
+    y: 35,
     color: '#FF4800',
   },
 ];
@@ -174,7 +174,7 @@ function PillarCard({
       }}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
       style={{
-        width: '200px',
+        width: '210px',
         perspective: '1000px',
       }}
     >

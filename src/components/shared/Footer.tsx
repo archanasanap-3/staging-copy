@@ -25,7 +25,7 @@ const FOOTER_LINKS = {
   RESOURCES: [
     { label: 'Insights',               href: '/insights' },
     { label: 'Discovery Call Guide',   href: '/contact' },
-    { label: 'Pricing & Timeline',     href: '/contact' },
+    { label: 'Pricing & Timeline',     href: '/#pricing' },
     { label: 'Contact Us',             href: '/contact' },
   ],
 } as const;
@@ -189,11 +189,11 @@ export default function Footer() {
               <div className="space-y-3 text-[13px] font-bold text-[#0f172a] dark:text-gray-200">
                 <a href="mailto:stravedatech@gmail.com" className="flex items-center gap-3 group">
                   <Mail size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-                  <span className="border-b-2 border-[#0f172a]/10 dark:border-white/10 group-hover:border-[#FF4800] transition-all">stravedatech@gmail.com</span>
+                  <span>stravedatech@gmail.com</span>
                 </a>
                 <a href="tel:+917666353488" className="flex items-center gap-3 group">
                   <Phone size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-                  <span className="border-b-2 border-[#0f172a]/10 dark:border-white/10 group-hover:border-[#FF4800] transition-all">+91 76663 53488</span>
+                  <span>+91 76663 53488</span>
                 </a>
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
