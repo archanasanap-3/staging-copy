@@ -325,48 +325,6 @@ function TestimonialsCarousel() {
             backdropFilter: 'blur(12px)',
           }}
         >
-          {/* Previous Arrow */}
-          <button
-            type="button"
-            onClick={() =>
-              setTestimonialIndex(
-                (testimonialIndex - 1 + testimonials.length) %
-                  testimonials.length
-              )
-            }
-            aria-label="Previous testimonial"
-            className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300"
-            style={{
-              border: isDarkT
-                ? '1px solid rgba(255,255,255,0.18)'
-                : '1px solid rgba(0,0,0,0.12)',
-              background: 'transparent',
-              color: isDarkT ? '#f0f0f5' : '#1e293b',
-            }}
-          >
-            ←
-          </button>
-
-          {/* Next Arrow */}
-          <button
-            type="button"
-            onClick={() =>
-              setTestimonialIndex(
-                (testimonialIndex + 1) % testimonials.length
-              )
-            }
-            aria-label="Next testimonial"
-            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300"
-            style={{
-              border: isDarkT
-                ? '1px solid rgba(255,255,255,0.18)'
-                : '1px solid rgba(0,0,0,0.12)',
-              background: 'transparent',
-              color: isDarkT ? '#f0f0f5' : '#1e293b',
-            }}
-          >
-            →
-          </button>
 
           {/* Client Feedback */}
           <motion.p
@@ -635,10 +593,15 @@ useEffect(() => {
           const progress = Math.min((time - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
 
-          setCount55(Math.floor(55 * eased));
-          setCount3(Math.floor(3 * eased));
-          setCount5(Math.floor(5 * eased));
-          setCount100(Math.floor(100 * eased));
+            const finalCount55 = progress >= 1 ? 55 : Math.floor(55 * eased);
+const finalCount3 = progress >= 1 ? 3 : Math.floor(3 * eased);
+const finalCount5 = progress >= 1 ? 5 : Math.floor(5 * eased);
+const finalCount100 = progress >= 1 ? 100 : Math.floor(100 * eased);
+
+setCount55(finalCount55);
+setCount3(finalCount3);
+setCount5(finalCount5);
+setCount100(finalCount100);
 
           if (progress < 1) {
             animationFrame = requestAnimationFrame(update);
@@ -699,12 +662,18 @@ useEffect(() => {
   }, []);
 
   const snapToCard = useCallback((idx: number) => {
-    const clamped = Math.max(0, Math.min(idx, bentoItems.length - 1));
-    animate(dragX, -clamped * getCardWidth(), {
-      type: 'spring', stiffness: 260, damping: 32, mass: 0.8,
-    });
-    setCapActiveIdx(clamped);
-  }, [dragX, getCardWidth]);
+  const maxIndex = Math.max(0, bentoItems.length - 3);
+  const clamped = Math.max(0, Math.min(idx, maxIndex));
+
+  animate(dragX, -clamped * getCardWidth(), {
+    type: 'spring',
+    stiffness: 260,
+    damping: 32,
+    mass: 0.8,
+  });
+
+  setCapActiveIdx(clamped);
+}, [dragX, getCardWidth]);
 
   const handleDragEnd = useCallback(
     (_: unknown, info: { velocity: { x: number } }) => {
