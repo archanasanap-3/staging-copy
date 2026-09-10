@@ -803,7 +803,7 @@ useEffect(() => {
           >
             <SectionHeader
               label="WHY STRAVEDA"
-              heading="Enterprise Grade Execution, Without the Complexity."
+              heading="Enterprise Grade Execution, Without the Complexity"
             />
           </motion.div>
 
@@ -867,7 +867,12 @@ useEffect(() => {
                   <h3 className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
                     {item.title}
                   </h3>
-                  <p className="text-[14.5px] leading-[1.7] flex-grow text-slate-600 dark:text-[#9ca3af]">
+                  <p className="flex-grow text-[14.5px] leading-[1.7] text-slate-600 dark:text-[#9ca3af]"
+                  style={{
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    wordSpacing: 'auto',
+                  }}>
                     {item.description}
                   </p>
                   <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.15))' }} />
@@ -1005,7 +1010,7 @@ useEffect(() => {
             <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
               <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
-                  We Get It. Because We've Lived It
+                  We Get It  Because We've Lived It
               </h2>
             </div>
             <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
@@ -1056,7 +1061,16 @@ useEffect(() => {
   lineHeight: 1
 }}>{item.num}</p>
                 <h3 className="text-[17px] sm:text-[18px] font-medium mb-4 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
-                <p className="w-full text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{item.body}</p>
+                <p
+  className="w-full text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]"
+  style={{
+    textAlign: 'justify',
+    textJustify: 'inter-word',
+    hyphens: 'auto',
+  }}
+>
+  {item.body}
+</p>
               </div>
             ))}
           </motion.div>
@@ -1105,7 +1119,7 @@ useEffect(() => {
         }}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 relative z-10 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5  lg:gap-6 relative z-10 ">
 
         {[
           {
@@ -1149,7 +1163,7 @@ useEffect(() => {
               delay: parseInt(item.step) * 0.08,
               ease,
             }}
-            className="flex flex-col items-center text-center"
+            className="flex flex-col items-center text-center min-w-0"
           >
 
            {/* Icon */}
@@ -1171,16 +1185,8 @@ useEffect(() => {
   <item.icon
     size={24}
     strokeWidth={1.8}
-    style={{
-      color: '#FF4800',
-      transition: 'color 200ms ease',
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.color = '#ffffff';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.color = '#FF4800';
-    }}
+     className="text-[#FF4800] group-hover:text-white transition-colors duration-200"
+    
   />
 </div>
 
@@ -1198,9 +1204,16 @@ useEffect(() => {
             </h3>
 
             {/* Description - SAME */}
-            <p className="w-full max-w-[240px] mx-auto text-center text-[14px] leading-[1.6] min-h-[154px] text-[#6b7280] dark:text-[#9ca3af]">
-              {item.desc}
-            </p>
+           <p
+  className="w-full text-[14px] sm:text-[15px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af]"
+  style={{
+    textAlign: 'justify',
+    textJustify: 'inter-word',
+    hyphens: 'auto',
+  }}
+>
+  {item.desc}
+</p>
 
             {/* Badge */}
             <span
