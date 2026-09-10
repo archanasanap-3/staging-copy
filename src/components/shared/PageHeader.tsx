@@ -36,7 +36,7 @@ export default function PageHeader({
   eyebrow,
   title,
   subtitle,
-  showBar = true,
+  showBar = false,
   className = '',
 }: PageHeaderProps) {
   return (
@@ -83,7 +83,7 @@ export default function PageHeader({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease }}
-          className="mt-6 max-w-2xl text-[16px] leading-[1.75] text-gray-600 dark:text-gray-400"
+          className="mt-6 whitespace-nowrap text-[16px] leading-[1.75] text-gray-600 dark:text-gray-400"
         >
           {subtitle}
         </motion.p>

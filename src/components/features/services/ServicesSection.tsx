@@ -133,7 +133,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] py-16 sm:py-24 overflow-hidden">
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-6 sm:pt-8 pb-16 sm:pb-24 overflow-hidden">
 
       {/* ── Subtle engineering grid background ────────────────── */}
 
