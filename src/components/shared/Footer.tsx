@@ -9,24 +9,24 @@ import { useCursorStyle } from '@/lib/cursor-context';
 
 const FOOTER_LINKS = {
   EXPLORE: [
-    { label: 'Home',          href: '/' },
+    { label: 'Home', href: '/' },
     { label: 'What We Build', href: '/services' },
-    { label: 'Why Straveda',  href: '/about' },
-    { label: 'Insights',      href: '/insights' },
-    { label: 'Careers',       href: '/careers' },
-    { label: 'Contact',       href: '/contact' },
+    { label: 'Why Straveda', href: '/about' },
+    { label: 'Insights', href: '/insights' },
+    { label: 'Careers', href: '/careers' },
+    { label: 'Contact', href: '/contact' },
   ],
   SERVICES: [
-  { label: 'AI & Automation',           href: '/services#automation' },
-  { label: 'Custom Software',           href: '/services#custom-software' },
-  { label: 'AI Strategy & Integration', href: '/services#ai-strategy' },
-  { label: 'Web Development & 3D',      href: '/services#web-development' },
-],
+    { label: 'AI & Automation', href: '/services#automation' },
+    { label: 'Custom Software', href: '/services#custom-software' },
+    { label: 'AI Strategy & Integration', href: '/services#ai-strategy' },
+    { label: 'Web Development & 3D', href: '/services#web-development' },
+  ],
   RESOURCES: [
-    { label: 'Insights',               href: '/insights' },
-    { label: 'Discovery Call Guide',   href: '/contact' },
-    { label: 'Pricing & Timeline',     href: '/#pricing' },
-    { label: 'Contact Us',             href: '/contact' },
+    { label: 'Insights', href: '/insights' },
+    { label: 'Discovery Call Guide', href: '/contact' },
+    { label: 'Pricing & Timeline', href: '/#pricing' },
+    { label: 'Contact Us', href: '/contact' },
   ],
 } as const;
 
@@ -128,8 +128,8 @@ export default function Footer() {
           <div className="border-t-2 border-[#0f172a]/5 dark:border-white/10 pt-4 w-full flex flex-col items-center gap-2 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="/privacy-policy" className="hover:text-[#FF4800] dark:hover:text-[#FF4800]">Privacy Policy</Link>
-              <button className="hover:text-[#FF4800] dark:hover:text-[#FF4800]">Terms of Service</button>
+              <Link href="/privacy-policy" className="font-black hover:text-[#FF4800] dark:hover:text-[#FF4800]">Privacy Policy</Link>
+              <button className="font-black hover:text-[#FF4800] dark:hover:text-[#FF4800]">Terms of Service</button>
             </div>
           </div>
         </div>
@@ -188,12 +188,12 @@ export default function Footer() {
               <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">CONTACT US</h3>
               <div className="space-y-3 text-[13px] font-bold text-[#0f172a] dark:text-gray-200">
                 <a href="mailto:stravedatech@gmail.com" className="flex items-center gap-3 group">
-                  <Mail size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
+                  <Mail size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]" />
                   <span>stravedatech@gmail.com</span>
                 </a>
-                <a href="tel:+917666353488" className="flex items-center gap-3 group">
-                  <Phone size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-                  <span>+91 76663 53488</span>
+                <a href="tel:+9196230 95766" className="flex items-center gap-3 group">
+                  <Phone size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]" />
+                  <span>+91 96230 95766</span>
                 </a>
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
@@ -206,8 +206,8 @@ export default function Footer() {
           <div className="pt-5 border-t-2 border-[#0f172a]/5 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
             <div className="flex gap-10">
-              <Link href="/privacy-policy" className="hover:text-[#FF4800]">Privacy Policy</Link>
-              <button className="hover:text-[#FF4800]">Terms of Service</button>
+              <Link href="/privacy-policy" className="font-black hover:text-[#FF4800]">Privacy Policy</Link>
+              <button className="font-black hover:text-[#FF4800]">Terms of Service</button>
             </div>
           </div>
         </div>

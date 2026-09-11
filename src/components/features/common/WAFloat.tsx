@@ -1,11 +1,40 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
+// Digits only, full international format (countrycode + number), no leading '+' or '0'.
+// This same format works for both regular and WhatsApp Business numbers.
+const WHATSAPP_NUMBER = '919623095766';
+
+const WHATSAPP_DEFAULT_MESSAGE =
+  'Hi I came across your website and would like to know more about your AI, automation, and software solutions. Could you help me understand how you can help my business?';
+
+function buildWhatsAppLink(rawNumber: string, message: string) {
+  const digitsOnly = rawNumber.replace(/\D/g, '').replace(/^0+/, '');
+  return `https://wa.me/${digitsOnly}?text=${encodeURIComponent(message)}`;
+}
+
+const WHATSAPP_HREF = buildWhatsAppLink(WHATSAPP_NUMBER, WHATSAPP_DEFAULT_MESSAGE);
+
 export default function WAFloat() {
+  // Opening wa.me in a new tab (target="_blank") is what most often causes
+  // mobile browsers to land on WhatsApp's web fallback/download page instead
+  // of handing off to the installed app - the app-link/universal-link
+  // handoff is far more reliable from a same-tab, top-level navigation.
+  // Desktop has no such issue and benefits from staying on a new tab so the
+  // site itself isn't navigated away from.
+  const [target, setTarget] = useState<'_blank' | '_self'>('_blank');
+
+  useEffect(() => {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    setTarget(isMobile ? '_self' : '_blank');
+  }, []);
+
   return (
     <a
-      href="https://wa.me/919623095766"
-      target="_blank"
-      rel="noopener noreferrer"
+      href={WHATSAPP_HREF}
+      target={target}
+      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       aria-label="Chat with us on WhatsApp"
       style={{
         display:         'flex',

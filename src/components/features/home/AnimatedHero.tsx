@@ -4,6 +4,7 @@ import { useRef, useSyncExternalStore } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, TrendingDown, Zap, CheckCircle, Bot } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import DashboardMockup from './DashboardMockup';
 
 function usePrefetchContact() {
   const done = useRef(false);
@@ -78,6 +79,80 @@ function NodeCard({
   );
 }
 
+function HeroDashboardVisual({ isDark, scale = 1 }: { isDark: boolean; scale?: number }) {
+  const W = 830;
+  const H = 640;
+  return (
+    <div style={{ position: 'relative', width: `${W * scale}px`, height: `${H * scale}px`, flexShrink: 0 }}>
+      <div style={{ position: 'absolute', left: 0, top: 0, width: `${W}px`, height: `${H}px`, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+
+        {/* ── Center: Dashboard mockup (scaled up independently so it can grow without inflating the floating cards) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          style={{ position: 'absolute', left: '15px', top: '55px', zIndex: 10, width: '510px' }}
+        >
+          <div style={{ transform: 'scale(1.5)', transformOrigin: 'top left' }}>
+            <div style={{
+              filter: isDark ? 'drop-shadow(0px 20px 40px rgba(0,0,0,0.5))' : 'drop-shadow(0px 20px 40px rgba(0,0,0,0.10))',
+              animation: 'wf-float-a 6s ease-in-out infinite',
+            }}>
+              <DashboardMockup isDark={isDark} />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Side Image 1: Cost Saved (Top Left) ── */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          style={{ position: 'absolute', left: '0px', top: '0px', zIndex: 12, width: '150px' }}
+        >
+          <div style={{
+            filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
+            animation: 'wf-float-b 5.2s ease-in-out 0.4s infinite',
+          }}>
+            <img
+              src="/images/cost_saved_card.png"
+              alt="Cost Saved 60%"
+              style={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: '14px',
+                border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
+              }}
+            />
+          </div>
+        </motion.div>
+
+        {/* ── Side Image 2: Time to Live (Bottom Right) ── */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.9 }}
+          style={{ position: 'absolute', right: '55px', bottom: '0px', zIndex: 11, width: '150px' }}
+        >
+          <div style={{
+            filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
+            animation: 'wf-float-a 4.8s ease-in-out 0.8s infinite',
+          }}>
+            <img
+              src="/images/time_to_live_card.png"
+              alt="Time To Live 30 Days"
+              style={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: '14px',
+                border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
+              }}
+            />
+          </div>
+        </motion.div>
+
+      </div>
+    </div>
+  );
+}
+
 interface AnimatedHeroProps {
   onNavigate: (page: string) => void;
 }
@@ -99,7 +174,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
   const textMuted = isDark ? '#94a3b8' : '#64748b';
 
   return (
-    <section className="relative flex min-h-[100dvh] items-center overflow-hidden">
+    <section className="relative flex items-start xl:min-h-[100dvh] xl:items-center overflow-hidden">
       <style>{`
         @keyframes fcard-up    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
         @keyframes fcard-down  { 0%,100%{transform:translateY(0)} 50%{transform:translateY( 9px)} }
@@ -137,7 +212,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       </div>
 
       {/* ── Two-column layout ── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-35 md:pt-10 md:pb-12 grid grid-cols-1 xl:grid-cols-[1fr_1.05fr] gap-8 xl:gap-10 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-10 xl:pb-35 md:pt-10 md:pb-12 grid grid-cols-1 xl:grid-cols-[0.85fr_1.25fr] gap-8 xl:gap-6 items-center">
 
         {/* ─── LEFT: Text content ─────────────────────────── */}
         <div className="flex flex-col text-center xl:text-left">
@@ -168,7 +243,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.h1
             initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.1 }}
-            className="font-bold mb-5 text-left"
+            className="font-bold mb-5 text-left xl:max-w-[400px]"
             style={{
               fontSize: 'clamp(2rem, 5vw, 3.25rem)',
               lineHeight: 1.1,
@@ -185,7 +260,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-left max-w-[480px] text-[16px] leading-[1.8]"
+            className="text-left max-w-[480px] xl:max-w-[400px] text-[16px] leading-[1.8]"
             style={{ color: textMuted }}
           >
             We build AI-powered business systems and custom software for mid-market companies in India cutting manual work by 50% in 25 days.
@@ -195,7 +270,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.38 }}
-            className="flex flex-col sm:flex-row sm:items=start gap-3"
+            className="flex flex-col sm:flex-row sm:items=start gap-3 mt-7"
           >
             <motion.button
               type="button"
@@ -262,110 +337,25 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               </div>
             ))}
           </motion.div>
+
+          {/* Dashboard visual — scaled-down, in-flow version for below the two-column (xl) breakpoint */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.65 }}
+            className="xl:hidden mt-8 flex justify-center"
+          >
+            <HeroDashboardVisual isDark={isDark} scale={0.4} />
+          </motion.div>
         </div>
 
         {/* ─── RIGHT: Flat floating UI cards ─────────── */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative hidden xl:flex items-center justify-center w-full"
-          style={{ minHeight: '600px' }}
+          className="relative hidden xl:flex items-center justify-center w-full min-w-0"
+          style={{ minHeight: '680px' }}
         >
-          <div style={{ position: 'relative', width: '560px', height: '480px', flexShrink: 0 }}>
-
-            {/* ── Center Image: Dashboard ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5 }}
-              style={{ position: 'absolute', left: '60px', top: '70px', zIndex: 10, width: '440px' }}
-            >
-              <div style={{
-                filter: isDark ? 'drop-shadow(0px 20px 40px rgba(0,0,0,0.5))' : 'drop-shadow(0px 20px 40px rgba(0,0,0,0.06))',
-                animation: 'wf-float-a 6s ease-in-out infinite',
-              }}>
-                <img
-                  src="/images/center_dashboard_light.png"
-                  alt="AI Dashboard Interface"
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    borderRadius: '20px',
-                    border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)',
-                  }}
-                />
-              </div>
-            </motion.div>
-
-            {/* ── Side Image 1: Cost Saved (Top Left) ── */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
-              style={{ position: 'absolute', left: '50px', top: '10px', zIndex: 12, width: '200px' }}
-            >
-              <div style={{
-                filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
-                animation: 'wf-float-b 5.2s ease-in-out 0.4s infinite',
-              }}>
-                <img
-                  src="/images/cost_saved_card.png"
-                  alt="Cost Saved 60%"
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    borderRadius: '16px',
-                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
-                  }}
-                />
-              </div>
-            </motion.div>
-
-            {/* ── Side Image 2: Time to Live (Bottom Right) ── */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.9 }}
-              style={{ position: 'absolute', right: '50px', bottom: '-80px', transform:'translateY(30x)', zIndex: 11, width: '200px' }}
-            >
-              <div style={{
-                filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
-                animation: 'wf-float-a 4.8s ease-in-out 0.8s infinite',
-              }}>
-                <img
-                  src="/images/time_to_live_card.png"
-                  alt="Time To Live 30 Days"
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    borderRadius: '16px',
-                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
-                  }}
-                />
-              </div>
-            </motion.div>
-
-            {/* ── AI Agent Active Pill (Top Right, recreated in HTML) ── */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              style={{ position: 'absolute', right: '50px', top: '35px', zIndex: 9 }}
-            >
-              <div style={{
-                animation: 'wf-float-a 5s ease-in-out 0.6s infinite',
-              }}>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: '8px',
-                  background: 'rgba(255,72,0,0.08)',
-                  border: '1px solid rgba(255,72,0,0.2)',
-                  borderRadius: '100px',
-                  padding: '8px 16px',
-                  backdropFilter: 'blur(8px)',
-                }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#FF4800', boxShadow: '0 0 6px #FF4800', animation: 'pulse-dot 2s infinite' }} />
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#FF4800' }}>AI Agent Active</span>
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
+          <HeroDashboardVisual isDark={isDark} />
         </motion.div>
       </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 import { useRef, useState } from 'react';
 import {
   Zap,
@@ -26,14 +26,27 @@ interface Pillar {
   color: string;
 }
 
+/* Cards sit on a true circle around the core: same radius, evenly spaced by
+   angle (72° apart, pentagon), in fixed pixels so the spacing is identical
+   on every screen instead of drifting with mismatched vw/vh units. */
+const ORBIT_SIZE = 760;
+const ORBIT_RADIUS = 280;
+
+function orbitPoint(angleDeg: number) {
+  const rad = (angleDeg * Math.PI) / 180;
+  return {
+    x: Math.round(ORBIT_RADIUS * Math.cos(rad)),
+    y: Math.round(ORBIT_RADIUS * Math.sin(rad)),
+  };
+}
+
 const pillars: Pillar[] = [
   {
     id: '1',
     title: 'Scale Faster',
     desc: 'Break growth ceilings with automated infrastructure.',
     icon: <Zap size={20} />,
-    x: -20,
-    y: -24,
+    ...orbitPoint(234),
     color: '#FF4800',
   },
   {
@@ -41,8 +54,7 @@ const pillars: Pillar[] = [
     title: 'Automate Ops',
     desc: 'Remove human bottlenecks from recurring workflows.',
     icon: <Cpu size={20} />,
-    x: 20,
-    y: -24,
+    ...orbitPoint(306),
     color: '#FF4800',
   },
   {
@@ -50,8 +62,7 @@ const pillars: Pillar[] = [
     title: 'Reduce Manual',
     desc: 'Replace 40 hours of data entry with 40ms of code.',
     icon: <Users size={20} />,
-    x: -24,
-    y: 15,
+    ...orbitPoint(162),
     color: '#FF4800',
   },
   {
@@ -59,8 +70,8 @@ const pillars: Pillar[] = [
     title: 'Reliable Systems',
     desc: 'Build architecture that scales without breaking.',
     icon: <Shield size={20} />,
-    x: 24,
-    y: 15,
+    ...orbitPoint(18),
+    x: 420,
     color: '#FF4800',
   },
   {
@@ -68,8 +79,9 @@ const pillars: Pillar[] = [
     title: 'Efficiency',
     desc: 'Optimize every micro-interaction in your stack.',
     icon: <Target size={20} />,
-    x: 0,
-    y: 35,
+    ...orbitPoint(90),
+    x: 75,
+    y: 300,
     color: '#FF4800',
   },
 ];
@@ -82,34 +94,40 @@ function ConnectionLine({
   active,
   x,
   y,
+  scrollYProgress,
+  range,
 }: {
   active: boolean;
   x: number;
   y: number;
+  scrollYProgress: MotionValue<number>;
+  range: [number, number];
 }) {
+  const pathLength = useTransform(scrollYProgress, range, [0, 1]);
+  const center = ORBIT_SIZE / 2;
+
   return (
     <svg
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ overflow: 'visible' }}
+      viewBox={`0 0 ${ORBIT_SIZE} ${ORBIT_SIZE}`}
+      className="absolute inset-0 m-auto pointer-events-none z-0"
+      style={{ overflow: 'visible', width: ORBIT_SIZE, height: ORBIT_SIZE }}
     >
       <motion.line
-        x1="50%"
-        y1="50%"
-        x2={`${50 + x}%`}
-        y2={`${50 + y}%`}
-        stroke="rgba(255, 72, 0, 0.15)"
+        x1={center}
+        y1={center}
+        x2={center + x}
+        y2={center + y}
         strokeWidth="1.5"
         strokeDasharray="4 4"
-        initial={{ pathLength: 0, opacity: 0 }}
+        style={{ pathLength }}
         animate={{
-          pathLength: active ? 1 : 0,
-          opacity: active ? 1 : 0.2,
+          opacity: active ? 1 : 0.35,
           stroke: active
-            ? 'rgba(255, 72, 0, 0.4)'
-            : 'rgba(255, 72, 0, 0.15)',
+            ? 'rgba(255, 72, 0, 0.5)'
+            : 'rgba(255, 72, 0, 0.18)',
         }}
         transition={{
-          duration: 0.8,
+          duration: 0.5,
           ease: [0.16, 1, 0.3, 1],
         }}
       />
@@ -122,14 +140,22 @@ function PillarCard({
   active,
   onHover,
   isDark,
+  scrollYProgress,
+  range,
 }: {
   pillar: Pillar;
   active: boolean;
   onHover: (id: string | null) => void;
   isDark: boolean;
+  scrollYProgress: MotionValue<number>;
+  range: [number, number];
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const revealOpacity = useTransform(scrollYProgress, range, [0, 1]);
+  const revealY = useTransform(scrollYProgress, range, [36, 0]);
+  const revealScale = useTransform(scrollYProgress, range, [0.85, 1]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -143,56 +169,43 @@ function PillarCard({
   };
 
   return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => onHover(pillar.id)}
-      onMouseLeave={() => {
-        onHover(null);
-        setMousePos({ x: 0, y: 0 });
-      }}
-      initial={{
-        opacity: 0,
-        scale: 0.8,
-        x: `${pillar.x * 0.5}vw`,
-        y: `${pillar.y * 0.5}vh`,
-      }}
-      whileInView={{
-        opacity: 1,
-        scale: 1,
-        x: `${pillar.x}vw`,
-        y: `${pillar.y}vh`,
-      }}
-      viewport={{
-        once: true,
-        margin: '-100px',
-      }}
-      transition={{
-        duration: 1,
-        ease: [0.16, 1, 0.3, 1],
-        delay: parseInt(pillar.id) * 0.1,
-      }}
+    <div
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
       style={{
-        width: '210px',
+        width: '190px',
         perspective: '1000px',
+        transform: `translate(calc(-50% + ${pillar.x}px), calc(-50% + ${pillar.y}px))`,
       }}
     >
       <motion.div
-        animate={{
-          rotateY: mousePos.x * 20,
-          rotateX: -mousePos.y * 20,
-          scale: active ? 1.05 : 1,
-          boxShadow: active
-            ? '0 20px 40px rgba(255, 72, 0, 0.15), 0 0 0 1px rgba(255, 72, 0, 0.3)'
-            : '0 10px 30px rgba(0, 0, 0, 0.05)',
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => onHover(pillar.id)}
+        onMouseLeave={() => {
+          onHover(null);
+          setMousePos({ x: 0, y: 0 });
         }}
-        className={`relative overflow-hidden rounded-2xl p-6 transition-colors duration-500 ${
-          isDark
-            ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]'
-            : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
-        }`}
+        style={{
+          opacity: revealOpacity,
+          y: revealY,
+          scale: revealScale,
+        }}
       >
+        <motion.div
+          animate={{
+            rotateY: mousePos.x * 20,
+            rotateX: -mousePos.y * 20,
+            scale: active ? 1.05 : 1,
+            boxShadow: active
+              ? '0 20px 40px rgba(255, 72, 0, 0.15), 0 0 0 1px rgba(255, 72, 0, 0.3)'
+              : '0 10px 30px rgba(0, 0, 0, 0.05)',
+          }}
+          className={`relative overflow-hidden rounded-2xl p-5 transition-colors duration-500 ${
+            isDark
+              ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]'
+              : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
+          }`}
+        >
         <div
           className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${
             isDark ? 'bg-[#FF4800]/15' : 'bg-[#FF4800]/10'
@@ -224,7 +237,8 @@ function PillarCard({
           }}
         />
       </motion.div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -279,17 +293,17 @@ export default function SystemsCoreSection({
       className="
         relative
         flex
-        min-h-[105vh]
+        min-h-[95vh]
         flex-col
         items-center
         justify-start
         overflow-hidden
-        py-20
+        py-16
         pb-8
-        md:pt-24
+        md:pt-16
         md:pb-8
-        lg:pt-32
-        lg:pb-8
+        lg:pt-20
+        lg:pb-10
       "
       style={{
         background: isDark ? '#0a0a14' : '#e8e8f0',
@@ -301,13 +315,12 @@ export default function SystemsCoreSection({
         className="
           relative
           z-20
-          mb-12
+          mb-8
           w-full
           max-w-4xl
           px-6
           text-center
-          lg:mb-24
-          lg:-translate-y-16
+          lg:mb-16
         "
       >
         <motion.p
@@ -396,13 +409,15 @@ export default function SystemsCoreSection({
         style={{
           opacity: smoothOpacity,
           scale: smoothScale,
+          width: ORBIT_SIZE,
+          height: ORBIT_SIZE,
+          maxWidth: '100%',
         }}
         className="
           relative
           z-10
           hidden
-          h-[500px]
-          w-full
+          mx-auto
           items-center
           justify-center
           lg:flex
@@ -426,11 +441,11 @@ export default function SystemsCoreSection({
           style={{ rotate }}
           className="relative z-10 flex items-center justify-center"
         >
-          <div className="absolute w-[400px] h-[400px] rounded-full border border-[#FF4800]/10 animate-[spin_20s_linear_infinite]" />
+          <div className="absolute w-[320px] h-[320px] rounded-full border border-[#FF4800]/10 animate-[spin_20s_linear_infinite]" />
 
-          <div className="absolute w-[500px] h-[500px] rounded-full border border-[#FF4800]/5 animate-[spin_30s_linear_infinite_reverse]" />
+          <div className="absolute w-[400px] h-[400px] rounded-full border border-[#FF4800]/5 animate-[spin_30s_linear_infinite_reverse]" />
 
-          <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center overflow-hidden shadow-[0_0_80px_rgba(255,72,0,0.2)]">
+          <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center overflow-hidden shadow-[0_0_80px_rgba(255,72,0,0.2)]">
             <div className="absolute inset-0 bg-[#FF4800] opacity-10 blur-xl" />
 
             <div className="absolute inset-0 bg-gradient-to-br from-[#FF4800] to-[#2B2358] opacity-20" />
@@ -449,7 +464,7 @@ export default function SystemsCoreSection({
             />
 
             <Zap
-              size={40}
+              size={36}
               className="text-[#FF4800] relative z-10"
             />
           </div>
@@ -457,24 +472,28 @@ export default function SystemsCoreSection({
 
         {/* CONNECTION LINES */}
 
-        {pillars.map((p) => (
+        {pillars.map((p, i) => (
           <ConnectionLine
             key={p.id}
             active={activePillar === p.id}
             x={p.x}
             y={p.y}
+            scrollYProgress={scrollYProgress}
+            range={[0.22 + i * 0.05, 0.37 + i * 0.05]}
           />
         ))}
 
         {/* CARDS */}
 
-        {pillars.map((p) => (
+        {pillars.map((p, i) => (
           <PillarCard
             key={p.id}
             pillar={p}
             active={activePillar === p.id}
             onHover={setActivePillar}
             isDark={isDark}
+            scrollYProgress={scrollYProgress}
+            range={[0.25 + i * 0.05, 0.4 + i * 0.05]}
           />
         ))}
       </motion.div>
@@ -569,9 +588,8 @@ export default function SystemsCoreSection({
         className="
           relative
           z-20
-          mt-12
-          lg:mt-30
-          xl:mt-30
+          mt-8
+          lg:mt-10
           flex
           flex-col
           items-center
