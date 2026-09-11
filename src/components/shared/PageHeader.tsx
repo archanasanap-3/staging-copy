@@ -8,10 +8,11 @@ interface PageHeaderProps {
   /** Main heading text — receives heading-gradient class */
   title: string;
   /** Optional paragraph below the heading */
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   /** Whether the accent bar should be shown (default: true) */
   showBar?: boolean;
   className?: string;
+
 }
 
 const ease = [0.4, 0, 0.2, 1] as const;
