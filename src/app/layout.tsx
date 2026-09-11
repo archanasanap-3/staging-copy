@@ -170,7 +170,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Straveda Tech — AI Automation & Enterprise IT Consulting Technology Strategy",
+  title: "Straveda Tech AI Automation & Enterprise IT Consulting Technology Strategy",
   description:
     "AI-powered business automation and custom software for growing companies in India. WhatsApp automation, AI CRMs, intelligent workflows. Engagements from ₹5L. Based in Pune.",
   keywords: [

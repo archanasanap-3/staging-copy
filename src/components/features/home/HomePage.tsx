@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
-import SubscribeSection from '@/components/features/common/SubscribeSection';
 import SystemsCoreSection from '@/components/features/home/SystemsCore';
 import WaveDivider from '@/components/animations/WaveDivider';
 
@@ -335,6 +334,25 @@ function TestimonialsCarousel() {
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: '700px', height: '400px', background: 'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)' }} />
       {/* Top rule */}
       <div className="pointer-events-none absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35) 50%, transparent)' }} />
+
+      {/* Section Heading */}
+      <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.8, ease }}
+          className="text-center mb-10 md:mb-16"
+        >
+          <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>CLIENT FEEDBACK</p>
+          <h2
+            className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+            style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
+          >
+            What Our Clients Say
+          </h2>
+        </motion.div>
+      </div>
 
       {/* Card */}
       <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
@@ -686,8 +704,18 @@ useEffect(() => {
     return card ? card.offsetWidth + 20 : 300; // 20 = gap-5
   }, []);
 
+  // How many cards fit in the visible track at the current breakpoint (1 on
+  // mobile, 2 on tablet, 3 on desktop) — drives how far snapping can go so
+  // every card stays reachable instead of assuming 3 are always in view.
+  const getVisibleCount = useCallback(() => {
+    if (!trackRef.current) return 3;
+    const cardW = getCardWidth();
+    if (!cardW) return 3;
+    return Math.max(1, Math.round(trackRef.current.offsetWidth / cardW));
+  }, [getCardWidth]);
+
   const snapToCard = useCallback((idx: number) => {
-  const maxIndex = Math.max(0, bentoItems.length - 3);
+  const maxIndex = Math.max(0, bentoItems.length - getVisibleCount());
   const clamped = Math.max(0, Math.min(idx, maxIndex));
 
   animate(dragX, -clamped * getCardWidth(), {
@@ -698,7 +726,7 @@ useEffect(() => {
   });
 
   setCapActiveIdx(clamped);
-}, [dragX, getCardWidth]);
+}, [dragX, getCardWidth, getVisibleCount]);
 
   const handleDragEnd = useCallback(
     (_: unknown, info: { velocity: { x: number } }) => {
@@ -712,6 +740,10 @@ useEffect(() => {
     },
     [capActiveIdx, dragX, getCardWidth, snapToCard],
   );
+
+  // Last reachable snap index at the current breakpoint — used to disable
+  // the "next" arrow once no more cards can scroll into view.
+  const maxCapIndex = Math.max(0, bentoItems.length - getVisibleCount());
 
   const [constraints, setConstraints] = useState({ left: 0, right: 0 });
   useEffect(() => {
@@ -988,11 +1020,8 @@ useEffect(() => {
                 <div
                   key={item.title}
                   data-cap-card
-                  className="group relative flex-shrink-0 overflow-hidden rounded-2xl flex flex-col"
+                  className="group relative flex-shrink-0 overflow-hidden rounded-2xl flex flex-col w-[85%] xs:w-[78%] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)]"
                   style={{
-                    // FIX: Mathematically calculates width to fit exactly 3 cards in view on desktop/tablet,
-                    // accounting for 40px gaps and responsive container padding, with a 20px safety buffer for scrollbars.
-                    width: 'calc((100% - 40px) / 3)',
                     minHeight: '18.75rem',
                     padding: 'clamp(1.25rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2.25rem)',
                     background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.85)',
@@ -1068,9 +1097,9 @@ useEffect(() => {
  <button
   type="button"
   onClick={() =>
-    snapToCard(Math.min(bentoItems.length - 1, capActiveIdx + 1))
+    snapToCard(Math.min(maxCapIndex, capActiveIdx + 1))
   }
-  disabled={capActiveIdx === bentoItems.length - 1}
+  disabled={capActiveIdx >= maxCapIndex}
   aria-label="Next card"
   className="flex items-center justify-center transition-all duration-300 disabled:cursor-not-allowed"
   style={{
@@ -1078,25 +1107,25 @@ useEffect(() => {
     height: '2.25rem',
     borderRadius: '50%',
     border: `1.5px solid ${
-      capActiveIdx === bentoItems.length - 1
+      capActiveIdx >= maxCapIndex
         ? 'rgba(0,0,0,0.10)'
         : isDark
           ? 'rgba(255,255,255,0.25)'
           : 'rgba(0,0,0,0.25)'
     }`,
     background:
-      capActiveIdx === bentoItems.length - 1
+      capActiveIdx >= maxCapIndex
         ? 'rgba(0,0,0,0.05)'
         : 'transparent',
     color:
-      capActiveIdx === bentoItems.length - 1
+      capActiveIdx >= maxCapIndex
         ? 'rgba(0,0,0,0.25)'
         : isDark
           ? '#f0f0f5'
           : '#1a1a2e',
     padding: 0,
     cursor:
-      capActiveIdx === bentoItems.length - 1
+      capActiveIdx >= maxCapIndex
         ? 'not-allowed'
         : 'pointer',
     fontSize: '1.5rem',
@@ -1525,7 +1554,6 @@ useEffect(() => {
         </div>
       </section>
 
-      <SubscribeSection />
       <FAQSection />
     </div>
   );

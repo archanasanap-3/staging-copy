@@ -495,8 +495,8 @@ export default function ContactPage() {
             >
               <Phone className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
               <div>
-                <a href="tel:+917666353488" className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors">
-                  +91 76663 53488
+                <a href="tel:+919623095766" className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors">
+                  +91 96230 95766
                 </a>
               </div>
             </motion.div>
