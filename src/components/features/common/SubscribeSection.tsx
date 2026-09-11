@@ -119,7 +119,7 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
             </p>
 
             {/* Trust badges */}
-            <div className="mt-1 flex items-center gap-4 justify-center md:justify-start ">
+            <div className="-mt-4 flex items-center gap-4 justify-center md:justify-start ">
               {[
                 { label: 'Weekly digest', icon: '●' },
               ].map((badge, i) => (

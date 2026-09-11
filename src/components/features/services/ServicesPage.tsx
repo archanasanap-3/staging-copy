@@ -173,10 +173,16 @@ function HeroSection() {
     <section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-20 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
       <div className="mx-auto max-w-5xl">
         <PageHeader
-          eyebrow="Our Expertise"
-          title="Enterprise Software & AI Automation Services"
-          subtitle="We build high performance infrastructure and intelligent automation systems designed for the next generation of enterprise growth."
-        />
+  eyebrow="Our Expertise"
+  title="Enterprise Software & AI Automation Services"
+  subtitle={
+    <>
+      We build high performance infrastructure and intelligent automation
+      <br />
+      systems designed for the next generation of enterprise growth.
+    </>
+  }
+/>
       </div>
     </section>
   );
