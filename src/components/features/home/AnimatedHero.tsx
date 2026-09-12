@@ -129,7 +129,7 @@ function HeroDashboardVisual({ isDark, scale = 1 }: { isDark: boolean; scale?: n
         <motion.div
           initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
-          style={{ position: 'absolute', right: '55px', bottom: '0px', zIndex: 11, width: '150px' }}
+          style={{ position: 'absolute', right: '25px', bottom: '0px', zIndex: 11, width: '150px' }}
         >
           <div style={{
             filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
@@ -352,7 +352,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative hidden xl:flex items-center justify-center w-full min-w-0"
+          className="relative hidden xl:flex items-center justify-center w-full min-w-0 xl:mt-12"
           style={{ minHeight: '680px' }}
         >
           <HeroDashboardVisual isDark={isDark} />
