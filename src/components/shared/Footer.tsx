@@ -205,10 +205,20 @@ export default function Footer() {
 
           <div className="pt-5 border-t-2 border-[#0f172a]/5 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
-            <div className="flex gap-10 normal-case tracking-normal text-[13px] font-bold text-gray-500 dark:text-gray-400">
-              <Link href="/privacy-policy" className="hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors">Privacy Policy</Link>
-              <button className="hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors">Terms of Service</button>
-            </div>
+            <div className="flex gap-10 normal-case tracking-normal text-[13px] font-bold text-[#0f172a]/60 dark:text-white/50">
+  <Link
+    href="/privacy-policy"
+    className="hover:text-[#0f172a]/80 dark:hover:text-white/80 transition-colors duration-300"
+  >
+    Privacy Policy
+  </Link>
+
+  <button
+    className="hover:text-[#0f172a]/80 dark:hover:text-white/80 transition-colors duration-300"
+  >
+    Terms of Service
+  </button>
+</div>
           </div>
         </div>
       </div>

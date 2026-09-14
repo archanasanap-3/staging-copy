@@ -532,44 +532,157 @@ function TestimonialsCarousel() {
 const faqs = [
   { question: 'What services does Straveda Tech offer?', answer: 'We provide AI automation, custom software development, cloud & DevOps, cybersecurity, and data analytics solutions built to reduce manual work and scale your operations.' },
   { question: 'How can AI automation benefit my business?', answer: 'AI automation reduces repetitive tasks, lowers costs, and improves decision making. Common use cases include lead qualification, customer support, and workflow automation.' },
-  { question: 'Do you build custom solutions or use ready made tools?', answer: 'We build fully custom solutions tailored to your workflows, goals, and scalability needs — ensuring better performance and long term ROI.' },
+  { question: 'Do you build custom solutions and integrate with existing tools?', answer: 'We build fully custom solutions tailored to your workflows, goals, and scalability needs — ensuring better performance and long term ROI.' },
   { question: 'How long does a project take?', answer: 'Small systems: 1 to 2 weeks. Medium projects: 3 to 5 weeks. Large solutions: 6 to 9+ weeks. We follow a structured process from planning to deployment.' },
-  { question: 'Is AI automation suitable for startups?', answer: 'Yes. Startups use it to scale faster, while enterprises use it to optimize operations. We tailor solutions to your growth stage.' },
   { question: 'How secure are your solutions?', answer: 'We follow industry standards like GDPR, ISO, SOC2, and HIPAA to ensure strong data protection and system security.' },
   { question: 'Do you provide post launch support?', answer: 'Yes. We offer ongoing maintenance, optimization, and upgrades to keep your system aligned with business growth.' },
-  { question: 'Can you integrate with existing tools?', answer: 'Yes. We integrate with CRMs, ERPs, payment systems, and third party APIs without disrupting your current setup.' },
-  { question: 'Which industries do you work with?', answer: 'We serve healthcare, finance, retail, manufacturing, education, and tech startups.' },
-  { question: 'What makes Straveda Tech different?', answer: 'We focus on outcomes not just development. Our approach is AI First, fully custom, and built for scalability and ROI.' },
   { question: 'How do I get started?', answer: 'Share your requirements → Get a tailored strategy → Start with a clear execution roadmap. Book a 30 Min call and we\'ll send a proposal within 48 hours.' },
 ];
 
 function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const toggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
+
+  const toggle = (index: number) =>
+    setOpenIndex(openIndex === index ? null : index);
+
   return (
-    <section id="section-faq" className="glow-hover py-8 md:py-12 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }} className="mb-10 md:mb-14 text-center">
-          <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>FREQUENTLY ASKED QUESTIONS</p>
-          <h2 className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] tracking-tight md:tracking-[-2.05px]" style={{ lineHeight: 1.0 }}>Questions? Here's what teams ask first</h2>
-        </motion.div>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}>
-          {faqs.map((faq, index) => (
-            <motion.div key={index} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease } } }} className="overflow-hidden" style={{ borderLeft: openIndex === index ? '3px solid #FF4800' : '3px solid transparent', transition: 'border-color 0.3s ease' }}>
-              <button data-magnetic onClick={() => toggle(index)} className="flex w-full items-center justify-between px-4 pr-12 sm:px-5 sm:pr-14 py-5 text-left transition-colors duration-200 border-b border-black/[0.06] dark:border-white/[0.06] hover:bg-[rgba(255,72,0,0.02)] dark:hover:bg-white/[0.03]" aria-expanded={openIndex === index}>
-                <span className="pr-3 text-[15px] sm:text-[16px] font-medium text-[#1a1a2e] dark:text-[#e5e7eb]">{faq.question}</span>
-                <motion.span animate={{ rotate: openIndex === index ? 45 : 0 }} transition={{ duration: 0.3, ease }} className={`flex h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${openIndex === index ? 'bg-[#FF4800] text-white' : 'bg-black/[0.04] dark:bg-white/[0.06] text-[#6b7280] dark:text-[#9ca3af]'}`}><Plus className="h-4 w-4" /></motion.span>
-              </button>
-              <AnimatePresence initial={false}>
-                {openIndex === index && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.35, ease }} style={{ overflow: 'hidden' }}>
-                    <p className="px-4 sm:px-5 pb-5 text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">{faq.answer}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </motion.div>
+    <section
+      id="section-faq"
+      className="glow-hover py-10 md:py-14 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+    >
+      <div className="mt-0 mx-auto max-w-7xl px-6 md:px-10 lg:px-12">
+
+        <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.5fr] gap-12 lg:gap-24">
+
+          {/* LEFT SIDE */}
+<motion.div
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-100px" }}
+  transition={{ duration: 0.8, ease }}
+  className="mt-0 text-left lg:pt-0"
+>
+  <p
+    className="mb-2 text-[11px] font-medium uppercase tracking-widest"
+    style={{ color: "#FF4800" }}
+  >
+    FREQUENTLY ASKED QUESTIONS
+  </p>
+
+  <h2
+    className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)]"
+    style={{
+      lineHeight: 1.05,
+      letterSpacing: "-2px",
+    }}
+  >
+    Questions? Here's what teams ask first
+  </h2>
+</motion.div>
+
+
+          {/* RIGHT SIDE */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+            className="w-full lg:'mt-8"
+          >
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+
+              return (
+                <motion.div
+                  key={index}
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      y: 20,
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        ease,
+                      },
+                    },
+                  }}
+                  className="overflow-hidden"
+                >
+                  {/* QUESTION */}
+                  <button
+                    data-magnetic
+                    onClick={() => toggle(index)}
+                    className="flex w-full items-center justify-between py-6 sm:py-7 text-left border-b border-black/[0.08] dark:border-white/[0.08]"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="pr-8 text-[15px] sm:text-[16px] font-medium text-[#1a1a2e] dark:text-[#e5e7eb]">
+                      {faq.question}
+                    </span>
+
+                    <motion.span
+                      animate={{
+                        rotate: isOpen ? 45 : 0,
+                      }}
+                      transition={{
+                        duration: 0.3,
+                        ease,
+                      }}
+                      className={`flex h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        isOpen
+                          ? "bg-[#FF4800] text-white"
+                          : "bg-black/[0.04] dark:bg-white/[0.06] text-[#6b7280] dark:text-[#9ca3af]"
+                      }`}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </motion.span>
+                  </button>
+
+                  {/* ANSWER */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          height: "auto",
+                          opacity: 1,
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        transition={{
+                          duration: 0.35,
+                          ease,
+                        }}
+                        style={{
+                          overflow: "hidden",
+                        }}
+                      >
+                        <p className="py-5 pr-14 text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]">
+                          {faq.answer}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
