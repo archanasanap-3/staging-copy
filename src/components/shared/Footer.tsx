@@ -22,12 +22,6 @@ const FOOTER_LINKS = {
     { label: 'AI Strategy & Integration', href: '/services#ai-strategy' },
     { label: 'Web Development & 3D', href: '/services#web-development' },
   ],
-  RESOURCES: [
-    { label: 'Insights', href: '/insights' },
-    { label: 'Discovery Call Guide', href: '/contact' },
-    { label: 'Pricing & Timeline', href: '/#pricing' },
-    { label: 'Contact Us', href: '/contact' },
-  ],
 } as const;
 
 /* Shared dark-mode-safe social icon class */
@@ -139,7 +133,7 @@ export default function Footer() {
           <div className="flex justify-end mb-6">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="group flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#0f172a] dark:text-white/60 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors"
+              className="mt-4 group flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#0f172a] dark:text-white/60 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors"
             >
               <ArrowUp size={14} strokeWidth={3} /> BACK TO TOP
             </button>
@@ -187,10 +181,20 @@ export default function Footer() {
             <div className="lg:col-span-2 space-y-3">
               <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">CONTACT US</h3>
               <div className="space-y-3 text-[13px] font-bold text-[#0f172a] dark:text-gray-200">
-                <a href="mailto:stravedatech@gmail.com" className="flex items-center gap-3 group">
-                  <Mail size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]" />
-                  <span>stravedatech@gmail.com</span>
-                </a>
+                <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=stravedatech@gmail.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center gap-3 group"
+>
+  <Mail
+    size={18}
+    className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]"
+  />
+  <span className="hover:text-[#FF4800] dark:hover:text-[#ff6b2b] transition-colors">
+    stravedatech@gmail.com
+  </span>
+</a>
                 <a href="tel:+9196230 95766" className="flex items-center gap-3 group">
                   <Phone size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]" />
                   <span>+91 96230 95766</span>

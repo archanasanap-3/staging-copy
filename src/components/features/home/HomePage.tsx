@@ -548,7 +548,7 @@ function FAQSection() {
   return (
     <section
       id="section-faq"
-      className="glow-hover py-10 md:py-14 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+      className="glow-hover py-6 md:py-8 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
     >
       <div className="mt-0 mx-auto max-w-7xl px-6 md:px-10 lg:px-12">
 
@@ -572,11 +572,15 @@ function FAQSection() {
   <h2
     className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)]"
     style={{
-      lineHeight: 1.05,
-      letterSpacing: "-2px",
+      lineHeight: 1.02,
+      letterSpacing: "-2.5px",
     }}
   >
-    Questions? Here's what teams ask first
+    Questions? 
+    <br />
+    Here's what 
+    <br />
+    teams ask first
   </h2>
 </motion.div>
 
@@ -622,7 +626,7 @@ function FAQSection() {
                   <button
                     data-magnetic
                     onClick={() => toggle(index)}
-                    className="flex w-full items-center justify-between py-6 sm:py-7 text-left border-b border-black/[0.08] dark:border-white/[0.08]"
+                    className="flex w-full items-center justify-between py-4 sm:py-5 text-left border-b border-black/[0.08] dark:border-white/[0.08]"
                     aria-expanded={isOpen}
                   >
                     <span className="pr-8 text-[15px] sm:text-[16px] font-medium text-[#1a1a2e] dark:text-[#e5e7eb]">
