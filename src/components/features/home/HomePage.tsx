@@ -1,8 +1,9 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
+import { useInView } from 'framer-motion';
+import { motion, AnimatePresence, animate, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
-import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import {
   Star,
@@ -295,26 +296,60 @@ function getInitials(name: string): string {
 
 function TestimonialsCarousel() {
   const { resolvedTheme } = useTheme();
+
   const [mounted, setMounted] = useState(false);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [exitX, setExitX] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-  const interval = setInterval(() => {
-    setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-  }, 4000);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  return () => clearInterval(interval);
-}, []);
-  
+  const isInView = useInView(containerRef, {
+    once: true,
+    margin: '-100px',
+  });
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const isDarkT = mounted ? resolvedTheme === 'dark' : false;
-  const t = testimonials[testimonialIndex];
+
+  const nextTestimonial = useCallback(() => {
+    setExitX(-200);
+
+    setTimeout(() => {
+      setTestimonialIndex(
+        (prev) => (prev + 1) % testimonials.length
+      );
+      setExitX(0);
+    }, 200);
+  }, []);
+
+  const prevTestimonial = useCallback(() => {
+    setExitX(200);
+
+    setTimeout(() => {
+      setTestimonialIndex((prev) =>
+        prev === 0 ? testimonials.length - 1 : prev - 1
+      );
+      setExitX(0);
+    }, 200);
+  }, []);
+
+  useEffect(() => {
+    if (isHovered) return;
+
+    const interval = setInterval(() => {
+      nextTestimonial();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [nextTestimonial, isHovered]);
 
   return (
     <section
+      ref={containerRef}
       className="relative py-16 md:py-24 overflow-hidden"
       style={{
         background: isDarkT
@@ -322,210 +357,391 @@ function TestimonialsCarousel() {
           : 'linear-gradient(135deg, #f8f8fc 0%, #ffffff 50%, #f0f0f8 100%)',
       }}
     >
-      {/* Dot grid */}
-      <div
+      {/* Background */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1.2, ease }}
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(circle, ${isDarkT ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'} 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, ${
+            isDarkT
+              ? 'rgba(255,255,255,0.05)'
+              : 'rgba(0,0,0,0.04)'
+          } 1px, transparent 1px)`,
           backgroundSize: '28px 28px',
         }}
       />
-      {/* Orange glow orb */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: '700px', height: '400px', background: 'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)' }} />
-      {/* Top rule */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35) 50%, transparent)' }} />
 
-      {/* Section Heading */}
-      <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+      {/* Orange Glow */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={
+          isInView
+            ? { opacity: 1, scale: 1 }
+            : { opacity: 0, scale: 0.8 }
+        }
+        transition={{ duration: 1.4, ease }}
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: '700px',
+          height: '400px',
+          background:
+            'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)',
+        }}
+      />
+
+      {/* Heading */}
+      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, ease }}
+          initial={{ opacity: 0, y: 25 }}
+          animate={
+            isInView
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 25 }
+          }
+          transition={{
+            duration: 0.8,
+            delay: 0.25,
+            ease,
+          }}
           className="text-center mb-10 md:mb-16"
         >
-          <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>CLIENT FEEDBACK</p>
+          <p
+            className="mb-5 text-[11px] font-medium uppercase tracking-widest"
+            style={{ color: '#FF4800' }}
+          >
+            CLIENT FEEDBACK
+          </p>
+
           <h2
             className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-            style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
+            style={{
+              lineHeight: 1.05,
+              letterSpacing: '-2px',
+            }}
           >
             What Our Clients Say
           </h2>
         </motion.div>
       </div>
 
-      {/* Card */}
-      <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
-          className="rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center shadow-[0_18px_40px_rgba(0,0,0,0.16),0_30px_60px_rgba(0,0,0,0.10)]"
-          style={{
-            background: isDarkT ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.92)',
-            border: isDarkT ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.07)',
-            boxShadow: isDarkT
-              ? '0 8px 40px rgba(0,0,0,0.4)'
-              : '0 8px 40px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
-            backdropFilter: 'blur(12px)',
-          }}
-        >
+      {/* STACKED TESTIMONIAL CARDS */}
+      <div
+        className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative h-[470px] sm:h-[430px]">
 
-          {/* Client Feedback */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6, ease }}
-            className="mb-4 text-[11px] font-semibold uppercase tracking-widest "
-            style={{ color: '#FF4800' }}
-          >
-            Client Feedback
-          </motion.p>
+          {testimonials.map((item, index) => {
+            const isCurrentCard = index === testimonialIndex;
 
-          {/* Stars */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, delay: 0.1, ease }}
-            className="mb-4 flex items-center justify-center gap-1"
-          >
-            {[...Array(t.stars)].map((_, i) => (
-    <motion.div
-      key={i}
-      initial={{ opacity: 0, scale: 0.5 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.3,
-        delay: 0.15 + i * 0.08,
-        ease,
-      }}
-    >
-      <Star
-        className="h-4 w-4 fill-current"
-        style={{ color: '#FBBF24' }}
-      />
-    </motion.div>
-  ))}
-</motion.div>
+            const isPrevCard =
+              index === (testimonialIndex + 1) % testimonials.length;
 
-          {/* Quote Icon */}
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, delay: 0.15, ease }}
-            className="mb-2 block leading-none"
-            style={{
-              fontSize: '48px',
-              color: '#FF4800',
-              opacity: 0.5,
-            }}
-          >
-            &#x275D;
-          </motion.span>
+            const isNextCard =
+              index === (testimonialIndex + 2) % testimonials.length;
 
-          {/* Testimonial */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, delay: 0.2, ease }}
-            className="text-[clamp(0.95rem,2.2vw,1.15rem)] italic leading-[1.7] font-normal"
-            style={{
-              color: isDarkT
-                ? 'rgba(255,255,255,0.85)'
-                : '#1e293b',
-            }}
-          >
-            {t.quote}
-          </motion.p>
+            if (
+              !isCurrentCard &&
+              !isPrevCard &&
+              !isNextCard
+            ) {
+              return null;
+            }
 
-          {/* Divider */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{
-              duration: 0.8,
-              delay: 0.35,
-              ease: [0.4, 0, 0.2, 1],
-            }}
-            className="mx-auto my-6"
-            style={{
-              width: '3rem',
-              height: '1px',
-              background: 'rgba(255,72,0,0.5)',
-              transformOrigin: 'center',
-            }}
-          />
-
-          {/* Name + Role — NO PHOTO */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6, delay: 0.4, ease }}
-            className="text-center"
-          >
-            <p
-              className="text-[14px] font-semibold"
-              style={{
-                color: isDarkT
-                  ? 'rgba(255,255,255,0.9)'
-                  : '#0f172a',
-              }}
-            >
-              {t.name}
-            </p>
-
-            <p
-              className="text-[12px]"
-              style={{
-                color: isDarkT
-                  ? 'rgba(255,255,255,0.4)'
-                  : '#64748b',
-              }}
-            >
-              {t.role}
-              {t.company && (
-                <span>
-                  {' · '}
-                  <span style={{ color: '#FF4800' }}>
-                    {t.company}
-                  </span>
-                </span>
-              )}
-            </p>
-          </motion.div>
-
-          {/* Pagination Dots */}
-          <div className="mt-5 flex items-center justify-center gap-2">
-            {testimonials.map((_, index) => (
-              <button
+            return (
+              <motion.div
                 key={index}
-                type="button"
-                onClick={() => setTestimonialIndex(index)}
-                aria-label={`Go to testimonial ${index + 1}`}
-                className="rounded-full transition-all duration-300"
+                className="absolute inset-0 rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center shadow-[0_18px_40px_rgba(0,0,0,0.16),0_30px_60px_rgba(0,0,0,0.10)]"
                 style={{
-                  width: index === testimonialIndex ? '8px' : '7px',
-                  height: index === testimonialIndex ? '8px' : '7px',
-                  background:
-                    index === testimonialIndex
-                      ? '#FF4800'
-                      : isDarkT
-                      ? 'rgba(255,255,255,0.25)'
-                      : 'rgba(0,0,0,0.18)',
+                  zIndex: isCurrentCard
+                    ? 3
+                    : isPrevCard
+                    ? 2
+                    : 1,
+
+                  background: isDarkT
+                    ? 'rgba(255,255,255,0.04)'
+                    : 'rgba(255,255,255,0.92)',
+
+                  border: isDarkT
+                    ? '1px solid rgba(255,255,255,0.08)'
+                    : '1px solid rgba(0,0,0,0.07)',
+
+                  boxShadow: isDarkT
+                    ? '0 8px 40px rgba(0,0,0,0.4)'
+                    : '0 8px 40px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+
+                  backdropFilter: 'blur(12px)',
                 }}
-              />
-            ))}
-          </div>
-        </motion.div>
+
+                drag={isCurrentCard ? 'x' : false}
+                dragConstraints={{
+                  left: 0,
+                  right: 0,
+                }}
+                dragElastic={0.7}
+
+                onDragEnd={
+                  isCurrentCard
+                    ? (_, info) => {
+                        if (Math.abs(info.offset.x) > 100) {
+                          setExitX(info.offset.x);
+
+                          setTimeout(() => {
+                            setTestimonialIndex(
+                              (prev) =>
+                                (prev + 1) %
+                                testimonials.length
+                            );
+
+                            setExitX(0);
+                          }, 200);
+                        }
+                      }
+                    : undefined
+                }
+
+                initial={{
+                  scale: 0.95,
+                  opacity: 0,
+                  y: isCurrentCard
+                    ? 0
+                    : isPrevCard
+                    ? 8
+                    : 16,
+                  rotate: isCurrentCard
+                    ? 0
+                    : isPrevCard
+                    ? -2
+                    : -4,
+                }}
+
+                animate={{
+                  scale: isCurrentCard ? 1 : 0.95,
+
+                  opacity: isCurrentCard
+                    ? 1
+                    : isPrevCard
+                    ? 0.6
+                    : 0.3,
+
+                  x: isCurrentCard ? exitX : 0,
+
+                  y: isCurrentCard
+                    ? 0
+                    : isPrevCard
+                    ? 8
+                    : 16,
+
+                  rotate: isCurrentCard
+                    ? exitX / 20
+                    : isPrevCard
+                    ? -2
+                    : -4,
+                }}
+
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20,
+                }}
+              >
+                {/* Client Feedback */}
+                <motion.p
+                  key={`label-${index}-${testimonialIndex}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    ease,
+                  }}
+                  className="mb-4 text-[11px] font-semibold uppercase tracking-widest"
+                  style={{ color: '#FF4800' }}
+                >
+                  Client Feedback
+                </motion.p>
+
+                {/* Stars */}
+                <motion.div
+                  key={`stars-${index}-${testimonialIndex}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    ease,
+                  }}
+                  className="mb-4 flex items-center justify-center gap-1"
+                >
+                  {[...Array(item.stars)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.5,
+                        rotate: -15,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        rotate: 0,
+                      }}
+                      transition={{
+                        duration: 0.35,
+                        delay: i * 0.08,
+                        ease,
+                      }}
+                    >
+                      <Star
+                        className="h-4 w-4 fill-current"
+                        style={{ color: '#FBBF24' }}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* Quote Icon */}
+                <motion.span
+                  key={`quote-${index}-${testimonialIndex}`}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.6,
+                    y: 10,
+                  }}
+                  animate={{
+                    opacity: 0.5,
+                    scale: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.1,
+                    ease,
+                  }}
+                  className="mb-2 block leading-none"
+                  style={{
+                    fontSize: '48px',
+                    color: '#FF4800',
+                  }}
+                >
+                  &#x275D;
+                </motion.span>
+
+                {/* Testimonial */}
+                <motion.p
+                  key={`quote-text-${index}-${testimonialIndex}`}
+                  initial={{
+                    opacity: 0,
+                    y: 25,
+                    filter: 'blur(6px)',
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    filter: 'blur(0px)',
+                  }}
+                  transition={{
+                    duration: 0.75,
+                    delay: 0.12,
+                    ease,
+                  }}
+                  className="text-[clamp(0.95rem,2.2vw,1.15rem)] italic leading-[1.7] font-normal"
+                  style={{
+                    color: isDarkT
+                      ? 'rgba(255,255,255,0.85)'
+                      : '#1e293b',
+                  }}
+                >
+                  {item.quote}
+                </motion.p>
+
+                {/* Divider */}
+                <motion.div
+                  key={`divider-${index}-${testimonialIndex}`}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.25,
+                    ease,
+                  }}
+                  className="mx-auto my-6 origin-center"
+                  style={{
+                    width: '3rem',
+                    height: '1px',
+                    background: 'rgba(255,72,0,0.5)',
+                  }}
+                />
+
+                {/* Name + Role */}
+                <motion.div
+                  key={`person-${index}-${testimonialIndex}`}
+                  initial={{
+                    opacity: 0,
+                    y: 15,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.3,
+                    ease,
+                  }}
+                >
+                  <p
+                    className="font-semibold text-sm"
+                    style={{
+                      color: isDarkT
+                        ? '#ffffff'
+                        : '#1a1a2e',
+                    }}
+                  >
+                    {item.name}
+                  </p>
+
+                  <p
+                    className="mt-1 text-xs"
+                    style={{
+                      color: isDarkT
+                        ? 'rgba(255,255,255,0.55)'
+                        : '#6b7280',
+                    }}
+                  >
+                    {item.role} · {item.company}
+                  </p>
+                </motion.div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Pagination */}
+        <div className="mt-10 flex justify-center gap-2">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setExitX(0);
+                setTestimonialIndex(index);
+              }}
+              className={`h-2 w-2 rounded-full transition-colors ${
+                index === testimonialIndex
+                  ? 'bg-[#FF4800]'
+                  : 'bg-gray-300 dark:bg-gray-700'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
 }
+
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
