@@ -29,8 +29,8 @@ interface Pillar {
 /* Cards sit on a true circle around the core: same radius, evenly spaced by
    angle (72° apart, pentagon), in fixed pixels so the spacing is identical
    on every screen instead of drifting with mismatched vw/vh units. */
-const ORBIT_SIZE = 760;
-const ORBIT_RADIUS = 280;
+const ORBIT_SIZE = 680;
+const ORBIT_RADIUS = 235;
 
 function orbitPoint(angleDeg: number) {
   const rad = (angleDeg * Math.PI) / 180;
@@ -66,24 +66,21 @@ const pillars: Pillar[] = [
     color: '#FF4800',
   },
   {
-    id: '4',
-    title: 'Reliable Systems',
-    desc: 'Build architecture that scales without breaking.',
-    icon: <Shield size={20} />,
-    ...orbitPoint(18),
-    x: 420,
-    color: '#FF4800',
-  },
-  {
-    id: '5',
-    title: 'Efficiency',
-    desc: 'Optimize every micro-interaction in your stack.',
-    icon: <Target size={20} />,
-    ...orbitPoint(90),
-    x: 75,
-    y: 300,
-    color: '#FF4800',
-  },
+  id: '4',
+  title: 'Reliable Systems',
+  desc: 'Build architecture that scales without breaking.',
+  icon: <Shield size={20} />,
+  ...orbitPoint(18),
+  color: '#FF4800',
+},
+{
+  id: '5',
+  title: 'Efficiency',
+  desc: 'Optimize every micro-interaction in your stack.',
+  icon: <Target size={20} />,
+  ...orbitPoint(90),
+  color: '#FF4800',
+},
 ];
 
 /* ─────────────────────────────────────────────────────────────────────── */
@@ -112,25 +109,29 @@ function ConnectionLine({
       className="absolute inset-0 m-auto pointer-events-none z-0"
       style={{ overflow: 'visible', width: ORBIT_SIZE, height: ORBIT_SIZE }}
     >
-      <motion.line
-        x1={center}
-        y1={center}
-        x2={center + x}
-        y2={center + y}
-        strokeWidth="1.5"
-        strokeDasharray="4 4"
-        style={{ pathLength }}
-        animate={{
-          opacity: active ? 1 : 0.35,
-          stroke: active
-            ? 'rgba(255, 72, 0, 0.5)'
-            : 'rgba(255, 72, 0, 0.18)',
-        }}
-        transition={{
-          duration: 0.5,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-      />
+     <motion.line
+  x1={center}
+  y1={center}
+  x2={center + x}
+  y2={center + y}
+  strokeWidth="1.5"
+  strokeDasharray="4 4"
+  initial={{
+    opacity: 0.35,
+    stroke: 'rgba(255, 72, 0, 0.18)',
+  }}
+  style={{ pathLength }}
+  animate={{
+    opacity: active ? 1 : 0.35,
+    stroke: active
+      ? 'rgba(255, 72, 0, 0.5)'
+      : 'rgba(255, 72, 0, 0.18)',
+  }}
+  transition={{
+    duration: 0.5,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+/>
     </svg>
   );
 }
@@ -170,13 +171,17 @@ function PillarCard({
 
   return (
     <div
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
-      style={{
-        width: '190px',
-        perspective: '1000px',
-        transform: `translate(calc(-50% + ${pillar.x}px), calc(-50% + ${pillar.y}px))`,
-      }}
-    >
+  className="absolute left-1/2 top-1/2 z-10 cursor-pointer"
+  style={{
+    width: '190px',
+    height:'190px',
+    perspective: '1000px',
+    transform: `translate(
+      calc(-50% + ${pillar.x}px),
+      calc(-50% + ${pillar.y}px)
+    )`,
+  }}
+>
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -191,21 +196,28 @@ function PillarCard({
           scale: revealScale,
         }}
       >
-        <motion.div
-          animate={{
-            rotateY: mousePos.x * 20,
-            rotateX: -mousePos.y * 20,
-            scale: active ? 1.05 : 1,
-            boxShadow: active
-              ? '0 20px 40px rgba(255, 72, 0, 0.15), 0 0 0 1px rgba(255, 72, 0, 0.3)'
-              : '0 10px 30px rgba(0, 0, 0, 0.05)',
-          }}
-          className={`relative overflow-hidden rounded-2xl p-5 transition-colors duration-500 ${
-            isDark
-              ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]'
-              : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
-          }`}
-        >
+       <motion.div
+  animate={{
+    rotateY: mousePos.x * 20,
+    rotateX: -mousePos.y * 20,
+    scale: 1,
+    boxShadow: active
+      ? '0 20px 40px rgba(255, 72, 0, 0.15), 0 0 0 1px rgba(255, 72, 0, 0.3)'
+      : '0 10px 30px rgba(0, 0, 0, 0.05)',
+  }}
+  style={{
+    width: '190px',
+    height: '190px',
+    minHeight: '190px',
+    maxHeight: '190px',
+    boxSizing: 'border-box',
+  }}
+  className={`relative overflow-hidden rounded-2xl p-5 transition-colors duration-500 ${
+    isDark
+      ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]'
+      : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
+  }`}
+>
         <div
           className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${
             isDark ? 'bg-[#FF4800]/15' : 'bg-[#FF4800]/10'
@@ -293,17 +305,17 @@ export default function SystemsCoreSection({
       className="
         relative
         flex
-        min-h-[95vh]
+        min-h-screen
         flex-col
         items-center
         justify-start
         overflow-hidden
-        py-16
-        pb-8
-        md:pt-16
-        md:pb-8
-        lg:pt-20
-        lg:pb-10
+        py-10
+        pb-6
+        md:pt-10
+        md:pb-6
+        lg:pt-12
+        lg:pb-8
       "
       style={{
         background: isDark ? '#0a0a14' : '#e8e8f0',
@@ -315,12 +327,12 @@ export default function SystemsCoreSection({
         className="
           relative
           z-20
-          mb-8
+          mb-4
+          lg:mb-6
           w-full
           max-w-4xl
           px-6
           text-center
-          lg:mb-16
         "
       >
         <motion.p
@@ -406,23 +418,23 @@ export default function SystemsCoreSection({
       {/* INTERACTIVE ORBIT */}
 
       <motion.div
-        style={{
-          opacity: smoothOpacity,
-          scale: smoothScale,
-          width: ORBIT_SIZE,
-          height: ORBIT_SIZE,
-          maxWidth: '100%',
-        }}
-        className="
-          relative
-          z-10
-          hidden
-          mx-auto
-          items-center
-          justify-center
-          lg:flex
-        "
-      >
+  style={{
+    opacity: smoothOpacity,
+    scale: smoothScale,
+    width: ORBIT_SIZE,
+    height: ORBIT_SIZE,
+  }}
+  className="
+    relative
+    z-10
+    hidden
+    shrink-0
+    items-center
+    justify-center
+    lg:flex
+    -mt-10
+  "
+>
         {/* Background */}
 
         <div className="absolute inset-0 opacity-20 pointer-events-none">
@@ -487,14 +499,14 @@ export default function SystemsCoreSection({
 
         {pillars.map((p, i) => (
           <PillarCard
-            key={p.id}
-            pillar={p}
-            active={activePillar === p.id}
-            onHover={setActivePillar}
-            isDark={isDark}
-            scrollYProgress={scrollYProgress}
-            range={[0.25 + i * 0.05, 0.4 + i * 0.05]}
-          />
+  key={p.id}
+  pillar={p}
+  active={activePillar === p.id}
+  onHover={setActivePillar}
+  isDark={isDark}
+  scrollYProgress={scrollYProgress}
+  range={[0.25, 0.4]}
+/>
         ))}
       </motion.div>
 
@@ -534,11 +546,11 @@ export default function SystemsCoreSection({
               ease: [0.16, 1, 0.3, 1],
               delay: parseInt(p.id) * 0.08,
             }}
-            className={`relative overflow-hidden rounded-2xl p-6 ${
-              isDark
-                ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]'
-                : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
-            } ${p.id === '5' ? 'sm:col-span-2' : ''}`}
+            className={`relative h-[190px] w-full overflow-hidden rounded-2xl p-5 transition-colors duration-500 ${
+  isDark
+    ? 'bg-white/[0.03] backdrop-blur-xl border border-white/[0.08]'
+    : 'bg-white/80 backdrop-blur-xl border border-black/[0.05]'
+}`}
             style={{
               boxShadow: isDark
                 ? '0 10px 30px rgba(0,0,0,0.3)'
@@ -588,8 +600,8 @@ export default function SystemsCoreSection({
         className="
           relative
           z-20
-          mt-8
-          lg:mt-10
+          mt-3
+          lg:mt-4
           flex
           flex-col
           items-center
