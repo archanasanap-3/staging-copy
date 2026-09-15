@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
+import { StackedCarousel } from '@/components/features/common/StackedCarousel';
 
 const ease = [0.4, 0, 0.2, 1] as const;
 
