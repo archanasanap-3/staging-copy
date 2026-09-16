@@ -18,7 +18,10 @@ import {
   Layers,
   Zap,
   BarChart3,
-  Workflow
+  Workflow,
+  MessageCircle,
+  Mail,
+  Bot
 } from 'lucide-react';
 import MagneticButton from '@/components/features/common/MagneticButton';
 import ServiceComparison from '@/components/features/services/ServiceComparison';
@@ -170,17 +173,17 @@ const services: ServiceBlockData[] = [
 
 function HeroSection() {
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-20 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.06]">
-      <div className="mx-auto max-w-5xl">
+   <section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-8 overflow-hidden">
+  <div className="mx-auto w-full max-w-7xl px-6">
         <PageHeader
   eyebrow="Our Expertise"
   title="Enterprise Software & AI Automation Services"
   subtitle={
-    <>
-      We build high performance infrastructure and intelligent automation
-      <br />
-      systems designed for the next generation of enterprise growth.
-    </>
+    <span className="block w-full max-w-full whitespace-normal break-words">
+          We build high performance infrastructure and intelligent automation
+          <br className="hidden sm:block" />
+          systems designed for the next generation of enterprise growth.
+        </span>
   }
 />
       </div>
@@ -195,16 +198,21 @@ function HeroSection() {
 function ServiceBlock({
   service,
   index,
+  onNavigate,
 }: {
   service: ServiceBlockData;
   index: number;
+  onNavigate: (page: string) => void;
 }) {
   const isEven = index % 2 === 0;
+
   const containerRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
   });
+
   const yValue = useTransform(scrollYProgress, [0, 1], [-60, 60]);
 
   return (
@@ -217,6 +225,7 @@ function ServiceBlock({
           : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
       }`}
     >
+      {/* Background Number */}
       <motion.span
         style={{ y: yValue }}
         className={`stroke-text absolute top-0 select-none text-[18rem] font-black leading-none lg:text-[28rem] ${
@@ -226,7 +235,10 @@ function ServiceBlock({
         {service.number}
       </motion.span>
 
+      {/* Main Grid */}
       <div className="relative z-10 mx-auto grid max-w-7xl gap-16 lg:grid-cols-12 lg:items-center">
+
+        {/* LEFT CONTENT */}
         <div
           className={`lg:col-span-5 ${
             isEven ? 'lg:order-1' : 'lg:order-2'
@@ -251,103 +263,146 @@ function ServiceBlock({
             </h2>
           </div>
 
-          <p className="mb-10 text-lg leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
-            {service.body}
-          </p>
+        <p className="mb-10 w-full max-w-[600px] text-left text-[16px] leading-[1.8] text-[#6b7280] dark:text-[#9ca3af] [text-wrap:pretty]">
+  {service.body}
+</p>
 
-          <MagneticButton>
-            <button className="btn-shine rounded-xl bg-[#FF4800] px-10 py-4 text-[13px] font-bold uppercase tracking-widest text-white shadow-lg">
-              Book Strategy Call
-            </button>
-          </MagneticButton>
+         <button
+  type="button"
+  onClick={() => onNavigate('contact')}
+  className="rounded-xl bg-[#FF4800] px-10 py-4 text-[13px] font-bold uppercase tracking-widest text-white shadow-lg"
+>
+  Book Strategy Call
+</button>
         </div>
 
+        {/* RIGHT ICONS */}
+<div
+  className={`lg:col-span-7 ${
+    isEven ? 'lg:order-2' : 'lg:order-1'
+  }`}
+>
+  <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 items-center">
+    {service.capabilities.map((cap, i) => {
+      const [label] = cap.split(':');
+
+      const Icon =
+        service.id === 'automation'
+          ? [MessageCircle, Mail, Bot][i]
+          : service.id === 'custom-software'
+          ? [Database, BarChart3, Globe][i]
+          : service.id === 'ai-strategy'
+          ? [Cpu, Workflow, Network][i]
+          : [Zap, Layers, TrendingDown][i];
+
+      return (
         <div
-          className={`lg:col-span-7 ${
-            isEven ? 'lg:order-2' : 'lg:order-1'
-          }`}
+          key={i}
+          className="group flex flex-col items-center text-center"
         >
-          <div className="grid gap-5 sm:grid-cols-2">
-            {service.capabilities.map((cap, i) => {
-              const [label, desc] = cap.split(':');
-
-              return (
-                <div
-                  key={i}
-                  className="group glass-card rounded-2xl p-7 transition-colors hover:border-[#FF4800]/30"
-                >
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF4800]/10 text-[#FF4800]">
-                    <ArrowRight size={20} />
-                  </div>
-
-                  <h4 className="font-normal tracking-tight text-[#1a1a2e] dark:text-white">
-                    {label}
-                  </h4>
-
-                  <p className="mt-2 text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
-                    {desc}
-                  </p>
-                </div>
-              );
-            })}
+          <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#FF4800]/10 text-[#FF4800] transition-transform duration-300 group-hover:scale-105">
+            <Icon
+              size={38}
+              strokeWidth={1.5}
+            />
           </div>
+
+          <h4 className="text-lg font-normal tracking-tight text-[#1a1a2e] dark:text-white">
+            {label}
+          </h4>
         </div>
+      );
+    })}
+  </div>
+</div>
+
       </div>
     </motion.section>
   );
 }
-
 /* ------------------------------------------------------------------ */
 /* Expertise & Tech Stack                                             */
 /* ------------------------------------------------------------------ */
 
 function WhyStravedaSection() {
-  const whyCards = [
+  const steps = [
     {
-      icon: <Diamond size={32} className="text-[#FF4800]" strokeWidth={1.5} />,
-      title: 'Automation First',
+      number: '01',
+      title: 'AUTOMATION FIRST',
+      heading: 'Automation First',
       body: 'We audit what can be removed before we build. We prune scope—then automate what remains.',
     },
     {
-      icon: (
-        <TrendingDown size={32} className="text-[#FF4800]" strokeWidth={1.5} />
-      ),
-      title: 'Weekly Shipping',
+      number: '02',
+      title: 'WEEKLY SHIPPING',
+      heading: 'Weekly Shipping',
       body: 'One week sprints with visible builds every Friday. You see working code, not slide decks.',
     },
     {
-      icon: (
-        <ShieldCheck size={32} className="text-[#FF4800]" strokeWidth={1.5} />
-      ),
-      title: 'Full Ownership',
+      number: '03',
+      title: 'FULL OWNERSHIP',
+      heading: 'Full Ownership',
       body: 'Zero vendor lock in. You own 100% of the source code and the intellectual property.',
     },
   ];
 
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] px-6 pb-24">
+    <section className="relative bg-white dark:bg-[#0a0a14] px-6 py-24">
       <div className="mx-auto max-w-7xl">
-        <HorizontalCarousel cols={3} size="md">
-          {whyCards.map((card, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="glass-card flex flex-col h-full rounded-2xl p-8 active:scale-95 transition-transform"
-            >
-              <div className="mb-6">{card.icon}</div>
 
-              <h4 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {card.title}
-              </h4>
+        {/* ================= HEADING ================= */}
+        <div className="-mt-30 mb-8 text-center">
+          <span className="text-[11px] font-bold uppercase tracking-[0.35em] text-[#FF4800]">
+            Our Approach
+          </span>
 
-              <p className="mt-4 flex-1 text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">
-                {card.body}
-              </p>
-            </motion.div>
-          ))}
-        </HorizontalCarousel>
+         <h2
+  className="masked-title mt-4 font-normal"
+  style={{
+    fontSize: 'clamp(2.5rem, 5vw, 3.25rem)',
+    lineHeight: 1.1,
+    letterSpacing: '-2.05px',
+  }}
+>
+  Built for How You Work
+</h2>
+        </div>
+
+        {/* ================= STEPPER ================= */}
+        <div className="relative">
+
+          {/* Horizontal Line */}
+          <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-gray-200 dark:bg-white/10 md:block" />
+
+          <div className="grid grid-cols-1 gap-14 md:grid-cols-3 md:gap-8">
+            {steps.map((step, index) => (
+              <div
+                key={step.number}
+                className="relative text-center"
+              >
+                {/* Step Number */}
+                <div className="relative z-10 mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#FF4800]/30 bg-white text-xs font-bold text-[#FF4800] dark:bg-[#0a0a14]">
+                  {step.number}
+                </div>
+
+                {/* Step Title */}
+               <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400"></p>
+
+                {/* Description */}
+                <div className="mx-auto mt-8 max-w-sm">
+                  <h3 className="text-xl font-normal tracking-[-0.02em] text-gray-900 dark:text-white md:text-2xl">
+                    {step.heading}
+                  </h3>
+
+                  <p className="mt-4 text-[16px] leading-7 font-normal text-gray-600 dark:text-gray-400 md:text-[17px]">
+                    {step.body}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -360,131 +415,176 @@ function TechStackSection() {
       items: [
         {
           name: 'Next.js',
-          icon: <Code size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/nextdotjs',
         },
         {
           name: 'React',
-          icon: <Layers size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/react',
         },
         {
           name: 'TypeScript',
-          icon: <Code size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/typescript',
         },
         {
           name: 'Tailwind CSS',
-          icon: <Zap size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/tailwindcss',
         },
       ],
     },
+
     {
       label: 'AI & Automation',
       items: [
         {
           name: 'OpenAI GPT-4o',
-          icon: <Network size={24} className="text-[#FF4800]" />,
+          icon: Network,
         },
         {
           name: 'Claude API',
-          icon: <Cpu size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/anthropic',
         },
         {
           name: 'LangChain',
-          icon: <Workflow size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/langchain',
         },
         {
           name: 'Vector DBs',
-          icon: <BarChart3 size={24} className="text-[#FF4800]" />,
+          icon: Database,
         },
       ],
     },
+
     {
       label: 'Infrastructure',
       items: [
         {
           name: 'AWS / GCP',
-          icon: <Cloud size={24} className="text-[#FF4800]" />,
+          icon: Cloud,
         },
         {
           name: 'Docker',
-          icon: <Globe size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/docker',
         },
         {
           name: 'CI/CD',
-          icon: <GitBranch size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/githubactions',
         },
         {
           name: 'Security',
-          icon: <Lock size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/cloudflare',
         },
       ],
     },
+
     {
       label: 'Data & Backend',
       items: [
         {
           name: 'PostgreSQL',
-          icon: <Database size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/postgresql',
         },
         {
           name: 'Redis',
-          icon: <Database size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/redis',
         },
         {
           name: 'Node.js',
-          icon: <Zap size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/nodedotjs',
         },
         {
           name: 'REST / GraphQL',
-          icon: <Network size={24} className="text-[#FF4800]" />,
+          logo: 'https://cdn.simpleicons.org/graphql',
         },
       ],
     },
   ];
 
   return (
-    <section className="bg-white dark:bg-[#0a0a14] py-24 border-t border-black/[0.06] dark:border-white/[0.06]">
+    <section className="border-t border-black/[0.06] bg-white pt-10 pb-24 dark:border-white/[0.06] dark:bg-[#0a0a14]">
       <div className="mx-auto max-w-6xl px-6 text-center">
+        {/* Heading */}
         <h2
-          className="masked-title mb-4 font-normal"
-          style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            lineHeight: 1.1,
-            letterSpacing: '-2.05px',
-          }}
-        >
-          Mastered Technologies
-        </h2>
+  className="masked-title mb-4 font-normal"
+  style={{
+    fontSize: 'clamp(2.5rem, 5vw, 3.25rem)',
+    lineHeight: 1.1,
+    letterSpacing: '-2.05px',
+  }}
+>
+  Mastered Technologies
+</h2>
 
-        <p className="mb-16 text-sm text-[#6b7280] dark:text-[#9ca3af]">
+        {/* Description */}
+        <p className="mx-auto mb-16 max-w-2xl text-[15px] leading-7 text-[#6b7280] dark:text-[#9ca3af]">
           A full-stack toolkit — from interface to inference.
         </p>
 
-        <div className="flex flex-col gap-10">
+        {/* Categories */}
+        <div className="flex flex-col gap-12">
           {techCategories.map((category) => (
             <div key={category.label}>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#FF4800]">
+              {/* Category Label */}
+              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#FF4800]">
                 {category.label}
               </p>
 
-              <HorizontalCarousel
-                cols={4}
-                size="sm"
-                showHint={false}
-                showDots={false}
-              >
-                {category.items.map((tech, i) => (
-                  <div
-                    key={i}
-                    className="glass-card flex flex-col items-center justify-center gap-3 rounded-2xl p-6 sm:p-8 active:scale-95 transition-transform h-full"
-                  >
-                    {tech.icon}
+              {/* Technology Cards */}
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {category.items.map((tech) => {
+                  const Icon = 'icon' in tech ? tech.icon : null;
 
-                    <span className="text-[11px] sm:text-sm font-bold uppercase tracking-widest text-[#1a1a2e] dark:text-white text-center">
-                      {tech.name}
-                    </span>
-                  </div>
-                ))}
-              </HorizontalCarousel>
+                  return (
+                    <div
+                      key={tech.name}
+                      className="
+                        glass-card
+                        flex
+                        min-h-[150px]
+                        flex-col
+                        items-center
+                        justify-center
+                        gap-5
+                        rounded-2xl
+                        p-6
+                        transition-transform
+                        duration-300
+                        active:scale-[0.98]
+                      "
+                    >
+                      {/* Logo / Fallback Icon */}
+                      <div className="flex h-12 w-12 items-center justify-center">
+                        {'logo' in tech ? (
+                          <img
+                            src={tech.logo}
+                            alt={`${tech.name} logo`}
+                            className="h-10 w-10 object-contain sm:h-11 sm:w-11"
+                          />
+                        ) : Icon ? (
+                          <Icon
+  size={40}
+  strokeWidth={1.5}
+  className="text-[#1a1a2e] dark:text-white"
+/>
+                        ) : null}
+                      </div>
+
+                      {/* Technology Name */}
+                      <span
+  className="
+    text-center
+    text-[15px]
+    leading-7
+    font-normal
+    text-[#6b7280]
+    dark:text-[#9ca3af]
+  "
+>
+  {tech.name}
+</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>
@@ -492,7 +592,6 @@ function TechStackSection() {
     </section>
   );
 }
-
 /* ------------------------------------------------------------------ */
 /* Main Page Export                                                   */
 /* ------------------------------------------------------------------ */
@@ -546,15 +645,16 @@ useEffect(() => {
 
       <WhyStravedaSection />
 
-      <ServicesHoverModal onNavigate={onNavigate} />
+     
 
       <div className="flex flex-col">
   {services.map((service, index) => (
-    <ServiceBlock
-      key={service.id}
-      service={service}
-      index={index}
-    />
+   <ServiceBlock
+  key={service.id}
+  service={service}
+  index={index}
+  onNavigate={onNavigate}
+/>
   ))}
 </div>
 
