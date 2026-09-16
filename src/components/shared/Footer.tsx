@@ -201,7 +201,8 @@ export default function Footer() {
                 </a>
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-                  <span className="leading-tight">Pune, Maharashtra<br />411001, India</span>
+                  <span className="leading-5">Pune, Maharashtra
+                    <br />411001, India</span>
                 </div>
               </div>
             </div>

@@ -133,7 +133,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-6 sm:pt-8 pb-16 sm:pb-24 overflow-hidden">
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-0 sm:pt-2 pb-16 sm:pb-24 overflow-hidden">
 
       {/* ── Subtle engineering grid background ────────────────── */}
 
@@ -158,41 +158,6 @@ export default function ServicesSection() {
       />
 
       {/* ── Section header ────────────────────────────────────── */}
-
-      <div className="relative z-10 px-4 sm:px-6 mb-10 sm:mb-14 text-center">
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease }}
-          className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF4800]"
-        >
-          What We Build
-        </motion.p>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
-          className="text-[26px] sm:text-[34px] md:text-[42px] font-bold tracking-tight leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]"
-        >
-          Four Disciplines.{' '}
-          <span className="text-[#FF4800]">One</span> Engineering Team.
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2, ease }}
-          className="mt-4 text-[14px] sm:text-[15px] text-[#6b7280] dark:text-[#9ca3af] max-w-xl mx-auto"
-        >
-          Swipe to explore on mobile. Each discipline ships real outcomes, not slide decks.
-        </motion.p>
-
-      </div>
 
       {/* ════════════════════════════════════════════════════════
           CAROUSEL (mobile) → GRID (md+)
