@@ -21,7 +21,8 @@ import {
   Workflow,
   MessageCircle,
   Mail,
-  Bot
+  Bot,
+  Users
 } from 'lucide-react';
 import MagneticButton from '@/components/features/common/MagneticButton';
 import ServiceComparison from '@/components/features/services/ServiceComparison';
@@ -126,6 +127,7 @@ const services: ServiceBlockData[] = [
       'WhatsApp Automation: AI powered lead qualification & instant booking',
       'Email Sequences: Behavioral triggers that run without touching your CRM',
       'AI Support: Tier 1 handled by AI, complex issues auto escalate',
+       'Lead Qualification: AI powered lead scoring and qualification',
     ],
     number: '01',
   },
@@ -138,6 +140,7 @@ const services: ServiceBlockData[] = [
       'AI Powered CRMs: Built around your specific sales process',
       'Operational Dashboards: Real time visibility into your core metrics',
       'Customer Portals: Reduce support volume with intelligent self service',
+       'Data Integration: Connect your systems into one workflow',
     ],
     number: '02',
   },
@@ -150,6 +153,7 @@ const services: ServiceBlockData[] = [
       'AI Architecture: Phased roadmap to deploy where it creates real ROI',
       'LLM Fine Tuning: Models trained on your specific business context',
       'RAG Systems: AI that answers questions using your private secure data',
+        'AI Deployment: Production ready AI systems integrated into your stack',
     ],
     number: '03',
   },
@@ -162,6 +166,7 @@ const services: ServiceBlockData[] = [
       'Next.js Performance: Sub second loads and global edge deployment',
       '3D & Interactive: Make your brand unforgettable with immersive builds',
       'Conversion Funnels: A/B testing and analytics built into the core',
+      'SEO & Analytics: Search optimized with measurable performance tracking',
     ],
     number: '04',
   },
@@ -181,7 +186,6 @@ function HeroSection() {
   subtitle={
     <span className="block w-full max-w-full whitespace-normal break-words">
           We build high performance infrastructure and intelligent automation
-          <br className="hidden sm:block" />
           systems designed for the next generation of enterprise growth.
         </span>
   }
@@ -277,32 +281,33 @@ function ServiceBlock({
         </div>
 
         {/* RIGHT ICONS */}
+{/* RIGHT ICONS */}
 <div
   className={`lg:col-span-7 ${
     isEven ? 'lg:order-2' : 'lg:order-1'
   }`}
 >
-  <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 items-center">
+  <div className="grid grid-cols-2 gap-x-12 gap-y-12">
     {service.capabilities.map((cap, i) => {
       const [label] = cap.split(':');
 
       const Icon =
         service.id === 'automation'
-          ? [MessageCircle, Mail, Bot][i]
+          ? [MessageCircle, Mail, Bot, Users][i]
           : service.id === 'custom-software'
-          ? [Database, BarChart3, Globe][i]
+          ? [Database, BarChart3, Globe, Network][i]
           : service.id === 'ai-strategy'
-          ? [Cpu, Workflow, Network][i]
-          : [Zap, Layers, TrendingDown][i];
+          ? [Cpu, Workflow, Network, Zap][i]
+          : [Zap, Layers, TrendingDown, BarChart3][i];
 
       return (
         <div
           key={i}
           className="group flex flex-col items-center text-center"
         >
-          <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#FF4800]/10 text-[#FF4800] transition-transform duration-300 group-hover:scale-105">
+          <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#FF4800]/10 text-[#FF4800] transition-transform duration-300 group-hover:scale-105">
             <Icon
-              size={38}
+              size={32}
               strokeWidth={1.5}
             />
           </div>
@@ -381,10 +386,26 @@ function WhyStravedaSection() {
                 className="relative text-center"
               >
                 {/* Step Number */}
-                <div className="relative z-10 mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#FF4800]/30 bg-white text-xs font-bold text-[#FF4800] dark:bg-[#0a0a14]">
-                  {step.number}
-                </div>
-
+                <div
+  className="
+    relative z-10 mx-auto flex h-12 w-12
+    cursor-pointer items-center justify-center
+    rounded-full
+    border border-[#FF4800]/30
+    bg-white
+    text-xs font-bold text-[#FF4800]
+    transition-all duration-300 ease-out
+    hover:scale-110
+    hover:border-[#FF4800]
+    hover:bg-[#FF4800]
+    hover:text-white
+    hover:shadow-[0_10px_30px_rgba(255,72,0,0.25)]
+    dark:bg-[#0a0a14]
+    dark:hover:bg-[#FF4800]
+  "
+>
+  {step.number}
+</div>
                 {/* Step Title */}
                <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400"></p>
 

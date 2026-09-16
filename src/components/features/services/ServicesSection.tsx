@@ -164,22 +164,27 @@ export default function ServicesSection() {
           ════════════════════════════════════════════════════════ */}
 
       <div
-        ref={scrollRef}
-        className={[
-          'flex overflow-x-auto snap-x snap-mandatory scrollbar-hide',
-          'gap-4 px-4 scroll-pl-4 pb-3',
-          'md:grid md:grid-cols-2 md:overflow-visible md:snap-none',
-          'md:gap-5 md:px-6 md:pb-0 md:scroll-pl-0',
-          'xl:grid-cols-4 xl:gap-6',
-          'md:max-w-7xl md:mx-auto',
-        ].join(' ')}
-      >
+  ref={scrollRef}
+  className="
+    grid
+    grid-cols-1
+    gap-6
+    px-4
+    md:grid-cols-2
+    md:gap-5
+    md:px-6
+    xl:grid-cols-4
+    xl:gap-6
+    md:mx-auto
+    md:max-w-7xl
+  "
+>
 
         {CARD_DATA.map((card, i) => (
-          <div
-            key={i}
-            className="w-[85vw] flex-shrink-0 snap-start md:w-auto md:flex-shrink md:snap-none"
-          >
+         <div
+  key={i}
+  className="w-full"
+>
 
             <ServiceCard
               icon={card.icon}
@@ -200,47 +205,8 @@ export default function ServicesSection() {
 
       {/* ── Pagination dots — only visible on mobile ─────────── */}
 
-      <div
-        className="flex md:hidden items-center justify-center gap-2 mt-5 px-4"
-        role="tablist"
-        aria-label="Service card pagination"
-      >
-
-        {CARD_DATA.map((_, i) => (
-          <motion.button
-            key={i}
-            role="tab"
-            aria-selected={activeIndex === i}
-            aria-label={`Service ${i + 1} of ${cardCount}`}
-            onClick={() => scrollToCard(i)}
-            animate={{
-              width: activeIndex === i ? 24 : 8,
-              backgroundColor:
-                activeIndex === i
-                  ? '#FF4800'
-                  : 'rgba(0,0,0,0.12)',
-              scale: activeIndex === i ? 1.1 : 1,
-            }}
-            transition={{ duration: 0.25, ease }}
-            className="h-2 rounded-full cursor-pointer dark:bg-white/20"
-            style={{ minWidth: 8 }}
-          />
-        ))}
-
-      </div>
 
       {/* ── Swipe hint label — mobile only ─────────── */}
-
-      <motion.p
-        initial={{ opacity: 0.6 }}
-        animate={{ opacity: activeIndex > 0 ? 0 : 0.6 }}
-        transition={{ duration: 0.4 }}
-        className="flex md:hidden items-center justify-center gap-1.5 mt-3 text-[11px] text-[#9ca3af] dark:text-[#6b7280]"
-        aria-hidden="true"
-      >
-        <span>swipe to explore</span>
-        <span>→</span>
-      </motion.p>
 
     </section>
   );
