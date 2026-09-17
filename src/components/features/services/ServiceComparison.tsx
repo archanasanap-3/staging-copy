@@ -203,7 +203,7 @@ export default function ServiceComparison() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease }}
-            className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FF4800]"
+            className="-mt-10 mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FF4800]"
           >
             SERVICE COMPARISON
           </motion.p>

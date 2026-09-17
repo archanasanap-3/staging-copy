@@ -133,7 +133,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-6 sm:pt-8 pb-16 sm:pb-24 overflow-hidden">
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-0 sm:pt-2 pb-16 sm:pb-24 overflow-hidden">
 
       {/* ── Subtle engineering grid background ────────────────── */}
 
@@ -159,62 +159,32 @@ export default function ServicesSection() {
 
       {/* ── Section header ────────────────────────────────────── */}
 
-      <div className="relative z-10 px-4 sm:px-6 mb-10 sm:mb-14 text-center">
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease }}
-          className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF4800]"
-        >
-          What We Build
-        </motion.p>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
-          className="text-[26px] sm:text-[34px] md:text-[42px] font-bold tracking-tight leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]"
-        >
-          Four Disciplines.{' '}
-          <span className="text-[#FF4800]">One</span> Engineering Team.
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2, ease }}
-          className="mt-4 text-[14px] sm:text-[15px] text-[#6b7280] dark:text-[#9ca3af] max-w-xl mx-auto"
-        >
-          Swipe to explore on mobile. Each discipline ships real outcomes, not slide decks.
-        </motion.p>
-
-      </div>
-
       {/* ════════════════════════════════════════════════════════
           CAROUSEL (mobile) → GRID (md+)
           ════════════════════════════════════════════════════════ */}
 
       <div
-        ref={scrollRef}
-        className={[
-          'flex overflow-x-auto snap-x snap-mandatory scrollbar-hide',
-          'gap-4 px-4 scroll-pl-4 pb-3',
-          'md:grid md:grid-cols-2 md:overflow-visible md:snap-none',
-          'md:gap-5 md:px-6 md:pb-0 md:scroll-pl-0',
-          'xl:grid-cols-4 xl:gap-6',
-          'md:max-w-7xl md:mx-auto',
-        ].join(' ')}
-      >
+  ref={scrollRef}
+  className="
+    grid
+    grid-cols-1
+    gap-6
+    px-4
+    md:grid-cols-2
+    md:gap-5
+    md:px-6
+    xl:grid-cols-4
+    xl:gap-6
+    md:mx-auto
+    md:max-w-7xl
+  "
+>
 
         {CARD_DATA.map((card, i) => (
-          <div
-            key={i}
-            className="w-[85vw] flex-shrink-0 snap-start md:w-auto md:flex-shrink md:snap-none"
-          >
+         <div
+  key={i}
+  className="w-full"
+>
 
             <ServiceCard
               icon={card.icon}
@@ -235,47 +205,8 @@ export default function ServicesSection() {
 
       {/* ── Pagination dots — only visible on mobile ─────────── */}
 
-      <div
-        className="flex md:hidden items-center justify-center gap-2 mt-5 px-4"
-        role="tablist"
-        aria-label="Service card pagination"
-      >
-
-        {CARD_DATA.map((_, i) => (
-          <motion.button
-            key={i}
-            role="tab"
-            aria-selected={activeIndex === i}
-            aria-label={`Service ${i + 1} of ${cardCount}`}
-            onClick={() => scrollToCard(i)}
-            animate={{
-              width: activeIndex === i ? 24 : 8,
-              backgroundColor:
-                activeIndex === i
-                  ? '#FF4800'
-                  : 'rgba(0,0,0,0.12)',
-              scale: activeIndex === i ? 1.1 : 1,
-            }}
-            transition={{ duration: 0.25, ease }}
-            className="h-2 rounded-full cursor-pointer dark:bg-white/20"
-            style={{ minWidth: 8 }}
-          />
-        ))}
-
-      </div>
 
       {/* ── Swipe hint label — mobile only ─────────── */}
-
-      <motion.p
-        initial={{ opacity: 0.6 }}
-        animate={{ opacity: activeIndex > 0 ? 0 : 0.6 }}
-        transition={{ duration: 0.4 }}
-        className="flex md:hidden items-center justify-center gap-1.5 mt-3 text-[11px] text-[#9ca3af] dark:text-[#6b7280]"
-        aria-hidden="true"
-      >
-        <span>swipe to explore</span>
-        <span>→</span>
-      </motion.p>
 
     </section>
   );
