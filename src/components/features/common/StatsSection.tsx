@@ -119,7 +119,7 @@ export default function StatsSection() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
-    <section ref={containerRef} className="relative pt-32 pb-16 md:pt-48 md:pb-24 bg-white dark:bg-[#0a0a14] overflow-hidden">
+    <section ref={containerRef} className="relative pt-32 pb-16 md:pt-32 md:pb-24 bg-white dark:bg-[#0a0a14] overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Grid */}
@@ -144,40 +144,34 @@ export default function StatsSection() {
             >
               {/* Heading Section */}
               <div className="mb-12">
-                <motion.span
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  className="inline-block text-[10px] font-bold uppercase tracking-[0.5em] text-[#FF4800] mb-8 px-4 py-2 rounded-full border border-[#FF4800]/20 bg-[#FF4800]/5 backdrop-blur-sm"
-                >
-                  Operations Reimagined
-                </motion.span>
+              {/* Top Tag */}
+<motion.div
+  initial={{ opacity: 0, x: -10 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.8, delay: 0.2 }}
+  className="mb-8"
+>
+  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800]">
+    Operations Reimagined
+  </span>
+</motion.div>
 
-                <h6 className="text-[#1a1a2e] dark:text-white text-3xl md:text-5xl font-bold uppercase leading-[1.05] tracking-tighter mb-10">
-                  <CharReveal text="We Get It. Because We've <br/> Lived It." delay={0.2} />
-                </h6>
+                <h6 className="text-[#1a1a2e] dark:text-white text-3xl md:text-5xl font-bold uppercase leading-[1.05] tracking-tighter mb-10"></h6>
 
-                {/* Animated Divider */}
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.5, delay: 1, ease }}
-                  style={{ originX: 0 }}
-                  className="h-px w-32 bg-gradient-to-r from-[#FF4800] to-transparent mb-12"
-                />
+                
               </div>
 
               {/* Body Content */}
-              <div className="max-w-3xl space-y-8">
+              <div className="-mt-4 max-w-3xl space-y-6">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 1.2, ease }}
-                  className="text-xl md:text-2xl font-light leading-relaxed text-[#475569] dark:text-[#9ca3af]"
-                >
-                  A small team of operators and builders who&apos;ve been through the chaos of scaling. We built Straveda as the <span className="text-[#FF4800] font-medium italic underline decoration-[#FF4800]/30 underline-offset-8">antidote</span> engineering first partners who measure success in outcomes.
+                 className="text-lg md:text-lg font-light leading-relaxed text-[#475569] dark:text-[#9ca3af] whitespace-nowrap"
+                 >
+                  A small team of operators and builders who&apos;ve been through the chaos of scaling. We built Straveda as the <span className="text-[#FF4800] font-medium italic">antidote</span> engineering first partners who measure <br />
+                  success in outcomes.
                 </motion.p>
 
                 <motion.div
@@ -187,12 +181,13 @@ export default function StatsSection() {
                   transition={{ duration: 0.8, delay: 1.4, ease }}
                   className="pt-8 flex items-center gap-8"
                 >
-                  <MagneticButton>
-                    <button className="group relative flex items-center gap-4 bg-[#FF4800] text-white px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-[11px] overflow-hidden shadow-2xl transition-all hover:scale-105 active:scale-95">
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                      Our Approach <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                    </button>
-                  </MagneticButton>
+                 <button
+  type="button"
+  className="flex items-center gap-4 bg-[#FF4800] text-white px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-[11px] shadow-2xl"
+>
+  Our Approach
+  <ArrowRight size={16} />
+</button>
 
                   <div className="flex flex-col">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#FF4800]">Strategy First</span>

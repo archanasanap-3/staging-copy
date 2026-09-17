@@ -211,7 +211,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 text-base md:text-lg text-[#374151] dark:text-[#cbd5e1] max-w-2xl leading-relaxed font-light"
+            className="mt-8 text-base md:text-xl text-[#374151] dark:text-[#cbd5e1] max-w-2xl leading-relaxed font-light"
           >
             Built by people who&apos;ve handled operations, growth, and execution firsthand—not just consultants giving advice from the outside.
           </motion.p>
@@ -314,12 +314,11 @@ function StatsSection() {
             </div>
           ))}
         </div>
-        
-        <div className="flex justify-between items-center mt-4">
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mt-4">
+          <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
             TYPICAL CLIENT SIZE: ₹1CR-₹50CR ANNUAL REVENUE
           </span>
-          <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
+          <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
             LOCATION: PUNE, MAHARASHTRA
           </span>
         </div>
@@ -339,27 +338,6 @@ const principles = [
   { title: "Priced for ROI", desc: "If a project doesn't pay for itself in 90 days, we don't build it. We'd rather lose the deal than waste your time.", icon: <TrendingUp size={20} /> },
   { title: "Senior Execution", desc: "We cap engagements so you get senior attention on every build not kickoff with partners and delivery from juniors.", icon: <Users size={20} /> },
 ];
-
-function PrinciplesSection() {
-  return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-10 pb-10 md:pt-16 md:pb-16 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="relative pl-8 mb-10 md:mb-16">
-          <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
-          <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">Our operating principles.</h2>
-        </div>
-        <HorizontalCarousel cols={3} size="md" autoScrollInterval={4000}>
-          {principles.map((p, i) => (
-            <motion.div key={i} {...fadeUp} className="group glass-card p-6 md:p-10 rounded-2xl hover:border-[#FF4800]/20 transition-all active:scale-95 h-full">
-              <h4 className="text-[#1a1a2e] dark:text-white text-lg md:text-xl font-bold mb-3 md:mb-4 tracking-tight">{p.title}</h4>
-              <p className="text-[#475569] dark:text-[#8a8a8a] text-sm leading-relaxed">{p.desc}</p>
-            </motion.div>
-          ))}
-        </HorizontalCarousel>
-      </div>
-    </section>
-  );
-}
 
 
 
@@ -385,73 +363,93 @@ const clarityItems = [
 
 function StorySection() {
   return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-16 pb-8 md:pt-24 md:pb-12 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
+    <section className="bg-white dark:bg-[#0a0a14]  pb-8 md:pt-24 md:pb-12 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
-        <motion.div {...fadeUp} className="mb-14 md:mb-16 text-center">
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <span className="h-[1px] w-6 bg-[#FF4800]" />
-            <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#FF4800]">Our Story</span>
-            <span className="h-[1px] w-6 bg-[#FF4800]" />
-          </div>
+        <div className="mb-10 md:mb-16 text-center">
+          <div className="mb-8">
+  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800]">
+    Our Story
+  </span>
+</div>
 
-          <h2 className="font-black uppercase leading-[0.95] mx-auto text-[#1a1a2e] dark:text-white"
-            style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)', letterSpacing: '-3px' }}>
-            Two Paths.
-            <br />
-            <span style={{ color: '#FF4800' }}>One Choice.</span>
+          {/* Story Heading */}
+          <h2
+            className="font-bold uppercase leading-[0.95] mx-auto text-[#1a1a2e] dark:text-white text-3xl sm:text-4xl md:text-5xl tracking-[-2px]"
+          >
+            Two Paths {" "}
+            <span style={{ color: '#FF4800' }}>
+              One Choice
+            </span>
           </h2>
 
-          <div className="mx-auto mt-6 mb-8 h-[3px] w-20 rounded-full" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.2))' }} />
-        </motion.div>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
-            viewport={{ once: true }} transition={{ duration: 0.9, ease }}
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col hover:z-10"
-          >
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
+
+          {/* OLD WAY */}
+          <div className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col">
             <div className="mb-6">
               <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800]/60 border border-[#FF4800]/20 px-2.5 py-1 rounded-full mb-3">
                 The Old Way
               </span>
-              <h3 className="text-lg font-bold uppercase tracking-tight text-[#1a1a2e]/70 dark:text-white/60">Chaos</h3>
+
+              <h3 className="text-xl font-bold uppercase tracking-tight text-[#1a1a2e]/70 dark:text-white/60">
+                Chaos
+              </h3>
             </div>
 
             <div className="space-y-5 flex-1">
               {chaosItems.map((item, i) => (
-                <div key={i} className="flex items-start gap-3 opacity-50 hover:opacity-100 transition-opacity">
+                <div
+                  key={i}
+                  className="flex items-start gap-3 opacity-50"
+                >
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/40 shrink-0" />
-                  <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">{item}</span>
+
+                  <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">
+           function Prin         {item}
+                  </span>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.04, y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
-            viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.15, ease }}
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20 hover:z-10"
+          {/* STRAVEDA WAY */}
+          <div
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20"
             style={{ background: 'rgba(255,72,0,0.05)' }}
           >
             <div className="mb-6">
               <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800] bg-[#FF4800]/15 px-2.5 py-1 rounded-full mb-3">
                 The Straveda Way
               </span>
-              <h3 className="text-lg font-bold uppercase tracking-tight text-[#1a1a2e] dark:text-white">Structure</h3>
+
+              <h3 className="text-xl font-bold uppercase tracking-tight text-[#1a1a2e] dark:text-white">
+                Structure
+              </h3>
             </div>
 
             <div className="space-y-5 flex-1">
               {clarityItems.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <CheckCircle2 size={14} className="mt-[2px] text-[#FF4800] shrink-0" />
-                  <span className="text-[13px] font-medium leading-snug text-[#1a1a2e] dark:text-white/90">{item}</span>
+                <div
+                  key={i}
+                  className="flex items-start gap-3"
+                >
+                  <CheckCircle2
+                    size={14}
+                    className="mt-[2px] text-[#FF4800] shrink-0"
+                  />
+
+                  <span className="text-[13px] font-medium leading-snug text-[#1a1a2e] dark:text-white/90">
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -481,28 +479,154 @@ const testimonials = [
     impact: "50% cost reduction / Unified data",
     company: "E-Commerce, Delhi NCR",
     role: "CEO"
-  }
+  },
+  {
+    quote:
+      "Straveda automated our repetitive workflows and gave the team more time to focus on growth.",
+    impact: "50% LESS MANUAL WORK",
+    role: "Operations Head",
+    company: "SaaS Company, Pune",
+  },
+  {
+    quote:
+      "The custom system was much easier for our team to adopt than the tools we were using before.",
+    impact: "2× FASTER OPERATIONS",
+    role: "Founder",
+    company: "Technology Startup, Mumbai",
+  },
+  {
+    quote:
+      "We finally have one connected workflow instead of switching between multiple disconnected tools.",
+    impact: "40% FASTER REPORTING",
+    role: "Business Director",
+    company: "Enterprise, Bangalore",
+  },
+  {
+    quote:
+      "The automation reduced repetitive tasks and helped our team concentrate on higher-value work.",
+    impact: "60% TASK AUTOMATION",
+    role: "COO",
+    company: "Growth Company, Hyderabad",
+  },
 ];
 
 function ResultsSection() {
+  const rowOne = testimonials.slice(0, 4);
+  const rowTwo = testimonials.slice(4, 7);
+
+  // Duplicate cards for seamless infinite scrolling
+  const firstRow = [...rowOne, ...rowOne, ...rowOne];
+  const secondRow = [...rowTwo, ...rowTwo, ...rowTwo];
+
   return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-8 md:pt-12 md:pb-12">
+    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-12 md:pt-12 md:pb-16 overflow-hidden">
+
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="relative pl-8 mb-10 md:mb-16">
-          <div className="absolute left-0 top-0 h-full w-[2px] bg-[#FF4800]" />
-          <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">Results that speak.</h2>
+
+        {/* Heading */}
+        <div className="mb-8 md:mb-10">
+          <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">
+            Results that speak
+          </h2>
         </div>
-        <StackedCarousel 
-          items={testimonials} 
-          showArrows={false} 
-          showDots={false} 
-          autoScrollInterval={2000} 
-        />
+
+        {/* ================= ROW 1 : RIGHT ================= */}
+        <div className="relative overflow-hidden mb-15">
+          <motion.div
+            className="flex w-max gap-10"
+            animate={{
+              x: ["-33.333%", "0%"],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            {firstRow.map((item, i) => (
+              <div
+                key={`row1-${i}`}
+                className="
+                  glass-card
+                  w-[280px]
+                  md:w-[320px]
+                  flex-shrink-0
+                  rounded-2xl
+                  p-6
+                  min-h-[210px]
+                  flex
+                  flex-col
+                "
+              >
+                <p className="text-[#475569] dark:text-[#cbd5e1] text-sm leading-6 italic">
+                  “{item.quote}”
+                </p>
+
+                <div className="mt-auto border-t border-black/5 dark:border-white/10 pt-4">
+                  <p className="text-[#FF4800] text-[9px] font-bold uppercase tracking-[0.15em] mb-2">
+                    {item.impact}
+                  </p>
+
+                  <p className="text-[#64748b] dark:text-[#888] text-[9px] font-medium uppercase tracking-[0.12em]">
+                    — {item.role}, {item.company}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* ================= ROW 2 : LEFT ================= */}
+        <div className="relative overflow-hidden mb-15">
+          <motion.div
+            className="flex w-max gap-10"
+            animate={{
+              x: ["0%", "-33.333%"],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+              repeatType: "reverse",
+            }}
+          >
+            {secondRow.map((item, i) => (
+              <div
+                key={`row2-${i}`}
+                className="
+                  glass-card
+                  w-[280px]
+                  md:w-[320px]
+                  flex-shrink-0
+                  rounded-2xl
+                  p-6
+                  min-h-[210px]
+                  flex
+                  flex-col
+                "
+              >
+                <p className="text-[#475569] dark:text-[#cbd5e1] text-sm leading-6 italic">
+                  “{item.quote}”
+                </p>
+
+                <div className="mt-auto border-t border-black/5 dark:border-white/10 pt-4">
+                  <p className="text-[#FF4800] text-[9px] font-bold uppercase tracking-[0.15em] mb-2">
+                    {item.impact}
+                  </p>
+
+                  <p className="text-[#64748b] dark:text-[#888] text-[9px] font-medium uppercase tracking-[0.12em]">
+                    — {item.role}, {item.company}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
       </div>
     </section>
   );
 }
-
 /* ─────────────────────────────────────────────────────────────────────── */
 /* 6. Work With Us Section                                                 */
 /* ─────────────────────────────────────────────────────────────────────── */
@@ -517,7 +641,7 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
   return (
     <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-tighter mb-10 md:mb-16">Let's build something that matters.</h2>
+        <h2 className="masked-title text-xl md:text-4xl font-normal tracking-tighter mb-10 md:mb-16">Let's build something that matters</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 md:mb-20">
           {roadmap.map((r, i) => (
             <motion.div
@@ -529,7 +653,7 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
                 <div className="flex justify-end mb-8">
                   <span className="text-[10px] font-bold uppercase text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full">{r.meta}</span>
                 </div>
-                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold mb-4">{r.title}</h4>
+                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold mb-4 text-left">{r.title}</h4>
                 <p className="text-[#475569] dark:text-[#8a8a8a] text-sm md:text-base leading-relaxed mb-8">{r.desc}</p>
               </div>
               {r.cta && (
@@ -545,16 +669,6 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
             </motion.div>
           ))}
         </div>
-        <div className="flex flex-col items-center">
-          <MagneticButton>
-            <button
-              onClick={() => onNavigate('contact')}
-              className="bg-[#FF4800] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl font-bold uppercase tracking-widest text-[11px] hover:bg-[#e03f00] transition-colors"
-            >
-              Consult Now →
-            </button>
-          </MagneticButton>
-        </div>
       </div>
     </section>
   );
@@ -567,7 +681,6 @@ export default function AboutPage({ onNavigate }: { onNavigate: (page: string) =
       <StatsSectionNew />
       <StatsSection />
       <StorySection />
-      <PrinciplesSection />
       <ResultsSection />
       <WorkWithUsSection onNavigate={onNavigate} />
     </main>
