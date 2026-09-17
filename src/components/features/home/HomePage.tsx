@@ -19,6 +19,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SystemsCoreSection from '@/components/features/home/SystemsCore';
+import SandesaSection from '@/components/features/home/SandesaSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 
 interface HomePageProps {
@@ -1306,6 +1307,9 @@ useEffect(() => {
         </div>
       </section>
               
+      {/* ── Sandesa Section ── */}
+      <SandesaSection isDark={isDark} />
+      
       {/* ── Systems Core ── */}
       <div id="section-services" className="-mt-10">
         <SystemsCoreSection isDark={isDark} />
