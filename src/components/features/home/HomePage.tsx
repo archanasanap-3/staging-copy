@@ -289,26 +289,56 @@ const testimonials = [
       'The team understood our business goals and turned them into practical technology solutions. Our workflows are now more efficient, our team spends less time on manual work, and we can scale with much more confidence.',
     stars: 5,
   },
-];
 
+  // Mock testimonials
+  {
+    name: 'Amit P.',
+    role: 'CTO',
+    company: 'Product Company',
+    quote:
+      'Excellent team to work with. Clear communication and practical technology solutions that helped us improve our daily operations.',
+    stars: 5,
+  },
+  {
+    name: 'Neha S.',
+    role: 'Operations Manager',
+    company: 'E-Commerce',
+    quote:
+      'We have seen a huge improvement in efficiency since implementing their solutions. Our team now spends much less time on repetitive work.',
+    stars: 5,
+  },
+  {
+    name: 'Vikram T.',
+    role: 'Founder',
+    company: 'SaaS Business',
+    quote:
+      'Reliable, professional, and truly focused on client success. The entire process was smooth and well executed.',
+    stars: 5,
+  },
+  {
+    name: 'Priya S.',
+    role: 'Business Head',
+    company: 'D2C Brand',
+    quote:
+      'Their automation approach helped us simplify our daily operations and gave our team more time to focus on business growth.',
+    stars: 5,
+  },
+  {
+    name: 'Arjun R.',
+    role: 'Managing Director',
+    company: 'Technology Startup',
+    quote:
+      'A practical approach to technology with excellent execution. Our new workflow is faster, cleaner, and easier for the team to manage.',
+    stars: 5,
+  },
+];
 function getInitials(name: string): string {
   return name.split(' ').map((n) => n.charAt(0)).join('').toUpperCase();
 }
 
 function TestimonialsCarousel() {
   const { resolvedTheme } = useTheme();
-
   const [mounted, setMounted] = useState(false);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [exitX, setExitX] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const isInView = useInView(containerRef, {
-    once: true,
-    margin: '-100px',
-  });
 
   useEffect(() => {
     setMounted(true);
@@ -316,53 +346,96 @@ function TestimonialsCarousel() {
 
   const isDarkT = mounted ? resolvedTheme === 'dark' : false;
 
-  const nextTestimonial = useCallback(() => {
-    setExitX(-200);
+  const firstRow = testimonials.slice(0, 4);
+  const secondRow = testimonials.slice(4, 8);
 
-    setTimeout(() => {
-      setTestimonialIndex(
-        (prev) => (prev + 1) % testimonials.length
-      );
-      setExitX(0);
-    }, 200);
-  }, []);
+  const renderCard = (
+    item: (typeof testimonials)[number],
+    index: number
+  ) => (
+    <div
+      key={`${item.name}-${index}`}
+      className="flex h-[180px] w-[230px] shrink-0 flex-col rounded-2xl p-5 sm:w-[290px] md:w-[310px]"
+      style={{
+        background: isDarkT
+          ? 'rgba(255,255,255,0.05)'
+          : 'rgba(255,255,255,0.90)',
+        border: isDarkT
+          ? '1px solid rgba(255,255,255,0.08)'
+          : '1px solid rgba(0,0,0,0.06)',
+        boxShadow: isDarkT
+          ? '0 8px 25px rgba(0,0,0,0.28)'
+          : '0 8px 25px rgba(0,0,0,0.06)',
+        backdropFilter: 'blur(14px)',
+      }}
+    >
+      {/* Stars */}
+      <div className="mb-3 flex items-center gap-1">
+        {[...Array(item.stars)].map((_, i) => (
+          <Star
+            key={i}
+            className="h-3.5 w-3.5 fill-current"
+            style={{ color: '#FBBF24' }}
+          />
+        ))}
+      </div>
 
-  const prevTestimonial = useCallback(() => {
-    setExitX(200);
+      {/* Quote */}
+      <p
+        className="line-clamp-4 text-[12.5px] leading-[1.6] italic sm:text-[13px]"
+        style={{
+          color: isDarkT
+            ? 'rgba(255,255,255,0.78)'
+            : '#475569',
+        }}
+      >
+        “{item.quote}”
+      </p>
 
-    setTimeout(() => {
-      setTestimonialIndex((prev) =>
-        prev === 0 ? testimonials.length - 1 : prev - 1
-      );
-      setExitX(0);
-    }, 200);
-  }, []);
+      {/* Orange divider */}
+      <div
+        className="my-3 h-px w-10"
+        style={{
+          background: 'rgba(255,72,0,0.55)',
+        }}
+      />
 
-  useEffect(() => {
-    if (isHovered) return;
+      {/* Client information */}
+      <div className="mt-auto">
+        <p
+          className="text-[12.5px] font-semibold"
+          style={{
+            color: isDarkT ? '#ffffff' : '#1a1a2e',
+          }}
+        >
+          {item.name}
+        </p>
 
-    const interval = setInterval(() => {
-      nextTestimonial();
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [nextTestimonial, isHovered]);
+        <p
+          className="mt-1 truncate text-[10px]"
+          style={{
+            color: isDarkT
+              ? 'rgba(255,255,255,0.5)'
+              : '#6b7280',
+          }}
+        >
+          {item.role} · {item.company}
+        </p>
+      </div>
+    </div>
+  );
 
   return (
     <section
-      ref={containerRef}
-      className="relative py-16 md:py-24 overflow-hidden"
+      className="relative w-full overflow-hidden py-14 md:py-20"
       style={{
         background: isDarkT
-          ? 'linear-gradient(135deg, #09042fff 0%, #0d0b15ff 50%, #060606ff 100%)'
+          ? 'linear-gradient(135deg, #09042f 0%, #0d0b15 50%, #060606 100%)'
           : 'linear-gradient(135deg, #f8f8fc 0%, #ffffff 50%, #f0f0f8 100%)',
       }}
     >
-      {/* Background */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1.2, ease }}
+      {/* Background dots */}
+      <div
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: `radial-gradient(circle, ${
@@ -374,49 +447,27 @@ function TestimonialsCarousel() {
         }}
       />
 
-      {/* Orange Glow */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={
-          isInView
-            ? { opacity: 1, scale: 1 }
-            : { opacity: 0, scale: 0.8 }
-        }
-        transition={{ duration: 1.4, ease }}
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      {/* Orange glow */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: '700px',
-          height: '400px',
           background:
             'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)',
         }}
       />
 
-      {/* Heading */}
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={
-            isInView
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 25 }
-          }
-          transition={{
-            duration: 0.8,
-            delay: 0.25,
-            ease,
-          }}
-          className="text-center mb-10 md:mb-16"
-        >
+      {/* ================= HEADING ================= */}
+      <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-6 md:mb-12">
+        <div className="text-center">
           <p
-            className="mb-5 text-[11px] font-medium uppercase tracking-widest"
+            className="mb-4 text-[11px] font-medium uppercase tracking-widest"
             style={{ color: '#FF4800' }}
           >
             CLIENT FEEDBACK
           </p>
 
           <h2
-            className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+            className="heading-gradient mx-auto font-normal text-[clamp(1.75rem,5vw,3.5rem)]"
             style={{
               lineHeight: 1.05,
               letterSpacing: '-2px',
@@ -424,320 +475,71 @@ function TestimonialsCarousel() {
           >
             What Our Clients Say
           </h2>
+        </div>
+      </div>
+
+      {/* ================= ROW 1 — RIGHT ================= */}
+      <div className="relative z-10 mx-auto mb-8 w-full max-w-[1320px] overflow-hidden px-6 md:mb-9">
+        <motion.div
+          className="flex w-max"
+          animate={{
+            x: ['-20%', '0%'],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        >
+          {/* First set */}
+          <div className="flex shrink-0 gap-5 pr-5">
+            {firstRow.map((item, index) =>
+              renderCard(item, index)
+            )}
+          </div>
+
+          {/* Duplicate set */}
+          <div
+            className="flex shrink-0 gap-5 pr-5"
+            aria-hidden="true"
+          >
+            {firstRow.map((item, index) =>
+              renderCard(item, index + 100)
+            )}
+          </div>
         </motion.div>
       </div>
 
-      {/* STACKED TESTIMONIAL CARDS */}
-      <div
-        className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="relative h-[470px] sm:h-[430px]">
+      {/* ================= ROW 2 — LEFT ================= */}
+      <div className="relative z-10 mx-auto w-full max-w-[1320px] overflow-hidden px-6">
+        <motion.div
+          className="flex w-max"
+          animate={{
+            x: ['0%', '-20%'],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        >
+          {/* First set */}
+          <div className="flex shrink-0 gap-5 pr-5">
+            {secondRow.map((item, index) =>
+              renderCard(item, index + 200)
+            )}
+          </div>
 
-          {testimonials.map((item, index) => {
-            const isCurrentCard = index === testimonialIndex;
-
-            const isPrevCard =
-              index === (testimonialIndex + 1) % testimonials.length;
-
-            const isNextCard =
-              index === (testimonialIndex + 2) % testimonials.length;
-
-            if (
-              !isCurrentCard &&
-              !isPrevCard &&
-              !isNextCard
-            ) {
-              return null;
-            }
-
-            return (
-              <motion.div
-                key={index}
-                className="absolute inset-0 rounded-2xl px-8 py-10 sm:px-12 sm:py-14 text-center shadow-[0_18px_40px_rgba(0,0,0,0.16),0_30px_60px_rgba(0,0,0,0.10)]"
-                style={{
-                  zIndex: isCurrentCard
-                    ? 3
-                    : isPrevCard
-                    ? 2
-                    : 1,
-
-                  background: isDarkT
-                    ? 'rgba(255,255,255,0.04)'
-                    : 'rgba(255,255,255,0.92)',
-
-                  border: isDarkT
-                    ? '1px solid rgba(255,255,255,0.08)'
-                    : '1px solid rgba(0,0,0,0.07)',
-
-                  boxShadow: isDarkT
-                    ? '0 8px 40px rgba(0,0,0,0.4)'
-                    : '0 8px 40px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
-
-                  backdropFilter: 'blur(12px)',
-                }}
-
-                drag={isCurrentCard ? 'x' : false}
-                dragConstraints={{
-                  left: 0,
-                  right: 0,
-                }}
-                dragElastic={0.7}
-
-                onDragEnd={
-                  isCurrentCard
-                    ? (_, info) => {
-                        if (Math.abs(info.offset.x) > 100) {
-                          setExitX(info.offset.x);
-
-                          setTimeout(() => {
-                            setTestimonialIndex(
-                              (prev) =>
-                                (prev + 1) %
-                                testimonials.length
-                            );
-
-                            setExitX(0);
-                          }, 200);
-                        }
-                      }
-                    : undefined
-                }
-
-                initial={{
-                  scale: 0.95,
-                  opacity: 0,
-                  y: isCurrentCard
-                    ? 0
-                    : isPrevCard
-                    ? 8
-                    : 16,
-                  rotate: isCurrentCard
-                    ? 0
-                    : isPrevCard
-                    ? -2
-                    : -4,
-                }}
-
-                animate={{
-                  scale: isCurrentCard ? 1 : 0.95,
-
-                  opacity: isCurrentCard
-                    ? 1
-                    : isPrevCard
-                    ? 0.6
-                    : 0.3,
-
-                  x: isCurrentCard ? exitX : 0,
-
-                  y: isCurrentCard
-                    ? 0
-                    : isPrevCard
-                    ? 8
-                    : 16,
-
-                  rotate: isCurrentCard
-                    ? exitX / 20
-                    : isPrevCard
-                    ? -2
-                    : -4,
-                }}
-
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 20,
-                }}
-              >
-                {/* Client Feedback */}
-                <motion.p
-                  key={`label-${index}-${testimonialIndex}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    ease,
-                  }}
-                  className="mb-4 text-[11px] font-semibold uppercase tracking-widest"
-                  style={{ color: '#FF4800' }}
-                >
-                  Client Feedback
-                </motion.p>
-
-                {/* Stars */}
-                <motion.div
-                  key={`stars-${index}-${testimonialIndex}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    ease,
-                  }}
-                  className="mb-4 flex items-center justify-center gap-1"
-                >
-                  {[...Array(item.stars)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{
-                        opacity: 0,
-                        scale: 0.5,
-                        rotate: -15,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        scale: 1,
-                        rotate: 0,
-                      }}
-                      transition={{
-                        duration: 0.35,
-                        delay: i * 0.08,
-                        ease,
-                      }}
-                    >
-                      <Star
-                        className="h-4 w-4 fill-current"
-                        style={{ color: '#FBBF24' }}
-                      />
-                    </motion.div>
-                  ))}
-                </motion.div>
-
-                {/* Quote Icon */}
-                <motion.span
-                  key={`quote-${index}-${testimonialIndex}`}
-                  initial={{
-                    opacity: 0,
-                    scale: 0.6,
-                    y: 10,
-                  }}
-                  animate={{
-                    opacity: 0.5,
-                    scale: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.1,
-                    ease,
-                  }}
-                  className="mb-2 block leading-none"
-                  style={{
-                    fontSize: '48px',
-                    color: '#FF4800',
-                  }}
-                >
-                  &#x275D;
-                </motion.span>
-
-                {/* Testimonial */}
-                <motion.p
-                  key={`quote-text-${index}-${testimonialIndex}`}
-                  initial={{
-                    opacity: 0,
-                    y: 25,
-                    filter: 'blur(6px)',
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                  }}
-                  transition={{
-                    duration: 0.75,
-                    delay: 0.12,
-                    ease,
-                  }}
-                  className="text-[clamp(0.95rem,2.2vw,1.15rem)] italic leading-[1.7] font-normal"
-                  style={{
-                    color: isDarkT
-                      ? 'rgba(255,255,255,0.85)'
-                      : '#1e293b',
-                  }}
-                >
-                  {item.quote}
-                </motion.p>
-
-                {/* Divider */}
-                <motion.div
-                  key={`divider-${index}-${testimonialIndex}`}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{
-                    duration: 0.8,
-                    delay: 0.25,
-                    ease,
-                  }}
-                  className="mx-auto my-6 origin-center"
-                  style={{
-                    width: '3rem',
-                    height: '1px',
-                    background: 'rgba(255,72,0,0.5)',
-                  }}
-                />
-
-                {/* Name + Role */}
-                <motion.div
-                  key={`person-${index}-${testimonialIndex}`}
-                  initial={{
-                    opacity: 0,
-                    y: 15,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.3,
-                    ease,
-                  }}
-                >
-                  <p
-                    className="font-semibold text-sm"
-                    style={{
-                      color: isDarkT
-                        ? '#ffffff'
-                        : '#1a1a2e',
-                    }}
-                  >
-                    {item.name}
-                  </p>
-
-                  <p
-                    className="mt-1 text-xs"
-                    style={{
-                      color: isDarkT
-                        ? 'rgba(255,255,255,0.55)'
-                        : '#6b7280',
-                    }}
-                  >
-                    {item.role} · {item.company}
-                  </p>
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Pagination */}
-        <div className="mt-10 flex justify-center gap-2">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setExitX(0);
-                setTestimonialIndex(index);
-              }}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                index === testimonialIndex
-                  ? 'bg-[#FF4800]'
-                  : 'bg-gray-300 dark:bg-gray-700'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+          {/* Duplicate set */}
+          <div
+            className="flex shrink-0 gap-5 pr-5"
+            aria-hidden="true"
+          >
+            {secondRow.map((item, index) =>
+              renderCard(item, index + 300)
+            )}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
