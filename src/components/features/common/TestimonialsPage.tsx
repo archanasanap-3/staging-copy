@@ -112,102 +112,125 @@ const testimonialsColumn3 = [
   },
 ];
 
-// Scroll column component (auto-scrolling)
+// Single horizontal scrolling testimonial row
 function TestimonialScrollColumn({
   testimonials,
-  duration = 30,
+  duration = 35,
   direction = 'up',
 }: {
   testimonials: typeof testimonialsColumn1;
   duration?: number;
   direction?: 'up' | 'down';
 }) {
+  const allTestimonials = [...testimonials, ...testimonials];
+
   return (
-    <div className="relative h-[600px] md:h-[700px] overflow-hidden">
-      {/* Top fade */}
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ height: '300px' }}
+    >
+      {/* Soft edge fades */}
       <div
-        className="absolute top-0 left-0 right-0 h-32 z-10 pointer-events-none bg-gradient-to-b from-white to-transparent dark:from-[#0a0a14]"
+        className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(to right, #f8f8fc, transparent)',
+        }}
       />
 
-      {/* Bottom fade */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none bg-gradient-to-t from-white to-transparent dark:from-[#0a0a14]"
+        className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(to left, #f8f8fc, transparent)',
+        }}
       />
 
       <motion.div
-        animate={{ translateY: direction === 'up' ? '-50%' : '0%' }}
+        animate={{
+          x: direction === 'up' ? ['0%', '-50%'] : ['-50%', '0%'],
+        }}
         transition={{
           duration,
           repeat: Infinity,
           ease: 'linear',
-          repeatType: 'loop',
         }}
-        className="flex flex-col gap-6"
-        style={{ transform: direction === 'down' ? 'translateY(-50%)' : undefined }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          alignItems: 'center',
+          gap: '18px',
+          width: 'max-content',
+        }}
       >
-        {[...new Array(2).fill(0)].map((_, index) => (
-          <React.Fragment key={index}>
-            {testimonials.map(({ text, name, role, rating }, i) => (
-              <motion.div
-                key={`${index}-${i}`}
-                className="glass-card rounded-2xl p-6 md:p-8 max-w-[360px] w-full transition-all duration-300 group cursor-default"
-                whileHover={{
-                  scale: 1.02,
-                  borderColor: 'rgba(255,72,0,0.2)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.06)',
-                }}
-              >
-                {/* Stars */}
-                <div className="mb-4 flex items-center gap-1">
-                  {[...Array(rating)].map((_, si) => (
-                    <Star
-                      key={si}
-                      className="h-3.5 w-3.5 fill-current"
-                      style={{ color: '#FBBF24' }}
-                    />
-                  ))}
-                </div>
-
-                {/* Quote text */}
-                <p className="text-[15px] leading-[1.7] mb-5 text-[#4b5563] dark:text-[#d1d5db]">
-                  &ldquo;{text}&rdquo;
-                </p>
-
-                {/* Divider */}
+        {allTestimonials.map(
+          ({ text, name, role, rating }, i) => (
+            <motion.div
+              key={i}
+              className="rounded-[22px] bg-white border border-[#e5e7eb] p-6 md:p-7 shadow-[0_4px_18px_rgba(0,0,0,0.10)] flex-shrink-0"
+              style={{
+                width: '340px',
+                minWidth: '340px',
+                height: '225px',
+                minHeight: '225px',
+              }}
+              whileHover={{
+                y: -4,
+                scale: 1.01,
+                borderColor: 'rgba(255,72,0,0.25)',
+                boxShadow: '0 12px 30px rgba(0,0,0,0.12)',
+              }}
+            >
+              {/* Client */}
+              <div className="flex items-center gap-3 mb-5">
                 <div
-                  className="mb-4 w-full border-t border-[#e5e7eb] dark:border-white/[0.06]"
-                />
+                  className="flex items-center justify-center w-11 h-11 rounded-full text-white font-semibold text-[13px] flex-shrink-0"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #4b5563, #111827)',
+                  }}
+                >
+                  {name
+                    .split(' ')
+                    .map((n) => n[0])
+                    .slice(0, 2)
+                    .join('')}
+                </div>
 
-                {/* Author */}
-                <div className="flex items-center gap-3">
-                  {/* Avatar with initials */}
-                  <div
-                    className="flex items-center justify-center w-10 h-10 rounded-full text-white font-semibold text-sm flex-shrink-0"
-                    style={{
-                      background: 'linear-gradient(135deg, #FF4800, #e03e00)',
-                    }}
-                  >
-                    {name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                <div className="min-w-0">
+                  <div className="font-semibold text-[16px] text-[#111827] tracking-tight">
+                    {name}
                   </div>
-
-                  <div>
-                    <div className="font-medium text-[14px] text-[#1a1a2e] dark:text-[#f0f0f5] tracking-tight">
-                      {name}
-                    </div>
-
-                    <div className="text-[12px] opacity-60 tracking-tight text-[#6b7280] dark:text-[#9ca3af]">
-                      {role}
-                    </div>
+                  <div className="text-[13px] text-[#8a8f98] mt-0.5">
+                    {role}
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </React.Fragment>
-        ))}
+              </div>
+
+              {/* Testimonial */}
+              <p className="text-[15px] leading-[1.55] text-[#1f2937] mb-4">
+                {text}
+              </p>
+
+              {/* Rating */}
+              <div className="flex items-center gap-1">
+                {[...Array(rating)].map((_, si) => (
+                  <Star
+                    key={si}
+                    className="h-[17px] w-[17px] fill-current"
+                    style={{ color: '#FFD400' }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )
+        )}
       </motion.div>
     </div>
   );
 }
+
 
 export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
   const [current, setCurrent] = useState(0);
@@ -323,43 +346,18 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
             </h2>
           </motion.div>
 
-          {/* 3-column scrolling carousel on mobile, grid on desktop */}
-          <HorizontalCarousel cols={3} size="md" showHint={true}>
-            <TestimonialScrollColumn
-              testimonials={testimonialsColumn1}
-              duration={35}
-              direction="up"
-            />
+          <div className="w-full overflow-hidden">
+  <TestimonialScrollColumn
+    testimonials={[
+      ...testimonialsColumn1,
+      ...testimonialsColumn2,
+      ...testimonialsColumn3,
+    ]}
+    duration={45}
+    direction="up"
+  />
+</div>
 
-            <TestimonialScrollColumn
-              testimonials={testimonialsColumn2}
-              duration={40}
-              direction="down"
-            />
-
-            <TestimonialScrollColumn
-              testimonials={testimonialsColumn3}
-              duration={30}
-              direction="up"
-            />
-          </HorizontalCarousel>
-
-          {/* CENTER ARROWS */}
-          <div className="flex justify-center items-center gap-4 mt-8">
-            <button
-              onClick={prevSlide}
-              className="w-10 h-10 rounded-full border border-[#FF4800] flex items-center justify-center text-[#FF4800] hover:bg-[#FF4800] hover:text-white transition"
-            >
-              ←
-            </button>
-
-            <button
-              onClick={nextSlide}
-              className="w-10 h-10 rounded-full border border-[#FF4800] flex items-center justify-center text-[#FF4800] hover:bg-[#FF4800] hover:text-white transition"
-            >
-              →
-            </button>
-          </div>
         </div>
       </section>
 

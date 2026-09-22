@@ -274,50 +274,6 @@ export default function ContactPage() {
         }
       `}</style>
 
-      {/* HERO */}
-      <section
-        className="relative flex items-center justify-center bg-white dark:bg-[#0a0a14] overflow-hidden"
-        style={{ minHeight: '50vh' }}
-      >
-        {/* Floating accent blob — top-right */}
-        <div
-          className="absolute -top-40 -right-40 w-[800px] h-[800px] rounded-full pointer-events-none opacity-20"
-          style={{
-            background: 'radial-gradient(circle, #FF4800 0%, transparent 70%)',
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="max-w-6xl mx-auto px-6 text-center relative z-10 pt-20">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[11px] uppercase tracking-[0.5em] text-[#FF4800] font-bold mb-6"
-          >
-            Get in Touch
-          </motion.p>
-          <h1 className="text-[40px] sm:text-[56px] md:text-[64px] lg:text-[84px] font-bold text-[#1a1a2e] dark:text-white leading-[0.9] tracking-tighter uppercase mb-8">
-            Let&apos;s architect <br /><span className="text-[#FF4800]">your path forward.</span>
-          </h1>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            style={{ transformOrigin: 'center' }}
-            className="h-px w-24 bg-[#FF4800]/60 mx-auto mb-10"
-          />
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-[#6b7280] dark:text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed md:whitespace-nowrap"
-          >
-            Tell us about your enterprise challenge. We&apos;ll respond within 1 business day.
-          </motion.p>
-        </div>
-      </section>
-
       {/* CONTACT SECTION */}
       <section className="px-4 sm:px-6 pt-12 sm:pt-24 pb-24 sm:pb-32 bg-[#f8f8fc] dark:bg-[#0a0a14] relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,72,0,0.04)_0%,_transparent_50%)]" />
@@ -559,50 +515,6 @@ export default function ContactPage() {
               </a>
             </motion.div>
 
-            {/* Map Placeholder — Enhanced */}
-            <motion.div
-              custom={5}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="my-8"
-            >
-              <div className="relative rounded-xl border border-[#e5e7eb] dark:border-white/[0.06] bg-[#f8f8fc] dark:bg-white/[0.04] overflow-hidden h-48 flex flex-col items-center justify-center gap-2">
-                {/* Subtle radial gradient for depth */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(circle at center, rgba(255,72,0,0.04) 0%, transparent 70%)',
-                  }}
-                  aria-hidden="true"
-                />
-                {/* Subtle grid pattern */}
-                <div
-                  className="absolute inset-0 opacity-[0.35]"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)',
-                    backgroundSize: '24px 24px',
-                  }}
-                  aria-hidden="true"
-                />
-                <div className="relative z-10 flex flex-col items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF4800]/10">
-                    <MapPin className="h-5 w-5 text-[#FF4800] map-pin-pulse" />
-                  </div>
-                  <p className="text-[14px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5]">Pune, Maharashtra 411001 · India</p>
-                  <a
-                    href="https://maps.google.com/?q=Pune+Maharashtra+411001"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[12px] text-[#FF4800] hover:text-[#e63f00] font-medium underline underline-offset-2 transition-colors"
-                  >
-                    View on Google Maps
-                  </a>
-                </div>
-              </div>
-            </motion.div>
 
             {/* Divider */}
             <motion.div

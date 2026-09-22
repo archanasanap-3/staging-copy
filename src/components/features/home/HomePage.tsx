@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
-import SystemsCoreSection from '@/components/features/home/SystemsCore';
 import SandesaSection from '@/components/features/home/SandesaSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 
@@ -346,8 +345,7 @@ function TestimonialsCarousel() {
 
   const isDarkT = mounted ? resolvedTheme === 'dark' : false;
 
-  const firstRow = testimonials.slice(0, 4);
-  const secondRow = testimonials.slice(4, 8);
+  const scrollingTestimonials = [...testimonials, ...testimonials];
 
   const renderCard = (
     item: (typeof testimonials)[number],
@@ -355,72 +353,79 @@ function TestimonialsCarousel() {
   ) => (
     <div
       key={`${item.name}-${index}`}
-      className="flex h-[180px] w-[230px] shrink-0 flex-col rounded-2xl p-5 sm:w-[290px] md:w-[310px]"
+      className="flex w-[calc(100vw-48px)] sm:w-[340px] shrink-0 flex-col rounded-[22px] p-6 md:p-7"
       style={{
+        minHeight: '210px',
         background: isDarkT
           ? 'rgba(255,255,255,0.05)'
-          : 'rgba(255,255,255,0.90)',
+          : '#ffffff',
         border: isDarkT
           ? '1px solid rgba(255,255,255,0.08)'
-          : '1px solid rgba(0,0,0,0.06)',
+          : '1px solid rgba(0,0,0,0.07)',
         boxShadow: isDarkT
-          ? '0 8px 25px rgba(0,0,0,0.28)'
-          : '0 8px 25px rgba(0,0,0,0.06)',
-        backdropFilter: 'blur(14px)',
+          ? '0 6px 20px rgba(0,0,0,0.25)'
+          : '0 6px 20px rgba(0,0,0,0.08)',
       }}
     >
-      {/* Stars */}
-      <div className="mb-3 flex items-center gap-1">
+      {/* Client information */}
+      <div className="mb-5 flex items-center gap-3">
+        <div
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-white"
+          style={{
+            background: 'linear-gradient(135deg, #FF4800, #e03e00)',
+          }}
+        >
+          {item.name
+            .split(' ')
+            .map((n) => n[0])
+            .slice(0, 2)
+            .join('')}
+        </div>
+
+        <div className="min-w-0">
+          <p
+            className="text-[15px] font-semibold tracking-tight"
+            style={{
+              color: isDarkT ? '#ffffff' : '#111827',
+            }}
+          >
+            {item.name}
+          </p>
+
+          <p
+            className="mt-0.5 text-[12px]"
+            style={{
+              color: isDarkT
+                ? 'rgba(255,255,255,0.55)'
+                : '#8a8f98',
+            }}
+          >
+            {item.role} · {item.company}
+          </p>
+        </div>
+      </div>
+
+      {/* Full testimonial text — no line clamp */}
+      <p
+        className="text-[14px] leading-[1.55]"
+        style={{
+          color: isDarkT
+            ? 'rgba(255,255,255,0.80)'
+            : '#1f2937',
+        }}
+      >
+        {item.quote}
+      </p>
+
+      {/* Rating */}
+      <div className="mt-auto flex items-center gap-1 pt-5">
         {[...Array(item.stars)].map((_, i) => (
           <Star
             key={i}
-            className="h-3.5 w-3.5 fill-current"
-            style={{ color: '#FBBF24' }}
+            className="h-[17px] w-[17px] fill-current"
+            style={{ color: '#FFD400' }}
           />
         ))}
-      </div>
-
-      {/* Quote */}
-      <p
-        className="line-clamp-4 text-[12.5px] leading-[1.6] italic sm:text-[13px]"
-        style={{
-          color: isDarkT
-            ? 'rgba(255,255,255,0.78)'
-            : '#475569',
-        }}
-      >
-        “{item.quote}”
-      </p>
-
-      {/* Orange divider */}
-      <div
-        className="my-3 h-px w-10"
-        style={{
-          background: 'rgba(255,72,0,0.55)',
-        }}
-      />
-
-      {/* Client information */}
-      <div className="mt-auto">
-        <p
-          className="text-[12.5px] font-semibold"
-          style={{
-            color: isDarkT ? '#ffffff' : '#1a1a2e',
-          }}
-        >
-          {item.name}
-        </p>
-
-        <p
-          className="mt-1 truncate text-[10px]"
-          style={{
-            color: isDarkT
-              ? 'rgba(255,255,255,0.5)'
-              : '#6b7280',
-          }}
-        >
-          {item.role} · {item.company}
-        </p>
       </div>
     </div>
   );
@@ -478,67 +483,22 @@ function TestimonialsCarousel() {
         </div>
       </div>
 
-      {/* ================= ROW 1 — RIGHT ================= */}
-      <div className="relative z-10 mx-auto mb-8 w-full max-w-[1320px] overflow-hidden px-6 md:mb-9">
+      {/* ================= SINGLE MARQUEE ROW ================= */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl overflow-hidden px-6 md:px-10 lg:px-12">
         <motion.div
-          className="flex w-max"
+          className="flex w-max items-stretch gap-5"
           animate={{
-            x: ['-20%', '0%'],
+            x: ['0%', '-50%'],
           }}
           transition={{
-            duration: 30,
+            duration: 35,
             repeat: Infinity,
             ease: 'linear',
           }}
         >
-          {/* First set */}
-          <div className="flex shrink-0 gap-5 pr-5">
-            {firstRow.map((item, index) =>
-              renderCard(item, index)
-            )}
-          </div>
-
-          {/* Duplicate set */}
-          <div
-            className="flex shrink-0 gap-5 pr-5"
-            aria-hidden="true"
-          >
-            {firstRow.map((item, index) =>
-              renderCard(item, index + 100)
-            )}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ================= ROW 2 — LEFT ================= */}
-      <div className="relative z-10 mx-auto w-full max-w-[1320px] overflow-hidden px-6">
-        <motion.div
-          className="flex w-max"
-          animate={{
-            x: ['0%', '-20%'],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        >
-          {/* First set */}
-          <div className="flex shrink-0 gap-5 pr-5">
-            {secondRow.map((item, index) =>
-              renderCard(item, index + 200)
-            )}
-          </div>
-
-          {/* Duplicate set */}
-          <div
-            className="flex shrink-0 gap-5 pr-5"
-            aria-hidden="true"
-          >
-            {secondRow.map((item, index) =>
-              renderCard(item, index + 300)
-            )}
-          </div>
+          {scrollingTestimonials.map((item, index) =>
+            renderCard(item, index)
+          )}
         </motion.div>
       </div>
     </section>
@@ -1111,11 +1071,7 @@ useEffect(() => {
               
       {/* ── Sandesa Section ── */}
       <SandesaSection isDark={isDark} />
-      
-      {/* ── Systems Core ── */}
-      <div id="section-services" className="-mt-10">
-        <SystemsCoreSection isDark={isDark} />
-      </div>
+    
 
 
 

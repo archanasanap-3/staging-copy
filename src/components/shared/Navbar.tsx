@@ -23,7 +23,7 @@ const NAV_LINKS = [
   { label: 'Home',       href: '/' },
   { label: 'Services',   href: '/services' },
   { label: 'About',      href: '/about' },
-  { label: 'Insights',   href: '/insights' },
+  { label: 'Commerce OS',   href: '/commerce-os' },
   { label: 'Careers',    href: '/careers' },
   { label: 'Contact',    href: '/contact' },
 ] as const;

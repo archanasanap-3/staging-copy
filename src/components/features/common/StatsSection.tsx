@@ -168,7 +168,7 @@ export default function StatsSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 1.2, ease }}
-                 className="text-lg md:text-lg font-light leading-relaxed text-[#475569] dark:text-[#9ca3af] whitespace-nowrap"
+                 className="text-lg md:text-lg font-light leading-relaxed text-[#475569] dark:text-[#9ca3af] md:whitespace-nowrap"
                  >
                   A small team of operators and builders who&apos;ve been through the chaos of scaling. We built Straveda as the <span className="text-[#FF4800] font-medium italic">antidote</span> engineering first partners who measure <br />
                   success in outcomes.
@@ -179,7 +179,7 @@ export default function StatsSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 1.4, ease }}
-                  className="pt-8 flex items-center gap-8"
+                  className="pt-8 flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8"
                 >
                  <button
   type="button"
