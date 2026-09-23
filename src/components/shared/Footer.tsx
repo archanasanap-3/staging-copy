@@ -10,11 +10,9 @@ import { useCursorStyle } from '@/lib/cursor-context';
 const FOOTER_LINKS = {
   EXPLORE: [
     { label: 'Home', href: '/' },
-    { label: 'What We Build', href: '/services' },
-    { label: 'Why Straveda', href: '/about' },
-    { label: 'Insights', href: '/insights' },
+    { label: 'About', href: '/about' },
+    {label: 'Commerce OS', href: '/commerce-os'},
     { label: 'Careers', href: '/careers' },
-    { label: 'Contact', href: '/contact' },
   ],
   SERVICES: [
     { label: 'AI & Automation', href: '/services#automation' },
@@ -89,7 +87,7 @@ export default function Footer() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 flex justify-center">
 
         {/* MOBILE */}
         <div className="flex flex-col items-center text-center md:hidden pb-2">
@@ -123,91 +121,150 @@ export default function Footer() {
             <p>© 2026 Straveda Tech. All rights reserved.</p>
             <div className="flex gap-6 normal-case tracking-normal text-[13px] font-bold text-gray-500 dark:text-gray-400">
               <Link href="/privacy-policy" className="hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors">Privacy Policy</Link>
-              <button className="hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors">Terms of Service</button>
             </div>
           </div>
         </div>
 
-        {/* DESKTOP */}
-        <div className="hidden md:block">
-          <div className="flex justify-end mb-6">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="mt-4 group flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#0f172a] dark:text-white/60 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors"
-            >
-              <ArrowUp size={14} strokeWidth={3} /> BACK TO TOP
-            </button>
-          </div>
+       {/* DESKTOP */}
+<div className="hidden md:block">
 
-          <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-8 mb-8">
-            {/* Brand */}
-            <div className="lg:col-span-4 space-y-4">
-              <div>
-                <div className="relative h-20 w-72">
-                  <Image src="/logos/main_logo.png" alt="Straveda" fill sizes="288px" className="object-contain object-left dark:hidden" />
-                  <Image src="/logos/blackmain_logo.png" alt="Straveda" fill sizes="288px" className="object-contain object-left hidden dark:block" />
-                </div>
-                <p className="mt-2 text-[14px] text-[#0f172a] dark:text-gray-300 font-bold leading-snug max-w-[280px]">
-                  Exceptional value.<br />Cost effective solutions.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <a href="https://www.linkedin.com/company/straveda-tech/" target="_blank" rel="noopener noreferrer" aria-label="Straveda on LinkedIn" className={SOCIAL_CLS}><LinkedInIcon /></a>
-                <a href="https://www.instagram.com/stravedaofficial/" target="_blank" rel="noopener noreferrer" aria-label="Straveda on Instagram" className={SOCIAL_CLS}><InstagramIcon /></a>
-                <a href="https://wa.me/919623095766" target="_blank" rel="noopener noreferrer" aria-label="Straveda on WhatsApp" className={SOCIAL_CLS}><WhatsAppIcon /></a>
-              </div>
-            </div>
+  <div className="grid grid-cols-4 gap-x-12 gap-y-8 mb-8 items-start w-full max-w-[1500px] mx-auto">
 
-            {/* Link columns */}
-            {Object.entries(FOOTER_LINKS).map(([title, links]) => (
-              <div key={title} className="lg:col-span-2 space-y-3">
-                <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">{title}</h3>
-                <ul className="space-y-2">
-                  {links.map((link) => (
-                    <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-[13px] font-bold text-[#0f172a] dark:text-gray-200 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+    {/* Brand */}
+    <div className="space-y-4 flex flex-col items-center">
+      <div>
+        <div className="relative h-20 w-72">
+          <Image
+            src="/logos/main_logo.png"
+            alt="Straveda"
+            fill
+            sizes="288px"
+            className="object-contain object-center dark:hidden"
+          />
+          <Image
+            src="/logos/blackmain_logo.png"
+            alt="Straveda"
+            fill
+            sizes="288px"
+            className="object-contain object-center hidden dark:block"
+          />
+        </div>
 
-            {/* Contact */}
-            <div className="lg:col-span-2 space-y-3">
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">CONTACT US</h3>
-              <div className="space-y-3 text-[13px] font-bold text-[#0f172a] dark:text-gray-200">
-                <a
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=stravedatech@gmail.com"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex items-center gap-3 group"
->
-  <Mail
-    size={18}
-    className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]"
-  />
-  <span className="hover:text-[#FF4800] dark:hover:text-[#ff6b2b] transition-colors">
-    stravedatech@gmail.com
-  </span>
-</a>
-                <a href="tel:+9196230 95766" className="flex items-center gap-3 group">
-                  <Phone size={18} className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]" />
-                  <span>+91 96230 95766</span>
-                </a>
-                <div className="flex items-start gap-3">
-                  <MapPin size={18} className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-                  <span className="leading-5">Pune, Maharashtra
-                    <br />411001, India</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <p className="mt-2 text-[14px] text-[#0f172a] dark:text-gray-300 font-bold leading-snug max-w-[280px] text-center">
+          Exceptional value.<br />
+          Cost effective solutions.
+        </p>
+      </div>
 
+      <div className="flex gap-3 justify-center">
+        <a
+          href="https://www.linkedin.com/company/straveda-tech/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Straveda on LinkedIn"
+          className={SOCIAL_CLS}
+        >
+          <LinkedInIcon />
+        </a>
+
+        <a
+          href="https://www.instagram.com/stravedaofficial/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Straveda on Instagram"
+          className={SOCIAL_CLS}
+        >
+          <InstagramIcon />
+        </a>
+
+        <a
+          href="https://wa.me/919623095766"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Straveda on WhatsApp"
+          className={SOCIAL_CLS}
+        >
+          <WhatsAppIcon />
+        </a>
+      </div>
+    </div>
+
+    {/* Explore & Services */}
+    {Object.entries(FOOTER_LINKS).map(([title, links]) => (
+      <div
+        key={title}
+        className="space-y-3 text-left"
+      >
+        <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">
+          {title}
+        </h3>
+
+        <ul className="space-y-2">
+          {links.map((link) => (
+            <li key={link.label}>
+              <Link
+                href={link.href}
+                className="text-[13px] font-bold text-[#0f172a] dark:text-gray-200 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    {/* Contact */}
+    <div className="space-y-3 text-left">
+      <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">
+        CONTACT US
+      </h3>
+
+      <div className="space-y-3 text-[13px] font-bold text-[#0f172a] dark:text-gray-200">
+
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=stravedatech@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-start gap-3 group"
+        >
+          <Mail
+            size={18}
+            className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]"
+          />
+          <span className="hover:text-[#FF4800] dark:hover:text-[#ff6b2b] transition-colors">
+            stravedatech@gmail.com
+          </span>
+        </a>
+
+        <a
+          href="tel:+919623095766"
+          className="flex items-center justify-start gap-3 group"
+        >
+          <Phone
+            size={18}
+            className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]"
+          />
+          <span>+91 96230 95766</span>
+        </a>
+
+        <div className="flex items-start justify-start gap-3">
+          <MapPin
+            size={18}
+            className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+          />
+
+          <span className="leading-5">
+            Pune, Maharashtra
+            <br />
+            411001, India
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
           <div className="pt-5 border-t-2 border-[#0f172a]/5 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
             <div className="flex gap-10 normal-case tracking-normal text-[13px] font-bold text-[#0f172a]/60 dark:text-white/50">
@@ -218,11 +275,6 @@ export default function Footer() {
     Privacy Policy
   </Link>
 
-  <button
-    className="hover:text-[#0f172a]/80 dark:hover:text-white/80 transition-colors duration-300"
-  >
-    Terms of Service
-  </button>
 </div>
           </div>
         </div>

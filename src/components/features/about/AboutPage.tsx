@@ -242,26 +242,44 @@ const stats = [
 
 function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-  const [count, setCount] = useState(0);
+const inView = useInView(ref, {
+  once: false,
+  margin: "-60px",
+});
+ const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    if (!inView || stat.count === null) return;
-    const target = stat.count;
-    const duration = 1800;
-    const start = performance.now();
-    const isDecimal = target % 1 !== 0;
-
-    function step(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = eased * target;
-      setCount(isDecimal ? Math.round(current * 10) / 10 : Math.round(current));
-      if (progress < 1) requestAnimationFrame(step);
+ useEffect(() => {
+  if (!inView || stat.count === null) {
+    if (stat.count !== null) {
+      setCount(0);
     }
-    requestAnimationFrame(step);
-  }, [inView, stat.count]);
+    return;
+  }
+
+  const target = stat.count;
+  const duration = 1800;
+  const start = performance.now();
+  const isDecimal = target % 1 !== 0;
+
+  function step(now: number) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = eased * target;
+
+    setCount(
+      isDecimal
+        ? Math.round(current * 10) / 10
+        : Math.round(current)
+    );
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+
+  requestAnimationFrame(step);
+}, [inView, stat.count]);
 
   if (stat.count === null) return <span ref={ref}>{stat.value}</span>;
   return <span ref={ref}>{stat.prefix}{count}{stat.suffix}</span>;
@@ -269,59 +287,102 @@ function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
 
 function StatsSection() {
   return (
-    <section className="bg-[#030303] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-white/5">
+    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-black/5">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+        {/* Heading */}
         <div className="mb-10 md:mb-16">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
             By The Numbers
           </span>
-          <h2 className="text-white text-xl md:text-2xl font-normal tracking-tighter uppercase">
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease }}
+            className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]"
+          >
             Measurable Operational Impact
-          </h2>
+          </motion.h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-white/10 pb-1">
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-black/10 pb-1">
+
           {stats.map((s, i) => (
-            <div key={i} className="relative group flex flex-col items-center">
+            <div
+              key={i}
+              className="relative group flex flex-col items-center"
+            >
+
+              {/* Number + Label */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, ease }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{
+                  duration: 0.8,
+                  delay: i * 0.12,
+                  ease,
+                }}
                 className="mb-4 md:mb-5"
               >
-                <p className="text-2xl md:text-4xl font-normal text-white tracking-tighter group-hover:text-[#FF4800] transition-colors duration-500 text-center">
+                <p className="text-2xl md:text-4xl font-normal text-[#1a1a1a] tracking-tighter text-center">
                   <AnimatedStatValue stat={s} />
                 </p>
-                <p className="text-[10px] text-[#666] uppercase tracking-widest mt-2 text-center">{s.label}</p>
+
+                <p className="text-[10px] text-[#666] uppercase tracking-widest mt-2 text-center">
+                  {s.label}
+                </p>
               </motion.div>
 
+              {/* Animated Vertical Line */}
               <div className="relative">
                 <motion.div
-                  initial={{ scaleY: 0 }}
-                  whileInView={{ scaleY: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.9, delay: i * 0.1 + 0.2, ease }}
-                  style={{
-                    originY: 1,
-                    background: 'linear-gradient(to bottom, #FF4800 0%, rgba(255,72,0,0.5) 50%, transparent 100%)',
-                    boxShadow: '0 0 8px 1px rgba(255,72,0,0.35)',
+                  initial={{
+                    scaleY: 0,
+                    opacity: 0,
                   }}
-                  className={`w-[2px] ${s.barClass} group-hover:w-[3px] transition-all duration-500`}
+                  whileInView={{
+                    scaleY: 1,
+                    opacity: 1,
+                  }}
+                  viewport={{
+                    once: false,
+                    amount: 0.4,
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    delay: i * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                   style={{
+    transformOrigin: "bottom center",
+    background:
+      "linear-gradient(to top, #FF4800 0%, rgba(255,72,0,0.5) 60%, transparent 100%)",
+    boxShadow: "0 0 8px 1px rgba(255,72,0,0.35)",
+  }}
+                  className={`w-[2px] ${s.barClass}`}
                 />
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#FF4800] rounded-full blur-[3px] opacity-60 group-hover:opacity-100 group-hover:blur-[5px] transition-all duration-500" />
               </div>
+
             </div>
           ))}
+
         </div>
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mt-4">
-          <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
-            TYPICAL CLIENT SIZE: ₹1CR-₹50CR ANNUAL REVENUE
+
+        {/* Bottom Information */}
+        <div className="flex justify-between items-center mt-4">
+          <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-[#777]">
+            Typical client size: ₹1Cr–₹50Cr annual revenue
           </span>
-          <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-[#666]">
-            LOCATION: PUNE, MAHARASHTRA
+
+          <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-[#777]">
+            Location: Pune, Maharashtra
           </span>
         </div>
+
       </div>
     </section>
   );
@@ -511,104 +572,54 @@ const testimonials = [
 ];
 
 function ResultsSection() {
-  const rowOne = testimonials.slice(0, 4);
-  const rowTwo = testimonials.slice(4, 7);
-
-  // Duplicate cards for seamless infinite scrolling
-  const firstRow = [...rowOne, ...rowOne, ...rowOne];
-  const secondRow = [...rowTwo, ...rowTwo, ...rowTwo];
+  // Duplicate cards for seamless single-line infinite scrolling
+  const scrollingResults = [...testimonials, ...testimonials];
 
   return (
     <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-12 md:pt-12 md:pb-16 overflow-hidden">
-
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Heading */}
         <div className="mb-8 md:mb-10">
-          <h2 className="masked-title text-3xl md:text-4xl font-normal uppercase tracking-[-1.5px]">
+          <h2 className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]">
             Results that speak
           </h2>
         </div>
 
-        {/* ================= ROW 1 : RIGHT ================= */}
-        <div className="relative overflow-hidden mb-15">
+        {/* ================= SINGLE HORIZONTAL ROW ================= */}
+        <div className="relative w-full overflow-hidden">
           <motion.div
-            className="flex w-max gap-10"
+            className="flex w-max items-stretch gap-5"
             animate={{
-              x: ["-33.333%", "0%"],
+              x: ["0%", "-50%"],
             }}
             transition={{
-              duration: 25,
+              duration: 35,
               repeat: Infinity,
               ease: "linear",
             }}
           >
-            {firstRow.map((item, i) => (
+            {scrollingResults.map((item, i) => (
               <div
-                key={`row1-${i}`}
+                key={`results-${i}`}
                 className="
                   glass-card
                   w-[280px]
                   md:w-[320px]
                   flex-shrink-0
-                  rounded-2xl
+                  rounded-[22px]
                   p-6
-                  min-h-[210px]
+                  min-h-[200px]
                   flex
                   flex-col
                 "
               >
+                {/* Description */}
                 <p className="text-[#475569] dark:text-[#cbd5e1] text-sm leading-6 italic">
                   “{item.quote}”
                 </p>
 
-                <div className="mt-auto border-t border-black/5 dark:border-white/10 pt-4">
-                  <p className="text-[#FF4800] text-[9px] font-bold uppercase tracking-[0.15em] mb-2">
-                    {item.impact}
-                  </p>
-
-                  <p className="text-[#64748b] dark:text-[#888] text-[9px] font-medium uppercase tracking-[0.12em]">
-                    — {item.role}, {item.company}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* ================= ROW 2 : LEFT ================= */}
-        <div className="relative overflow-hidden mb-15">
-          <motion.div
-            className="flex w-max gap-10"
-            animate={{
-              x: ["0%", "-33.333%"],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear",
-              repeatType: "reverse",
-            }}
-          >
-            {secondRow.map((item, i) => (
-              <div
-                key={`row2-${i}`}
-                className="
-                  glass-card
-                  w-[280px]
-                  md:w-[320px]
-                  flex-shrink-0
-                  rounded-2xl
-                  p-6
-                  min-h-[210px]
-                  flex
-                  flex-col
-                "
-              >
-                <p className="text-[#475569] dark:text-[#cbd5e1] text-sm leading-6 italic">
-                  “{item.quote}”
-                </p>
-
+                {/* Impact + Client */}
                 <div className="mt-auto border-t border-black/5 dark:border-white/10 pt-4">
                   <p className="text-[#FF4800] text-[9px] font-bold uppercase tracking-[0.15em] mb-2">
                     {item.impact}
@@ -627,6 +638,7 @@ function ResultsSection() {
     </section>
   );
 }
+
 /* ─────────────────────────────────────────────────────────────────────── */
 /* 6. Work With Us Section                                                 */
 /* ─────────────────────────────────────────────────────────────────────── */
