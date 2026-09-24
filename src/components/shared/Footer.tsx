@@ -191,10 +191,12 @@ export default function Footer() {
 
     {/* Explore & Services */}
     {Object.entries(FOOTER_LINKS).map(([title, links]) => (
-      <div
-        key={title}
-        className="space-y-3 text-left"
-      >
+  <div
+    key={title}
+    className={`space-y-3 text-left ${
+      title === 'EXPLORE' ? 'md:ml-20' : ''
+    }`}
+  >
         <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">
           {title}
         </h3>

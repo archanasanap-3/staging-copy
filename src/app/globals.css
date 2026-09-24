@@ -2764,3 +2764,304 @@ html.dark .partner-name:hover {
 
 /* Bento icon wrapper dark */
 .dark .bento-icon-wrap { background: rgba(255,72,0,0.12) !important; }
+.clients-section {
+  position: relative;
+  width: 100%;
+  min-height: 650px;
+  overflow: hidden;
+  padding-top: 70px;
+  background: #f9f9fb;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.clients-heading {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.clients-heading span {
+  display: block;
+  margin-bottom: 10px;
+  color: #ff4800;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.clients-heading h2 {
+  margin: 0 auto;
+  max-width: 1100px;
+  color: #292752;
+  font-size: clamp(38px, 4vw, 64px);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+/* =========================
+   ROPE
+========================= */
+
+.clients-rope {
+  position: absolute;
+  top: 245px;
+  left: 0;
+  width: 100%;
+  height: 220px;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+.clients-rope svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================
+   CARDS WRAPPER
+========================= */
+
+.clients-cards {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  height: 390px;
+  margin-top: 105px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.client-card {
+  position: absolute;
+
+  width: 205px;
+  height: 265px;
+
+  background: #ffffff;
+  border-radius: 22px;
+
+  padding: 9px;
+
+  box-shadow:
+    0 18px 35px rgba(35, 32, 65, 0.12);
+
+  overflow: visible;
+
+  z-index: 5;
+}
+
+/* IMAGE */
+
+.client-card img {
+  display: block;
+
+  width: 100%;
+  height: 190px;
+
+  object-fit: cover;
+
+  border-radius: 15px;
+}
+
+/* INFO */
+
+.client-info {
+  padding: 12px 5px 5px;
+}
+
+.client-info h3 {
+  margin: 0 0 5px;
+
+  color: #292752;
+
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.client-info p {
+  margin: 0;
+
+  color: #858593;
+
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+/* =========================
+   PIN
+========================= */
+
+.client-pin {
+  position: absolute;
+
+  top: -27px;
+  left: 50%;
+
+  width: 22px;
+  height: 53px;
+
+  transform: translateX(-50%) rotate(0deg);
+
+  background: #ff4800;
+
+  border-radius: 5px 5px 4px 4px;
+
+  z-index: 20;
+
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.08);
+}
+
+/* small hole on pin */
+
+.client-pin span {
+  position: absolute;
+
+  top: 8px;
+  left: 50%;
+
+  width: 5px;
+  height: 5px;
+
+  transform: translateX(-50%);
+
+  background: #ffffff;
+
+  border-radius: 50%;
+}
+
+/* =========================
+   CARD POSITIONS
+========================= */
+
+/* LEFT */
+
+.client-card-1 {
+  left: -25px;
+  top: 70px;
+  transform: rotate(-7deg);
+}
+
+/* LEFT CENTER */
+
+.client-card-2 {
+  left: 20%;
+  top: 125px;
+  transform: rotate(4deg);
+}
+
+/* CENTER */
+
+.client-card-3 {
+  left: 50%;
+  top: 165px;
+  transform: translateX(-50%);
+  transform-origin: center;
+}
+
+/* RIGHT CENTER */
+
+.client-card-4 {
+  right: 20%;
+  top: 125px;
+  transform: rotate(-4deg);
+}
+
+/* RIGHT */
+
+.client-card-5 {
+  right: -25px;
+  top: 70px;
+  transform: rotate(7deg);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .clients-section {
+    min-height: 600px;
+  }
+
+  .client-card {
+    width: 175px;
+    height: 230px;
+  }
+
+  .client-card img {
+    height: 160px;
+  }
+
+  .client-card-2 {
+    left: 18%;
+  }
+
+  .client-card-4 {
+    right: 18%;
+  }
+}
+
+@media (max-width: 700px) {
+  .clients-section {
+    min-height: auto;
+    padding-bottom: 60px;
+  }
+
+  .clients-heading h2 {
+    padding: 0 20px;
+    font-size: 34px;
+  }
+
+  .clients-rope {
+    display: none;
+  }
+
+  .clients-cards {
+    height: auto;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 45px 15px;
+
+    padding: 80px 20px 30px;
+  }
+
+  .client-card {
+    position: relative;
+
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+
+    width: 100%;
+    max-width: 190px;
+
+    margin: auto;
+
+    transform: rotate(0deg) !important;
+  }
+
+  .client-card-3 {
+    grid-column: 1 / -1;
+  }
+}
+@keyframes commerceContinuous {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}

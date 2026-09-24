@@ -6,7 +6,9 @@ import Link from "next/link";
 
 import {
   ArrowRight,
+  Smartphone,
   BarChart3,
+  Warehouse,
   Box,
   Check,
   ClipboardList,
@@ -19,8 +21,11 @@ import {
   ShoppingBag,
   ShoppingCart,
   Sparkles,
+  Store,
   Truck,
   Users,
+  Settings,
+  Bot as BotIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -1110,653 +1115,28 @@ useEffect(() => {
 
       </section>
 
+{/* ─────────────────────────────────────────────────────────────
+    COMMERCE MODULES
+───────────────────────────────────────────────────────────── */}
 
-    {/* =========================================================
-    02 — EVERYTHING YOUR ONLINE BUSINESS NEEDS / BENTO
-========================================================= */}
+<section className="bg-white pt-8 py-16 md:pt-10 md:py-20">
+  <div className="mx-auto max-w-7xl px-6 md:px-10">
 
-<section
-  id="platform"
-  className="relative overflow-hidden bg-white py-16 md:py-20"
->
-  <div className="mx-auto max-w-7xl px-6 pt-8 md:px-10">
-
-    <div className="max-w-4xl">
-      <SectionLabel>Commerce Modules</SectionLabel>
-
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]"
+    {/* Section Header */}
+    <div className="mb-10 md:mb-12">
+      <span
+        className="
+          block mb-4
+          px-3 py-1
+          text-[11px] font-semibold uppercase
+          tracking-[0.12em]
+          text-[#FF4800]
+        "
       >
-        <span className="text-[#0f172a]">
-          Everything Your Online{" "}
-        </span>
-
-        <span
-          className="bg-gradient-to-r from-[#3b2436] via-[#8b4a45] to-[#FF4800] bg-clip-text text-transparent"
-        >
-          Business Needs
-        </span>
-      </motion.h2>
-
-      <p className="mt-6 text-base leading-7 text-[#64748b] md:whitespace-nowrap">
-        Seven integrated modules power the entire Straveda Commerce OS — from
-        storefront to shipment, in one premium platform.
-      </p>
-    </div>
-
-
-    {/* =====================================================
-    COMMERCE MODULES — 2 / 3 / 2 BENTO
-===================================================== */}
-
-<div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-6">
-
-  {/* =====================================================
-      ROW 1 — 2 CARDS
-  ===================================================== */}
-
-  {/* 01 — Premium Online Store */}
-  <div className="bento-card group relative min-h-[235px] overflow-hidden rounded-[28px] border border-[#0f172a]/10 bg-gradient-to-br from-[#eef3f1] via-[#f7f8f5] to-[#f4dfc5] p-5 md:col-span-4">
-
-    <div className="relative z-10">
-      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-        Commerce
-      </p>
-
-      <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-        Premium Online Store
-      </h3>
-
-      <p className="mt-2 max-w-md text-xs leading-5 text-[#64748b]">
-        Custom storefront engineered for speed, conversion and seamless
-        customer experiences.
-      </p>
-    </div>
-
-    <div className="absolute bottom-4 left-4 right-4 h-[96px] overflow-hidden rounded-[20px] border border-white/70 bg-[#fff1eb] p-4 shadow-[0_15px_40px_rgba(15,23,42,0.08)]">
-
-      <div className="flex items-center gap-2 border-b border-[#0f172a]/10 pb-3">
-        <span className="h-2 w-2 rounded-full bg-[#d9a06c]" />
-        <span className="h-2 w-2 rounded-full bg-[#9eb7ae]" />
-        <span className="h-2 w-2 rounded-full bg-[#d6ddd8]" />
-      </div>
-
-      <div className="mt-3 grid grid-cols-[1fr_2fr] gap-2">
-
-        <div className="space-y-2">
-          <div className="h-3 w-16 rounded-full bg-[#d8ded9]" />
-          <div className="h-2 w-24 rounded-full bg-[#e2e6e2]" />
-          <div className="h-2 w-20 rounded-full bg-[#e2e6e2]" />
-        </div>
-
-        <div className="flex items-end gap-2">
-          {[45, 70, 52, 85, 64, 95].map((height, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-t-md bg-gradient-to-t from-[#c99a68] to-[#e7c49d]"
-              style={{ height: `${height}px` }}
-            />
-          ))}
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-
-  {/* 02 — Product Management */}
-  <div className="bento-card group relative min-h-[235px] overflow-hidden rounded-[28px] border border-[#0f172a]/10 bg-[#f5eee5] p-5 md:col-span-2">
-
-    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-      Catalog
-    </p>
-
-    <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-      Product Management
-    </h3>
-
-    <p className="mt-2 text-xs leading-5 text-[#64748b]">
-      Products, categories, variants and collections — all managed from one
-      place.
-    </p>
-
-    <div className="absolute bottom-4 left-4 right-4 rounded-[20px] bg-[#fff1eb] p-3 shadow-[0_15px_35px_rgba(15,23,42,0.08)]">
-
-      <div className="flex items-center justify-between">
-        <span className="text-[8px] font-bold uppercase tracking-wider text-[#94a3b8]">
-          Products
-        </span>
-
-        <span className="text-sm font-semibold text-[#0f172a]">
-          1,284
-        </span>
-      </div>
-
-      <div className="mt-4 flex gap-2">
-        <div className="h-10 flex-1 rounded-xl bg-[#dce8e4]" />
-        <div className="h-10 flex-1 rounded-xl bg-[#e6c49c]" />
-        <div className="h-10 flex-1 rounded-xl bg-[#d5ddd8]" />
-      </div>
-
-    </div>
-  </div>
-
-
-  {/* =====================================================
-      ROW 2 — 3 CARDS
-  ===================================================== */}
-
-  {/* 03 — Customer Experience */}
-  <div className="bento-card group relative min-h-[220px] overflow-hidden rounded-[28px] border border-[#0f172a]/10 bg-[#edf2ef] p-5 md:col-span-2">
-
-    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-      Experience
-    </p>
-
-    <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-      Customer Experience
-    </h3>
-
-    <p className="mt-2 text-xs leading-5 text-[#64748b]">
-      Build loyalty with wishlist, reviews, coupons and personalized
-      customer journeys.
-    </p>
-
-    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-[18px] bg-[#fff1eb] p-3">
-
-      <div className="flex -space-x-2">
-        {["AK", "RM", "PS", "JD"].map((name, i) => (
-          <span
-            key={i}
-            className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-[#dce7e2] text-[8px] font-bold text-[#64748b]"
-          >
-            {name}
-          </span>
-        ))}
-      </div>
-
-      <span className="rounded-full bg-[#e8c49b] px-3 py-2 text-[8px] font-bold text-[#5f4b36]">
-        +12
+        COMMERCE MODULES
       </span>
 
-    </div>
-  </div>
-
-
-  {/* 04 — Multiple Payment Options */}
-  <div className="bento-card group relative min-h-[220px] overflow-hidden rounded-[28px] border border-[#0f172a]/10 bg-[#f7f5ef] p-5 md:col-span-2">
-
-    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-      Payments
-    </p>
-
-    <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-      Multiple Payment Options
-    </h3>
-
-    <p className="mt-2 max-w-sm text-xs leading-5 text-[#64748b]">
-      Give customers a seamless checkout experience with secure and flexible
-      payment options.
-    </p>
-
-    <div className="absolute bottom-4 left-4 right-4 rounded-[22px] bg-[#fff1eb] p-3 shadow-[0_15px_35px_rgba(15,23,42,0.07)]">
-
-      <p className="text-[8px] font-bold uppercase tracking-wider text-[#94a3b8]">
-        Secure Checkout
-      </p>
-
-      <div className="mt-3 grid grid-cols-2 gap-1.5">
-        {["UPI", "Cards", "Wallets", "COD"].map((item) => (
-          <div
-            key={item}
-            className="rounded-full border border-[#0f172a]/10 bg-white px-3 py-1.5 text-center text-[8px] font-semibold text-[#475569]"
-          >
-            {item}
-          </div>
-        ))}
-      </div>
-
-    </div>
-  </div>
-
-
-  {/* 05 — Order Management */}
-  <div className="bento-card group relative min-h-[220px] overflow-hidden rounded-[28px] border border-[#0f172a]/10 bg-[#f0f3f1] p-5 md:col-span-2">
-
-    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-      Operations
-    </p>
-
-    <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-      Order Management
-    </h3>
-
-    <p className="mt-2 text-xs leading-5 text-[#64748b]">
-      Track every order from processing to delivery, returns and refunds.
-    </p>
-
-    <div className="absolute bottom-4 left-4 right-4 space-y-1.5">
-
-      {[
-        ["#4827", "Shipped"],
-        ["#4831", "Processing"],
-        ["#4838", "Delivered"],
-      ].map(([order, status]) => (
-        <div
-          key={order}
-          className="flex items-center justify-between rounded-[14px] bg-[#fff1eb] px-3 py-2 shadow-sm"
-        >
-          <span className="text-[9px] font-bold text-[#475569]">
-            {order}
-          </span>
-
-          <span className="text-[8px] font-semibold text-[#FF4800]">
-            {status}
-          </span>
-        </div>
-      ))}
-
-    </div>
-  </div>
-
-
-  {/* =====================================================
-      ROW 3 — 2 CARDS
-  ===================================================== */}
-
-  {/* 06 — Inventory Management */}
-  <div className="bento-card group relative min-h-[235px] overflow-hidden rounded-[28px] border border-[#0f172a]/10 bg-[#edf1f0] p-5 md:col-span-4">
-
-    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-      Inventory
-    </p>
-
-    <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-      Inventory Management
-    </h3>
-
-    <p className="mt-2 text-xs leading-5 text-[#64748b]">
-      Real-time stock visibility with intelligent alerts and multi-location
-      support.
-    </p>
-
-    <div className="absolute bottom-4 left-4 right-4">
-
-      <div className="flex items-center justify-between text-[8px] font-bold text-[#94a3b8]">
-        <span>STOCK LEVEL</span>
-        <span>82%</span>
-      </div>
-
-      <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#ffe1d4]">
-        <div className="h-full w-[82%] rounded-full bg-[#FF4800]" />
-      </div>
-
-    </div>
-  </div>
-
-
-  {/* 07 — Shipment Management */}
-  <div className="bento-card group relative min-h-[235px] overflow-hidden rounded-[28px] border border-[#e8c7a8] bg-gradient-to-br from-[#f8eee5] to-[#edf1ef] p-5 md:col-span-2">
-
-    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#64748b]">
-      Logistics
-    </p>
-
-    <h3 className="mt-2 text-xl font-semibold tracking-[-0.8px] text-[#0f172a]">
-      Shipment Management
-    </h3>
-
-    <p className="mt-2 text-xs leading-5 text-[#64748b]">
-      Connect shipments, generate labels and track deliveries in real time.
-    </p>
-
-    <div className="absolute bottom-4 left-4 right-4">
-
-      <div className="relative h-[8px] rounded-full bg-[#ffe1d4]">
-
-        <div className="absolute left-0 top-1/2 h-[8px] w-[62%] -translate-y-1/2 rounded-full bg-[#FF4800]" />
-
-        <span className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-[#FF4800] bg-white" />
-
-        <span className="absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-[#FF4800] bg-white" />
-
-      </div>
-
-      <div className="mt-3 flex justify-between text-[7px] font-bold uppercase text-[#94a3b8]">
-        <span>Packed</span>
-        <span>Delivery</span>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-
-{/* =====================================================
-    BENTO HOVER ANIMATIONS
-===================================================== */}
-
-<style jsx>{`
-  .bento-card {
-    transition:
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.45s ease,
-      border-color 0.35s ease,
-      background 0.35s ease;
-  }
-
-  .bento-card:hover {
-    transform: translateY(-7px);
-
-    background: #fff1eb;
-
-    border-color: #ff4800;
-
-    box-shadow:
-      0 18px 45px rgba(255, 72, 0, 0.12),
-      0 4px 12px rgba(255, 72, 0, 0.06);
-  }
-
-  .bento-card:hover h3 {
-    color: #ff4800;
-    transition: color 0.3s ease;
-  }
-
-  .bento-card:hover > div {
-    transition:
-      transform 0.4s ease,
-      box-shadow 0.4s ease;
-  }
-
-  .bento-card:hover .bg-\\[\\#fff1eb\\] {
-    box-shadow:
-      0 12px 30px rgba(255, 72, 0, 0.08);
-  }
-
-  @media (max-width: 767px) {
-    .bento-card {
-      min-height: 260px;
-    }
-
-    .bento-card:hover {
-      transform: translateY(-4px);
-    }
-  }
-`}</style>
-
-  </div>
-</section>
-
-
-      {/* =========================================================
-          03 — BEYOND A STORE
-      ========================================================= */}
-
-      <section className="relative bg-[#fffaf8] py-16 md:py-20">
-
-        <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
-
-          <div className="max-w-4xl">
-
-            <SectionLabel>
-               Business Intelligence
-            </SectionLabel>
-
-         <h2
-  className="font-normal heading-gradient"
-  style={{
-    fontSize: 'clamp(1.6rem, 3.5vw, 3rem)',
-    lineHeight: 1.05,
-    letterSpacing: '-1.5px',
-    whiteSpace: 'nowrap',
-    width: 'max-content',
-    maxWidth: '100%',
-  }}
->
-  Beyond a Store Built for Business Growth
-</h2>
-
-           <p className="mt-6 text-base leading-7 text-[#64748b] whitespace-nowrap">
-  Five advanced modules that turn Straveda Commerce OS from a storefront into a full business operating system — analytics, marketing, CRM, omnichannel, AI.
-</p>
-
-          </div>
-
-       <div className="mt-14 w-full overflow-hidden">
-  <div className="flex w-full items-start gap-0">
-    {advancedModules.map((module, stepIndex) => (
-      <AdvancedCard
-        key={module.title}
-        module={module}
-        step={stepIndex + 1}
-        isLast={stepIndex === advancedModules.length - 1}
-      />
-    ))}
-  </div>
-</div>
-<style jsx>{`
-
-  /* ================================
-     MAIN SECTION
-  ================================= */
-
-  .advanced-modules-section {
-    width: 100%;
-  }
-
-  /* ================================
-     HEADING
-  ================================= */
-
-  .advanced-modules-title {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    text-align: center;
-
-    font-size: clamp(1.6rem, 3.5vw, 3rem);
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-  }
-
-  /* ================================
-     DESCRIPTION
-  ================================= */
-
-  .advanced-modules-description {
-    width: 100%;
-    max-width: 1100px;
-    margin: 24px auto 0;
-
-    text-align: center;
-
-    font-size: 16px;
-    line-height: 1.75;
-    color: #64748b;
-  }
-
-  /* ================================
-     STEPPER
-  ================================= */
-
-  .advanced-modules-stepper {
-    width: 100%;
-    margin-top: 56px;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  }
-
-  .advanced-module-item {
-    position: relative;
-
-    flex: 1 1 0;
-    min-width: 0;
-
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
-
-  /* ================================
-     CENTER ALL CARD CONTENT
-  ================================= */
-
-  .advanced-module-item :global(.advanced-card),
-  .advanced-module-item :global(.card) {
-    text-align: center;
-  }
-
-  .advanced-module-item :global(h3),
-  .advanced-module-item :global(h4) {
-    width: 100%;
-    text-align: center;
-  }
-
-  .advanced-module-item :global(p) {
-    text-align: center;
-  }
-
-  /* ================================
-     CENTER BULLET POINTS
-  ================================= */
-
-  .advanced-module-item :global(ul) {
-    width: 100%;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    padding: 0;
-
-    list-style: none;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .advanced-module-item :global(li) {
-    width: fit-content;
-
-    text-align: center;
-
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* ================================
-     DESKTOP
-  ================================= */
-
-  @media (max-width: 1100px) {
-
-    .advanced-modules-stepper {
-      gap: 10px;
-    }
-
-    .advanced-module-item {
-      flex: 1 1 0;
-    }
-
-    .advanced-modules-description {
-      max-width: 900px;
-    }
-  }
-
-  /* ================================
-     TABLET
-  ================================= */
-
-  @media (max-width: 850px) {
-
-    .advanced-modules-stepper {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 40px 20px;
-    }
-
-    .advanced-module-item {
-      width: 100%;
-    }
-
-    .advanced-modules-description {
-      white-space: normal;
-      font-size: 15px;
-    }
-  }
-
-  /* ================================
-     MOBILE
-  ================================= */
-
-  @media (max-width: 640px) {
-
-    .advanced-modules-title {
-      font-size: 30px;
-      letter-spacing: -1px;
-      white-space: normal;
-    }
-
-    .advanced-modules-description {
-      margin-top: 18px;
-
-      font-size: 14px;
-      line-height: 1.6;
-
-      white-space: normal;
-    }
-
-    .advanced-modules-stepper {
-      grid-template-columns: 1fr;
-      gap: 32px;
-
-      margin-top: 40px;
-    }
-
-    .advanced-module-item {
-      width: 100%;
-    }
-
-    .advanced-module-item :global(ul) {
-      align-items: center;
-    }
-
-    .advanced-module-item :global(li) {
-      text-align: center;
-    }
-  }
-
-`}</style>
-
-        </div>
-
-      </section>
-
-
-
-
-
-      {/* =========================================================
-          04 — COMPLETE BUSINESS WORKFLOW
-      ========================================================= */}
-
-      <section className="bg-white py-16 md:py-20">
-
-        <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
-
-          <div className="max-w-4xl">
-
-            <SectionLabel>
-               Connected Journey
-            </SectionLabel>
-
+     
            <h2
   className="font-normal heading-gradient"
   style={{
@@ -1767,623 +1147,883 @@ useEffect(() => {
     wordBreak: 'break-word',
   }}
 >
-  Complete Business Workflow
+  Everything Your Online Business Needs
 </h2>
 
-           <p className="mt-6 max-w-none whitespace-nowrap max-md:whitespace-normal text-base leading-7 text-[#64748b]">
-  Every customer journey — from first click to retention — flows through one connected Straveda Commerce OS pipeline.
-</p>
+      <p className="mt-4 max-w-5xl text-base leading-relaxed text-[#64748B] md:text-lg">
+        Seven integrated modules power the entire Straveda Commerce OS —
+        from storefront to shipment.
+      </p>
+    </div>
 
+    {/* Bento Grid */}
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-6 md:gap-6">
+
+      {/* ───────────── 01 ───────────── */}
+      <div
+        className="
+          group relative
+          min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white
+          p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-3
+        "
+      >
+        <div className="flex items-start justify-between gap-6">
+
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              01
+            </span>
+
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Premium Online Store
+            </h3>
           </div>
 
-          <div className="mt-14 rounded-[28px] border border-[#0f172a]/10 bg-[#fffaf8] p-5 shadow-[0_20px_70px_rgba(15,23,42,0.06)] md:p-8">
+          <div
+            className="
+              flex h-[60px] w-[60px] shrink-0
+              items-center justify-center
+              rounded-[18px]
+              border border-[#FF4800]/10
+              bg-[#FFF0EA]
+            "
+          >
+            <Store
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
 
-            <div className="flex flex-col justify-between gap-5 border-b border-[#0f172a]/10 pb-6 md:flex-row md:items-center">
+        </div>
 
-              <div>
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Fully Custom UI
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Responsive Design
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Lightning Fast
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            SEO Ready
+          </li>
+        </ul>
 
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
-                  One Connected Journey
-                </p>
+        <span className="mt-1 ml-auto block text-right text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+          FOUNDATION
+        </span>
+      </div>
 
-                <h3 className="mt-2 text-lg font-semibold">
-                  From first click to retention
-                </h3>
+      {/* ───────────── 02 ───────────── */}
+      <div
+        className="
+          group relative
+          min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white
+          p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-3
+        "
+      >
+        <div className="flex items-start justify-between gap-6">
 
-              </div>
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              02
+            </span>
 
-              <div className="flex items-center gap-3">
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Product Management
+            </h3>
+          </div>
 
-                <span className="text-[9px] font-bold text-[#64748b]">
-                  14 STEPS
+          <div
+            className="
+              flex h-[60px] w-[60px] shrink-0
+              items-center justify-center
+              rounded-[18px]
+              border border-[#FF4800]/10
+              bg-[#FFF0EA]
+            "
+          >
+            <Box
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
+
+        </div>
+
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Unlimited Products
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Categories
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Variants
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Collections
+          </li>
+        </ul>
+
+        <span className="mt-2 mt-auto text-right block text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+          CATALOG
+        </span>
+      </div>
+
+      {/* ───────────── 03 ───────────── */}
+      <div
+        className="
+          group relative min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-2
+        "
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              03
+            </span>
+
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Customer Experience
+            </h3>
+          </div>
+
+          <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[18px] border border-[#FF4800]/10 bg-[#FFF0EA]">
+            <Heart
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
+        </div>
+
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span> Wishlist
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span> Reviews
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span> Coupons
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span> Loyalty
+          </li>
+        </ul>
+
+        <span className="mt-auto block w-full text-right text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+  CUSTOMER
+</span>
+      </div>
+
+      {/* ───────────── 04 ───────────── */}
+      <div
+        className="
+          group relative min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-2
+        "
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              04
+            </span>
+
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Multiple Payment Options
+            </h3>
+          </div>
+
+          <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[18px] border border-[#FF4800]/10 bg-[#FFF0EA]">
+            <CreditCard
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
+        </div>
+
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            UPI · Cards · Net Banking
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Wallets · COD
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            International
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Secure Gateways
+          </li>
+        </ul>
+
+        <span className="mt-auto block w-full text-right text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+  PAYMENTS
+</span>
+      </div>
+
+      {/* ───────────── 05 ───────────── */}
+      <div
+        className="
+          group relative min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-2
+        "
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              05
+            </span>
+
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Order Management
+            </h3>
+          </div>
+
+          <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[18px] border border-[#FF4800]/10 bg-[#FFF0EA]">
+            <ClipboardList
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
+        </div>
+
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Order Processing
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Order Tracking
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Returns
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Refunds
+          </li>
+        </ul>
+
+        <span className="mt-auto block w-full text-right text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+  ORDERS
+</span>
+      </div>
+
+      {/* ───────────── 06 ───────────── */}
+      <div
+        className="
+          group relative min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-3
+        "
+      >
+        <div className="flex items-start justify-between gap-6">
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              06
+            </span>
+
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Inventory Management
+            </h3>
+          </div>
+
+          <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[18px] border border-[#FF4800]/10 bg-[#FFF0EA]">
+            <Warehouse
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
+        </div>
+
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Real-Time Stock
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Low Stock Alerts
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Warehouse Support
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Multi-location
+          </li>
+        </ul>
+
+       <span className="mt-auto block w-full text-right text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+  INVENTORY
+</span>
+      </div>
+
+      {/* ───────────── 07 ───────────── */}
+      <div
+        className="
+          group relative min-h-[240px]
+          rounded-[24px]
+          border border-[#E2E8F0]
+          bg-white p-6
+          shadow-[0_8px_30px_rgba(15,23,42,0.035)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:border-[#FF4800]/30
+          hover:shadow-[0_16px_40px_rgba(15,23,42,0.07)]
+          md:col-span-3
+        "
+      >
+        <div className="flex items-start justify-between gap-6">
+          <div>
+            <span className="block text-[13px] font-medium text-[#FF4800]">
+              07
+            </span>
+
+            <h3 className="mt-2 text-xl font-bold leading-tight text-[#111827]">
+              Shipment Management
+            </h3>
+          </div>
+
+          <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[18px] border border-[#FF4800]/10 bg-[#FFF0EA]">
+            <Truck
+              size={30}
+              strokeWidth={1.7}
+              className="text-[#FF4800]"
+            />
+          </div>
+        </div>
+
+        <ul className="mt-4 space-y-1.5">
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Shiprocket Integration
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Shipmozo Integration
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Delivery Tracking
+          </li>
+          <li className="flex gap-3 text-[14px] text-[#64748B]">
+            <span className="text-[#FF4800]">•</span>
+            Shipping Labels · AWB Generation
+          </li>
+        </ul>
+
+        <span className="mt-auto block w-full text-right text-[12px] font-semibold uppercase tracking-wide text-[#FF4800]">
+  NATIVE INTEGRATIONS
+</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+{/* =========================================================
+    04 — COMPLETE BUSINESS WORKFLOW
+========================================================= */}
+
+<section className="bg-white py-16 md:py-20">
+  <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
+
+    {/* Heading */}
+    <div className="max-w-4xl">
+      <SectionLabel>
+        Connected Journey
+      </SectionLabel>
+
+      <h2
+        className="font-normal heading-gradient"
+        style={{
+          fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
+          lineHeight: 1.05,
+          letterSpacing: "-1.5px",
+          overflowWrap: "break-word",
+          wordBreak: "break-word",
+        }}
+      >
+        Complete Business Workflow
+      </h2>
+
+      <p className="mt-6 max-w-none whitespace-nowrap max-md:whitespace-normal text-base leading-7 text-[#64748b]">
+        Every customer journey — from first click to retention — flows through one connected Straveda Commerce OS pipeline.
+      </p>
+    </div>
+
+    {/* Workflow Container */}
+    <div className="mt-14 rounded-[28px] border border-[#0f172a]/10 bg-white p-5 shadow-[0_20px_70px_rgba(15,23,42,0.06)] md:p-8">
+
+      {/* Workflow Header */}
+      <div className="flex flex-col justify-between gap-5 border-b border-[#0f172a]/10 pb-6 md:flex-row md:items-center">
+
+        <div>
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
+            One Connected Journey
+          </p>
+
+          <h3 className="mt-2 text-lg font-semibold">
+            From first click to retention
+          </h3>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-[9px] font-bold text-[#64748b]">
+            14 STEPS
+          </span>
+
+          <div className="h-1.5 w-28 rounded-full bg-[#e2e8f0]">
+            <div className="h-1.5 w-3/4 rounded-full bg-[#FF4800]" />
+          </div>
+        </div>
+
+      </div>
+
+      {/* =====================================================
+          WORKFLOW STEPPER
+      ===================================================== */}
+
+      <div className="workflow-stepper mt-14">
+
+        {/* Connected Orange Path */}
+        <div
+          className="workflow-path"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 1000 300"
+            preserveAspectRatio="none"
+            className="workflow-path-svg"
+          >
+            <path
+              d="M 40 75 H 960 V 225 H 40"
+              fill="none"
+              stroke="#FF4800"
+              strokeWidth="2"
+              opacity="0.35"
+            />
+
+            {/* Moving Dot */}
+            
+          </svg>
+        </div>
+
+        {/* =====================================================
+            TOP ROW — 01 TO 07
+        ===================================================== */}
+
+        <div className="workflow-stepper-row workflow-row-top">
+          {workflow.slice(0, 7).map(([number, title], index) => (
+            <div
+              className="workflow-step-wrap"
+              key={number}
+            >
+
+              <div
+                className={`workflow-step ${
+                  activeWorkflowStep === Number(number)
+                    ? "workflow-active"
+                    : ""
+                }`}
+              >
+
+                {/* Number */}
+                <span className="workflow-step-number">
+                  {String(number).padStart(2, "0")}
                 </span>
 
-                <div className="h-1.5 w-28 rounded-full bg-[#e2e8f0]">
+                {/* Icon */}
+                <div className="workflow-step-icon">
+                  {index === 0 && <Store size={22} />}
+                  {index === 1 && <ShoppingCart size={22} />}
+                  {index === 2 && <CreditCard size={22} />}
+                  {index === 3 && <Check size={22} />}
+                  {index === 4 && <ClipboardList size={22} />}
+                  {index === 5 && <Package size={22} />}
+                  {index === 6 && <Truck size={22} />}
+                </div>
 
-                  <div className="h-1.5 w-3/4 rounded-full bg-[#FF4800]" />
+                {/* Content */}
+                <div className="workflow-step-content">
+                  <p className="text-sm font-semibold text-[#0f172a]">
+                    {title}
+                  </p>
 
+                  <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
+                    Customer Journey
+                  </p>
                 </div>
 
               </div>
 
             </div>
-
-            <div className="workflow-stepper mt-14">
-
-  {/* =========================
-      ANIMATED JOURNEY PATH
-  ========================= */}
-  <div className="workflow-path" aria-hidden="true">
-    <svg
-      viewBox="0 0 1000 300"
-      preserveAspectRatio="none"
-      className="workflow-path-svg"
-    >
-      <path
-        id="journeyPath"
-        d="M 25 75 H 975 V 225 H 25"
-        fill="none"
-        stroke="#FF4800"
-        strokeWidth="2"
-        opacity="0.9"
-      />
-
-      {/* Moving orange particle */}
-      <circle r="5" fill="#FF4800">
-  <animateMotion
-    dur="14s"
-    repeatCount="indefinite"
-    rotate="auto"
-    path="M 25 75 H 975 V 225 H 25"
-  />
-</circle>
-
-      {/* Glow around particle */}
-      <circle r="10" fill="#FF4800" opacity="0.12">
-  <animateMotion
-    dur="14s"
-    repeatCount="indefinite"
-    rotate="auto"
-    path="M 25 75 H 975 V 225 H 25"
-  />
-</circle>
-
-    </svg>
-  </div>
-
-
-  {/* =========================
-      ROW 1 — 1 → 7
-  ========================= */}
-  <div className="workflow-stepper-row workflow-row-top">
-    {workflow.slice(0, 7).map(([number, title], index) => (
-      <div className="workflow-step-wrap" key={number}>
-
-        <div
-  className={`workflow-step ${
-    activeWorkflowStep === Number(number)
-      ? "workflow-active"
-      : ""
-  }`}
->
-
-          <span className="workflow-step-number">
-            {Number(number)}
-          </span>
-
-          <div className="workflow-step-content">
-            <p className="text-sm font-semibold text-[#0f172a]">
-              {title}
-            </p>
-
-            <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
-              Customer Journey
-            </p>
-          </div>
+          ))}
         </div>
 
-        {index < 6 && (
-          <span
-            className="workflow-connector"
-            aria-hidden="true"
-          />
-        )}
-
-      </div>
-    ))}
-  </div>
-
-
-  {/* =========================
-      ROW 2 — 14 → 8
-  ========================= */}
-  <div className="workflow-stepper-row workflow-row-bottom">
-    {workflow.slice(7).reverse().map(([number, title], index) => (
-      <div className="workflow-step-wrap" key={number}>
-
-        <div
-  className={`workflow-step ${
-    activeWorkflowStep === Number(number)
-      ? "workflow-active"
-      : ""
-  }`}
->
-
-          <span className="workflow-step-number">
-            {Number(number)}
-          </span>
-
-          <div className="workflow-step-content">
-            <p className="text-sm font-semibold text-[#0f172a]">
-              {title}
-            </p>
-
-            <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
-              Business Loop
-            </p>
-          </div>
-        </div>
-
-        {index < 6 && (
-          <span
-            className="workflow-connector"
-            aria-hidden="true"
-          />
-        )}
-
-      </div>
-    ))}
-  </div>
-
-
- <style jsx>{`
-  /* =====================================
-     WORKFLOW
-  ===================================== */
-
-  .workflow-stepper {
-    width: 100%;
-    position: relative;
-    padding: 0;
-  }
-
-
-  /* =====================================
-     ORANGE JOURNEY PATH
-     IMPORTANT — PATH MUST BE BEHIND ROWS
-  ===================================== */
-
-  .workflow-path {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .workflow-path-svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    overflow: visible;
-  }
-
-
-  /* =====================================
-     ROW
-  ===================================== */
-
-  .workflow-stepper-row {
-    position: relative;
-    z-index: 2;
-
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-
-    width: 100%;
-  }
-
-  .workflow-row-top {
-    margin-bottom: 70px;
-  }
-
-  .workflow-row-bottom {
-    margin-top: 0;
-  }
-
-
-  /* =====================================
-     STEP WRAPPER
-  ===================================== */
-
-  .workflow-step-wrap {
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-
-  /* =====================================
-     STEP CARD
-  ===================================== */
-
-  .workflow-step {
-    position: relative;
-    z-index: 2;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-
-    width: calc(100% - 28px);
-    min-height: 124px;
-
-    padding: 14px;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-
-    background: rgba(255, 255, 255, 0.96);
-
-    box-shadow:
-      0 8px 25px rgba(15, 23, 42, 0.04);
-
-    text-align: center;
-
-    transition:
-      transform 0.3s ease,
-      border-color 0.3s ease,
-      background 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-
-  /* =====================================
-     CARD HOVER
-  ===================================== */
-
-  .workflow-step:hover {
-    transform: translateY(-4px);
-
-    border-color: #ff4800;
-
-    background: #fff7f2;
-
-    box-shadow:
-      0 16px 35px rgba(255, 72, 0, 0.12);
-  }
-      .workflow-step.workflow-active {
-  transform: translateY(-4px);
-
-  border-color: #ff4800;
-
-  background: #fff7f2;
-
-  box-shadow:
-    0 16px 35px rgba(255, 72, 0, 0.12);
-}
-
-.workflow-step.workflow-active .workflow-step-number {
-  background: #ff4800;
-  color: #ffffff;
-
-  transform: scale(1.06);
-}
-
-
-  /* =====================================
-     NUMBER
-  ===================================== */
-
-  .workflow-step-number {
-    display: flex;
-
-    width: 32px;
-    height: 32px;
-
-    flex: 0 0 32px;
-
-    align-items: center;
-    justify-content: center;
-
-    margin: 0 auto 14px auto;
-
-    border: 1px solid rgba(255, 72, 0, 0.35);
-    border-radius: 10px;
-
-    background: #fff7f2;
-
-    color: #ff4800;
-
-    font-size: 9px;
-    font-weight: 800;
-
-    transition:
-      background 0.3s ease,
-      color 0.3s ease,
-      transform 0.3s ease;
-  }
-
-  .workflow-step:hover .workflow-step-number {
-    background: #ff4800;
-    color: #ffffff;
-    transform: scale(1.06);
-  }
-
-
-  /* =====================================
-     CONTENT
-  ===================================== */
-
-  .workflow-step-content {
-    min-width: 0;
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    text-align: center;
-  }
-
-  .workflow-step-content p {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-
-    text-align: center;
-  }
-
-  .workflow-step-content p:first-child {
-    line-height: 1.35;
-  }
-
-
-
-  /* =====================================
-     SECOND ROW — LEFT DIRECTION
-  ===================================== */
-
-  .workflow-row-bottom .workflow-step-wrap {
-    flex-direction: row-reverse;
-  }
-
-  .workflow-row-bottom .workflow-connector {
-    right: auto;
-    left: -1px;
-  }
-
-
-  /* =====================================
-     TABLET
-  ===================================== */
-
-  @media (max-width: 1100px) {
-
-    .workflow-stepper-row {
-      justify-content: center;
-    }
-
-    .workflow-step-wrap {
-      flex: 1 1 0;
-    }
-
-    .workflow-step {
-      width: calc(100% - 20px);
-      min-height: 115px;
-      padding: 13px;
-    }
-
-    .workflow-step-number {
-      width: 30px;
-      height: 30px;
-      flex-basis: 30px;
-
-      margin: 0 auto 11px auto;
-    }
-
-    .workflow-connector {
-      width: 14px;
-    }
-
-    .workflow-row-top {
-      margin-bottom: 55px;
-    }
-  }
-
-
-  /* =====================================
-     SMALL TABLET
-  ===================================== */
-
-  @media (max-width: 850px) {
-
-    .workflow-path {
-      display: none;
-    }
-
-    .workflow-stepper-row {
-      display: grid;
-
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-      gap: 16px;
-
-      justify-content: center;
-    }
-
-    .workflow-row-top {
-      margin-bottom: 24px;
-    }
-
-    .workflow-row-bottom {
-      margin-top: 0;
-    }
-
-    .workflow-step-wrap {
-      width: 100%;
-      flex: none;
-    }
-
-    .workflow-connector {
-      display: none;
-    }
-
-    .workflow-step {
-      width: 100%;
-      min-height: 105px;
-    }
-
-    .workflow-row-bottom .workflow-step-wrap {
-      flex-direction: row;
-    }
-  }
-
-
-  /* =====================================
-     MOBILE
-  ===================================== */
-
-  @media (max-width: 640px) {
-
-    .workflow-stepper {
-      width: 100%;
-    }
-
-    .workflow-stepper-row {
-      display: grid;
-
-      grid-template-columns: 1fr;
-
-      gap: 12px;
-
-      width: 100%;
-    }
-
-    .workflow-row-top {
-      margin-bottom: 14px;
-    }
-
-    .workflow-row-bottom {
-      margin-top: 0;
-    }
-
-    .workflow-step-wrap {
-      width: 100%;
-      flex: none;
-    }
-
-    .workflow-connector {
-      display: none;
-    }
-
-    .workflow-step {
-      width: 100%;
-
-      min-height: 90px;
-
-      padding: 13px 14px;
-
-      border-radius: 15px;
-
-      align-items: center;
-      text-align: center;
-    }
-
-    .workflow-step-number {
-      width: 30px;
-      height: 30px;
-      flex-basis: 30px;
-
-      margin: 0 auto 9px auto;
-    }
-
-    .workflow-step-content {
-      width: 100%;
-
-      align-items: center;
-      text-align: center;
-    }
-
-    .workflow-step-content p:first-child {
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .workflow-step-content p:last-child {
-      font-size: 7px;
-      text-align: center;
-    }
-
-    .workflow-row-bottom .workflow-step-wrap {
-      flex-direction: row;
-    }
-  }
-
-
-  /* =====================================
-     VERY SMALL MOBILE
-  ===================================== */
-
-  @media (max-width: 400px) {
-
-    .workflow-step {
-      min-height: 84px;
-      padding: 12px;
-    }
-
-    .workflow-step-number {
-      width: 28px;
-      height: 28px;
-      flex-basis: 28px;
-    }
-
-    .workflow-step-content p:first-child {
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .workflow-step-content p:last-child {
-      text-align: center;
-    }
-  }
-`}</style>
-
-</div>
-
-            <div className="mt-7 flex justify-end">
-
-              <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
-
-                <RefreshCw size={12} />
-
-                Continues +
+        {/* =====================================================
+            BOTTOM ROW — 14 TO 08
+        ===================================================== */}
+
+        <div className="workflow-stepper-row workflow-row-bottom">
+          {workflow.slice(7).reverse().map(([number, title], index) => (
+            <div
+              className="workflow-step-wrap"
+              key={number}
+            >
+
+              <div
+                className={`workflow-step ${
+                  activeWorkflowStep === Number(number)
+                    ? "workflow-active"
+                    : ""
+                }`}
+              >
+
+                {/* Number */}
+                <span className="workflow-step-number">
+                  {String(number).padStart(2, "0")}
+                </span>
+
+                {/* Icon */}
+                <div className="workflow-step-icon">
+                  {index === 0 && <Users size={22} />}
+                  {index === 1 && <Megaphone size={22} />}
+                  {index === 2 && <BarChart3 size={22} />}
+                  {index === 3 && <ClipboardList size={22} />}
+                  {index === 4 && <Truck size={22} />}
+                  {index === 5 && <Package size={22} />}
+                  {index === 6 && <RefreshCw size={22} />}
+                </div>
+
+                {/* Content */}
+                <div className="workflow-step-content">
+                  <p className="text-sm font-semibold text-[#0f172a]">
+                    {title}
+                  </p>
+
+                  <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
+                    Business Loop
+                  </p>
+                </div>
 
               </div>
 
             </div>
-
-          </div>
-
+          ))}
         </div>
 
-      </section>
+      </div>
 
+      {/* =====================================================
+          WORKFLOW CSS
+      ===================================================== */}
+
+      <style jsx>{`
+        .workflow-stepper {
+          width: 100%;
+          position: relative;
+          padding: 20px 0;
+        }
+
+        .workflow-path {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .workflow-path-svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+          overflow: visible;
+        }
+
+        .workflow-stepper-row {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+
+        .workflow-row-top {
+          margin-bottom: 75px;
+        }
+
+        .workflow-row-bottom {
+          margin-top: 0;
+        }
+
+        .workflow-step-wrap {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex: 1 1 0;
+          min-width: 0;
+        }
+
+        /* CARD */
+
+        .workflow-step {
+          position: relative;
+          width: 150px;
+          min-height: 145px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 18px 12px;
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid rgba(255, 72, 0, 0.15);
+          border-radius: 22px;
+
+          box-shadow:
+            0 10px 30px rgba(15, 23, 42, 0.05);
+
+          transition:
+            transform 0.35s ease,
+            border-color 0.35s ease,
+            box-shadow 0.35s ease,
+            background 0.35s ease;
+        }
+
+        /* HOVER */
+
+        .workflow-step:hover {
+          transform: translateY(-8px);
+          border-color: #ff4800;
+          background: #fffaf8;
+
+          box-shadow:
+            0 18px 40px rgba(255, 72, 0, 0.14);
+        }
+
+        /* ACTIVE */
+
+        .workflow-active {
+          border-color: #ff4800;
+          background: #fff7f2;
+
+          box-shadow:
+            0 18px 45px rgba(255, 72, 0, 0.18);
+
+          transform: translateY(-6px);
+        }
+
+        /* NUMBER */
+
+        .workflow-step-number {
+          position: absolute;
+          top: -13px;
+          left: 50%;
+          transform: translateX(-50%);
+
+          width: 30px;
+          height: 30px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          border-radius: 50%;
+          background: #fff3eb;
+          border: 1px solid #ff4800;
+          color: #ff4800;
+
+          font-size: 9px;
+          font-weight: 700;
+
+          transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover .workflow-step-number,
+        .workflow-active .workflow-step-number {
+          background: #ff4800;
+          color: white;
+        }
+
+        /* ICON */
+
+        .workflow-step-icon {
+          width: 58px;
+          height: 58px;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          margin-bottom: 12px;
+
+          border-radius: 50%;
+          background: #fff3eb;
+          color: #ff4800;
+
+          box-shadow:
+            0 8px 20px rgba(255, 72, 0, 0.1);
+
+          transition:
+            transform 0.35s ease,
+            background 0.35s ease,
+            color 0.35s ease;
+        }
+
+        .workflow-step:hover .workflow-step-icon,
+        .workflow-active .workflow-step-icon {
+          transform: scale(1.08);
+          background: #ff4800;
+          color: white;
+        }
+
+        /* TEXT */
+
+        .workflow-step-content {
+          text-align: center;
+          max-width: 120px;
+        }
+
+        .workflow-step-content p:first-child {
+          line-height: 1.25;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+          .workflow-path {
+            display: none;
+          }
+
+          .workflow-stepper-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 45px 18px;
+          }
+
+          .workflow-row-top {
+            margin-bottom: 45px;
+          }
+
+          .workflow-step {
+            width: 100%;
+            min-height: 135px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .workflow-stepper-row {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+
+          .workflow-row-top {
+            margin-bottom: 40px;
+          }
+
+          .workflow-step {
+            max-width: 240px;
+            margin: 0 auto;
+          }
+        }
+      `}</style>
+
+      {/* Continue */}
+      <div className="mt-7 flex justify-end">
+        <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
+          <RefreshCw size={12} />
+          Continues +
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* =========================================================
           05 — STRAVEDA ADVANTAGE
       ========================================================= */}
 
-      <section className="bg-[#fffaf8] py-16 md:py-20">
+      <section className="bg-white py-16 md:py-20">
 
         <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
 
@@ -2406,11 +2046,10 @@ useEffect(() => {
 
           </div>
 
-          <div className="mt-14 grid gap-5 lg:grid-cols-2">
-
+<div className="mt-14 grid gap-5 lg:grid-cols-2 lg:max-w-6xl lg:mx-auto">
             {/* OLD WAY */}
 
-            <div className="rounded-3xl border border-[#0f172a]/10 bg-white p-7 shadow-sm md:p-9">
+            <div className="rounded-3xl border border-[#0f172a]/10 bg-white p-2 shadow-sm md:p-3">
 
               <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#94a3b8]">
                 The Old Way
@@ -2454,9 +2093,9 @@ useEffect(() => {
 
             {/* STRAVEDA WAY */}
 
-            <div className="relative overflow-hidden rounded-3xl border border-[#FF4800]/30 bg-[#fff3eb] p-7 shadow-[0_20px_70px_rgba(255,72,0,0.08)] md:p-9">
+            <div className="relative overflow-hidden rounded-3xl border border-[#FF4800]/30 bg-[#fff3eb] p-2 shadow-[0_20px_70px_rgba(255,72,0,0.08)] md:p-3">
 
-              <div className="absolute right-[-80px] top-[-80px] h-56 w-56 rounded-full bg-[#FF4800]/10 blur-3xl" />
+              <div className="absolute right-[-80px] top-[-80px] h-56 w-56 rounded-full bg-white blur-3xl" />
 
               <div className="relative">
 
@@ -2505,33 +2144,27 @@ useEffect(() => {
           </div>
 
 
-          <div className="mt-5 rounded-2xl border border-[#FF4800]/25 bg-white px-6 py-5 text-center shadow-sm">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
+  <span>
+    One Platform.
+  </span>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
+  <span className="text-[#FF4800]">
+    •
+  </span>
 
-              <span>
-                One Platform.
-              </span>
+  <span>
+    One Dashboard.
+  </span>
 
-              <span className="text-[#FF4800]">
-                •
-              </span>
+  <span className="text-[#FF4800]">
+    •
+  </span>
 
-              <span>
-                One Dashboard.
-              </span>
-
-              <span className="text-[#FF4800]">
-                •
-              </span>
-
-              <span>
-                Complete Business Control.
-              </span>
-
-            </div>
-
-          </div>
+  <span>
+    Complete Business Control.
+  </span>
+</div>
 
         </div>
 
@@ -2556,33 +2189,77 @@ useEffect(() => {
             className="font-normal heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
-            We Build Premium eCommerce Platform That Scale with your Business
+            Premium eCommerce, Built to Scale
           </h2>
 
+            <div className="mt-12 mx-auto flex max-w-5xl flex-col gap-4 overflow-hidden">
+  {finalFeatures.map((feature, index) => {
+    const isRight = index % 2 === 0;
 
+    return (
+      <div
+        key={feature}
+        className={`group relative flex w-full items-center overflow-hidden rounded-2xl border border-[#0f172a]/10 bg-white px-5 py-4 shadow-sm transition-all duration-300 hover:border-[#FF4800]/30 hover:shadow-md
+          md:w-[70%]
+          ${isRight ? "md:self-end" : "md:self-start"}
+        `}
+      >
+        {/* Orange side tab */}
+        <div
+          className={`absolute top-0 h-full w-2 bg-[#FF4800] transition-all duration-300 group-hover:w-3
+            ${isRight ? "right-0 rounded-l-full" : "left-0 rounded-r-full"}
+          `}
+        />
 
-          <div className="mt-12 grid gap-3 md:grid-cols-2">
+        {/* Number */}
+        <div className="flex w-12 shrink-0 flex-col items-center justify-center">
+          <span className="text-2xl font-semibold leading-none text-[#0f172a]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="mt-1 text-[8px] font-semibold uppercase tracking-[0.15em] text-[#94a3b8]">
+            DATA
+          </span>
+        </div>
 
-            {finalFeatures.map((feature) => (
+        {/* Divider */}
+        <div className="mx-3 h-8 w-px bg-[#0f172a]/10" />
 
-              <div
-                key={feature}
-                className="flex items-center gap-3 rounded-xl border border-[#0f172a]/10 bg-[#fffaf8] px-5 py-4 text-sm font-medium shadow-sm transition-all hover:border-[#FF4800]/30 hover:bg-[#fff5ef]"
-              >
+        {/* Icon */}
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#fff3eb] text-[#FF4800]">
+          <Check size={16} />
+        </span>
 
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FF4800] text-white">
+        {/* Content */}
+        <div className="ml-3 min-w-0">
+          <p className="text-sm font-semibold text-[#0f172a] md:text-base">
+            {feature}
+          </p>
 
-                  <Check size={13} />
+          <p className="mt-0.5 text-[9px] leading-4 text-[#94a3b8]">
+            Premium commerce solution built around your business.
+          </p>
+        </div>
+        {/* Right Side Icon */}
+<div
+  className={`ml-auto mr-3 hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#fff3eb] text-[#FF4800] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FF4800] group-hover:text-white md:flex`}
+>
+  {index === 0 && <Store size={20} />}
+  {index === 1 && <ShoppingBag size={20} />}
+  {index === 2 && <Smartphone size={20} />}
+  {index === 3 && <BarChart3 size={20} />}
+  {index === 4 && <Megaphone size={20} />}
+  {index === 5 && <Truck size={20} />}
+  {index === 6 && <Package size={20} />}
+  {index === 7 && <Users size={20} />}
+  {index === 8 && <BotIcon size={20} />}
+  {index === 9 && <Settings size={20} />}
+</div>
+      </div>
+    );
+  })}
+</div>
 
-                </span>
-
-                {feature}
-
-              </div>
-
-            ))}
-
-          </div>
+          
 
           <div className="mt-12 flex flex-wrap items-center gap-4">
 
@@ -2605,18 +2282,6 @@ useEffect(() => {
               Explore Straveda
 
             </a>
-
-          </div>
-
-          <div className="mt-20 flex flex-col justify-between gap-4 border-t border-[#0f172a]/10 pt-6 text-[9px] font-bold uppercase tracking-[0.16em] text-[#94a3b8] md:flex-row">
-
-            <span>
-              Prepared by Straveda Tech · stravedatech.com
-            </span>
-
-            <span>
-              Straveda Commerce OS © 2024
-            </span>
 
           </div>
 

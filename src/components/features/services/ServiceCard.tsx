@@ -54,64 +54,30 @@ export default function ServiceCard({
   return (
 
     <motion.div
-onClick={() => {
-  router.push(`/services${route}`);
-}}
-    
-      initial={{ opacity: 0, y: 24 }}
-
-      whileInView={{ opacity: 1, y: 0 }}
-
-      viewport={{ once: true, margin: '-40px' }}
-
-      transition={{
-
-        duration: 0.55,
-
-        delay: index * 0.08,
-
-        ease: [0.4, 0, 0.2, 1] as const,
-
-      }}
-
-      className={[
-
-        /* ── Base ── */
-
-        'group relative flex flex-col h-full cursor-pointer select-none',
-
-        /* ── Light mode card ──
-           White surface, 1px #eee border, soft brand shadow */
-
-        'bg-white border border-[#eeeeee]',
-
-        'shadow-[0_4px_20px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.04)]',
-
-        /* ── Dark mode card ──
-           #1A1A1A is slightly lighter than the #0a0a14 / #121212 page bg
-           creating perceived depth without harsh contrast */
-
-        'dark:bg-[#1a1a1a] dark:border-white/[0.06] dark:shadow-none',
-
-        /* ── Hover ── */
-
-        'hover:border-[#FF4800]/25 transition-all duration-200',
-
-        'dark:hover:border-[#FF4800]/20',
-
-        'dark:hover:shadow-[0_0_0_1px_rgba(255,72,0,0.18),0_8px_32px_rgba(255,72,0,0.08)]',
-
-        /* ── Touch / tap tactile feedback ── */
-
-        'active:scale-95',
-
-        /* ── Layout ── */
-
-        'rounded-2xl p-6 sm:p-7',
-
-      ].join(' ')}
-
-    >
+  onClick={() => {
+    router.push(`/services${route}`);
+  }}
+  initial={{ opacity: 0, y: 24 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: '-40px' }}
+  transition={{
+    duration: 0.55,
+    delay: index * 0.08,
+    ease: [0.4, 0, 0.2, 1] as const,
+  }}
+  className={[
+    'group relative flex flex-col h-full cursor-pointer select-none',
+    'bg-white border border-[#eeeeee]',
+    'shadow-[0_4px_20px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.04)]',
+    'dark:bg-[#1a1a1a] dark:border-white/[0.06] dark:shadow-none',
+    'hover:border-[#FF4800]/25 transition-all duration-200',
+    'dark:hover:border-[#FF4800]/20',
+    'dark:hover:shadow-[0_0_0_1px_rgba(255,72,0,0.18),0_8px_32px_rgba(255,72,0,0.08)]',
+    'active:scale-95',
+    'rounded-2xl p-6 sm:p-7',
+    'rotate-0', // ← card straight
+  ].join(' ')}
+>
 
       {/* ── Squircle icon container ──────────────────────────── */}
 
@@ -210,20 +176,6 @@ onClick={() => {
       </div>
 
       {/* ── Active indicator for carousel context ─────────────── */}
-
-      {isActive && (
-
-        <span
-
-          className="absolute top-4 right-4 h-2 w-2 rounded-full bg-[#FF4800]"
-
-          style={{ boxShadow: '0 0 6px rgba(255,72,0,0.65)' }}
-
-          aria-hidden="true"
-
-        />
-
-      )}
 
     </motion.div>
 

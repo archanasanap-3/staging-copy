@@ -1,7 +1,7 @@
+
 'use client';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { useInView } from 'framer-motion';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, animate, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
@@ -54,6 +54,7 @@ const bentoItems: { title: string; description: string; size: 'large' | 'normal'
   { title: "One Team, End to End", description: "Strategy, AI engineering, design, and deployment under one roof. One Slack channel. One point of accountability. No vendor chains. No handoff loss.", size: "normal", icon: Cloud },
   { title: "Senior Execution", description: "We cap engagements each quarter so we can ship fast and stay accountable. You get senior attention on every build not a deck from partners and delivery from juniors.", size: "normal", icon: Users },
 ];
+
 
 // ─── Services Data ────────────────────────────────────────────────────────────
 
@@ -166,11 +167,11 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
       <div className="svc-glow pointer-events-none absolute inset-x-[10%] top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.6), transparent)', opacity: 0, transition: 'opacity 0.3s ease' }} />
 
       {/* Badge + Title */}
-      <div className="flex h-[7rem] flex flex-col  justify-start p-6 pb-0">
+      <div className="flex h-[7rem] flex-col  justify-start p-6 pb-0">
         <span className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: '#FF4800', background: 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.15)' }}>
           {service.badge}
         </span>
-        <h3 className="text-xl font-bold leading-[1.2] tracking-tight tFext-gray-900 dark:text-white">
+        <h3 className="text-xl font-bold leading-[1.2] tracking-tight text-gray-900 dark:text-white">
           {service.title}
         </h3>
       </div>
@@ -519,7 +520,7 @@ const faqs = [
 ];
 
 function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (index: number) =>
     setOpenIndex(openIndex === index ? null : index);
@@ -577,7 +578,7 @@ function FAQSection() {
                 },
               },
             }}
-            className="w-full lg:'mt-8"
+            className="w-full lg:mt-8"
           >
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
@@ -709,6 +710,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 const [count5, setCount5] = useState(0);
 const [count100, setCount100] = useState(0);
 const statsRef = useRef<HTMLDivElement>(null);
+
 
 useEffect(() => {
   const element = statsRef.current;
@@ -883,24 +885,8 @@ useEffect(() => {
             className="font-normal heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
-            A Strong Foundation for Scalable Growth
+          A Foundation for What's Next
           </h2>
-          <p className="mt-4 text-base leading-[1.7] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto">
-            We take on a limited number of engagements each quarter so we can ship fast and stay accountable. Our current clients are in D2C, B2B SaaS, and professional services.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            {[
-              { label: 'Fixed price after discovery', icon: '✓' },
-              { label: 'Weekly progress updates', icon: '✓' },
-              { label: 'Full code ownership', icon: '✓' },
-              { label: 'No long term lock in', icon: '✓' },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center gap-2 rounded-full px-3 sm:px-4 py-2" style={{ background: 'rgba(255,72,0,0.06)', border: '1px solid rgba(255,72,0,0.12)' }}>
-                <span className="text-[13px] font-semibold" style={{ color: '#FF4800' }}>{item.icon}</span>
-                <span className="text-[12px] sm:text-[13px] font-medium text-[#6b7280] dark:text-[#9ca3af]">{item.label}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </motion.section>
 
@@ -908,7 +894,7 @@ useEffect(() => {
      <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
   <motion.div
     className="flex w-max"
-    animate={{ x: ['0%', '-50%'] }}
+    animate={{ x: [0, '-50%'] }}
     transition={{
       duration: 25,
       ease: 'linear',
@@ -930,21 +916,23 @@ useEffect(() => {
           key={`first-${partner.name}`}
           whileHover={{ y: -5}}
           transition={{ duration: 0.25, ease }}
-          className="group relative flex h-[125px] w-[170px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+          className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
           style={{
-            background: isDark
-              ? 'rgba(255,255,255,0.06)'
-              : 'rgba(255,255,255,0.75)',
-            backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-            WebkitBackdropFilter:
-              'blur(20px) saturate(1.8) brightness(1.02)',
-            border: isDark
-              ? '1px solid rgba(255,255,255,0.12)'
-              : '1.5px solid rgba(255,255,255,0.9)',
-            boxShadow: isDark
-              ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-              : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 8px 24px rgba(0,0,0,0.08)',
-          }}
+  background: isDark
+    ? 'rgba(255,255,255,0.06)'
+    : 'rgba(255,255,255,0.75)',
+
+  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+  WebkitBackdropFilter:
+    'blur(20px) saturate(1.8) brightness(1.02)',
+
+  border: isDark
+    ? '1px solid rgba(255,255,255,0.12)'
+    : '1.5px solid rgba(255,255,255,0.9)',
+
+  // Shadow removed
+  boxShadow: 'none',
+}}
         >
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
@@ -952,14 +940,14 @@ useEffect(() => {
           />
 
           {/* Colored Logo */}
-          <div className="relative h-12 w-full">
+          <div className="relative h-16 w-full">
   <Image
-    src={partner.src}
-    alt={partner.name}
-    fill
-    sizes="170px"
-    className="object-contain"
-  />
+  src={partner.src}
+  alt={partner.name}
+  fill
+  sizes="170px"
+  className="object-contain brightness-[0.7] contrast-[1.4]"
+/>
 </div>
 
           <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
@@ -986,33 +974,35 @@ useEffect(() => {
           transition={{ duration: 0.25, ease }}
           className="group relative flex h-[140px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
           style={{
-            background: isDark
-              ? 'rgba(255,255,255,0.06)'
-              : 'rgba(255,255,255,0.75)',
-            backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-            WebkitBackdropFilter:
-              'blur(20px) saturate(1.8) brightness(1.02)',
-            border: isDark
-              ? '1px solid rgba(255,255,255,0.12)'
-              : '1.5px solid rgba(255,255,255,0.9)',
-            boxShadow: isDark
-              ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-              : 'inset 0 2px 0 rgba(255,255,255,0.95), 0 8px 24px rgba(0,0,0,0.08)',
-          }}
+  background: isDark
+    ? 'rgba(255,255,255,0.06)'
+    : 'rgba(255,255,255,0.75)',
+
+  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+  WebkitBackdropFilter:
+    'blur(20px) saturate(1.8) brightness(1.02)',
+
+  border: isDark
+    ? '1px solid rgba(255,255,255,0.12)'
+    : '1.5px solid rgba(255,255,255,0.9)',
+
+  // Shadow removed
+  boxShadow: 'none',
+}}
         >
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
             style={{ backgroundColor: partner.brandColor }}
           />
 
-          <div className="relative h-10 w-full">
+          <div className="relative h-16 w-full">
             <Image
-              src={partner.src}
-              alt={partner.name}
-              fill
-              sizes="170px"
-              className="object-contain"
-            />
+  src={partner.src}
+  alt={partner.name}
+  fill
+  sizes="170px"
+  className="object-contain brightness-[0.7] contrast-[1.4]"
+/>
           </div>
 
           <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
@@ -1038,7 +1028,7 @@ useEffect(() => {
             <SectionHeader
               label="WHAT WE BUILD"
               heading={
-                <span className='whitespace-nowrap'>
+                <span className='block w-full whitespace-normal break-words'>
                   One Goal: Systems That Make<span style={{ color: '#FF4800' }}>Your Business Run Better</span>
                 </span>
               }
@@ -1249,7 +1239,7 @@ useEffect(() => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col justify-center lg:w-[40%]"
+            className="flex w-full flex-col justify-center lg:w-[40%] lg:pt-10"
           >
             {/* On mobile: centered stats block; on desktop: left-bordered */}
             <div 
@@ -1284,11 +1274,11 @@ useEffect(() => {
 
           {/* Text column */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col justify-center lg:w-[60%]"
+            className="flex w-full flex-col justify-center lg:w-[50%]"
           >
             <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
@@ -1297,78 +1287,601 @@ useEffect(() => {
               </h2>
             </div>
             <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
-              Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexity. We move fast. We're completely transparent. And we measure success the only way that matters—by what changes in your business: hours reclaimed, decisions accelerated, operations that scale without proportional headcount growth.
+              Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexit.
             </p>
           </motion.div>
         </div>
       </section>
 
       <TestimonialsCarousel />
-
-      {/* ── Problem Section ── */}
-      <section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="text-center mb-10 md:mb-16"
-          >
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>THE REAL PROBLEM</p>
-            <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
-            >
-              You&apos;re not short on software<br />You&apos;re drowning in it
-            </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch  text-left"
-          >
-            {[
-              { num: '01', heading: 'The Tool Tax', body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually." },
-              { num: '02', heading: 'The Integration Debt', body: "Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a \"proper integration\" is a 6 Month project. So nothing gets built." },
-              { num: '03', heading: 'The Visibility Gap', body: "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct." },
-            ].map((item) => (
-              <div key={item.num} className="glass-card rounded-xl p-5 sm:p-6 md:p-8 flex flex-col" style={{ backdropFilter: 'blur(18px) saturate(1.6)', WebkitBackdropFilter: 'blur(18px) saturate(1.6)' }}>
-                <p className="text-[36px] sm:text-[40px] font-light mb-5" style={{
-  color: ['01', '02', '03'].includes(item.num)
-    ? 'rgba(255,72,0,0.85)'
-    : 'rgba(255,72,0,0.55)',
-  lineHeight: 1
-}}>{item.num}</p>
-                <h3 className="text-[17px] sm:text-[18px] font-medium mb-4 text-[#1a1a2e] dark:text-[#f0f0f5]">{item.heading}</h3>
-                <p
-  className="w-full text-[14px] sm:text-[15px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]"
-  style={{
-    textAlign: 'justify',
-    textJustify: 'inter-word',
-    hyphens: 'auto',
-  }}
+      
+    {/* ── Client People / Connection Section ── */}
+<section
+  className="relative w-full overflow-hidden bg-[#f8f8fc] py-8 md:py-10 dark:bg-[#0a0a14]"
 >
-  {item.body}
-</p>
-              </div>
-            ))}
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.25, ease }}
-            className="mt-8 md:mt-10 text-center text-base sm:text-[17px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto"
-          >
-            Straveda exists to fix this. We audit first, eliminate what&apos;s redundant, automate what remains, and build only what genuinely can&apos;t be bought off the shelf.
-          </motion.p>
-        </div>
-      </section>
+  {/* Heading */}
+  <div className="relative z-40 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+     <p
+        className="mb-4 text-[11px] font-medium uppercase tracking-widest"
+        style={{ color: "#FF4800" }}
+      >
+        OUR CLIENTS
+      </p>
 
+
+      <h2
+        className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+        style={{
+          lineHeight: 1.05,
+          letterSpacing: "-2px",
+        }}
+      >
+        Built Together Growing Together
+      </h2>
+  </div>
+
+  {/* Cards + Rope */}
+  <div className="relative mx-auto mt-6 h-[430px] w-full max-w-[1200px]">
+
+    {/* ================================================= */}
+    {/* ROPE - BEHIND CARDS BUT CONNECTING TO EVERY PIN */}
+    {/* ================================================= */}
+
+    <svg
+      className="pointer-events-none absolute inset-0 z-[10] h-full w-full"
+      viewBox="0 0 1500 430"
+      preserveAspectRatio="none"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="
+          M0 175
+          C120 205, 230 205, 350 135
+          C480 65, 620 115, 750 150
+          C880 185, 1020 65, 1150 135
+          C1270 205, 1380 205, 1500 175
+        "
+        stroke="#d1d5db"
+        strokeWidth="2.5"
+        fill="none"
+      />
+    </svg>
+
+    {/* ================================================= */}
+{/* CARDS */}
+{/* ================================================= */}
+
+{/* ================= DESKTOP CARDS ================= */}
+<div className="absolute inset-0 z-[20] hidden md:block">
+
+  {/* ================= CARD 1 ================= */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, rotate: -8 }}
+    whileInView={{ opacity: 1, y: 0, rotate: -8 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7 }}
+    className="absolute left-[-5px] top-[175px] z-[20]"
+  >
+    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+
+      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+        <img
+          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85"
+          alt="Sarah Mitchell"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="px-3 py-3">
+        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+          Sarah Mitchell
+        </h3>
+        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+          Founder & CEO
+        </p>
+      </div>
+    </div>
+  </motion.div>
+
+  {/* ================= CARD 2 ================= */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, rotate: 5 }}
+    whileInView={{ opacity: 1, y: 0, rotate: 5 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7, delay: 0.1 }}
+    className="absolute left-[22%] top-[115px] z-[30]"
+  >
+    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+
+      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+        <img
+          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85"
+          alt="Daniel Carter"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="px-3 py-3">
+        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+          Daniel Carter
+        </h3>
+        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+          Operations Director
+        </p>
+      </div>
+    </div>
+  </motion.div>
+
+  {/* ================= CARD 3 ================= */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, rotate: -2 }}
+    whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7, delay: 0.2 }}
+    className="absolute left-1/2 top-[150px] z-[40] -translate-x-1/2"
+  >
+    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+
+      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[2deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+        <img
+          src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=85"
+          alt="Olivia Anderson"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="px-3 py-3">
+        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+          Olivia Anderson
+        </h3>
+        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+          Growth Lead
+        </p>
+      </div>
+    </div>
+  </motion.div>
+
+  {/* ================= CARD 4 ================= */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, rotate: -5 }}
+    whileInView={{ opacity: 1, y: 0, rotate: -5 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7, delay: 0.3 }}
+    className="absolute right-[22%] top-[115px] z-[30]"
+  >
+    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+
+      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[-4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+        <img
+          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85"
+          alt="James Wilson"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="px-3 py-3">
+        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+          James Wilson
+        </h3>
+        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+          Business Head
+        </p>
+      </div>
+    </div>
+  </motion.div>
+
+  {/* ================= CARD 5 ================= */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, rotate: 8 }}
+    whileInView={{ opacity: 1, y: 0, rotate: 8 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7, delay: 0.4 }}
+    className="absolute right-[-5px] top-[175px] z-[20]"
+  >
+    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+
+      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[-4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+        <img
+          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85"
+          alt="Emma Thompson"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="px-3 py-3">
+        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+          Emma Thompson
+        </h3>
+        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+          Product Manager
+        </p>
+      </div>
+    </div>
+  </motion.div>
+
+</div>
+
+
+{/* ================================================= */}
+{/* MOBILE CLIENT CARDS */}
+{/* ================================================= */}
+
+<div className="relative mt-6 block h-[300px] w-full overflow-hidden md:hidden">
+
+  {/* MOBILE ROPE */}
+  <svg
+    className="pointer-events-none absolute left-[-10px] top-[72px] z-[5] h-[100px] w-[900px]"
+    viewBox="0 0 900 100"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="
+        M0 35
+        C120 75, 180 75, 270 45
+        C360 15, 450 15, 540 45
+        C630 75, 720 75, 900 35
+      "
+      stroke="#d1d5db"
+      strokeWidth="2.5"
+      fill="none"
+    />
+  </svg>
+
+  {/* MOBILE HORIZONTAL SCROLL */}
+  <div
+    className="relative z-[20] flex h-full w-full gap-5 overflow-x-auto px-5 pb-4 pt-[105px]"
+    style={{
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+    }}
+  >
+
+    {/* ================= MOBILE CARD 1 ================= */}
+    <div className="relative min-w-[145px] shrink-0 rotate-[-5deg]">
+
+      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+          <img
+            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85"
+            alt="Sarah Mitchell"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="px-2.5 py-2.5">
+          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+            Sarah Mitchell
+          </h3>
+          <p className="mt-1 text-[9px] text-[#6b7280]">
+            Founder & CEO
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+    {/* ================= MOBILE CARD 2 ================= */}
+    <div className="relative min-w-[145px] shrink-0 rotate-[4deg]">
+
+      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+          <img
+            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85"
+            alt="Daniel Carter"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="px-2.5 py-2.5">
+          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+            Daniel Carter
+          </h3>
+          <p className="mt-1 text-[9px] text-[#6b7280]">
+            Operations Director
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+    {/* ================= MOBILE CARD 3 ================= */}
+    <div className="relative min-w-[145px] shrink-0 rotate-[-2deg]">
+
+      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[2deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+          <img
+            src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=85"
+            alt="Olivia Anderson"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="px-2.5 py-2.5">
+          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+            Olivia Anderson
+          </h3>
+          <p className="mt-1 text-[9px] text-[#6b7280]">
+            Growth Lead
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+    {/* ================= MOBILE CARD 4 ================= */}
+    <div className="relative min-w-[145px] shrink-0 rotate-[4deg]">
+
+      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[-4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+          <img
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85"
+            alt="James Wilson"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="px-2.5 py-2.5">
+          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+            James Wilson
+          </h3>
+          <p className="mt-1 text-[9px] text-[#6b7280]">
+            Business Head
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+    {/* ================= MOBILE CARD 5 ================= */}
+    <div className="relative min-w-[145px] shrink-0 rotate-[-5deg]">
+
+      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[-4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+      </div>
+
+      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+          <img
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85"
+            alt="Emma Thompson"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="px-2.5 py-2.5">
+          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+            Emma Thompson
+          </h3>
+          <p className="mt-1 text-[9px] text-[#6b7280]">
+            Product Manager
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    </div>
+</section>
+      {/* ── Problem Section ── */}
+    {/* ── Problem Section ── */}
+<section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+  <div className="pointer-events-none absolute inset-0 grid-pattern" />
+
+  <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+    {/* Heading */}
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, ease }}
+      className="text-center mb-8 md:mb-10"
+    >
+      <p
+        className="mb-4 text-[11px] font-medium uppercase tracking-widest"
+        style={{ color: "#FF4800" }}
+      >
+        THE REAL PROBLEM
+      </p>
+
+      <h2
+        className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+        style={{
+          lineHeight: 1.05,
+          letterSpacing: "-2px",
+        }}
+      >
+        You&apos;re not short on software
+        <br />
+        You&apos;re drowning in it
+      </h2>
+    </motion.div>
+
+    {/* Cards */}
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{
+        duration: 0.8,
+        delay: 0.1,
+        ease,
+      }}
+      className="grid w-full grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 text-center"
+    >
+      {[
+        {
+          num: "01",
+          heading: "The Tool Tax",
+          body:
+            "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
+        },
+        {
+          num: "02",
+          heading: "The Integration Debt",
+          body:
+            'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
+        },
+        {
+          num: "03",
+          heading: "The Visibility Gap",
+          body:
+            "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
+        },
+      ].map((item) => (
+        <motion.div
+          key={item.num}
+          initial="rest"
+          whileHover="hover"
+          className="group flex flex-col items-center cursor-pointer"
+        >
+
+         {/* NUMBER AREA */}
+<div className="relative h-[96px] sm:h-[100px] md:h-[104px] w-full flex items-end justify-center overflow-hidden">
+
+ <motion.div
+  variants={{
+    rest: {
+      y: 18,
+      opacity: 1,
+      scale: 0.96,
+      color: "#D1D5DB",
+    },
+    hover: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      color: "#FF4800",
+    },
+  }}
+  transition={{
+    duration: 0.5,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="
+    absolute
+    bottom-0
+    text-[78px]
+    sm:text-[84px]
+    md:text-[90px]
+    lg:text-[96px]
+    font-semibold
+    tracking-[-0.07em]
+    leading-[0.72]
+    select-none
+  "
+>
+  {item.num}
+</motion.div>
+
+  {/* Orange underline */}
+  <motion.span
+   variants={{
+  rest: {
+    y: 35,
+    opacity: 1,
+    scale: 0.92,
+    color: "#9ca3af00",
+  },
+  hover: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    color: "#FF4800",
+  },
+}}
+    className="
+      absolute
+      bottom-[-2px]
+      left-1/2
+      -translate-x-1/2
+      h-[3px]
+      rounded-full
+      bg-[#FF4800]
+    "
+  />
+</div>
+
+          {/* Heading */}
+          <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+            {item.heading}
+          </h3>
+
+          {/* Description */}
+          <p className="mt-2 max-w-[320px] text-[14px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af]">
+            {item.body}
+          </p>
+
+        </motion.div>
+      ))}
+    </motion.div>
+
+    {/* Bottom Text */}
+    <motion.p
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{
+        duration: 0.8,
+        delay: 0.2,
+        ease,
+      }}
+      className="mt-7 md:mt-8 text-center text-base sm:text-[17px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto"
+    >
+    </motion.p>
+
+  </div>
+</section>
       {/* ── Process Section ── */}
 <section
   className="relative py-16 md:py-28"
