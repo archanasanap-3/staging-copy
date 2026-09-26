@@ -521,93 +521,69 @@ function TechStackSection() {
   ];
 
   return (
-    <section className="border-t border-black/[0.06] bg-white pt-10 pb-24 dark:border-white/[0.06] dark:bg-[#0a0a14]">
-      <div className="mx-auto max-w-6xl px-6 text-center">
-        {/* Heading */}
-        <h2
-  className="masked-title mb-4 font-normal"
-  style={{
-    fontSize: 'clamp(2.5rem, 5vw, 3.25rem)',
-    lineHeight: 1.1,
-    letterSpacing: '-2.05px',
-  }}
->
-  Mastered Technologies
-</h2>
+    <section className="border-t border-black/[0.06] bg-white py-16 md:py-24 dark:border-white/[0.06] dark:bg-[#0a0a14]">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.4fr] gap-10 lg:gap-12 items-center">
+          {/* Left Column: Heading & Description (Untouched Content) */}
+          <div className="text-left pr-0 lg:pr-8">
+            <h2
+              className="masked-title mb-4 font-normal text-slate-900 dark:text-white"
+              style={{
+                fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)',
+                lineHeight: 1.1,
+                letterSpacing: '-2.05px',
+              }}
+            >
+              Mastered Technologies
+            </h2>
+            <p className="text-[15px] leading-7 text-[#6b7280] dark:text-[#9ca3af]">
+              A full-stack toolkit — from interface to inference.
+            </p>
+          </div>
 
-        {/* Description */}
-        <p className="mx-auto mb-16 max-w-2xl text-[15px] leading-7 text-[#6b7280] dark:text-[#9ca3af]">
-          A full-stack toolkit — from interface to inference.
-        </p>
+          {/* Right Column: Logo Grid with Horizontal Dividers */}
+          <div className="lg:border-l lg:border-slate-200/80 dark:lg:border-slate-800 lg:pl-10 xl:pl-12">
+            <div className="divide-y divide-slate-200/80 dark:divide-slate-800">
+              {techCategories.map((category) => (
+                <div
+                  key={category.label}
+                  className="py-6 sm:py-7 first:pt-0 last:pb-0"
+                >
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 items-center">
+                    {category.items.map((tech) => {
+                      const Icon = 'icon' in tech ? tech.icon : null;
 
-        {/* Categories */}
-        <div className="flex flex-col gap-12">
-          {techCategories.map((category) => (
-            <div key={category.label}>
-              {/* Category Label */}
-              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#FF4800]">
-                {category.label}
-              </p>
-
-              {/* Technology Cards */}
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {category.items.map((tech) => {
-                  const Icon = 'icon' in tech ? tech.icon : null;
-
-                  return (
-                    <div
-                      key={tech.name}
-                      className="
-                        glass-card
-                        flex
-                        min-h-[150px]
-                        flex-col
-                        items-center
-                        justify-center
-                        gap-5
-                        rounded-2xl
-                        p-6
-                        transition-transform
-                        duration-300
-                        active:scale-[0.98]
-                      "
-                    >
-                      {/* Logo / Fallback Icon */}
-                      <div className="flex h-12 w-12 items-center justify-center">
-                        {'logo' in tech ? (
-                          <img
-                            src={tech.logo}
-                            alt={`${tech.name} logo`}
-                            className="h-10 w-10 object-contain sm:h-11 sm:w-11"
-                          />
-                        ) : Icon ? (
-                          <Icon
-  size={40}
-  strokeWidth={1.5}
-  className="text-[#1a1a2e] dark:text-white"
-/>
-                        ) : null}
-                      </div>
-
-                      {/* Technology Name */}
-                      <span
-  className="
-    text-center
-    text-[15px]
-    leading-7
-    font-normal
-    text-[#6b7280]
-    dark:text-[#9ca3af]
-  "
->
-  {tech.name}
-</span>
-                    </div>
-                  );
-                })}
-              </div>
+                      return (
+                        <div
+                          key={tech.name}
+                          className="flex items-center gap-3 transition-opacity hover:opacity-80"
+                        >
+                          <div className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center">
+                            {'logo' in tech ? (
+                              <img
+                                src={tech.logo}
+                                alt={`${tech.name} logo`}
+                                className="h-5 w-5 sm:h-6 sm:w-6 object-contain dark:brightness-110"
+                              />
+                            ) : Icon ? (
+                              <Icon
+                                size={22}
+                                strokeWidth={1.5}
+                                className="text-[#1a1a2e] dark:text-white"
+                              />
+                            ) : null}
+                          </div>
+                          <span className="text-sm sm:text-[15px] font-semibold tracking-tight text-slate-800 dark:text-slate-200">
+                            {tech.name}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

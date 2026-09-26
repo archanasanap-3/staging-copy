@@ -222,6 +222,19 @@ const finalFeatures = [
   "Custom Admin Panel",
 ];
 
+const featureDescriptions: Record<string, string> = {
+  "Premium Custom eCommerce Website": "tailored architecture, high-conversion UI, and bespoke brand experience",
+  "Shopify-like User Experience": "frictionless checkout, instant search, and intuitive product discovery",
+  "Mobile Responsive Design": "mobile-first architecture, touch gestures, and sub-second load times",
+  "Business Analytics Dashboard": "real-time revenue tracking, profit margins, and cohort intelligence",
+  "Marketing Intelligence": "automated customer acquisition, conversion funnels, and campaign ROI",
+  "Shipment Integration": "live courier tracking, automated dispatch, and logistics sync",
+  "Inventory Management": "multi-channel stock sync, threshold alerts, and warehouse routing",
+  "CRM & Lead Management": "customer lifecycle tracking, segmentation, and retention workflows",
+  "AI Automation": "smart customer support, personalized recommendations, and automated workflows",
+  "Custom Admin Panel": "unified mission control for operations, orders, and team access",
+};
+
 function SectionLabel({
   children,
 }: {
@@ -378,11 +391,11 @@ useEffect(() => {
 
         </div>
 
-        <div className="relative mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-10 px-6 pb-20 md:px-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="relative mx-auto grid max-w-7xl lg:items-start gap-10 px-6 pt-4 pb-20 md:px-10 lg:grid-cols-[0.9fr_1.1fr]">
 
           {/* LEFT CONTENT */}
 
-          <div className="relative z-20">
+          <div className="relative z-20 pt-1 lg:pt-2">
 
             <div className="mb-6 inline-flex rounded-full border border-[#FF4800]/25 bg-[#FF4800]/5 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
               Premium Commerce Platform
@@ -393,25 +406,19 @@ useEffect(() => {
   initial={{ opacity: 0, y: 36 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.65, delay: 0.1 }}
-  className="font-bold text-left mb-5"
+  className="font-bold text-left mb-5 text-slate-900 dark:text-white"
   style={{
-     fontSize: 'clamp(2rem, 5vw, 3.25rem)',
-     lineHeight: 1.1,
+     fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+     lineHeight: 1.15,
      letterSpacing: '-1.5px',
-    color: "#111827",
-    maxWidth: "620px",
+    maxWidth: "680px",
   }}
 >
-  Custom
-  <br />
-  eCommerce
-  <br />
-  Solutions
-  <br />
-  More Than an
-  <br />
+  Custom Ecommerce 
+  Solutions More Than<br />
+  an{" "}
   <span style={{ color: "#FF4800" }}>
-    Online Store.
+    Online Store
   </span>
 </motion.h1>
 
@@ -470,18 +477,6 @@ useEffect(() => {
   </div>
 
 </div>
-           <Link
-  href="/contact"
-  className="mt-6 inline-flex items-center gap-3 rounded-full border border-[#FF4800]/25 bg-white px-5 py-3 text-xs font-semibold shadow-sm cursor-pointer transition-all duration-300 hover:border-[#FF4800]/50 hover:shadow-md"
->
-  <ArrowRight
-    size={15}
-    className="text-[#FF4800]"
-  />
-
-  Built for brands that mean business
-</Link>
-
           </div>
 
 
@@ -491,20 +486,20 @@ useEffect(() => {
 
             {/* Ambient glow */}
 
-            <div className="absolute right-[8%] top-[15%] h-[500px] w-[500px] rounded-full bg-[#FF4800]/10 blur-[100px]" />
+            <div className="absolute right-[8%] top-[10%] h-[500px] w-[500px] rounded-full bg-[#FF4800]/10 blur-[100px]" />
 
             {/* Orbit */}
 
-            <div className="absolute right-[3%] top-[8%] h-[520px] w-[520px] rounded-full border border-[#FF4800]/10" />
+            <div className="absolute right-[3%] top-[2%] h-[520px] w-[520px] rounded-full border border-[#FF4800]/10" />
 
-            <div className="absolute right-[12%] top-[17%] h-[360px] w-[360px] rounded-full border border-[#FF4800]/10" />
+            <div className="absolute right-[12%] top-[11%] h-[360px] w-[360px] rounded-full border border-[#FF4800]/10" />
 
 
             {/* =====================================================
                 MAIN DASHBOARD
             ===================================================== */}
 
-            <div className="commerce-dashboard absolute right-[2%] top-[8%] z-20 w-[88%] max-w-[610px] rounded-[28px] border border-[#0f172a]/10 bg-white p-3 shadow-[0_35px_100px_rgba(15,23,42,0.16)]">
+            <div className="commerce-dashboard absolute right-[2%] top-0 z-20 w-[88%] max-w-[610px] rounded-[28px] border border-[#0f172a]/10 bg-white p-3">
 
               <div className="rounded-[21px] border border-[#0f172a]/10 bg-[#f8fafc] p-4">
 
@@ -917,7 +912,7 @@ useEffect(() => {
 
               {/* Watch */}
 
-              <div className="relative flex h-[150px] w-[125px] rotate-[8deg] items-center justify-center rounded-[35px] border-[6px] border-[#cbd5e1] bg-[#111827] shadow-[0_25px_60px_rgba(15,23,42,0.22)]">
+              <div className="relative flex h-[150px] w-[125px] rotate-[8deg] items-center justify-center rounded-[35px] border-[5px] border-[#cbd5e1] bg-white shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
 
                 {/* Screen */}
 
@@ -2046,101 +2041,113 @@ useEffect(() => {
 
           </div>
 
-<div className="mt-14 grid gap-5 lg:grid-cols-2 lg:max-w-6xl lg:mx-auto">
-            {/* OLD WAY */}
-
-            <div className="rounded-3xl border border-[#0f172a]/10 bg-white p-2 shadow-sm md:p-3">
-
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#94a3b8]">
-                The Old Way
-              </p>
-
-              <h3 className="mt-3 text-2xl font-semibold">
-                Traditional eCommerce
-              </h3>
-
-              <div className="mt-8 space-y-4">
-
-                {oldWay.map((item) => (
-
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 text-sm text-[#64748b]"
-                  >
-
-                    <span className="text-[#94a3b8]">
-                      ×
-                    </span>
-
-                    {item}
-
-                  </div>
-
-                ))}
-
-              </div>
-
-              <div className="mt-10 border-t border-[#0f172a]/10 pt-5">
-
-                <p className="text-xs font-semibold text-[#94a3b8]">
-                  6+ tools · fragmented ops
-                </p>
-
-              </div>
-
-            </div>
-
-
-            {/* STRAVEDA WAY */}
-
-            <div className="relative overflow-hidden rounded-3xl border border-[#FF4800]/30 bg-[#fff3eb] p-2 shadow-[0_20px_70px_rgba(255,72,0,0.08)] md:p-3">
-
-              <div className="absolute right-[-80px] top-[-80px] h-56 w-56 rounded-full bg-white blur-3xl" />
-
-              <div className="relative">
-
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
-                  The Straveda Way
-                </p>
-
-                <h3 className="mt-3 text-2xl font-semibold">
-                  Straveda Commerce Platform
-                </h3>
-
-                <div className="mt-8 space-y-4">
-
-                  {stravedaWay.map((item) => (
-
-                    <div
-                      key={item}
-                      className="flex items-center gap-3 text-sm text-[#334155]"
-                    >
-
-                      <Check
-                        size={15}
-                        className="shrink-0 text-[#FF4800]"
-                      />
-
-                      {item}
-
-                    </div>
-
-                  ))}
-
+<div className="mt-14 grid gap-8 lg:grid-cols-2 lg:max-w-6xl lg:mx-auto items-stretch">
+            {/* CARD 1 — THE OLD WAY (Light Gray Theme) */}
+            <div className="relative flex flex-col">
+              {/* Top Header / Notch Area */}
+              <div className="relative flex items-end justify-between h-11 sm:h-12">
+                {/* Title & Pill Badge — guaranteed 1 line */}
+                <div className="flex items-center gap-2 sm:gap-2.5 pb-1.5 pl-1 sm:pl-2 flex-nowrap min-w-0">
+                  <h3 className="text-base sm:text-lg lg:text-[19px] font-semibold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0">
+                    Traditional eCommerce
+                  </h3>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-white/10 text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap shrink-0">
+                    The Old Way
+                  </span>
                 </div>
 
-                <div className="mt-10 border-t border-[#FF4800]/20 pt-5">
+                {/* Tab on Top Right with Inverted Fillet */}
+                <div className="relative flex items-end -mb-[1px] shrink-0">
+                  <svg
+                    className="w-5 h-5 fill-current text-[#f4f5f8] dark:text-[#13141c] -mr-[1px]"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M0 20 Q20 20 20 0 L20 20 Z" />
+                  </svg>
+                  <div className="w-20 sm:w-24 md:w-28 h-11 sm:h-12 rounded-tl-2xl rounded-tr-3xl bg-[#f4f5f8] dark:bg-[#13141c]" />
+                </div>
+              </div>
 
+              {/* Main Body */}
+              <div className="relative flex-1 flex flex-col justify-between overflow-hidden rounded-tl-3xl rounded-b-3xl bg-[#f4f5f8] dark:bg-[#13141c] border border-slate-200/90 dark:border-slate-800/80 p-5 sm:p-6 shadow-sm">
+                <div className="relative z-10">
+                  <div className="space-y-3">
+                    {oldWay.map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-3 text-sm text-[#64748b] dark:text-[#94a3b8]"
+                      >
+                        <span className="text-[#94a3b8] dark:text-[#64748b] text-base leading-none select-none w-3 text-center">
+                          ×
+                        </span>
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative z-10 mt-6 border-t border-slate-200/80 dark:border-slate-800 pt-3.5">
+                  <p className="text-xs font-semibold text-[#94a3b8] dark:text-[#64748b]">
+                    6+ tools · fragmented ops
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 2 — THE STRAVEDA WAY (Light Orange Theme) */}
+            <div className="relative flex flex-col">
+              {/* Top Header / Notch Area */}
+              <div className="relative flex items-end justify-between h-11 sm:h-12">
+                {/* Title & Pill Badge — guaranteed 1 line */}
+                <div className="flex items-center gap-2 sm:gap-2.5 pb-1.5 pl-1 sm:pl-2 flex-nowrap min-w-0">
+                  <h3 className="text-base sm:text-lg lg:text-[19px] font-semibold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0">
+                    Straveda Commerce Platform
+                  </h3>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-[#FF4800]/30 bg-[#FF4800]/10 text-[11px] sm:text-xs font-medium text-[#FF4800] whitespace-nowrap shrink-0">
+                    The Straveda Way
+                  </span>
+                </div>
+
+                {/* Tab on Top Right with Inverted Fillet */}
+                <div className="relative flex items-end -mb-[1px] shrink-0">
+                  <svg
+                    className="w-5 h-5 fill-current text-[#fff3eb] dark:text-[#1e120b] -mr-[1px]"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M0 20 Q20 20 20 0 L20 20 Z" />
+                  </svg>
+                  <div className="w-20 sm:w-24 md:w-28 h-11 sm:h-12 rounded-tl-2xl rounded-tr-3xl bg-[#fff3eb] dark:bg-[#1e120b]" />
+                </div>
+              </div>
+
+              {/* Main Body */}
+              <div className="relative flex-1 flex flex-col justify-between overflow-hidden rounded-tl-3xl rounded-b-3xl bg-[#fff3eb] dark:bg-[#1e120b] border border-[#FF4800]/25 dark:border-[#FF4800]/30 p-5 sm:p-6 shadow-sm">
+                <div className="relative z-10">
+                  <div className="space-y-3">
+                    {stravedaWay.map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-3 text-sm text-[#1e293b] dark:text-[#f1f5f9]"
+                      >
+                        <Check
+                          size={15}
+                          className="shrink-0 text-[#FF4800]"
+                        />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative z-10 mt-6 border-t border-[#FF4800]/20 dark:border-[#FF4800]/25 pt-3.5">
                   <p className="text-xs font-bold text-[#FF4800]">
                     1 platform · unified commerce OS
                   </p>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
 
 
@@ -2192,72 +2199,43 @@ useEffect(() => {
             Premium eCommerce, Built to Scale
           </h2>
 
-            <div className="mt-12 mx-auto flex max-w-5xl flex-col gap-4 overflow-hidden">
-  {finalFeatures.map((feature, index) => {
-    const isRight = index % 2 === 0;
+            {/* Timeline UI matching Work Process design */}
+            <div className="mt-14 mx-auto max-w-3xl">
+              <div className="relative pl-6 sm:pl-10">
+                {/* Vertical Orange Timeline Line */}
+                <div
+                  className="absolute left-[7px] sm:left-[11px] top-3 bottom-6 w-[2px]"
+                  style={{ backgroundColor: '#FF4800' }}
+                />
 
-    return (
-      <div
-        key={feature}
-        className={`group relative flex w-full items-center overflow-hidden rounded-2xl border border-[#0f172a]/10 bg-white px-5 py-4 shadow-sm transition-all duration-300 hover:border-[#FF4800]/30 hover:shadow-md
-          md:w-[70%]
-          ${isRight ? "md:self-end" : "md:self-start"}
-        `}
-      >
-        {/* Orange side tab */}
-        <div
-          className={`absolute top-0 h-full w-2 bg-[#FF4800] transition-all duration-300 group-hover:w-3
-            ${isRight ? "right-0 rounded-l-full" : "left-0 rounded-r-full"}
-          `}
-        />
+                <div className="space-y-8 sm:space-y-10">
+                  {finalFeatures.map((feature, index) => (
+                    <div key={feature} className="relative flex items-start gap-4 sm:gap-6 group">
+                      {/* Orange Dot on Timeline */}
+                      <div
+                        className="absolute -left-[24px] sm:-left-[36px] top-1.5 w-3 h-3 rounded-full border-2 border-white dark:border-[#0a0a14] shrink-0 transition-transform duration-300 group-hover:scale-125"
+                        style={{ backgroundColor: '#FF4800', boxShadow: '0 0 10px rgba(255,72,0,0.4)' }}
+                      />
 
-        {/* Number */}
-        <div className="flex w-12 shrink-0 flex-col items-center justify-center">
-          <span className="text-2xl font-semibold leading-none text-[#0f172a]">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="mt-1 text-[8px] font-semibold uppercase tracking-[0.15em] text-[#94a3b8]">
-            DATA
-          </span>
-        </div>
+                      {/* Step Number */}
+                      <span className="text-base sm:text-lg font-mono font-medium text-slate-400 dark:text-slate-500 tracking-wider pt-0.5 shrink-0 select-none">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
 
-        {/* Divider */}
-        <div className="mx-3 h-8 w-px bg-[#0f172a]/10" />
-
-        {/* Icon */}
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#fff3eb] text-[#FF4800]">
-          <Check size={16} />
-        </span>
-
-        {/* Content */}
-        <div className="ml-3 min-w-0">
-          <p className="text-sm font-semibold text-[#0f172a] md:text-base">
-            {feature}
-          </p>
-
-          <p className="mt-0.5 text-[9px] leading-4 text-[#94a3b8]">
-            Premium commerce solution built around your business.
-          </p>
-        </div>
-        {/* Right Side Icon */}
-<div
-  className={`ml-auto mr-3 hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#fff3eb] text-[#FF4800] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FF4800] group-hover:text-white md:flex`}
->
-  {index === 0 && <Store size={20} />}
-  {index === 1 && <ShoppingBag size={20} />}
-  {index === 2 && <Smartphone size={20} />}
-  {index === 3 && <BarChart3 size={20} />}
-  {index === 4 && <Megaphone size={20} />}
-  {index === 5 && <Truck size={20} />}
-  {index === 6 && <Package size={20} />}
-  {index === 7 && <Users size={20} />}
-  {index === 8 && <BotIcon size={20} />}
-  {index === 9 && <Settings size={20} />}
-</div>
-      </div>
-    );
-  })}
-</div>
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h3 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+                          {feature}
+                        </h3>
+                        <p className="mt-0.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                          ({featureDescriptions[feature] || 'premium commerce solution built around your business'})
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
           
 
