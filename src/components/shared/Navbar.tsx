@@ -34,14 +34,14 @@ const FULL_LIGHT = {
   bg: 'rgba(255, 255, 255, 0.88)',
   border: 'rgba(255, 72, 0, 0.22)',
   shadow: '0 8px 40px rgba(255,72,0,0.10), 0 2px 12px rgba(0,0,0,0.06), 0 1px 0 rgba(255,255,255,0.90) inset',
-  text: '#1a1a2e', textMuted: '#6b7280', ctaBg: '#FF4800', ctaColor: '#FFFFFF',
+  text: '#000000', textMuted: '#000000', ctaBg: '#FF4800', ctaColor: '#FFFFFF',
 } as const;
 
 const COMPACT_LIGHT = {
   bg: 'rgba(255, 72, 0, 0.08)',
   border: 'rgba(255, 72, 0, 0.22)',
   shadow: '0 4px 32px rgba(255,72,0,0.12), 0 1px 0 rgba(255,255,255,0.18) inset',
-  text: '#1a1a2e', textMuted: '#4b5563', ctaBg: '#FF4800', ctaColor: '#FFFFFF',
+  text: '#000000', textMuted: '#000000', ctaBg: '#FF4800', ctaColor: '#FFFFFF',
 } as const;
 
 const FULL_DARK = {
@@ -139,7 +139,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           role="banner"
           className="relative flex items-center justify-between rounded-full w-full max-w-7xl pointer-events-auto"
           initial={false}
-          animate={{ height: 60, paddingLeft: compact ? 32 : 22, paddingRight: compact ? 32 : 22 }}
+          animate={{ height: 72, paddingLeft: compact ? 32 : 22, paddingRight: compact ? 32 : 22 }}
           transition={{ duration: 0.4, ease: EASE }}
           style={{
             background: T.bg,
@@ -167,7 +167,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           <Link
             href="/"
             className="z-10 shrink-0 select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
-            style={{ height: 52, width: 220 }}
+            style={{ height: 64, width: 280 }}
             onMouseEnter={(e) => { e.stopPropagation(); setCursorStyle('link'); }}
             onMouseLeave={() => setCursorStyle('nav')}
           >
@@ -184,7 +184,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           {/* CENTER: Nav links */}
           <nav
             aria-label="Primary navigation"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden lg:flex items-center gap-7"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden lg:flex items-center gap-5 xl:gap-8"
           >
             {NAV_LINKS.map(({ label, href }, i) => (
               <motion.div
@@ -196,9 +196,9 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
               >
                 <Link
                   href={href}
-                  className="text-[13px] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
+                  className="text-[15px] whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
                   style={{
-                    fontWeight: 400,
+                    fontWeight: 500,
                     color: isActive(href) ? T.text : T.textMuted,
                     transition: 'color 0.22s ease',
                   }}

@@ -1,7 +1,10 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import { Code2, Palette, Rocket, Compass, Users } from 'lucide-react';
+import Link from 'next/link';
+import { OPEN_ROLES, OPEN_APPLICATION_SLUG } from './roles';
 import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -13,66 +16,17 @@ const fadeUp = {
   transition: { duration: 0.8, ease },
 };
 
-// ── Data ─────────────────────────────────────────────────────────────────────
+// Shared typography — matches PageHeader (Services / Insights)
+const H2_CLASS = 'font-normal heading-gradient';
+const H2_STYLE = {
+  fontSize: 'clamp(2rem, 4vw, 3rem)',
+  lineHeight: 1.0,
+  letterSpacing: '-2px',
+} as const;
+const EYEBROW = 'text-[11px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-5';
+const LEAD = 'font-normal text-[16px] leading-[1.75] text-[#6b7280] dark:text-[#9ca3af]';
 
-const OPEN_ROLES = [
-  {
-  title: "Full Stack Engineer",
-  track: "Engineering",
-  type: "Full-time",
-  location: "Remote / Hybrid",
-  desc: "Build scalable web applications and internal tools while working closely with product and design teams.",
-  responsibilities: [
-    "Build scalable web applications and internal tools.",
-    "Develop clean and reusable frontend and backend features.",
-    "Work with APIs, databases, and modern frameworks.",
-    "Collaborate with designers and engineers to deliver quality products.",
-    "Debug issues and improve application performance.",
-  ],
-},
-  {
-  title: "AI/ML Engineer",
-  track: "AI & Automation",
-  type: "Full-time",
-  location: "Remote / Hybrid",
-  desc: "Design and build intelligent solutions using modern AI and machine learning technologies.",
-  responsibilities: [
-    "Build AI-powered applications and intelligent workflows.",
-    "Work with LLMs, APIs, data pipelines, and AI tools.",
-    "Develop and test machine learning solutions.",
-    "Integrate AI capabilities into real-world business products.",
-    "Collaborate with product and engineering teams.",
-  ],
-},
-  {
-  title: "Automation Specialist",
-  track: "AI & Automation",
-  type: "Full-time",
-  location: "Remote / Hybrid",
-  desc: "Build business automation workflows that reduce repetitive work and improve operational efficiency.",
-  responsibilities: [
-    "Build and optimize automated business workflows.",
-    "Work with tools like n8n, Zapier, and WhatsApp APIs.",
-    "Connect different platforms and business systems.",
-    "Identify repetitive processes that can be automated.",
-    "Monitor and improve automation reliability.",
-  ],
-},
-  {
-  title: "Product Designer",
-  track: "Design",
-  type: "Full-time",
-  location: "Remote / Hybrid",
-  desc: "Design intuitive digital experiences across web and product platforms.",
-  responsibilities: [
-    "Design clean and intuitive web and product experiences.",
-    "Create wireframes, user flows, and high-fidelity designs.",
-    "Work closely with developers and product teams.",
-    "Understand user needs and translate them into experiences.",
-    "Continuously improve usability and visual consistency.",
-  ],
-},
-];
+// ── Data ─────────────────────────────────────────────────────────────────────
 
 const HIRING_STAGES = [
   {
@@ -149,30 +103,12 @@ const ROLE_TRACKS = [
   },
 ];
 
-const CERTIFICATIONS = [
-  {
-    area: 'Cloud Architecture',
-    certs: ['AWS Solutions Architect', 'GCP Professional', 'Azure Fundamentals'],
-  },
-  {
-    area: 'AI / ML',
-    certs: ['DeepLearning.AI Specializations', 'Anthropic API Certification', 'LangChain Advanced'],
-  },
-  {
-    area: 'Product & Design',
-    certs: ['Reforge', 'Nielsen Norman Group UX', 'Jobs to be Done'],
-  },
-  {
-    area: 'Leadership',
-    certs: ['RadReads Coaching', 'Management Training for Leads', 'Exec Presence Workshops'],
-  },
-];
-
 const MENTORSHIPS = [
-  { from: 'Junior Engineer', to: 'Senior Architect', focus: 'learning system design' },
-  { from: 'Designer', to: 'PM', focus: 'learning product thinking' },
-  { from: 'Mid Level Engineer', to: 'Startup founder', focus: 'learning to lead' },
-  { from: 'PM', to: 'Design director', focus: 'learning design systems' },
+  { from: 'Junior Engineer', to: 'Senior Architect', focus: 'learning system design', icon: Code2, color: '#F43F6E' },
+  { from: 'Designer', to: 'PM', focus: 'learning product thinking', icon: Palette, color: '#F5C400' },
+  { from: 'Mid Level Engineer', to: 'Startup founder', focus: 'learning to lead', icon: Rocket, color: '#14C8B8' },
+  { from: 'PM', to: 'Design director', focus: 'learning design systems', icon: Compass, color: '#6D28D9' },
+  { from: 'Developer', to: 'Tech Lead', focus: 'learning to lead teams', icon: Users, color: '#FF4800' },
 ];
 
 const VALUES = [
@@ -195,302 +131,12 @@ const VALUES = [
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-type FormState = 'idle' | 'loading' | 'success' | 'error';
-const inputCls = "w-full rounded-lg px-4 py-2.5 text-[18px] border border-black/[0.1] dark:border-white/[0.1] bg-white/60 dark:bg-white/[0.04] text-[#1a1a2e] dark:text-[#f0f0f5] placeholder-[#9ca3af] focus:outline-none focus:ring-2 focus:ring-[#FF4800]/40 transition";
-
-interface ApplicationForm {
-  name: string; email: string; phone: string;
-  linkedin: string; portfolio: string; whyJoin: string; resume: string;
-}
-const EMPTY_FORM: ApplicationForm = { name: '', email: '', phone: '', linkedin: '', portfolio: '', whyJoin: '', resume: '' };
-
-// ── ApplyForm ─────────────────────────────────────────────────────────────────
-
-function ApplyForm({
-  roleTitle,
-  onClose,
-}: {
-  roleTitle: string;
-  onClose: () => void;
-}) {
-  const [form, setForm] = useState<ApplicationForm>({
-    ...EMPTY_FORM,
-  });
-
-  const [status, setStatus] = useState<FormState>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const set =
-    (key: keyof ApplicationForm) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [key]: e.target.value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!form.resume.trim()) {
-      setErrorMsg('Please provide a link to your resume.');
-      return;
-    }
-
-    setStatus('loading');
-    setErrorMsg('');
-
-    try {
-      const fd = new FormData();
-
-      fd.append('name', form.name);
-      fd.append('email', form.email);
-      fd.append('phone', form.phone);
-      fd.append('portfolio', form.portfolio || form.linkedin);
-      fd.append('message', form.whyJoin);
-
-      // Automatically selected role
-      fd.append('position', roleTitle);
-
-      fd.append('formType', 'career');
-      fd.append('resume', form.resume);
-
-      const formspreeUrl = `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_CAREER_ID}`;
-
-      const res = await fetch(formspreeUrl, {
-        method: 'POST',
-        body: fd,
-        headers: {
-          Accept: 'application/json',
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error ?? 'Something went wrong.');
-      }
-
-      setStatus('success');
-    } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : 'Failed to submit. Please try again.';
-
-      setStatus('error');
-      setErrorMsg(msg);
-    }
-  };
-
-  if (status === 'success') {
-    return (
-      <div
-        className="px-7 pb-8 pt-6 text-center"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div
-          className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
-          style={{ background: 'rgba(255,72,0,0.1)' }}
-        >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#FF4800"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </div>
-
-        <p className="text-[15px] font-normal text-[#1a1a2e] dark:text-[#f0f0f5] mb-1">
-          Application submitted!
-        </p>
-
-        <p className="font-normal text-[13px] text-[#6b7280] dark:text-[#9ca3af]">
-          We&apos;ll review it and get back to you within 5 business days.
-        </p>
-
-        <button
-          onClick={onClose}
-          className="mt-5 text-[12px] text-[#FF4800] font-medium hover:underline"
-        >
-          Close
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      onClick={(e) => e.stopPropagation()}
-      className="px-7 pb-8 pt-2 border-t border-black/[0.06] dark:border-white/[0.06]"
-    >
-      <p className="text-[12px] font-normal uppercase tracking-widest text-[#FF4800] mb-5 mt-5">
-        Apply — {roleTitle}
-      </p>
-
-      {/* AUTO SELECTED ROLE */}
-      <div className="mb-4">
-        <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-          Position
-        </label>
-
-        <input
-          value={roleTitle}
-          readOnly
-          className={
-            inputCls +
-            ' bg-[#fff7f2] text-[#FF4800] font-medium cursor-default'
-          }
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-        <div>
-          <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-            Full Name *
-          </label>
-
-          <input
-            required
-            value={form.name}
-            onChange={set('name')}
-            placeholder="Your name"
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-            Email
-          </label>
-
-          <input
-            type="email"
-            value={form.email}
-            onChange={set('email')}
-            placeholder="you@example.com"
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-            Phone *
-          </label>
-
-          <input
-            required
-            value={form.phone}
-            onChange={set('phone')}
-            placeholder="+91 98000 00000"
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-            LinkedIn URL
-          </label>
-
-          <input
-            value={form.linkedin}
-            onChange={set('linkedin')}
-            placeholder="linkedin.com/in/you"
-            className={inputCls}
-          />
-        </div>
-      </div>
-
-      <div className="mb-3">
-        <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-          Portfolio / GitHub
-        </label>
-
-        <input
-          value={form.portfolio}
-          onChange={set('portfolio')}
-          placeholder="github.com/you or yoursite.com"
-          className={inputCls}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-          Why do you want to join Straveda? *
-        </label>
-
-        <textarea
-          required
-          rows={4}
-          value={form.whyJoin}
-          onChange={set('whyJoin')}
-          placeholder="Tell us what excites you about this role..."
-          className={inputCls + ' resize-none'}
-        />
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[11px] font-semibold text-[#6b7280] mb-1">
-          Resume Link (Google Drive) *
-        </label>
-
-        <input
-          required
-          type="url"
-          value={form.resume}
-          onChange={set('resume')}
-          placeholder="Google Drive link (Make sure it is public)"
-          className={inputCls}
-        />
-      </div>
-
-      {errorMsg && (
-        <p className="font-normal text-[12px] text-red-500 mb-3">
-          {errorMsg}
-        </p>
-      )}
-
-      <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="rounded-lg px-6 py-2.5 text-[13px] font-medium text-white transition-all duration-200 disabled:opacity-60"
-          style={{ background: '#FF4800' }}
-          onMouseEnter={(e) => {
-            if (status !== 'loading') {
-              e.currentTarget.style.background = '#e03e00';
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#FF4800';
-          }}
-        >
-          {status === 'loading'
-            ? 'Submitting…'
-            : 'Submit Application →'}
-        </button>
-
-        <button
-          type="button"
-          onClick={onClose}
-          className="text-[12px] text-[#9ca3af] hover:text-[#6b7280] transition"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  );
-}
-
 // ── Sections ──────────────────────────────────────────────────────────────────
 
 function HeroSection({ onViewRoles }: { onViewRoles: () => void }) {
   return (
-<section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-8 overflow-hidden">    
-    <div className="mx-auto w-full max-w-4xl px-6">
+    <section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-8 overflow-hidden">
+      <div className="mx-auto w-full max-w-4xl px-6">
         <motion.div {...fadeUp}>
           <div className="flex items-center gap-3 mb-8">
             <span className="h-[1px] w-8 bg-[#FF4800]" />
@@ -564,7 +210,7 @@ function WhoWorksHereSection() {
   ];
 
   return (
-    <section className="pt-32 pb-20 px-6 bg-white dark:bg-[#0d0d1a]">
+    <section className="pt-32 pb-12 px-6 bg-white dark:bg-[#0d0d1a]">
       <div className="max-w-[1320px] mx-auto">
         <motion.div {...fadeUp} className="mb-12">
           <p className="text-[12px] font-normal uppercase tracking-[0.25em] text-[#FF4800] mb-4">Who We Are</p>
@@ -603,133 +249,62 @@ function WhoWorksHereSection() {
 }
 
 function GrowthSection() {
-  const [openTrack, setOpenTrack] = useState<string | null>('AI & Automation');
-
   return (
-    <section className="pt-32 pb-20 px-6 bg-white">
+    <section className="pt-32 pb-12 px-6 bg-white dark:bg-[#0d0d1a]">
       <div className="max-w-[1200px] mx-auto">
-       <motion.div {...fadeUp} className="mb-14">
-  <span className="mb-6 inline-block  px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FF4800]">
-    Growth & Learning
-  </span>
-
-   <h2
-            className="font-normal heading-gradient mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
-          We Don&apos;t Offer Jobs  We Offer Careers          
- </h2>
-
-    <p className="font-normal mt-4 text-[19px] leading-7 text-[#6b7280] dark:text-[#9ca3af]  text-left">
-  Your growth is our competitive advantage. We invest in you because teams win when people grow.
+        {/* Intro */}
+        <motion.div {...fadeUp} className="mb-12">
+          <h1
+            className="font-bold text-[#0f172a] dark:text-[#f0f0f5] md:whitespace-nowrap"
+            style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.1, letterSpacing: '-1.5px' }}
+          >
+            We Don&apos;t Offer Jobs,{' '}
+            <span style={{ color: '#FF4800' }}>We Offer Careers</span>
+          </h1>
+          <p className={`${LEAD} mt-6 max-w-2xl`}>
+            Your growth is our competitive advantage. We invest in you because teams win when people grow.
           </p>
+        </motion.div>
 
-</motion.div>
+        {/* Mentorship */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <motion.div {...fadeUp} className="flex flex-col justify-center pr-4">
+            <p className={EYEBROW}>Mentorship</p>
+            <h2 className={H2_CLASS} style={H2_STYLE}>
+              Mentorship Program
+            </h2>
+            <p className={`${LEAD} mt-5`}>
+              Every engineer, designer, and PM gets matched with a mentor based on growth goals, not seniority. Monthly 1 hour sessions.
+            </p>
+          </motion.div>
 
-       {/* Certification Pathways */}
-<motion.div {...fadeUp} className="mb-14">
-
-  <h3
-    className="font-normal heading-gradient"
-   style={{
-  fontSize: 'clamp(1.75rem, 5vw, 3.5rem)',
-  lineHeight: 1.05,
-  letterSpacing: '-1.5px',
-  overflowWrap: 'break-word',
-  wordBreak: 'break-word',
-}}
-  >
-    Certification Pathway
-  </h3>
-
-  <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-4">
-
-    {CERTIFICATIONS.map((c, i) => (
-      <motion.div
-        key={c.area}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{
-          duration: 0.6,
-          delay: i * 0.08,
-          ease,
-        }}
-        className="h-full"
-      >
-        <p
-          className="mb-4 text-[15px] font-normal uppercase tracking-[0.25em]"
-          style={{ color: '#FF4800' }}
-        >
-          {c.area}
-        </p>
-
-        <ul className="space-y-2">
-          {c.certs.map((cert) => (
-           <li
-  key={cert}
-  className="flex items-center gap-2 text-[18px] font-normal text-[#4b5563] dark:text-[#9ca3af] leading-7"
->
-              <span className="h-1 w-1 flex-shrink-0 rounded-full bg-[#6b7280]" />
-              {cert}
-            </li>
-          ))}
-        </ul>
-      </motion.div>
-    ))}
-
-  </div>
-
-</motion.div>
-
-       {/* Mentorship */}
-<motion.div {...fadeUp} className="mb-14">
-
-  <h3
-    className="font-normal heading-gradient"
-    style={{
-  fontSize: 'clamp(1.6rem, 3.5vw, 3rem)',
-  lineHeight: 1.05,
-  letterSpacing: '-1.5px',
-}}
-  >
-    Mentorship Program
-  </h3>
-
-  <p className="mt-6 text-[19px] leading-7 text-[#64748b]">
-    Every engineer, designer, and PM gets matched with a mentor based on
-    growth goals, not seniority. Monthly 1 hour sessions.
-  </p>
-
-  <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-
-    {MENTORSHIPS.map((m, i) => (
-      <motion.div
-        key={m.from + m.to}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{
-          duration: 0.6,
-          delay: i * 0.08,
-          ease,
-        }}
-      >
-       <p className="mt-5 text-[20px] font-normal text-[#4b5563] dark:text-[#f0f0f5] leading-6">
-  {m.from} → {m.to}
-</p>
-
-<p className="mt-2 text-[20px] font-normal text-[#6b7280] dark:text-[#9ca3af] leading-6">
-  {m.focus}
-</p>
-      </motion.div>
-    ))}
-
-  </div>
-
-</motion.div>
-        
-
-       
+          {MENTORSHIPS.map((m, i) => {
+            const Icon = m.icon;
+            return (
+              <motion.div
+                key={m.from + m.to}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease }}
+                className="rounded-2xl bg-white dark:bg-white/[0.04] p-8 shadow-[0_8px_30px_rgba(15,23,42,0.06)] border border-black/[0.04] dark:border-white/[0.08]"
+              >
+                <div
+                  className="mb-6 flex h-12 w-12 items-center justify-center rounded-full text-white"
+                  style={{ background: m.color, boxShadow: `0 8px 20px ${m.color}55` }}
+                >
+                  <Icon size={20} />
+                </div>
+                <h3 className="text-[20px] font-semibold leading-7 text-[#1a1a2e] dark:text-[#f0f0f5]">
+                  {m.from} <span style={{ color: '#FF4800' }}>→</span> {m.to}
+                </h3>
+                <p className="mt-3 text-[15px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af]">
+                  Mentored by a {m.to.toLowerCase()} — {m.focus}.
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -739,14 +314,14 @@ function HiringProcessSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="py-20 px-6 bg-white dark:bg-[#0d0d1a]">
+    <section className="py-12 px-6 bg-white dark:bg-[#0d0d1a]">
       <div className="max-w-[1200px] mx-auto">
-        <motion.div {...fadeUp} className="mb-12">
-          <p className="text-[12px] fon t-normal uppercase tracking-[0.25em] text-[#FF4800] mb-4">Hiring Process</p>
-          <h2 className="font-normal leading-[1.1] tracking-[-2.05px] text-[#202039] dark:text-[#f0f0f5] mb-4" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
-            No Surprises Just Clarity
+        <motion.div {...fadeUp} className="mb-10">
+          <p className={EYEBROW}>Hiring Process</p>
+          <h2 className={H2_CLASS} style={H2_STYLE}>
+            No Surprises, Just Clarity
           </h2>
-          <p className="font-normal text-[15px] leading-7 text-[#667085] dark:text-[#9ca3af] max-w-lg">
+          <p className={`${LEAD} mt-6 max-w-2xl`}>
             Total process: <strong className="text-[#1a1a2e] dark:text-[#f0f0f5]">1–2 weeks</strong> from application to offer.
           </p>
         </motion.div>
@@ -812,7 +387,7 @@ function HiringProcessSection() {
 
 function ValuesSection() {
   return (
-    <section className="py-20 px-6 bg-[#f5f5f0] dark:bg-[#030303]">
+    <section className="py-12 px-6 bg-[#f5f5f0] dark:bg-[#030303]">
       <div className="max-w-[1320px] mx-auto">
       </div>
     </section>
@@ -821,29 +396,30 @@ function ValuesSection() {
 
 function OpenRolesSection() {
   const [openRole, setOpenRole] = useState<string | null>(null);
-  const [applyingRole, setApplyingRole] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('All');
   const tracks = ['All', 'Engineering', 'AI & Automation', 'Design'];
   const filtered = filter === 'All' ? OPEN_ROLES : OPEN_ROLES.filter((r) => r.track === filter);
 
+  const pill = 'inline-flex items-center rounded-full px-3 py-1 text-[12px] font-normal border border-black/[0.15] dark:border-white/[0.18] text-[#1a1a2e] dark:text-[#f0f0f5]';
+
   return (
-    <section id="open-roles" className="py-20 px-6 bg-white dark:bg-[#0d0d1a]">
+    <section id="open-roles" className="py-12 px-6 bg-white dark:bg-[#0d0d1a]">
       <div className="max-w-[1200px] mx-auto">
-        <motion.div {...fadeUp} className="mb-10">
-          <p className="text-[12px] font-normal uppercase tracking-[0.25em] text-[#FF4800] mb-4">Open Roles</p>
-          <h2 className="font-normal leading-[1.1] tracking-[-2.05px] text-[#1a1a2e] dark:text-[#f0f0f5] mb-6" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
-            Find your place on the team.
+        <motion.div {...fadeUp} className="mb-8">
+          <p className={EYEBROW}>Open Roles</p>
+          <h2 className={`${H2_CLASS} mb-8`} style={H2_STYLE}>
+            Find your place on the team
           </h2>
           <div className="flex gap-2 flex-wrap">
             {tracks.map((t) => (
               <button
                 key={t}
                 onClick={() => setFilter(t)}
-                className="px-4 py-2 rounded-lg text-[15px] font-medium transition-all"
+                className="rounded-full px-4 py-1.5 text-[13px] font-normal transition-all"
                 style={{
-                  background: filter === t ? '#FF4800' : 'transparent',
-                  color: filter === t ? 'white' : '#6b7280',
-                  border: `1px solid ${filter === t ? '#FF4800' : 'rgba(0,0,0,0.1)'}`,
+                  background: filter === t ? '#0f172a' : 'transparent',
+                  color: filter === t ? '#ffffff' : '#1a1a2e',
+                  border: `1px solid ${filter === t ? '#0f172a' : 'rgba(0,0,0,0.18)'}`,
                 }}
               >
                 {t}
@@ -852,125 +428,85 @@ function OpenRolesSection() {
           </div>
         </motion.div>
 
-        <div className="columns-1 md:columns-2 gap-4">
-          {filtered.map((role, i) => (
-            <motion.div
-              key={role.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.07, ease }}
-              className="glass-card rounded-xl overflow-hidden mb-4 break-inside-avoid"
-            >
-              <div
-                className="px-7 py-6 cursor-pointer"
-onClick={() => {
-  setOpenRole(openRole === role.title ? null : role.title);
-  setApplyingRole(null);
-}}
+        <div className="border-t border-black/[0.1] dark:border-white/[0.1]">
+          {filtered.map((role, i) => {
+            const isOpen = openRole === role.title;
+            return (
+              <motion.div
+                key={role.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.07, ease }}
+                className="border-b border-black/[0.1] dark:border-white/[0.1]"
               >
-                <div className="flex items-start justify-between gap-4">
+                <div
+                  className="flex items-start justify-between gap-6 py-6 cursor-pointer"
+                  onClick={() => {
+                    setOpenRole(isOpen ? null : role.title);
+                  }}
+                >
                   <div>
-                    <div className="flex items-center gap-3 mb-2 flex-wrap">
-                      <span className="text-[15px] font-semibold uppercase tracking-[0.12em] px-2 py-1 rounded" style={{ background: 'rgba(255,72,0,0.1)', color: '#FF4800' }}>{role.track}</span>
-                      <span className="text-[15px] text-[#6b7280] dark:text-[#9ca3af]">{role.type}</span>
-                      <span className="text-[15px] text-[#6b7280] dark:text-[#9ca3af]">· {role.location}</span>
+                    <h3 className="text-[20px] font-semibold leading-7 text-[#1a1a2e] dark:text-[#f0f0f5]">
+                      {role.title}
+                    </h3>
+                    <p className="mt-1 text-[15px] leading-6 text-[#6b7280] dark:text-[#9ca3af]">
+                      {role.desc}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className={pill}>{role.track}</span>
+                      <span className={pill}>{role.location}</span>
+                      <span className={pill}>{role.type}</span>
                     </div>
-                    <h3 className="text-[18px] font-normal text-[#1a1a2e] dark:text-[#f0f0f5] mb-2">
-  {role.title}
-</h3>
-
-<div className="flex gap-2 flex-wrap">
-  {("tags" in role && Array.isArray(role.tags)
-    ? role.tags
-    : []
-  ).map((tag) => (
-    <span
-      key={tag}
-      className="text-[11px] px-2 py-1 rounded bg-black/[0.04] dark:bg-white/[0.05] text-[#6b7280] dark:text-[#9ca3af]"
-    >
-      {tag}
-    </span>
-  ))}
-</div>
                   </div>
-                  <svg
-                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5" strokeLinecap="round"
-                    style={{ transform: openRole === role.title ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s ease', flexShrink: 0, marginTop: 4 }}
+                  <Link
+                    href={`/careers/apply/${role.slug}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex-shrink-0 text-[16px] font-semibold text-[#1a1a2e] dark:text-[#f0f0f5] whitespace-nowrap hover:underline"
                   >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
+                    Apply <span style={{ color: '#FF4800' }}>↗</span>
+                  </Link>
                 </div>
-              </div>
 
-              <AnimatePresence>
-  {openRole === role.title && (
-    <motion.div
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: "auto", opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
-      transition={{ duration: 0.3, ease }}
-      className="overflow-hidden"
-    >
-      <div className="border-t border-black/[0.06] dark:border-white/[0.06]">
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pb-6">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#FF4800] mb-3">
+                          What you&apos;ll do
+                        </p>
+                        <ul className="space-y-2.5 mb-5">
+                          {role.responsibilities.map((item) => (
+                            <li
+                              key={item}
+                              className="flex items-start gap-3 text-[14px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]"
+                            >
+                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FF4800]" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
 
-        {/* ROLE DESCRIPTION */}
-        <div className="px-7 py-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#FF4800] mb-3">
-  What you&apos;ll do
-</p>
-
-<ul className="space-y-2.5 mb-6">
-  {role.responsibilities.map((item) => (
-    <li
-      key={item}
-      className="flex items-start gap-3 text-[13px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af]"
-    >
-      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FF4800]" />
-      <span>{item}</span>
-    </li>
-  ))}
-</ul>
-
-          {/* APPLY BUTTON */}
-          {applyingRole !== role.title && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setApplyingRole(role.title);
-              }}
-              className="text-[12px] font-semibold text-[#FF4800] hover:underline"
-            >
-              Apply for this role ↓
-            </button>
-          )}
-        </div>
-
-        {/* FORM */}
-        <AnimatePresence>
-          {applyingRole === role.title && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease }}
-              className="overflow-hidden"
-            >
-              <ApplyForm
-                roleTitle={role.title}
-                onClose={() => setApplyingRole(null)}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
-            </motion.div>
-          ))}
+                        <Link
+                          href={`/careers/apply/${role.slug}`}
+                          className="inline-block rounded-full px-5 py-2 text-[13px] font-medium text-white"
+                          style={{ background: '#FF4800' }}
+                        >
+                          Apply for this role →
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -978,345 +514,37 @@ onClick={() => {
 }
 
 function OpenApplicationSection() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    whatYouBuild: '',
-  });
-
-  const [resume, setResume] = useState('');
-  const [resumeError, setResumeError] = useState('');
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<FormState>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const set =
-    (key: keyof typeof form) =>
-    (
-      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) =>
-      setForm((f) => ({
-        ...f,
-        [key]: e.target.value,
-      }));
-
-  // Resume file validation
-  const handleResumeFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-
-    setResumeError('');
-    setResumeFile(null);
-
-    if (!file) return;
-
-    const allowedExtensions = ['pdf', 'doc', 'docx'];
-    const extension = file.name.split('.').pop()?.toLowerCase();
-
-    if (!extension || !allowedExtensions.includes(extension)) {
-      setResumeError(
-        'Only PDF, DOC, and DOCX files are allowed.'
-      );
-      e.target.value = '';
-      return;
-    }
-
-    // Maximum 5 MB
-    if (file.size > 5 * 1024 * 1024) {
-      setResumeError(
-        'Resume file must be less than 5 MB.'
-      );
-      e.target.value = '';
-      return;
-    }
-
-    setResumeFile(file);
-
-    // Clear Google Drive link when file is selected
-    setResume('');
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // At least one resume option is required
-    if (!resume.trim() && !resumeFile) {
-      setErrorMsg(
-        'Please provide a Google Drive resume link or upload your resume.'
-      );
-      return;
-    }
-
-    if (resumeError) {
-      return;
-    }
-
-    setStatus('loading');
-    setErrorMsg('');
-
-    try {
-      const fd = new FormData();
-
-      fd.append('name', form.name);
-      fd.append('email', form.email);
-      fd.append('phone', form.phone);
-      fd.append('message', form.whatYouBuild);
-      fd.append('position', 'Open Application');
-      fd.append('formType', 'career');
-
-      // Google Drive resume
-      if (resume.trim()) {
-        fd.append('resume', resume);
-      }
-
-      // Uploaded resume file
-      if (resumeFile) {
-        fd.append('resume_file', resumeFile);
-      }
-
-      const formspreeUrl = `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_CAREER_ID}`;
-
-      const res = await fetch(formspreeUrl, {
-        method: 'POST',
-        body: fd,
-        headers: {
-          Accept: 'application/json',
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(
-          data.error ?? 'Something went wrong.'
-        );
-      }
-
-      setStatus('success');
-    } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : 'Failed to submit. Please try again.';
-
-      setStatus('error');
-      setErrorMsg(msg);
-    }
-  };
-
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className="py-12 px-6 bg-white dark:bg-[#0d0d1a]">
       <div className="max-w-[1200px] mx-auto">
-        <motion.div
-          {...fadeUp}
-          className="glass-card rounded-2xl overflow-hidden"
-        >
+        <motion.div {...fadeUp} className="glass-card rounded-2xl overflow-hidden">
           <div
-            className="px-10 py-8 md:px-14"
-            style={{
-              background:
-                'linear-gradient(135deg, #FF4800 0%, #cc3900 100%)',
-            }}
+            className="flex flex-col gap-6 px-10 py-10 md:flex-row md:items-center md:justify-between md:px-14"
+            style={{ background: 'linear-gradient(135deg, #FF4800 0%, #cc3900 100%)' }}
           >
-            <h2
-              className="font-normal text-white mb-2 tracking-[-2.05px]"
-              style={{
-                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-                lineHeight: 1.1,
-              }}
+            <div>
+              <h2
+                className="font-normal text-white mb-3"
+                style={{ ...H2_STYLE, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
+              >
+                Don&apos;t see your role?
+              </h2>
+              <p className="font-normal text-[16px] text-white/80 leading-[1.75] max-w-xl">
+                We sometimes create roles for exceptional people. Drop your resume and tell us what you build. We read every application.
+              </p>
+            </div>
+            <Link
+              href={`/careers/apply/${OPEN_APPLICATION_SLUG}`}
+              className="flex-shrink-0 rounded-full bg-white px-7 py-3 text-[14px] font-medium text-[#1a1a2e] transition-transform hover:scale-[1.03]"
             >
-              Don&apos;t see your role?
-            </h2>
-
-            <p className="font-normal text-[15px] text-white/80 leading-[1.7]">
-              We sometimes create roles for exceptional people.
-              Drop your resume and tell us what you build we read
-              every application.
-            </p>
-          </div>
-
-          <div className="px-10 py-8 md:px-14">
-            {status === 'success' ? (
-              <div className="text-center py-6">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{
-                    background: 'rgba(255,72,0,0.1)',
-                  }}
-                >
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#FF4800"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-
-                <p className="text-[15px] font-normal text-[#1a1a2e] dark:text-[#f0f0f5] mb-1">
-                  We&apos;ve got your application!
-                </p>
-
-                <p className="font-normal text-[15px] text-[#6b7280] dark:text-[#9ca3af]">
-                  If there&apos;s a fit, you&apos;ll hear from us directly.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-[15px] font-semibold text-[#6b7280] mb-1">
-                      Full Name *
-                    </label>
-
-                    <input
-                      required
-                      value={form.name}
-                      onChange={set('name')}
-                      placeholder="Your name"
-                      className={inputCls}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[15px] font-semibold text-[#6b7280] mb-1">
-                      Email
-                    </label>
-
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={set('email')}
-                      placeholder="you@example.com"
-                      className={inputCls}
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-[15px] font-semibold text-[#6b7280] mb-1">
-                      Phone *
-                    </label>
-
-                    <input
-                      required
-                      value={form.phone}
-                      onChange={set('phone')}
-                      placeholder="+91 98000 00000"
-                      className={inputCls}
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-[15px] font-semibold text-[#6b7280] mb-1">
-                    What do you build & why Straveda? *
-                  </label>
-
-                  <textarea
-                    required
-                    rows={4}
-                    value={form.whatYouBuild}
-                    onChange={set('whatYouBuild')}
-                    placeholder="Tell us about yourself, your skills, and what excites you about working with us..."
-                    className={inputCls + ' resize-none'}
-                  />
-                </div>
-
-                {/* RESUME */}
-                <div className="mb-5">
-                  <label className="block text-[15px] font-semibold text-[#6b7280] mb-1">
-                    Resume *
-                  </label>
-
-                  {/* Google Drive Link */}
-                  <input
-                    type="url"
-                    value={resume}
-                    onChange={(e) => {
-                      setResume(e.target.value);
-                      setResumeFile(null);
-                      setResumeError('');
-                      setErrorMsg('');
-                    }}
-                    placeholder="Google Drive resume link"
-                    className={inputCls}
-                  />
-
-                  <p className="mt-2 text-[11px] text-[#9ca3af]">
-                    OR upload your resume
-                  </p>
-
-                  {/* PDF / DOC / DOCX */}
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleResumeFileChange}
-                    className="mt-2 block w-full text-[12px] text-[#6b7280]
-                      file:mr-3 file:rounded-lg file:border-0
-                      file:bg-[#fff7f2] file:px-4 file:py-2
-                      file:text-[12px] file:font-medium
-                      file:text-[#FF4800]
-                      hover:file:bg-[#fff0e8]"
-                  />
-
-                  {resumeFile && (
-                    <p className="mt-2 text-[12px] text-[#6b7280]">
-                      Selected: {resumeFile.name}
-                    </p>
-                  )}
-
-                  {resumeError && (
-                    <p className="mt-2 text-[12px] text-red-500">
-                      {resumeError}
-                    </p>
-                  )}
-
-                  <p className="mt-1 text-[11px] text-[#9ca3af]">
-                    Accepted formats: PDF, DOC, DOCX • Max size: 5 MB
-                  </p>
-                </div>
-
-                {errorMsg && (
-                  <p className="font-normal text-[12px] text-red-500 mb-3">
-                    {errorMsg}
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="rounded-lg px-7 py-3 text-[13px] font-medium text-white transition-all duration-200 disabled:opacity-60"
-                  style={{ background: '#FF4800' }}
-                  onMouseEnter={(e) => {
-                    if (status !== 'loading') {
-                      e.currentTarget.style.background = '#e03e00';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#FF4800';
-                  }}
-                >
-                  {status === 'loading'
-                    ? 'Submitting…'
-                    : 'Send Open Application →'}
-                </button>
-              </form>
-            )}
+              Send open application <span style={{ color: '#FF4800' }}>→</span>
+            </Link>
           </div>
         </motion.div>
       </div>
     </section>
   );
 }
-
-
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -1330,14 +558,14 @@ export default function CareersPage({ onNavigate: _onNavigate }: CareersPageProp
   };
 
   return (
-    <div className="font-[Inter] bg-white inm-h-screen">
+    <div className="bg-white dark:bg-[#0d0d1a] min-h-screen">
       {/* <HeroSection onViewRoles={scrollToRoles} /> */}
       {/* <WhoWorksHereSection /> */}
       <GrowthSection />
       <OpenRolesSection />
       <OpenApplicationSection />
       <HiringProcessSection />
-      
+
     </div>
   );
 }
