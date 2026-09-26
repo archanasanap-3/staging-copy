@@ -908,8 +908,8 @@ useEffect(() => {
         { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
         { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
         { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.png' },
-        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.jpg' },
+        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
+        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
         { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
       ].map((partner) => (
         <motion.div
@@ -946,7 +946,11 @@ useEffect(() => {
   alt={partner.name}
   fill
   sizes="170px"
-  className="object-contain brightness-[0.7] contrast-[1.4]"
+  className={`object-contain ${
+    partner.name === 'Vercel' || partner.name === 'Next.js'
+      ? 'dark:invert'
+      : 'brightness-[0.7] contrast-[1.4]'
+  }`}
 />
 </div>
 
@@ -964,8 +968,8 @@ useEffect(() => {
         { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
         { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
         { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.png' },
-        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.jpg' },
+        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
+        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
         { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
       ].map((partner) => (
         <motion.div
@@ -1001,7 +1005,11 @@ useEffect(() => {
   alt={partner.name}
   fill
   sizes="170px"
-  className="object-contain brightness-[0.7] contrast-[1.4]"
+  className={`object-contain ${
+    partner.name === 'Vercel' || partner.name === 'Next.js'
+      ? 'dark:invert'
+      : 'brightness-[0.7] contrast-[1.4]'
+  }`}
 />
           </div>
 
@@ -1231,7 +1239,7 @@ useEffect(() => {
 >
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row relative">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row lg:items-start relative">
 
           {/* Stats column */}
           <motion.div
@@ -1239,7 +1247,7 @@ useEffect(() => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col justify-center lg:w-[40%] lg:pt-10"
+            className="flex w-full flex-col lg:w-[40%]"
           >
             {/* On mobile: centered stats block; on desktop: left-bordered */}
             <div 
@@ -1278,7 +1286,7 @@ useEffect(() => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col justify-center lg:w-[50%]"
+            className="flex w-full flex-col lg:w-[50%]"
           >
             <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
@@ -1287,7 +1295,7 @@ useEffect(() => {
               </h2>
             </div>
             <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
-              Every growing company hits the same wall. Too many tools. Spreadsheets that don't sync. Your best people spending Friday afternoons doing work that shouldn't exist. You don't need another vendor; you need someone who actually understands the problem. We do. We've built companies. We've watched smart founders lose momentum to operational drag. We've felt the frustration of paying for five tools when you really need one well designed system that your team understands. That's why Straveda is different. We're focused on one thing: building AI Powered systems that replace chaos with structure. Not another platform. Not enterprise bloat. Just technology that actually reduces complexit.
+              Every growing company hits the same wall: scattered tools, disconnected spreadsheets, and wasted manual hours. You don't need another vendor or enterprise bloat—you need a partner who truly understands the problem. At Straveda, we engineer unified, AI-powered systems that replace operational chaos with structure, clarity, and real efficiency.
             </p>
           </motion.div>
         </div>
