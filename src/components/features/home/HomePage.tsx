@@ -25,8 +25,8 @@ interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
-interface Props{
-  isDark:boolean;
+interface Props {
+  isDark: boolean;
   onNavigate: (page: string) => void;
 }
 
@@ -65,7 +65,7 @@ interface ServiceItem {
   metric?: string;
   ctaLabel: string;
   ctaDesc: string;
-  page : string;
+  page: string;
 }
 
 const services: ServiceItem[] = [
@@ -81,7 +81,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'See automation',
     ctaDesc: 'Book a free strategy call',
-    page : 'automation',
+    page: 'automation',
   },
   {
     badge: 'Software',
@@ -94,7 +94,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Explore custom',
     ctaDesc: 'Built around your workflow',
-    page : 'custom-software',
+    page: 'custom-software',
   },
   {
     badge: 'Strategy',
@@ -107,7 +107,7 @@ const services: ServiceItem[] = [
     ],
     ctaLabel: 'Talk AI strategy',
     ctaDesc: 'Embedded in your operations',
-    page : 'ai-strategy',
+    page: 'ai-strategy',
   },
   {
     badge: 'Digital',
@@ -121,7 +121,7 @@ const services: ServiceItem[] = [
     metric: '',
     ctaLabel: 'View web capabilities',
     ctaDesc: 'Edge Deployed, conversion first',
-    page : 'web-development',
+    page: 'web-development',
   },
 ];
 
@@ -204,59 +204,59 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
 
       {/* Orange footer strip */}
       <div
-  className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4"
-  style={{
-    background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)',
-    borderTop: '1px solid rgba(255,72,0,0.12)',
-  }}
->
-  <div
-    className="pointer-events-none absolute inset-x-0 top-0 h-px"
-    style={{
-      background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)',
-    }}
-  />
+        className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4"
+        style={{
+          background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)',
+          borderTop: '1px solid rgba(255,72,0,0.12)',
+        }}
+      >
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)',
+          }}
+        />
 
-  <div className="flex min-w-0 flex-1 flex-col gap-1">
-    <span
-      className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]"
-      style={{ color: '#FF4800' }}
-    >
-      {service.ctaLabel} →
-    </span>
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <span
+            className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]"
+            style={{ color: '#FF4800' }}
+          >
+            {service.ctaLabel} →
+          </span>
 
-    <span
-      className="text-[11.5px] font-medium leading-[1.3]"
-      style={{ color: 'rgba(255,72,0,0.75)' }}
-    >
-      {service.ctaDesc}
-    </span>
-  </div>
+          <span
+            className="text-[11.5px] font-medium leading-[1.3]"
+            style={{ color: 'rgba(255,72,0,0.75)' }}
+          >
+            {service.ctaDesc}
+          </span>
+        </div>
 
-  <button
-    onClick={() => onNavigate(service.page)}
-    aria-label={service.ctaLabel}
-    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
-    style={{
-      background: '#FF4800',
-      boxShadow: '0 4px 12px rgba(255,72,0,0.35)',
-    }}
-    onMouseEnter={e => {
-      const b = e.currentTarget as HTMLButtonElement;
-      b.style.background = '#e03e00';
-      b.style.transform = 'scale(1.1) translateX(1px)';
-      b.style.boxShadow = '0 6px 20px rgba(255,72,0,0.45)';
-    }}
-    onMouseLeave={e => {
-      const b = e.currentTarget as HTMLButtonElement;
-      b.style.background = '#FF4800';
-      b.style.transform = '';
-      b.style.boxShadow = '0 4px 12px rgba(255,72,0,0.35)';
-    }}
-  >
-    <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
-  </button>
-</div>
+        <button
+          onClick={() => onNavigate(service.page)}
+          aria-label={service.ctaLabel}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
+          style={{
+            background: '#FF4800',
+            boxShadow: '0 4px 12px rgba(255,72,0,0.35)',
+          }}
+          onMouseEnter={e => {
+            const b = e.currentTarget as HTMLButtonElement;
+            b.style.background = '#e03e00';
+            b.style.transform = 'scale(1.1) translateX(1px)';
+            b.style.boxShadow = '0 6px 20px rgba(255,72,0,0.45)';
+          }}
+          onMouseLeave={e => {
+            const b = e.currentTarget as HTMLButtonElement;
+            b.style.background = '#FF4800';
+            b.style.transform = '';
+            b.style.boxShadow = '0 4px 12px rgba(255,72,0,0.35)';
+          }}
+        >
+          <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
+        </button>
+      </div>
     </div>
   );
 }
@@ -444,11 +444,10 @@ function TestimonialsCarousel() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(circle, ${
-            isDarkT
-              ? 'rgba(255,255,255,0.05)'
-              : 'rgba(0,0,0,0.04)'
-          } 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, ${isDarkT
+            ? 'rgba(255,255,255,0.05)'
+            : 'rgba(0,0,0,0.04)'
+            } 1px, transparent 1px)`,
           backgroundSize: '28px 28px',
         }}
       />
@@ -520,7 +519,7 @@ const faqs = [
 ];
 
 function FAQSection() {
-const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (index: number) =>
     setOpenIndex(openIndex === index ? null : index);
@@ -535,34 +534,34 @@ const [openIndex, setOpenIndex] = useState<number | null>(null);
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.5fr] gap-12 lg:gap-24">
 
           {/* LEFT SIDE */}
-<motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: "-100px" }}
-  transition={{ duration: 0.8, ease }}
-  className="mt-0 text-left lg:pt-0"
->
-  <p
-    className="mb-2 text-[11px] font-medium uppercase tracking-widest"
-    style={{ color: "#FF4800" }}
-  >
-    FREQUENTLY ASKED QUESTIONS
-  </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease }}
+            className="mt-0 text-left lg:pt-0"
+          >
+            <p
+              className="mb-2 text-[11px] font-medium uppercase tracking-widest"
+              style={{ color: "#FF4800" }}
+            >
+              FREQUENTLY ASKED QUESTIONS
+            </p>
 
-  <h2
-    className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)]"
-    style={{
-      lineHeight: 1.02,
-      letterSpacing: "-2.5px",
-    }}
-  >
-    Questions? 
-    <br />
-    Here's what 
-    <br />
-    teams ask first
-  </h2>
-</motion.div>
+            <h2
+              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)]"
+              style={{
+                lineHeight: 1.02,
+                letterSpacing: "-2.5px",
+              }}
+            >
+              Questions?
+              <br />
+              Here's what
+              <br />
+              teams ask first
+            </h2>
+          </motion.div>
 
 
           {/* RIGHT SIDE */}
@@ -621,11 +620,10 @@ const [openIndex, setOpenIndex] = useState<number | null>(null);
                         duration: 0.3,
                         ease,
                       }}
-                      className={`flex h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
-                        isOpen
-                          ? "bg-[#FF4800] text-white"
-                          : "bg-black/[0.04] dark:bg-white/[0.06] text-[#6b7280] dark:text-[#9ca3af]"
-                      }`}
+                      className={`flex h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen
+                        ? "bg-[#FF4800] text-white"
+                        : "bg-black/[0.04] dark:bg-white/[0.06] text-[#6b7280] dark:text-[#9ca3af]"
+                        }`}
                     >
                       <Plus className="h-4 w-4" />
                     </motion.span>
@@ -707,92 +705,92 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const [activeService, setActiveService] = useState<string | null>(null);
   const [count55, setCount55] = useState(0);
   const [count3, setCount3] = useState(0);
-const [count5, setCount5] = useState(0);
-const [count100, setCount100] = useState(0);
-const statsRef = useRef<HTMLDivElement>(null);
+  const [count5, setCount5] = useState(0);
+  const [count100, setCount100] = useState(0);
+  const statsRef = useRef<HTMLDivElement>(null);
 
 
-useEffect(() => {
-  const element = statsRef.current;
-  if (!element) return;
+  useEffect(() => {
+    const element = statsRef.current;
+    if (!element) return;
 
-  let animationFrame: number | null = null;
+    let animationFrame: number | null = null;
 
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        // Reset counters
-        setCount55(0);
-        setCount3(0);
-        setCount5(0);
-        setCount100(0);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Reset counters
+          setCount55(0);
+          setCount3(0);
+          setCount5(0);
+          setCount100(0);
 
-        const duration = 1500;
-        const start = performance.now();
+          const duration = 1500;
+          const start = performance.now();
 
-        const update = (time: number) => {
-          const progress = Math.min((time - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
+          const update = (time: number) => {
+            const progress = Math.min((time - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
 
             const finalCount55 = progress >= 1 ? 55 : Math.floor(55 * eased);
-const finalCount3 = progress >= 1 ? 3 : Math.floor(3 * eased);
-const finalCount5 = progress >= 1 ? 5 : Math.floor(5 * eased);
-const finalCount100 = progress >= 1 ? 100 : Math.floor(100 * eased);
+            const finalCount3 = progress >= 1 ? 3 : Math.floor(3 * eased);
+            const finalCount5 = progress >= 1 ? 5 : Math.floor(5 * eased);
+            const finalCount100 = progress >= 1 ? 100 : Math.floor(100 * eased);
 
-setCount55(finalCount55);
-setCount3(finalCount3);
-setCount5(finalCount5);
-setCount100(finalCount100);
+            setCount55(finalCount55);
+            setCount3(finalCount3);
+            setCount5(finalCount5);
+            setCount100(finalCount100);
 
-          if (progress < 1) {
-            animationFrame = requestAnimationFrame(update);
+            if (progress < 1) {
+              animationFrame = requestAnimationFrame(update);
+            }
+          };
+
+          animationFrame = requestAnimationFrame(update);
+        } else {
+          // Reset when section leaves viewport
+          if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
           }
-        };
 
-        animationFrame = requestAnimationFrame(update);
-      } else {
-        // Reset when section leaves viewport
-        if (animationFrame) {
-          cancelAnimationFrame(animationFrame);
+          setCount55(0);
+          setCount3(0);
+          setCount5(0);
+          setCount100(0);
         }
-
-        setCount55(0);
-        setCount3(0);
-        setCount5(0);
-        setCount100(0);
-      }
-    },
-    { threshold: 0.4 }
-  );
-
-  observer.observe(element);
-
-  return () => {
-    observer.disconnect();
-
-    if (animationFrame) {
-      cancelAnimationFrame(animationFrame);
-    }
-  };
-}, []);
-
-useEffect(() => {
-  const syncServiceFromHash = () => {
-    const hash = window.location.hash.replace('#', '');
-    const validServices = ['automation', 'custom-software', 'ai-strategy', 'web-development'];
-
-    setActiveService(
-      validServices.includes(hash) ? hash : null
+      },
+      { threshold: 0.4 }
     );
-  };
 
-  syncServiceFromHash();
-  window.addEventListener('hashchange', syncServiceFromHash);
+    observer.observe(element);
 
-  return () => {
-    window.removeEventListener('hashchange', syncServiceFromHash);
-  };
-}, []);
+    return () => {
+      observer.disconnect();
+
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const syncServiceFromHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      const validServices = ['automation', 'custom-software', 'ai-strategy', 'web-development'];
+
+      setActiveService(
+        validServices.includes(hash) ? hash : null
+      );
+    };
+
+    syncServiceFromHash();
+    window.addEventListener('hashchange', syncServiceFromHash);
+
+    return () => {
+      window.removeEventListener('hashchange', syncServiceFromHash);
+    };
+  }, []);
   const dragX = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -813,18 +811,18 @@ useEffect(() => {
   }, [getCardWidth]);
 
   const snapToCard = useCallback((idx: number) => {
-  const maxIndex = Math.max(0, bentoItems.length - getVisibleCount());
-  const clamped = Math.max(0, Math.min(idx, maxIndex));
+    const maxIndex = Math.max(0, bentoItems.length - getVisibleCount());
+    const clamped = Math.max(0, Math.min(idx, maxIndex));
 
-  animate(dragX, -clamped * getCardWidth(), {
-    type: 'spring',
-    stiffness: 260,
-    damping: 32,
-    mass: 0.8,
-  });
+    animate(dragX, -clamped * getCardWidth(), {
+      type: 'spring',
+      stiffness: 260,
+      damping: 32,
+      mass: 0.8,
+    });
 
-  setCapActiveIdx(clamped);
-}, [dragX, getCardWidth, getVisibleCount]);
+    setCapActiveIdx(clamped);
+  }, [dragX, getCardWidth, getVisibleCount]);
 
   const handleDragEnd = useCallback(
     (_: unknown, info: { velocity: { x: number } }) => {
@@ -885,143 +883,141 @@ useEffect(() => {
             className="font-normal heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
-          A Foundation for What's Next
+            A Foundation for What's Next
           </h2>
         </div>
       </motion.section>
 
       {/* ── Technology Partners ── */}
-     <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
-  <motion.div
-    className="flex w-max"
-    animate={{ x: [0, '-50%'] }}
-    transition={{
-      duration: 25,
-      ease: 'linear',
-      repeat: Infinity,
-    }}
-  >
-    {/* First set */}
-    <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-      {[
-        { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-        { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-        { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-        { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-        { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-      ].map((partner) => (
+      <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
         <motion.div
-          key={`first-${partner.name}`}
-          whileHover={{ y: -5}}
-          transition={{ duration: 0.25, ease }}
-          className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-          style={{
-  background: isDark
-    ? 'rgba(255,255,255,0.06)'
-    : 'rgba(255,255,255,0.75)',
-
-  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-  WebkitBackdropFilter:
-    'blur(20px) saturate(1.8) brightness(1.02)',
-
-  border: isDark
-    ? '1px solid rgba(255,255,255,0.12)'
-    : '1.5px solid rgba(255,255,255,0.9)',
-
-  // Shadow removed
-  boxShadow: 'none',
-}}
+          className="flex w-max"
+          animate={{ x: [0, '-50%'] }}
+          transition={{
+            duration: 25,
+            ease: 'linear',
+            repeat: Infinity,
+          }}
         >
-          <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-            style={{ backgroundColor: partner.brandColor }}
-          />
+          {/* First set */}
+          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
+            {[
+              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
+              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
+              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
+              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
+              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
+              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
+              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
+            ].map((partner) => (
+              <motion.div
+                key={`first-${partner.name}`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.25, ease }}
+                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+                style={{
+                  background: isDark
+                    ? 'rgba(255,255,255,0.06)'
+                    : 'rgba(255,255,255,0.75)',
 
-          {/* Colored Logo */}
-          <div className="relative h-16 w-full">
-  <Image
-  src={partner.src}
-  alt={partner.name}
-  fill
-  sizes="170px"
-  className={`object-contain ${
-    partner.name === 'Vercel' || partner.name === 'Next.js'
-      ? 'dark:invert'
-      : 'brightness-[0.7] contrast-[1.4]'
-  }`}
-/>
-</div>
+                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+                  WebkitBackdropFilter:
+                    'blur(20px) saturate(1.8) brightness(1.02)',
 
-          <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-            {partner.name}
-          </span>
-        </motion.div>
-      ))}
-    </div>
+                  border: isDark
+                    ? '1px solid rgba(255,255,255,0.12)'
+                    : '1.5px solid rgba(255,255,255,0.9)',
 
-    {/* Duplicate set for seamless auto-scroll */}
-    <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-      {[
-        { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-        { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-        { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-        { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-        { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-        { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-        { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-      ].map((partner) => (
-        <motion.div
-          key={`second-${partner.name}`}
-          whileHover={{y: -5}}
-          transition={{ duration: 0.25, ease }}
-          className="group relative flex h-[140px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-          style={{
-  background: isDark
-    ? 'rgba(255,255,255,0.06)'
-    : 'rgba(255,255,255,0.75)',
+                  // Shadow removed
+                  boxShadow: 'none',
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
+                  style={{ backgroundColor: partner.brandColor }}
+                />
 
-  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-  WebkitBackdropFilter:
-    'blur(20px) saturate(1.8) brightness(1.02)',
+                {/* Colored Logo */}
+                <div className="relative h-16 w-full">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    fill
+                    sizes="170px"
+                    className={`object-contain ${partner.name === 'Vercel' || partner.name === 'Next.js'
+                      ? 'dark:invert'
+                      : 'brightness-[0.7] contrast-[1.4]'
+                      }`}
+                  />
+                </div>
 
-  border: isDark
-    ? '1px solid rgba(255,255,255,0.12)'
-    : '1.5px solid rgba(255,255,255,0.9)',
-
-  // Shadow removed
-  boxShadow: 'none',
-}}
-        >
-          <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-            style={{ backgroundColor: partner.brandColor }}
-          />
-
-          <div className="relative h-16 w-full">
-            <Image
-  src={partner.src}
-  alt={partner.name}
-  fill
-  sizes="170px"
-  className={`object-contain ${
-    partner.name === 'Vercel' || partner.name === 'Next.js'
-      ? 'dark:invert'
-      : 'brightness-[0.7] contrast-[1.4]'
-  }`}
-/>
+                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
+                  {partner.name}
+                </span>
+              </motion.div>
+            ))}
           </div>
 
-          <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-            {partner.name}
-          </span>
+          {/* Duplicate set for seamless auto-scroll */}
+          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
+            {[
+              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
+              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
+              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
+              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
+              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
+              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
+              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
+            ].map((partner) => (
+              <motion.div
+                key={`second-${partner.name}`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.25, ease }}
+                className="group relative flex h-[140px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+                style={{
+                  background: isDark
+                    ? 'rgba(255,255,255,0.06)'
+                    : 'rgba(255,255,255,0.75)',
+
+                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+                  WebkitBackdropFilter:
+                    'blur(20px) saturate(1.8) brightness(1.02)',
+
+                  border: isDark
+                    ? '1px solid rgba(255,255,255,0.12)'
+                    : '1.5px solid rgba(255,255,255,0.9)',
+
+                  // Shadow removed
+                  boxShadow: 'none',
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
+                  style={{ backgroundColor: partner.brandColor }}
+                />
+
+                <div className="relative h-16 w-full">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    fill
+                    sizes="170px"
+                    className={`object-contain ${partner.name === 'Vercel' || partner.name === 'Next.js'
+                      ? 'dark:invert'
+                      : 'brightness-[0.7] contrast-[1.4]'
+                      }`}
+                  />
+                </div>
+
+                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
+                  {partner.name}
+                </span>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
-      ))}
-    </div>
-  </motion.div>
-</div>
-  
+      </div>
+
 
       {/* ── What We Build ── */}
       <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
@@ -1051,25 +1047,25 @@ useEffect(() => {
             className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
           >
             {services
-  .filter(
-    (service) =>
-      !activeService || service.page === activeService
-  )
-  .map((service, i) => (
-    <ServiceCard
-      key={i}
-      service={service}
-      onNavigate={onNavigate}
-      isDark={isDark}
-    />
-  ))}
+              .filter(
+                (service) =>
+                  !activeService || service.page === activeService
+              )
+              .map((service, i) => (
+                <ServiceCard
+                  key={i}
+                  service={service}
+                  onNavigate={onNavigate}
+                  isDark={isDark}
+                />
+              ))}
           </motion.div>
         </div>
       </section>
-              
+
       {/* ── Sandesa Section ── */}
       <SandesaSection isDark={isDark} />
-    
+
 
 
 
@@ -1092,13 +1088,13 @@ useEffect(() => {
           </motion.div>
 
           {/* Drag-to-swipe carousel — Framer Motion, no native scroll */}
-     <div
-  className="relative overflow-hidden"
-  style={{
-    maskImage:
-      'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-  }}
->
+          <div
+            className="relative overflow-hidden"
+            style={{
+              maskImage:
+                'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+            }}
+          >
             <motion.div
               ref={trackRef}
               style={{ x: dragX }}
@@ -1109,7 +1105,7 @@ useEffect(() => {
               onDragEnd={handleDragEnd}
               className="flex gap-5 cursor-grab active:cursor-grabbing px-4 sm:px-6 lg:px-8 pb-6 select-none"
             >
-              {bentoItems.map((item,index) => (
+              {bentoItems.map((item, index) => (
                 <div
                   key={item.title}
                   data-cap-card
@@ -1149,11 +1145,11 @@ useEffect(() => {
                     {item.title}
                   </h3>
                   <p className="flex-grow text-[14.5px] leading-[1.7] text-slate-600 dark:text-[#9ca3af]"
-                  style={{
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    wordSpacing: 'auto',
-                  }}>
+                    style={{
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      wordSpacing: 'auto',
+                    }}>
                     {item.description}
                   </p>
                   <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.15))' }} />
@@ -1163,80 +1159,78 @@ useEffect(() => {
           </div>
 
           {/* Pagination arrows */}
-<div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
-  <button
-    type="button"
-    onClick={() => snapToCard(Math.max(0, capActiveIdx - 1))}
-    aria-label="Previous card"
-    className="flex items-center justify-center transition-all duration-300"
-    style={{
-      width: '2.25rem',
-      height: '2.25rem',
-      borderRadius: '50%',
-      border: `1.5px solid ${
-        isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
-      }`,
-      background: 'transparent',
-      color: isDark ? '#f0f0f5' : '#1a1a2e',
-      padding: 0,
-      cursor: 'pointer',
-      fontSize: '1.5rem',
-      lineHeight: 1,
-    }}
-  >
-    ‹
-  </button>
+          <div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => snapToCard(Math.max(0, capActiveIdx - 1))}
+              aria-label="Previous card"
+              className="flex items-center justify-center transition-all duration-300"
+              style={{
+                width: '2.25rem',
+                height: '2.25rem',
+                borderRadius: '50%',
+                border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
+                  }`,
+                background: 'transparent',
+                color: isDark ? '#f0f0f5' : '#1a1a2e',
+                padding: 0,
+                cursor: 'pointer',
+                fontSize: '1.5rem',
+                lineHeight: 1,
+              }}
+            >
+              ‹
+            </button>
 
- <button
-  type="button"
-  onClick={() =>
-    snapToCard(Math.min(maxCapIndex, capActiveIdx + 1))
-  }
-  disabled={capActiveIdx >= maxCapIndex}
-  aria-label="Next card"
-  className="flex items-center justify-center transition-all duration-300 disabled:cursor-not-allowed"
-  style={{
-    width: '2.25rem',
-    height: '2.25rem',
-    borderRadius: '50%',
-    border: `1.5px solid ${
-      capActiveIdx >= maxCapIndex
-        ? 'rgba(0,0,0,0.10)'
-        : isDark
-          ? 'rgba(255,255,255,0.25)'
-          : 'rgba(0,0,0,0.25)'
-    }`,
-    background:
-      capActiveIdx >= maxCapIndex
-        ? 'rgba(0,0,0,0.05)'
-        : 'transparent',
-    color:
-      capActiveIdx >= maxCapIndex
-        ? 'rgba(0,0,0,0.25)'
-        : isDark
-          ? '#f0f0f5'
-          : '#1a1a2e',
-    padding: 0,
-    cursor:
-      capActiveIdx >= maxCapIndex
-        ? 'not-allowed'
-        : 'pointer',
-    fontSize: '1.5rem',
-    lineHeight: 1,
-  }}
->
-  ›
-</button>
-</div>
+            <button
+              type="button"
+              onClick={() =>
+                snapToCard(Math.min(maxCapIndex, capActiveIdx + 1))
+              }
+              disabled={capActiveIdx >= maxCapIndex}
+              aria-label="Next card"
+              className="flex items-center justify-center transition-all duration-300 disabled:cursor-not-allowed"
+              style={{
+                width: '2.25rem',
+                height: '2.25rem',
+                borderRadius: '50%',
+                border: `1.5px solid ${capActiveIdx >= maxCapIndex
+                  ? 'rgba(0,0,0,0.10)'
+                  : isDark
+                    ? 'rgba(255,255,255,0.25)'
+                    : 'rgba(0,0,0,0.25)'
+                  }`,
+                background:
+                  capActiveIdx >= maxCapIndex
+                    ? 'rgba(0,0,0,0.05)'
+                    : 'transparent',
+                color:
+                  capActiveIdx >= maxCapIndex
+                    ? 'rgba(0,0,0,0.25)'
+                    : isDark
+                      ? '#f0f0f5'
+                      : '#1a1a2e',
+                padding: 0,
+                cursor:
+                  capActiveIdx >= maxCapIndex
+                    ? 'not-allowed'
+                    : 'pointer',
+                fontSize: '1.5rem',
+                lineHeight: 1,
+              }}
+            >
+              ›
+            </button>
+          </div>
         </div>
       </section>
 
       {/* ── About / Stats ── */}
-      
+
       <section
-  id="section-about"
-  className="relative py-8 md:py-14 bg-[#f8f8fc] dark:bg-[#0a0a14]"
->
+        id="section-about"
+        className="relative py-8 md:py-14 bg-[#f8f8fc] dark:bg-[#0a0a14]"
+      >
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row lg:items-start relative">
@@ -1250,27 +1244,27 @@ useEffect(() => {
             className="flex w-full flex-col lg:w-[40%]"
           >
             {/* On mobile: centered stats block; on desktop: left-bordered */}
-            <div 
-            ref={statsRef}
-            className="grid grid-cols-1 gap-6 md:gap-8 border-l-[3px] border-[#FF4800] pl-6">
+            <div
+              ref={statsRef}
+              className="grid grid-cols-1 gap-6 md:gap-8 border-l-[3px] border-[#FF4800] pl-6">
               {[
-  { val: `${count55}%`, label: 'Manual Work Reduced' },
-{ val: `${count3}–${count5}x`, label: 'Operational Efficiency' },
-{ val: `${count100}%`, label: 'Code Ownership' },
-{ val: 'End-to-End', label: 'Strategy → Build → Deploy' },
-].map(s => (
+                { val: `${count55}%`, label: 'Manual Work Reduced' },
+                { val: `${count3}–${count5}x`, label: 'Operational Efficiency' },
+                { val: `${count100}%`, label: 'Code Ownership' },
+                { val: 'End-to-End', label: 'Strategy → Build → Deploy' },
+              ].map(s => (
                 <div key={s.label} className="text-center md:text-left">
                   <p
                     className="text-[#1a1a2e] dark:text-[#f0f0f5]"
                     style={{ fontSize: 'clamp(2rem, 5.5vw, 4rem)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em' }}
                   >
                     {s.label === 'Manual Work Reduced'
-  ? `${count55}%`
-  : s.label === 'Operational Efficiency'
-    ? `3–${count5}x`
-    : s.label === 'Code Ownership'
-      ? `${count100}%`
-      : s.val}
+                      ? `${count55}%`
+                      : s.label === 'Operational Efficiency'
+                        ? `3–${count5}x`
+                        : s.label === 'Code Ownership'
+                          ? `${count100}%`
+                          : s.val}
                   </p>
                   <p className="mt-1.5 text-[13px] sm:text-[14px] font-normal tracking-wide" style={{ color: '#6b7280', letterSpacing: '0.01em' }}>
                     {s.label}
@@ -1291,7 +1285,7 @@ useEffect(() => {
             <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
               <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
-                  We Get It  Because We've Lived It
+                We Get It  Because We've Lived It
               </h2>
             </div>
             <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
@@ -1302,521 +1296,521 @@ useEffect(() => {
       </section>
 
       <TestimonialsCarousel />
-      
-    {/* ── Client People / Connection Section ── */}
-<section
-  className="relative w-full overflow-hidden bg-[#f8f8fc] py-8 md:py-10 dark:bg-[#0a0a14]"
->
-  {/* Heading */}
-  <div className="relative z-40 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-     <p
-        className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-        style={{ color: "#FF4800" }}
+
+      {/* ── Client People / Connection Section ── */}
+      <section
+        className="hidden relative w-full overflow-hidden bg-[#f8f8fc] py-8 md:py-10 dark:bg-[#0a0a14]"
       >
-        OUR CLIENTS
-      </p>
+        {/* Heading */}
+        <div className="relative z-40 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <p
+            className="mb-4 text-[11px] font-medium uppercase tracking-widest"
+            style={{ color: "#FF4800" }}
+          >
+            OUR CLIENTS
+          </p>
 
 
-      <h2
-        className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-        style={{
-          lineHeight: 1.05,
-          letterSpacing: "-2px",
-        }}
-      >
-        Built Together Growing Together
-      </h2>
-  </div>
+          <h2
+            className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+            style={{
+              lineHeight: 1.05,
+              letterSpacing: "-2px",
+            }}
+          >
+            Built Together Growing Together
+          </h2>
+        </div>
 
-  {/* Cards + Rope */}
-  <div className="relative mx-auto mt-6 h-[430px] w-full max-w-[1200px]">
+        {/* Cards + Rope */}
+        <div className="relative mx-auto mt-6 h-[430px] w-full max-w-[1200px]">
 
-    {/* ================================================= */}
-    {/* ROPE - BEHIND CARDS BUT CONNECTING TO EVERY PIN */}
-    {/* ================================================= */}
+          {/* ================================================= */}
+          {/* ROPE - BEHIND CARDS BUT CONNECTING TO EVERY PIN */}
+          {/* ================================================= */}
 
-    <svg
-      className="pointer-events-none absolute inset-0 z-[10] h-full w-full"
-      viewBox="0 0 1500 430"
-      preserveAspectRatio="none"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="
+          <svg
+            className="pointer-events-none absolute inset-0 z-[10] h-full w-full"
+            viewBox="0 0 1500 430"
+            preserveAspectRatio="none"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="
           M0 175
           C120 205, 230 205, 350 135
           C480 65, 620 115, 750 150
           C880 185, 1020 65, 1150 135
           C1270 205, 1380 205, 1500 175
         "
-        stroke="#d1d5db"
-        strokeWidth="2.5"
-        fill="none"
-      />
-    </svg>
+              stroke="#d1d5db"
+              strokeWidth="2.5"
+              fill="none"
+            />
+          </svg>
 
-    {/* ================================================= */}
-{/* CARDS */}
-{/* ================================================= */}
+          {/* ================================================= */}
+          {/* CARDS */}
+          {/* ================================================= */}
 
-{/* ================= DESKTOP CARDS ================= */}
-<div className="absolute inset-0 z-[20] hidden md:block">
+          {/* ================= DESKTOP CARDS ================= */}
+          <div className="absolute inset-0 z-[20] hidden md:block">
 
-  {/* ================= CARD 1 ================= */}
-  <motion.div
-    initial={{ opacity: 0, y: 25, rotate: -8 }}
-    whileInView={{ opacity: 1, y: 0, rotate: -8 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7 }}
-    className="absolute left-[-5px] top-[175px] z-[20]"
-  >
-    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+            {/* ================= CARD 1 ================= */}
+            <motion.div
+              initial={{ opacity: 0, y: 25, rotate: -8 }}
+              whileInView={{ opacity: 1, y: 0, rotate: -8 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="absolute left-[-5px] top-[175px] z-[20]"
+            >
+              <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
 
-      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
+                <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
 
-      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
-        <img
-          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85"
-          alt="Sarah Mitchell"
-          className="h-full w-full object-cover"
-        />
-      </div>
+                <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85"
+                    alt="Sarah Mitchell"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
 
-      <div className="px-3 py-3">
-        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
-          Sarah Mitchell
-        </h3>
-        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
-          Founder & CEO
-        </p>
-      </div>
-    </div>
-  </motion.div>
+                <div className="px-3 py-3">
+                  <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+                    Sarah Mitchell
+                  </h3>
+                  <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+                    Founder & CEO
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-  {/* ================= CARD 2 ================= */}
-  <motion.div
-    initial={{ opacity: 0, y: 25, rotate: 5 }}
-    whileInView={{ opacity: 1, y: 0, rotate: 5 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7, delay: 0.1 }}
-    className="absolute left-[22%] top-[115px] z-[30]"
-  >
-    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+            {/* ================= CARD 2 ================= */}
+            <motion.div
+              initial={{ opacity: 0, y: 25, rotate: 5 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 5 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="absolute left-[22%] top-[115px] z-[30]"
+            >
+              <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
 
-      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
+                <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
 
-      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
-        <img
-          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85"
-          alt="Daniel Carter"
-          className="h-full w-full object-cover"
-        />
-      </div>
+                <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85"
+                    alt="Daniel Carter"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
 
-      <div className="px-3 py-3">
-        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
-          Daniel Carter
-        </h3>
-        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
-          Operations Director
-        </p>
-      </div>
-    </div>
-  </motion.div>
+                <div className="px-3 py-3">
+                  <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+                    Daniel Carter
+                  </h3>
+                  <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+                    Operations Director
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-  {/* ================= CARD 3 ================= */}
-  <motion.div
-    initial={{ opacity: 0, y: 25, rotate: -2 }}
-    whileInView={{ opacity: 1, y: 0, rotate: -2 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7, delay: 0.2 }}
-    className="absolute left-1/2 top-[150px] z-[40] -translate-x-1/2"
-  >
-    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+            {/* ================= CARD 3 ================= */}
+            <motion.div
+              initial={{ opacity: 0, y: 25, rotate: -2 }}
+              whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="absolute left-1/2 top-[150px] z-[40] -translate-x-1/2"
+            >
+              <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
 
-      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[2deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
+                <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[2deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
 
-      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
-        <img
-          src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=85"
-          alt="Olivia Anderson"
-          className="h-full w-full object-cover"
-        />
-      </div>
+                <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=85"
+                    alt="Olivia Anderson"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
 
-      <div className="px-3 py-3">
-        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
-          Olivia Anderson
-        </h3>
-        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
-          Growth Lead
-        </p>
-      </div>
-    </div>
-  </motion.div>
+                <div className="px-3 py-3">
+                  <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+                    Olivia Anderson
+                  </h3>
+                  <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+                    Growth Lead
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-  {/* ================= CARD 4 ================= */}
-  <motion.div
-    initial={{ opacity: 0, y: 25, rotate: -5 }}
-    whileInView={{ opacity: 1, y: 0, rotate: -5 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7, delay: 0.3 }}
-    className="absolute right-[22%] top-[115px] z-[30]"
-  >
-    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+            {/* ================= CARD 4 ================= */}
+            <motion.div
+              initial={{ opacity: 0, y: 25, rotate: -5 }}
+              whileInView={{ opacity: 1, y: 0, rotate: -5 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="absolute right-[22%] top-[115px] z-[30]"
+            >
+              <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
 
-      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[-4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
+                <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[-4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
 
-      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
-        <img
-          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85"
-          alt="James Wilson"
-          className="h-full w-full object-cover"
-        />
-      </div>
+                <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85"
+                    alt="James Wilson"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
 
-      <div className="px-3 py-3">
-        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
-          James Wilson
-        </h3>
-        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
-          Business Head
-        </p>
-      </div>
-    </div>
-  </motion.div>
+                <div className="px-3 py-3">
+                  <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+                    James Wilson
+                  </h3>
+                  <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+                    Business Head
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-  {/* ================= CARD 5 ================= */}
-  <motion.div
-    initial={{ opacity: 0, y: 25, rotate: 8 }}
-    whileInView={{ opacity: 1, y: 0, rotate: 8 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7, delay: 0.4 }}
-    className="absolute right-[-5px] top-[175px] z-[20]"
-  >
-    <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
+            {/* ================= CARD 5 ================= */}
+            <motion.div
+              initial={{ opacity: 0, y: 25, rotate: 8 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 8 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="absolute right-[-5px] top-[175px] z-[20]"
+            >
+              <div className="relative w-[190px] overflow-visible rounded-[20px] border-[6px] border-white bg-white shadow-[0_14px_35px_rgba(0,0,0,0.10)] dark:border-[#181824] dark:bg-[#181824]">
 
-      <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[-4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
+                <div className="absolute left-1/2 top-[-48px] z-[50] h-[52px] w-[22px] -translate-x-1/2 rotate-[-4deg] rounded-[5px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[9px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
 
-      <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
-        <img
-          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85"
-          alt="Emma Thompson"
-          className="h-full w-full object-cover"
-        />
-      </div>
+                <div className="h-[145px] w-full overflow-hidden rounded-[13px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85"
+                    alt="Emma Thompson"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
 
-      <div className="px-3 py-3">
-        <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
-          Emma Thompson
-        </h3>
-        <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
-          Product Manager
-        </p>
-      </div>
-    </div>
-  </motion.div>
+                <div className="px-3 py-3">
+                  <h3 className="text-[15px] font-semibold leading-tight text-[#282451] dark:text-[#f0f0f5]">
+                    Emma Thompson
+                  </h3>
+                  <p className="mt-1 text-[11px] text-[#6b7280] dark:text-[#9ca3af]">
+                    Product Manager
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-</div>
+          </div>
 
 
-{/* ================================================= */}
-{/* MOBILE CLIENT CARDS */}
-{/* ================================================= */}
+          {/* ================================================= */}
+          {/* MOBILE CLIENT CARDS */}
+          {/* ================================================= */}
 
-<div className="relative mt-6 block h-[300px] w-full overflow-hidden md:hidden">
+          <div className="relative mt-6 block h-[300px] w-full overflow-hidden md:hidden">
 
-  {/* MOBILE ROPE */}
-  <svg
-    className="pointer-events-none absolute left-[-10px] top-[72px] z-[5] h-[100px] w-[900px]"
-    viewBox="0 0 900 100"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="
+            {/* MOBILE ROPE */}
+            <svg
+              className="pointer-events-none absolute left-[-10px] top-[72px] z-[5] h-[100px] w-[900px]"
+              viewBox="0 0 900 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="
         M0 35
         C120 75, 180 75, 270 45
         C360 15, 450 15, 540 45
         C630 75, 720 75, 900 35
       "
-      stroke="#d1d5db"
-      strokeWidth="2.5"
-      fill="none"
-    />
-  </svg>
+                stroke="#d1d5db"
+                strokeWidth="2.5"
+                fill="none"
+              />
+            </svg>
 
-  {/* MOBILE HORIZONTAL SCROLL */}
-  <div
-    className="relative z-[20] flex h-full w-full gap-5 overflow-x-auto px-5 pb-4 pt-[105px]"
-    style={{
-      scrollbarWidth: "none",
-      msOverflowStyle: "none",
-    }}
-  >
+            {/* MOBILE HORIZONTAL SCROLL */}
+            <div
+              className="relative z-[20] flex h-full w-full gap-5 overflow-x-auto px-5 pb-4 pt-[105px]"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
 
-    {/* ================= MOBILE CARD 1 ================= */}
-    <div className="relative min-w-[145px] shrink-0 rotate-[-5deg]">
+              {/* ================= MOBILE CARD 1 ================= */}
+              <div className="relative min-w-[145px] shrink-0 rotate-[-5deg]">
 
-      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
+                <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
 
-      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+                <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
 
-        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85"
-            alt="Sarah Mitchell"
-            className="h-full w-full object-cover"
-          />
+                  <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+                    <img
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85"
+                      alt="Sarah Mitchell"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="px-2.5 py-2.5">
+                    <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+                      Sarah Mitchell
+                    </h3>
+                    <p className="mt-1 text-[9px] text-[#6b7280]">
+                      Founder & CEO
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+
+              {/* ================= MOBILE CARD 2 ================= */}
+              <div className="relative min-w-[145px] shrink-0 rotate-[4deg]">
+
+                <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
+
+                <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+                  <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+                    <img
+                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85"
+                      alt="Daniel Carter"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="px-2.5 py-2.5">
+                    <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+                      Daniel Carter
+                    </h3>
+                    <p className="mt-1 text-[9px] text-[#6b7280]">
+                      Operations Director
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+
+              {/* ================= MOBILE CARD 3 ================= */}
+              <div className="relative min-w-[145px] shrink-0 rotate-[-2deg]">
+
+                <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[2deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
+
+                <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+                  <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+                    <img
+                      src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=85"
+                      alt="Olivia Anderson"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="px-2.5 py-2.5">
+                    <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+                      Olivia Anderson
+                    </h3>
+                    <p className="mt-1 text-[9px] text-[#6b7280]">
+                      Growth Lead
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+
+              {/* ================= MOBILE CARD 4 ================= */}
+              <div className="relative min-w-[145px] shrink-0 rotate-[4deg]">
+
+                <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[-4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
+
+                <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+                  <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+                    <img
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85"
+                      alt="James Wilson"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="px-2.5 py-2.5">
+                    <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+                      James Wilson
+                    </h3>
+                    <p className="mt-1 text-[9px] text-[#6b7280]">
+                      Business Head
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+
+              {/* ================= MOBILE CARD 5 ================= */}
+              <div className="relative min-w-[145px] shrink-0 rotate-[-5deg]">
+
+                <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[-4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
+                  <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
+                </div>
+
+                <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
+
+                  <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
+                    <img
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85"
+                      alt="Emma Thompson"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="px-2.5 py-2.5">
+                    <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
+                      Emma Thompson
+                    </h3>
+                    <p className="mt-1 text-[9px] text-[#6b7280]">
+                      Product Manager
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
-
-        <div className="px-2.5 py-2.5">
-          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
-            Sarah Mitchell
-          </h3>
-          <p className="mt-1 text-[9px] text-[#6b7280]">
-            Founder & CEO
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-
-    {/* ================= MOBILE CARD 2 ================= */}
-    <div className="relative min-w-[145px] shrink-0 rotate-[4deg]">
-
-      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
-
-      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
-
-        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
-          <img
-            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85"
-            alt="Daniel Carter"
-            className="h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="px-2.5 py-2.5">
-          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
-            Daniel Carter
-          </h3>
-          <p className="mt-1 text-[9px] text-[#6b7280]">
-            Operations Director
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-
-    {/* ================= MOBILE CARD 3 ================= */}
-    <div className="relative min-w-[145px] shrink-0 rotate-[-2deg]">
-
-      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[2deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
-
-      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
-
-        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
-          <img
-            src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=85"
-            alt="Olivia Anderson"
-            className="h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="px-2.5 py-2.5">
-          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
-            Olivia Anderson
-          </h3>
-          <p className="mt-1 text-[9px] text-[#6b7280]">
-            Growth Lead
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-
-    {/* ================= MOBILE CARD 4 ================= */}
-    <div className="relative min-w-[145px] shrink-0 rotate-[4deg]">
-
-      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[-4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
-
-      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
-
-        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
-          <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85"
-            alt="James Wilson"
-            className="h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="px-2.5 py-2.5">
-          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
-            James Wilson
-          </h3>
-          <p className="mt-1 text-[9px] text-[#6b7280]">
-            Business Head
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-
-    {/* ================= MOBILE CARD 5 ================= */}
-    <div className="relative min-w-[145px] shrink-0 rotate-[-5deg]">
-
-      <div className="absolute left-1/2 top-[-43px] z-[50] h-[46px] w-[19px] -translate-x-1/2 rotate-[-4deg] rounded-[4px] bg-[#FF4800] shadow-[0_3px_8px_rgba(0,0,0,0.15)]">
-        <span className="absolute left-1/2 top-[8px] h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white" />
-      </div>
-
-      <div className="overflow-hidden rounded-[16px] border-[5px] border-white bg-white shadow-[0_10px_25px_rgba(0,0,0,0.10)]">
-
-        <div className="h-[110px] w-full overflow-hidden rounded-[10px]">
-          <img
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85"
-            alt="Emma Thompson"
-            className="h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="px-2.5 py-2.5">
-          <h3 className="text-[12px] font-semibold leading-tight text-[#282451]">
-            Emma Thompson
-          </h3>
-          <p className="mt-1 text-[9px] text-[#6b7280]">
-            Product Manager
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    </div>
-</section>
+      </section>
       {/* ── Problem Section ── */}
-    {/* ── Problem Section ── */}
-<section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
-  <div className="pointer-events-none absolute inset-0 grid-pattern" />
+      {/* ── Problem Section ── */}
+      <section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 grid-pattern" />
 
-  <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
 
-    {/* Heading */}
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease }}
-      className="text-center mb-8 md:mb-10"
-    >
-      <p
-        className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-        style={{ color: "#FF4800" }}
-      >
-        THE REAL PROBLEM
-      </p>
+          {/* Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease }}
+            className="text-center mb-8 md:mb-10"
+          >
+            <p
+              className="mb-4 text-[11px] font-medium uppercase tracking-widest"
+              style={{ color: "#FF4800" }}
+            >
+              THE REAL PROBLEM
+            </p>
 
-      <h2
-        className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-        style={{
-          lineHeight: 1.05,
-          letterSpacing: "-2px",
-        }}
-      >
-        You&apos;re not short on software
-        <br />
-        You&apos;re drowning in it
-      </h2>
-    </motion.div>
+            <h2
+              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              style={{
+                lineHeight: 1.05,
+                letterSpacing: "-2px",
+              }}
+            >
+              You&apos;re not short on software
+              <br />
+              You&apos;re drowning in it
+            </h2>
+          </motion.div>
 
-    {/* Cards */}
-    <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{
-        duration: 0.8,
-        delay: 0.1,
-        ease,
-      }}
-      className="grid w-full grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 text-center"
-    >
-      {[
-        {
-          num: "01",
-          heading: "The Tool Tax",
-          body:
-            "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
-        },
-        {
-          num: "02",
-          heading: "The Integration Debt",
-          body:
-            'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
-        },
-        {
-          num: "03",
-          heading: "The Visibility Gap",
-          body:
-            "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
-        },
-      ].map((item) => (
-        <motion.div
-          key={item.num}
-          initial="rest"
-          whileHover="hover"
-          className="group flex flex-col items-center cursor-pointer"
-        >
+          {/* Cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{
+              duration: 0.8,
+              delay: 0.1,
+              ease,
+            }}
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 text-center"
+          >
+            {[
+              {
+                num: "01",
+                heading: "The Tool Tax",
+                body:
+                  "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
+              },
+              {
+                num: "02",
+                heading: "The Integration Debt",
+                body:
+                  'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
+              },
+              {
+                num: "03",
+                heading: "The Visibility Gap",
+                body:
+                  "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
+              },
+            ].map((item) => (
+              <motion.div
+                key={item.num}
+                initial="rest"
+                whileHover="hover"
+                className="group flex flex-col items-center cursor-pointer"
+              >
 
-         {/* NUMBER AREA */}
-<div className="relative h-[96px] sm:h-[100px] md:h-[104px] w-full flex items-end justify-center overflow-hidden">
+                {/* NUMBER AREA */}
+                <div className="relative h-[96px] sm:h-[100px] md:h-[104px] w-full flex items-end justify-center overflow-hidden">
 
- <motion.div
-  variants={{
-    rest: {
-      y: 18,
-      opacity: 1,
-      scale: 0.96,
-      color: "#D1D5DB",
-    },
-    hover: {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      color: "#FF4800",
-    },
-  }}
-  transition={{
-    duration: 0.5,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  className="
+                  <motion.div
+                    variants={{
+                      rest: {
+                        y: 18,
+                        opacity: 1,
+                        scale: 0.96,
+                        color: "#D1D5DB",
+                      },
+                      hover: {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        color: "#FF4800",
+                      },
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="
     absolute
     bottom-0
     text-[78px]
@@ -1828,27 +1822,27 @@ useEffect(() => {
     leading-[0.72]
     select-none
   "
->
-  {item.num}
-</motion.div>
+                  >
+                    {item.num}
+                  </motion.div>
 
-  {/* Orange underline */}
-  <motion.span
-   variants={{
-  rest: {
-    y: 35,
-    opacity: 1,
-    scale: 0.92,
-    color: "#9ca3af00",
-  },
-  hover: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    color: "#FF4800",
-  },
-}}
-    className="
+                  {/* Orange underline */}
+                  <motion.span
+                    variants={{
+                      rest: {
+                        y: 35,
+                        opacity: 1,
+                        scale: 0.92,
+                        color: "#9ca3af00",
+                      },
+                      hover: {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        color: "#FF4800",
+                      },
+                    }}
+                    className="
       absolute
       bottom-[-2px]
       left-1/2
@@ -1857,190 +1851,190 @@ useEffect(() => {
       rounded-full
       bg-[#FF4800]
     "
-  />
-</div>
+                  />
+                </div>
 
-          {/* Heading */}
-          <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
-            {item.heading}
-          </h3>
+                {/* Heading */}
+                <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+                  {item.heading}
+                </h3>
 
-          {/* Description */}
-          <p className="mt-2 max-w-[320px] text-[14px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af]">
-            {item.body}
-          </p>
+                {/* Description */}
+                <p className="mt-2 max-w-[320px] text-[14px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af]">
+                  {item.body}
+                </p>
 
-        </motion.div>
-      ))}
-    </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
 
-    {/* Bottom Text */}
-    <motion.p
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{
-        duration: 0.8,
-        delay: 0.2,
-        ease,
-      }}
-      className="mt-7 md:mt-8 text-center text-base sm:text-[17px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto"
-    >
-    </motion.p>
-
-  </div>
-</section>
-      {/* ── Process Section ── */}
-<section
-  className="relative py-16 md:py-28"
-  style={{ background: isDark ? '#12121e' : '#ffffff' }}
->
-  <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-
-  <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.8, ease }}
-      className="-mt-20 mb-10 md:mb-16"
-    >
-      <SectionHeader
-        label="HOW WE WORK"
-        heading="From Strategy Call to Live System"
-      />
-    </motion.div>
-
-    <div className="relative isolate">
-
-      {/* Horizontal line */}
-      <div
-        className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px z-0 pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
-        }}
-      />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5  lg:gap-6 relative z-10 ">
-
-        {[
-          {
-            step: '01',
-            label: 'Discovery',
-            desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.',
-            icon: Activity,
-          },
-          {
-            step: '02',
-            label: 'Architecture',
-            desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.',
-            icon: Brain,
-          },
-          {
-            step: '03',
-            label: 'Build',
-            desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.',
-            icon: Shield,
-          },
-          {
-            step: '04',
-            label: 'Automate',
-            desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.',
-            icon: Globe,
-          },
-          {
-            step: '05',
-            label: 'Scale',
-            desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it.",
-            icon: Cloud,
-          },
-        ].map((item) => (
-          <motion.div
-            key={item.step}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+          {/* Bottom Text */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{
-              duration: 0.6,
-              delay: parseInt(item.step) * 0.08,
+              duration: 0.8,
+              delay: 0.2,
               ease,
             }}
-            className="flex flex-col items-center text-center min-w-0"
+            className="mt-7 md:mt-8 text-center text-base sm:text-[17px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto"
           >
+          </motion.p>
 
-           {/* Icon */}
-<div
-  className="group relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4"
-  style={{
-    background: isDark ? '#12121e' : '#ffffff',
-    border: '1px solid #FF4800',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-    transition: 'background-color 200ms ease',
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.backgroundColor = '#FF4800';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundColor = isDark ? '#12121e' : '#ffffff';
-  }}
->
-  <item.icon
-    size={24}
-    strokeWidth={1.8}
-     className="text-[#FF4800] group-hover:text-white transition-colors duration-200"
-    
-  />
-</div>
+        </div>
+      </section>
+      {/* ── Process Section ── */}
+      <section
+        className="relative py-16 md:py-28"
+        style={{ background: isDark ? '#12121e' : '#ffffff' }}
+      >
+        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
 
-            {/* Step */}
-            <p
-              className="text-[14px] font-semibold uppercase tracking-wide mb-2"
-              style={{ color: '#FF4800' }}
-            >
-              STEP {item.step}
-            </p>
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
 
-            {/* Title */}
-            <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">
-              {item.label}
-            </h3>
-
-            {/* Description - SAME */}
-           <p
-  className="w-full text-[14px] sm:text-[15px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af]"
-  style={{
-    textAlign: 'justify',
-    textJustify: 'inter-word',
-    hyphens: 'auto',
-  }}
->
-  {item.desc}
-</p>
-
-            {/* Badge */}
-            <span
-              className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium whitespace-nowrap"
-              style={{
-                color: '#FF4800',
-                background: 'rgba(255,72,0,0.05)',
-                border: '1px solid rgba(255,72,0,0.15)',
-              }}
-            >
-              ✓ Fast & Secure
-            </span>
-
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, ease }}
+            className="-mt-20 mb-10 md:mb-16"
+          >
+            <SectionHeader
+              label="HOW WE WORK"
+              heading="From Strategy Call to Live System"
+            />
           </motion.div>
-        ))}
 
-      </div>
-    </div>
-  </div>
-</section>
+          <div className="relative isolate">
+
+            {/* Horizontal line */}
+            <div
+              className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px z-0 pointer-events-none"
+              style={{
+                background:
+                  'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
+              }}
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5  lg:gap-6 relative z-10 ">
+
+              {[
+                {
+                  step: '01',
+                  label: 'Discovery',
+                  desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.',
+                  icon: Activity,
+                },
+                {
+                  step: '02',
+                  label: 'Architecture',
+                  desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.',
+                  icon: Brain,
+                },
+                {
+                  step: '03',
+                  label: 'Build',
+                  desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.',
+                  icon: Shield,
+                },
+                {
+                  step: '04',
+                  label: 'Automate',
+                  desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.',
+                  icon: Globe,
+                },
+                {
+                  step: '05',
+                  label: 'Scale',
+                  desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it.",
+                  icon: Cloud,
+                },
+              ].map((item) => (
+                <motion.div
+                  key={item.step}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{
+                    duration: 0.6,
+                    delay: parseInt(item.step) * 0.08,
+                    ease,
+                  }}
+                  className="flex flex-col items-center text-center min-w-0"
+                >
+
+                  {/* Icon */}
+                  <div
+                    className="group relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4"
+                    style={{
+                      background: isDark ? '#12121e' : '#ffffff',
+                      border: '1px solid #FF4800',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                      transition: 'background-color 200ms ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#FF4800';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = isDark ? '#12121e' : '#ffffff';
+                    }}
+                  >
+                    <item.icon
+                      size={24}
+                      strokeWidth={1.8}
+                      className="text-[#FF4800] group-hover:text-white transition-colors duration-200"
+
+                    />
+                  </div>
+
+                  {/* Step */}
+                  <p
+                    className="text-[14px] font-semibold uppercase tracking-wide mb-2"
+                    style={{ color: '#FF4800' }}
+                  >
+                    STEP {item.step}
+                  </p>
+
+                  {/* Title */}
+                  <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">
+                    {item.label}
+                  </h3>
+
+                  {/* Description - SAME */}
+                  <p
+                    className="w-full text-[14px] sm:text-[15px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af]"
+                    style={{
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      hyphens: 'auto',
+                    }}
+                  >
+                    {item.desc}
+                  </p>
+
+                  {/* Badge */}
+                  <span
+                    className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium whitespace-nowrap"
+                    style={{
+                      color: '#FF4800',
+                      background: 'rgba(255,72,0,0.05)',
+                      border: '1px solid rgba(255,72,0,0.15)',
+                    }}
+                  >
+                    ✓ Fast & Secure
+                  </span>
+
+                </motion.div>
+              ))}
+
+            </div>
+          </div>
+        </div>
+      </section>
       {/* ── Pricing Section ── */}
-      <section id = "pricing"
-      className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+      <section id="pricing"
+        className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="-mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
