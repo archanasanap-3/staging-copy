@@ -131,29 +131,46 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
   const bg = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.70)';
   const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
   const shadow = isDark ? '0 4px 24px rgba(0,0,0,0.30)' : '0 4px 24px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)';
+ const [cardsAnimationKey, setCardsAnimationKey] = useState(0);
+
+useEffect(() => {
+  const handleScroll = () => {
+    const section = document.getElementById('services-section');
+
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    const isVisible =
+      rect.top < window.innerHeight * 0.75 &&
+      rect.bottom > window.innerHeight * 0.25;
+
+    if (isVisible) {
+      setCardsAnimationKey(prev => prev + 1);
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
 
   return (
-    <div
-      className="svc-card relative flex h-full flex-col overflow-hidden rounded-[20px]"
-      style={{
-        background: bg,
-        backdropFilter: 'blur(16px) saturate(1.8)',
-        WebkitBackdropFilter: 'blur(16px) saturate(1.8)',
-        border: `1px solid ${border}`,
-        boxShadow: shadow,
-        transition: 'box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease',
-        fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = 'translateY(-6px)';
-        el.style.borderColor = 'rgba(255,72,0,0.22)';
-        el.style.boxShadow = isDark
-          ? '0 8px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,72,0,0.18)'
-          : '0 8px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(255,72,0,0.14), 0 20px 40px rgba(255,72,0,0.08)';
-        const glow = el.querySelector('.svc-glow') as HTMLElement | null;
-        if (glow) glow.style.opacity = '1';
-      }}
+  <motion.div
+    className="svc-card relative flex h-full flex-col overflow-hidden rounded-[20px]"
+    initial={{
+  opacity: 0,
+  x: 70,
+  scale: 0.97,
+}}
+animate={{
+  opacity: 1,
+  x: 0,
+  scale: 1,
+}}
+transition={{
+  duration: 0.8,
+  ease: [0.22, 1, 0.36, 1],
+}}
       onMouseLeave={e => {
         const el = e.currentTarget as HTMLDivElement;
         el.style.transform = '';
@@ -257,7 +274,7 @@ function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; on
           <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -703,6 +720,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const isDark = resolvedTheme === 'dark';
   const [capActiveIdx, setCapActiveIdx] = useState(0);
   const [activeService, setActiveService] = useState<string | null>(null);
+  const [direction, setDirection] = useState(1);
   const [count55, setCount55] = useState(0);
   const [count3, setCount3] = useState(0);
   const [count5, setCount5] = useState(0);
@@ -868,157 +886,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <AnimatedHero onNavigate={onNavigate} />
       </div>
 
-      {/* ── Honest Proof Strip ── */}
-      <motion.section
-        id="section-partners"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, ease }}
-        className="py-14 md:py-24 bg-white dark:bg-[#0a0a14] relative border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
-      >
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative text-center">
-          <p className="-mt-6 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
-          <h2
-            className="font-normal heading-gradient mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
-          >
-            A Foundation for What's Next
-          </h2>
-        </div>
-      </motion.section>
-
-      {/* ── Technology Partners ── */}
-      <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
-        <motion.div
-          className="flex w-max"
-          animate={{ x: [0, '-50%'] }}
-          transition={{
-            duration: 25,
-            ease: 'linear',
-            repeat: Infinity,
-          }}
-        >
-          {/* First set */}
-          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-            ].map((partner) => (
-              <motion.div
-                key={`first-${partner.name}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-                style={{
-                  background: isDark
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.75)',
-
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter:
-                    'blur(20px) saturate(1.8) brightness(1.02)',
-
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1.5px solid rgba(255,255,255,0.9)',
-
-                  // Shadow removed
-                  boxShadow: 'none',
-                }}
-              >
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-                  style={{ backgroundColor: partner.brandColor }}
-                />
-
-                {/* Colored Logo */}
-                <div className="relative h-16 w-full">
-                  <Image
-                    src={partner.src}
-                    alt={partner.name}
-                    fill
-                    sizes="170px"
-                    className={`object-contain ${partner.name === 'Vercel' || partner.name === 'Next.js'
-                      ? 'dark:invert'
-                      : 'brightness-[0.7] contrast-[1.4]'
-                      }`}
-                  />
-                </div>
-
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-                  {partner.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Duplicate set for seamless auto-scroll */}
-          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-            ].map((partner) => (
-              <motion.div
-                key={`second-${partner.name}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex h-[140px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-                style={{
-                  background: isDark
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.75)',
-
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter:
-                    'blur(20px) saturate(1.8) brightness(1.02)',
-
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1.5px solid rgba(255,255,255,0.9)',
-
-                  // Shadow removed
-                  boxShadow: 'none',
-                }}
-              >
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-                  style={{ backgroundColor: partner.brandColor }}
-                />
-
-                <div className="relative h-16 w-full">
-                  <Image
-                    src={partner.src}
-                    alt={partner.name}
-                    fill
-                    sizes="170px"
-                    className={`object-contain ${partner.name === 'Vercel' || partner.name === 'Next.js'
-                      ? 'dark:invert'
-                      : 'brightness-[0.7] contrast-[1.4]'
-                      }`}
-                  />
-                </div>
-
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-                  {partner.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-
-
       {/* ── What We Build ── */}
       <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
         <div className="-mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1033,33 +900,49 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               label="WHAT WE BUILD"
               heading={
                 <span className='block w-full whitespace-normal break-words'>
-                  One Goal: Systems That Make<span style={{ color: '#FF4800' }}>Your Business Run Better</span>
+                  Build Smarter Operate Better <span style={{ color: '#FF4800' }}>Grow Faster</span>
                 </span>
               }
             />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, delay: 0.2, ease }}
-            className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
-          >
-            {services
-              .filter(
-                (service) =>
-                  !activeService || service.page === activeService
-              )
-              .map((service, i) => (
-                <ServiceCard
-                  key={i}
-                  service={service}
-                  onNavigate={onNavigate}
-                  isDark={isDark}
-                />
-              ))}
-          </motion.div>
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: '-60px' }}
+  transition={{ duration: 0.8, delay: 0.2, ease }}
+  className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+>
+  {services
+    .filter(
+      (service) =>
+        !activeService || service.page === activeService
+    )
+    .map((service, i) => (
+      <motion.div
+        key={service.page}
+        initial={{
+          opacity: 0,
+          x: 100,
+        }}
+        animate={{
+          opacity: 1,
+          x: 0,
+        }}
+        transition={{
+          duration: 0.8,
+          delay: i * 2,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+      >
+        <ServiceCard
+          service={service}
+          onNavigate={onNavigate}
+          isDark={isDark}
+        />
+      </motion.div>
+    ))}
+</motion.div>
         </div>
       </section>
 
@@ -1069,161 +952,146 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
 
-      {/* ── Capabilities (Bento) ── */}
-      <section id="section-capabilities" className="py-12 md:py-14 md:pb-6  section-glow-top relative" style={{ background: isDark ? '#12121e' : '#f8f8fc' }}>
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* ── Capabilities ── */}
+<section
+  id="section-capabilities"
+  className="relative overflow-hidden bg-white py-14 md:py-20 dark:bg-[#0a0a14]"
+>
+  {/* Background */}
+  <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
+    <div className="absolute right-[-80px] top-[120px] h-[280px] w-[280px] rounded-full bg-orange-100/40 blur-3xl dark:bg-orange-500/5" />
+  </div>
+
+  <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+
+    {/* ── Heading ── */}
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.7, ease }}
+      className="mb-14 md:mb-20"
+    >
+      <SectionHeader
+        label="WHY STRAVEDA"
+        heading="Enterprise Grade Execution, Without the Complexity"
+      />
+    </motion.div>
+
+    {/* ── Timeline Items ── */}
+    <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-20">
+
+  {bentoItems.map((item, index) => (
+    <motion.div
+      key={item.title}
+      initial={{
+        opacity: 0,
+        y: 30,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: false,
+        margin: '-60px',
+      }}
+      transition={{
+        duration: 0.65,
+        delay: index * 0.08,
+        ease,
+      }}
+
+      style={{
+        gridColumn:
+          index === 4
+            ? '2'
+            : index === 5
+              ? '3'
+              : undefined,
+      }}
+
+      className="group relative"
+    >
+
+          {/* ── Number + Line ── */}
+<div className="mb-6 flex items-center">
+
+  {/* Number */}
+  <motion.div
+    whileHover={{
+      scale: 1.08,
+    }}
+    transition={{
+      duration: 0.2,
+    }}
+    className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
+    style={{
+      background: '#FF4800',
+      color: '#ffffff',
+    }}
+  >
+    {String(index + 1).padStart(2, '0')}
+  </motion.div>
+
+  {/* Horizontal line */}
+  <div
+    className="ml-3 h-px flex-1"
+    style={{
+      background: '#FF4800',
+    }}
+  />
+</div>
+
+          {/* ── Content ── */}
+          <div className="pr-2">
+
+            <h3
+              className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]"
+              style={{
+                fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
+                lineHeight: 1.35,
+                letterSpacing: '-0.2px',
+              }}
+            >
+              {item.title}
+            </h3>
+
+            <p
+              className="text-[13px] leading-[1.65] text-slate-500 dark:text-[#9ca3af]"
+              style={{
+                maxWidth: '290px',
+                width: '100%',
+                minHeight: '84',
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+              }}
+            >
+              {item.description}
+            </p>
+          </div>
+
+          {/* ── Small hover indicator ── */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="-mt-10 mb-8 md:mb-16"
-          >
-            <SectionHeader
-              label="WHY STRAVEDA"
-              heading="Enterprise Grade Execution, Without the Complexity"
-            />
-          </motion.div>
-
-          {/* Drag-to-swipe carousel — Framer Motion, no native scroll */}
-          <div
-            className="relative overflow-hidden"
-            style={{
-              maskImage:
-                'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+            className="absolute left-0 top-0 h-8 w-8 rounded-full border border-orange-500/30"
+            initial={{
+              scale: 1,
+              opacity: 0,
             }}
-          >
-            <motion.div
-              ref={trackRef}
-              style={{ x: dragX }}
-              drag="x"
-              dragConstraints={constraints}
-              dragMomentum={false}
-              dragElastic={0.05}
-              onDragEnd={handleDragEnd}
-              className="flex gap-5 cursor-grab active:cursor-grabbing px-4 sm:px-6 lg:px-8 pb-6 select-none"
-            >
-              {bentoItems.map((item, index) => (
-                <div
-                  key={item.title}
-                  data-cap-card
-                  className="group relative flex-shrink-0 overflow-hidden rounded-2xl flex flex-col w-[85%] xs:w-[78%] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)]"
-                  style={{
-                    minHeight: '18.75rem',
-                    padding: 'clamp(1.25rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2.25rem)',
-                    background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.85)',
-                    backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1.5px solid rgba(0,0,0,0.08)',
-                    boxShadow: isDark
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                      : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
-                    transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.borderColor = 'rgba(255,72,0,0.35)';
-                    el.style.boxShadow = isDark
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 40px rgba(255,72,0,0.15), 0 24px 48px rgba(0,0,0,0.4)'
-                      : '0 12px 40px rgba(255,72,0,0.12), 0 24px 48px rgba(0,0,0,0.06)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)';
-                    el.style.boxShadow = isDark
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                      : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
-                  }}
-                >
-                  <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.04) 0%, transparent 55%)' }} />
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl" style={{ background: isDark ? 'rgba(255,72,0,0.12)' : 'rgba(255,72,0,0.08)' }}>
-                    <item.icon className="h-7 w-7" style={{ color: '#FF4800' }} />
-                  </div>
-                  <h3 className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
-                    {item.title}
-                  </h3>
-                  <p className="flex-grow text-[14.5px] leading-[1.7] text-slate-600 dark:text-[#9ca3af]"
-                    style={{
-                      textAlign: 'justify',
-                      textJustify: 'inter-word',
-                      wordSpacing: 'auto',
-                    }}>
-                    {item.description}
-                  </p>
-                  <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.15))' }} />
-                </div>
-              ))}
-            </motion.div>
-          </div>
+            whileHover={{
+              scale: 1.45,
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.3,
+            }}
+          />
+        </motion.div>
+      ))}
 
-          {/* Pagination arrows */}
-          <div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => snapToCard(Math.max(0, capActiveIdx - 1))}
-              aria-label="Previous card"
-              className="flex items-center justify-center transition-all duration-300"
-              style={{
-                width: '2.25rem',
-                height: '2.25rem',
-                borderRadius: '50%',
-                border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
-                  }`,
-                background: 'transparent',
-                color: isDark ? '#f0f0f5' : '#1a1a2e',
-                padding: 0,
-                cursor: 'pointer',
-                fontSize: '1.5rem',
-                lineHeight: 1,
-              }}
-            >
-              ‹
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                snapToCard(Math.min(maxCapIndex, capActiveIdx + 1))
-              }
-              disabled={capActiveIdx >= maxCapIndex}
-              aria-label="Next card"
-              className="flex items-center justify-center transition-all duration-300 disabled:cursor-not-allowed"
-              style={{
-                width: '2.25rem',
-                height: '2.25rem',
-                borderRadius: '50%',
-                border: `1.5px solid ${capActiveIdx >= maxCapIndex
-                  ? 'rgba(0,0,0,0.10)'
-                  : isDark
-                    ? 'rgba(255,255,255,0.25)'
-                    : 'rgba(0,0,0,0.25)'
-                  }`,
-                background:
-                  capActiveIdx >= maxCapIndex
-                    ? 'rgba(0,0,0,0.05)'
-                    : 'transparent',
-                color:
-                  capActiveIdx >= maxCapIndex
-                    ? 'rgba(0,0,0,0.25)'
-                    : isDark
-                      ? '#f0f0f5'
-                      : '#1a1a2e',
-                padding: 0,
-                cursor:
-                  capActiveIdx >= maxCapIndex
-                    ? 'not-allowed'
-                    : 'pointer',
-                fontSize: '1.5rem',
-                lineHeight: 1,
-              }}
-            >
-              ›
-            </button>
-          </div>
-        </div>
-      </section>
+    </div>
+  </div>
+</section>
 
       {/* ── About / Stats ── */}
 
@@ -2124,6 +1992,163 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </p>
         </div>
       </section>
+
+      {/* ── Honest Proof Strip ── */}
+      <motion.section
+        id="section-partners"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.7, ease }}
+        className="py-14 md:py-24 bg-white dark:bg-[#0a0a14] relative border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
+      >
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative text-center">
+          <p className="-mt-6 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
+          <h2
+            className="font-normal heading-gradient mx-auto"
+            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
+          >
+            A Foundation for What's Next
+          </h2>
+        </div>
+      </motion.section>
+
+      {/* ── Technology Partners ── */}
+      <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
+        <motion.div
+          className="flex w-max"
+          animate={{ x: [0, '-50%'] }}
+          transition={{
+            duration: 25,
+            ease: 'linear',
+            repeat: Infinity,
+          }}
+        >
+          {/* First set */}
+          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
+            {[
+              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
+              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
+              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
+              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
+              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
+              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
+              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
+            ].map((partner) => (
+              <motion.div
+                key={`first-${partner.name}`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.25, ease }}
+                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+                style={{
+                  background: isDark
+                    ? 'rgba(255,255,255,0.06)'
+                    : 'rgba(255,255,255,0.75)',
+
+                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+                  WebkitBackdropFilter:
+                    'blur(20px) saturate(1.8) brightness(1.02)',
+
+                  border: isDark
+                    ? '1px solid rgba(255,255,255,0.12)'
+                    : '1.5px solid rgba(255,255,255,0.9)',
+
+                  // Shadow removed
+                  boxShadow: 'none',
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
+                  style={{ backgroundColor: partner.brandColor }}
+                />
+
+                {/* Colored Logo */}
+                <div className="relative h-12 w-[170px] mx-auto">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    fill
+                    sizes="170px"
+                    className={`object-contain ${
+  partner.name === 'Vercel'
+    ? 'dark:invert scale-[0.72]'
+    : partner.name === 'Next.js'
+    ? 'dark:invert'
+    : 'brightness-[0.7] contrast-[1.4]'
+}`}
+                  />
+                </div>
+
+                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
+                  {partner.name}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Duplicate set for seamless auto-scroll */}
+          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
+            {[
+              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
+              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
+              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
+              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
+              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
+              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
+              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
+            ].map((partner) => (
+              <motion.div
+                key={`second-${partner.name}`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.25, ease }}
+                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
+                style={{
+                  background: isDark
+                    ? 'rgba(255,255,255,0.06)'
+                    : 'rgba(255,255,255,0.75)',
+
+                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
+                  WebkitBackdropFilter:
+                    'blur(20px) saturate(1.8) brightness(1.02)',
+
+                  border: isDark
+                    ? '1px solid rgba(255,255,255,0.12)'
+                    : '1.5px solid rgba(255,255,255,0.9)',
+
+                  // Shadow removed
+                  boxShadow: 'none',
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
+                  style={{ backgroundColor: partner.brandColor }}
+                />
+
+                <div className="relative h-12 w-[170px] mx-auto">
+                  <Image
+                    src={partner.src}
+                    alt={partner.name}
+                    fill
+                    sizes="170px"
+                   className={`object-contain ${
+  partner.name === 'Vercel'
+    ? 'dark:invert scale-[0.72]'
+    : partner.name === 'Next.js'
+    ? 'dark:invert'
+    : 'brightness-[0.7] contrast-[1.4]'
+}`}
+                  />
+                </div>
+
+                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
+                  {partner.name}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+      <div className="h-16 md:h-24" />
 
       {/* ── Closing CTA ── */}
       <section className="relative py-16 md:py-24 overflow-hidden" style={{ background: isDark ? '#12121e' : '#1a1a2e' }}>
