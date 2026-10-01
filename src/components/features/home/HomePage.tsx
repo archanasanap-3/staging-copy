@@ -450,11 +450,11 @@ function TestimonialsCarousel() {
 
   return (
     <section
-      className="relative w-full overflow-hidden py-14 md:py-20"
+      className="relative w-full overflow-hidden py-14 md:py-20 bg-white"
       style={{
         background: isDarkT
-          ? 'linear-gradient(135deg, #09042f 0%, #0d0b15 50%, #060606 100%)'
-          : 'linear-gradient(135deg, #f8f8fc 0%, #ffffff 50%, #f0f0f8 100%)',
+          ? '#0a0a14'
+          : '#ffffff',
       }}
     >
       {/* Background dots */}
@@ -489,10 +489,11 @@ function TestimonialsCarousel() {
           </p>
 
           <h2
-            className="heading-gradient mx-auto font-normal text-[clamp(1.75rem,5vw,3.5rem)]"
+            className="text-black mx-auto font-normal text-[clamp(1.75rem,5vw,3.5rem)]"
             style={{
               lineHeight: 1.05,
               letterSpacing: '-2px',
+              color: '#000000',
             }}
           >
             What Our Clients Say
@@ -566,10 +567,11 @@ function FAQSection() {
             </p>
 
             <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)]"
+              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)]"
               style={{
                 lineHeight: 1.02,
                 letterSpacing: "-2.5px",
+                color: "#000000",
               }}
             >
               Questions?
@@ -705,7 +707,7 @@ function SectionHeader({
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#FF4800' }}>{label}</p>
       <div className={`flex gap-4 ${isCenter ? 'justify-center' : 'justify-center md:justify-start'}`}>
         {/* Accent bar — desktop only */}
-        <h2 className="font-normal heading-gradient" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word' }}>
+        <h2 className="font-normal text-black" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word', color: '#000000' }}>
           {heading}
         </h2>
       </div>
@@ -875,16 +877,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   }, []);
 
   return (
-    <div className="overflow-x-hidden w-full">
+    <div className="overflow-x-hidden w-full bg-white dark:bg-[#0a0a14]">
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .problem-number-fade {
+          -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 85%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 85%);
+          transition: -webkit-mask-image 0.35s ease, mask-image 0.35s ease;
+        }
+        .group:hover .problem-number-fade {
+          -webkit-mask-image: none !important;
+          mask-image: none !important;
+        }
       `}</style>
 
       {/* ── Hero ── */}
       <div id="section-hero">
         <AnimatedHero onNavigate={onNavigate} />
       </div>
+
+      {/* ── Sandesa Section ── */}
+      <SandesaSection isDark={isDark} />
 
       {/* ── What We Build ── */}
       <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
@@ -900,7 +914,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               label="WHAT WE BUILD"
               heading={
                 <span className='block w-full whitespace-normal break-words'>
-                  Build Smarter Operate Better <span style={{ color: '#FF4800' }}>Grow Faster</span>
+                  Build Smarter Operate Better Grow Faster
                 </span>
               }
             />
@@ -946,158 +960,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Sandesa Section ── */}
-      <SandesaSection isDark={isDark} />
-
-
-
-
-      {/* ── Capabilities ── */}
-<section
-  id="section-capabilities"
-  className="relative overflow-hidden bg-white py-14 md:py-20 dark:bg-[#0a0a14]"
->
-  {/* Background */}
-  <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
-    <div className="absolute right-[-80px] top-[120px] h-[280px] w-[280px] rounded-full bg-orange-100/40 blur-3xl dark:bg-orange-500/5" />
-  </div>
-
-  <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-
-    {/* ── Heading ── */}
-    <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, ease }}
-      className="mb-14 md:mb-20"
-    >
-      <SectionHeader
-        label="WHY STRAVEDA"
-        heading="Enterprise Grade Execution, Without the Complexity"
-      />
-    </motion.div>
-
-    {/* ── Timeline Items ── */}
-    <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-20">
-
-  {bentoItems.map((item, index) => (
-    <motion.div
-      key={item.title}
-      initial={{
-        opacity: 0,
-        y: 30,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: false,
-        margin: '-60px',
-      }}
-      transition={{
-        duration: 0.65,
-        delay: index * 0.08,
-        ease,
-      }}
-
-      style={{
-        gridColumn:
-          index === 4
-            ? '2'
-            : index === 5
-              ? '3'
-              : undefined,
-      }}
-
-      className="group relative"
-    >
-
-          {/* ── Number + Line ── */}
-<div className="mb-6 flex items-center">
-
-  {/* Number */}
-  <motion.div
-    whileHover={{
-      scale: 1.08,
-    }}
-    transition={{
-      duration: 0.2,
-    }}
-    className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
-    style={{
-      background: '#FF4800',
-      color: '#ffffff',
-    }}
-  >
-    {String(index + 1).padStart(2, '0')}
-  </motion.div>
-
-  {/* Horizontal line */}
-  <div
-    className="ml-3 h-px flex-1"
-    style={{
-      background: '#FF4800',
-    }}
-  />
-</div>
-
-          {/* ── Content ── */}
-          <div className="pr-2">
-
-            <h3
-              className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]"
-              style={{
-                fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
-                lineHeight: 1.35,
-                letterSpacing: '-0.2px',
-              }}
-            >
-              {item.title}
-            </h3>
-
-            <p
-              className="text-[13px] leading-[1.65] text-slate-500 dark:text-[#9ca3af]"
-              style={{
-                maxWidth: '290px',
-                width: '100%',
-                minHeight: '84',
-                textAlign: 'justify',
-                textJustify: 'inter-word',
-              }}
-            >
-              {item.description}
-            </p>
-          </div>
-
-          {/* ── Small hover indicator ── */}
-          <motion.div
-            className="absolute left-0 top-0 h-8 w-8 rounded-full border border-orange-500/30"
-            initial={{
-              scale: 1,
-              opacity: 0,
-            }}
-            whileHover={{
-              scale: 1.45,
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.3,
-            }}
-          />
-        </motion.div>
-      ))}
-
-    </div>
-  </div>
-</section>
-
       {/* ── About / Stats ── */}
 
       <section
         id="section-about"
-        className="relative py-8 md:py-14 bg-[#f8f8fc] dark:bg-[#0a0a14]"
+        className="relative py-8 md:py-14 bg-white dark:bg-[#0a0a14]"
       >
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
@@ -1152,7 +1019,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           >
             <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
             <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
-              <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
+              <h2 className="font-normal text-black text-center md:text-left text-[2.5rem]" style={{ color: '#000000' }}>
                 We Get It  Because We've Lived It
               </h2>
             </div>
@@ -1167,7 +1034,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── Client People / Connection Section ── */}
       <section
-        className="hidden relative w-full overflow-hidden bg-[#f8f8fc] py-8 md:py-10 dark:bg-[#0a0a14]"
+        className="hidden relative w-full overflow-hidden bg-white py-8 md:py-10 dark:bg-[#0a0a14]"
       >
         {/* Heading */}
         <div className="relative z-40 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
@@ -1180,10 +1047,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
           <h2
-            className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+            className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
             style={{
               lineHeight: 1.05,
               letterSpacing: "-2px",
+              color: "#000000",
             }}
           >
             Built Together Growing Together
@@ -1583,10 +1451,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
       {/* ── Problem Section ── */}
-      {/* ── Problem Section ── */}
-      <section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-
+      <section className="relative py-14 md:py-22 bg-white dark:bg-[#0a0a14] overflow-hidden">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
 
           {/* Heading */}
@@ -1595,7 +1460,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease }}
-            className="text-center mb-8 md:mb-10"
+            className="text-center mb-12 md:mb-16"
           >
             <p
               className="mb-4 text-[11px] font-medium uppercase tracking-widest"
@@ -1605,16 +1470,21 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </p>
 
             <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
               style={{
                 lineHeight: 1.05,
                 letterSpacing: "-2px",
+                color: "#000000",
               }}
             >
               You&apos;re not short on software
               <br />
               You&apos;re drowning in it
             </h2>
+
+            <p className="mt-5 text-base sm:text-[17px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto text-center">
+              Too many tools and disconnected processes create unnecessary complexity. We simplify your workflow by bringing the right systems together in one practical solution.
+            </p>
           </motion.div>
 
           {/* Cards */}
@@ -1627,7 +1497,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               delay: 0.1,
               ease,
             }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 text-center"
+            className="grid w-full grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 lg:gap-10 text-center"
           >
             {[
               {
@@ -1657,15 +1527,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               >
 
                 {/* NUMBER AREA */}
-                <div className="relative h-[96px] sm:h-[100px] md:h-[104px] w-full flex items-end justify-center overflow-hidden">
+                <div className="relative h-[96px] sm:h-[100px] md:h-[108px] w-full flex items-end justify-center overflow-hidden">
 
                   <motion.div
                     variants={{
                       rest: {
-                        y: 18,
+                        y: 20,
                         opacity: 1,
                         scale: 0.96,
-                        color: "#D1D5DB",
+                        color: isDark ? "rgba(255,255,255,0.4)" : "#CBD5E1",
                       },
                       hover: {
                         y: 0,
@@ -1675,12 +1545,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                       },
                     }}
                     transition={{
-                      duration: 0.5,
+                      duration: 0.45,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                     className="
+    problem-number-fade
     absolute
-    bottom-0
+    bottom-2
     text-[78px]
     sm:text-[84px]
     md:text-[90px]
@@ -1693,33 +1564,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   >
                     {item.num}
                   </motion.div>
-
-                  {/* Orange underline */}
-                  <motion.span
-                    variants={{
-                      rest: {
-                        y: 35,
-                        opacity: 1,
-                        scale: 0.92,
-                        color: "#9ca3af00",
-                      },
-                      hover: {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        color: "#FF4800",
-                      },
-                    }}
-                    className="
-      absolute
-      bottom-[-2px]
-      left-1/2
-      -translate-x-1/2
-      h-[3px]
-      rounded-full
-      bg-[#FF4800]
-    "
-                  />
                 </div>
 
                 {/* Heading */}
@@ -1735,21 +1579,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </motion.div>
             ))}
           </motion.div>
-
-          {/* Bottom Text */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{
-              duration: 0.8,
-              delay: 0.2,
-              ease,
-            }}
-            className="mt-7 md:mt-8 text-center text-base sm:text-[17px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto"
-          >
-          </motion.p>
-
         </div>
       </section>
       {/* ── Process Section ── */}
@@ -1791,31 +1620,31 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 {
                   step: '01',
                   label: 'Discovery',
-                  desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.',
+                  desc: '30-min strategy call to analyze workflows, identify bottlenecks, and map high-impact automation with zero sales pitch.',
                   icon: Activity,
                 },
                 {
                   step: '02',
                   label: 'Architecture',
-                  desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.',
+                  desc: 'We architect the solution, define the tech stack, and deliver a clear fixed-price proposal within 24 hours.',
                   icon: Brain,
                 },
                 {
                   step: '03',
                   label: 'Build',
-                  desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.',
+                  desc: 'We build in weekly sprints with total visibility. You review progress, give feedback, and stay in full control.',
                   icon: Shield,
                 },
                 {
                   step: '04',
                   label: 'Automate',
-                  desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.',
+                  desc: 'We wire triggers, workflows, and AI agents so the system runs smoothly without any manual intervention.',
                   icon: Globe,
                 },
                 {
                   step: '05',
                   label: 'Scale',
-                  desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it.",
+                  desc: 'Full handover with documentation and training. Your team owns 100% of the code and operational systems.',
                   icon: Cloud,
                 },
               ].map((item) => (
@@ -1829,30 +1658,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                     delay: parseInt(item.step) * 0.08,
                     ease,
                   }}
-                  className="flex flex-col items-center text-center min-w-0"
+                  className="relative flex flex-col items-center text-center min-w-0"
                 >
 
                   {/* Icon */}
                   <div
-                    className="group relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4"
-                    style={{
-                      background: isDark ? '#12121e' : '#ffffff',
-                      border: '1px solid #FF4800',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                      transition: 'background-color 200ms ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#FF4800';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = isDark ? '#12121e' : '#ffffff';
-                    }}
+                    className="group/btn relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4 border border-[#FF4800] bg-white dark:bg-[#12121e] hover:bg-[#FF4800] dark:hover:bg-[#FF4800] transition-colors duration-200 cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
                   >
                     <item.icon
                       size={24}
                       strokeWidth={1.8}
-                      className="text-[#FF4800] group-hover:text-white transition-colors duration-200"
-
+                      className="text-[#FF4800] group-hover/btn:text-white transition-colors duration-200"
                     />
                   </div>
 
@@ -1869,30 +1685,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                     {item.label}
                   </h3>
 
-                  {/* Description - SAME */}
-                  <p
-                    className="w-full text-[14px] sm:text-[15px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af]"
-                    style={{
-                      textAlign: 'justify',
-                      textJustify: 'inter-word',
-                      hyphens: 'auto',
-                    }}
-                  >
+                  {/* Description */}
+                  <p className="w-full text-[13.5px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3">
                     {item.desc}
                   </p>
-
-                  {/* Badge */}
-                  <span
-                    className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium whitespace-nowrap"
-                    style={{
-                      color: '#FF4800',
-                      background: 'rgba(255,72,0,0.05)',
-                      border: '1px solid rgba(255,72,0,0.15)',
-                    }}
-                  >
-                    ✓ Fast & Secure
-                  </span>
-
                 </motion.div>
               ))}
 
@@ -1902,7 +1698,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
       {/* ── Pricing Section ── */}
       <section id="pricing"
-        className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
+        className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-white dark:bg-[#0a0a14] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 grid-pattern" />
         <div className="-mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -1914,8 +1710,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           >
             <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>PRICING</p>
             <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
+              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              style={{ lineHeight: 1.05, letterSpacing: '-2px', color: '#000000' }}
             >
               Flexible Engagement Models
             </h2>
@@ -1993,199 +1789,333 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Honest Proof Strip ── */}
-      <motion.section
+      {/* ── Where We Stand / Technology Partners ── */}
+      <section
         id="section-partners"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, ease }}
-        className="py-14 md:py-24 bg-white dark:bg-[#0a0a14] relative border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
+        className="py-14 md:py-20 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
       >
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative text-center">
-          <p className="-mt-6 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
+          <p className="mb-4 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
-            className="font-normal heading-gradient mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
+            className="font-normal text-black mx-auto"
+            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word', color: '#000000' }}
           >
-            A Foundation for What's Next
+            A Foundation for What&apos;s Next
           </h2>
         </div>
-      </motion.section>
 
-      {/* ── Technology Partners ── */}
-      <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
-        <motion.div
-          className="flex w-max"
-          animate={{ x: [0, '-50%'] }}
-          transition={{
-            duration: 25,
-            ease: 'linear',
-            repeat: Infinity,
-          }}
-        >
-          {/* First set */}
-          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-            ].map((partner) => (
-              <motion.div
-                key={`first-${partner.name}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-                style={{
-                  background: isDark
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.75)',
-
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter:
-                    'blur(20px) saturate(1.8) brightness(1.02)',
-
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1.5px solid rgba(255,255,255,0.9)',
-
-                  // Shadow removed
-                  boxShadow: 'none',
-                }}
-              >
+        <div className="mx-auto w-full max-w-7xl overflow-hidden">
+          <motion.div
+            className="flex w-max items-center"
+            animate={{ x: [0, '-50%'] }}
+            transition={{
+              duration: 25,
+              ease: 'linear',
+              repeat: Infinity,
+            }}
+          >
+            {/* First set */}
+            <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
+              {[
+                {
+                  name: 'AWS',
+                  srcLight: '/logos/aws-light.png',
+                  srcDark: '/logos/aws-dark.png',
+                  width: 100,
+                  height: 60,
+                  className: 'h-[44px] md:h-[52px] w-auto object-contain',
+                },
+                {
+                  name: 'Google Cloud',
+                  srcLight: '/logos/gcp-light.png',
+                  srcDark: '/logos/gcp-dark.png',
+                  width: 288,
+                  height: 48,
+                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
+                },
+                {
+                  name: 'Docker',
+                  srcLight: '/logos/docker-light.png',
+                  srcDark: '/logos/docker-dark.png',
+                  width: 220,
+                  height: 52,
+                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
+                },
+                {
+                  name: 'Microsoft Azure',
+                  srcLight: '/logos/azure-light.png',
+                  srcDark: '/logos/azure-dark.png',
+                  width: 190,
+                  height: 52,
+                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
+                },
+{
+  name: "Vercel",
+  srcLight: "/logos/vercel-light.svg",
+  srcDark: "/logos/vercel-dark.svg",
+  width: 130,
+  height: 26,
+  className: "h-[22px] md:h-[26px] w-auto object-contain",
+  style: {
+    width: "auto",
+  },
+},
+                {
+                  name: 'PostgreSQL',
+                  srcLight: '/logos/postgresql-light.svg',
+                  srcDark: '/logos/postgresql-dark.svg',
+                  width: 65,
+                  height: 60,
+                  className: 'h-[48px] md:h-[56px] w-auto object-contain',
+                },
+                {
+                  name: 'Next.js',
+                  srcLight: '/logos/nextjs-light.svg',
+                  srcDark: '/logos/nextjs-dark.svg',
+                  width: 110,
+                  height: 34,
+                  className: 'h-[30px] md:h-[34px] w-auto object-contain',
+                  classNameLight: 'h-[42px] md:h-[48px] w-auto object-contain',
+                },
+              ].map((partner) => (
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-                  style={{ backgroundColor: partner.brandColor }}
-                />
-
-                {/* Colored Logo */}
-                <div className="relative h-12 w-[170px] mx-auto">
+                  key={`first-${partner.name}`}
+                  className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
+                >
                   <Image
-                    src={partner.src}
+                    src={partner.srcLight}
                     alt={partner.name}
-                    fill
-                    sizes="170px"
-                    className={`object-contain ${
-  partner.name === 'Vercel'
-    ? 'dark:invert scale-[0.72]'
-    : partner.name === 'Next.js'
-    ? 'dark:invert'
-    : 'brightness-[0.7] contrast-[1.4]'
-}`}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.classNameLight ?? partner.className} block dark:hidden`}
+                  />
+                  <Image
+                    src={partner.srcDark}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.className} hidden dark:block`}
                   />
                 </div>
+              ))}
+            </div>
 
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-                  {partner.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Duplicate set for seamless auto-scroll */}
-          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-            ].map((partner) => (
-              <motion.div
-                key={`second-${partner.name}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-                style={{
-                  background: isDark
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.75)',
-
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter:
-                    'blur(20px) saturate(1.8) brightness(1.02)',
-
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1.5px solid rgba(255,255,255,0.9)',
-
-                  // Shadow removed
-                  boxShadow: 'none',
-                }}
-              >
+            {/* Duplicate set for seamless auto-scroll */}
+            <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
+              {[
+                {
+                  name: 'AWS',
+                  srcLight: '/logos/aws-light.png',
+                  srcDark: '/logos/aws-dark.png',
+                  width: 100,
+                  height: 60,
+                  className: 'h-[44px] md:h-[52px] w-auto object-contain',
+                },
+                {
+                  name: 'Google Cloud',
+                  srcLight: '/logos/gcp-light.png',
+                  srcDark: '/logos/gcp-dark.png',
+                  width: 288,
+                  height: 48,
+                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
+                },
+                {
+                  name: 'Docker',
+                  srcLight: '/logos/docker-light.png',
+                  srcDark: '/logos/docker-dark.png',
+                  width: 220,
+                  height: 52,
+                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
+                },
+                {
+                  name: 'Microsoft Azure',
+                  srcLight: '/logos/azure-light.png',
+                  srcDark: '/logos/azure-dark.png',
+                  width: 190,
+                  height: 52,
+                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
+                },
+                {
+                  name: 'Vercel',
+                  srcLight: '/logos/vercel-light.svg',
+                  srcDark: '/logos/vercel-dark.svg',
+                  width: 130,
+                  height: 26,
+                  className: 'h-[22px] md:h-[26px] w-auto object-contain',
+                },
+                {
+                  name: 'PostgreSQL',
+                  srcLight: '/logos/postgresql-light.svg',
+                  srcDark: '/logos/postgresql-dark.svg',
+                  width: 65,
+                  height: 60,
+                  className: 'h-[48px] md:h-[56px] w-auto object-contain',
+                },
+                {
+                  name: 'Next.js',
+                  srcLight: '/logos/nextjs-light.svg',
+                  srcDark: '/logos/nextjs-dark.svg',
+                  width: 110,
+                  height: 34,
+                  className: 'h-[30px] md:h-[34px] w-auto object-contain',
+                  classNameLight: 'h-[42px] md:h-[48px] w-auto object-contain',
+                },
+              ].map((partner) => (
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-                  style={{ backgroundColor: partner.brandColor }}
-                />
-
-                <div className="relative h-12 w-[170px] mx-auto">
+                  key={`second-${partner.name}`}
+                  className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
+                >
                   <Image
-                    src={partner.src}
+                    src={partner.srcLight}
                     alt={partner.name}
-                    fill
-                    sizes="170px"
-                   className={`object-contain ${
-  partner.name === 'Vercel'
-    ? 'dark:invert scale-[0.72]'
-    : partner.name === 'Next.js'
-    ? 'dark:invert'
-    : 'brightness-[0.7] contrast-[1.4]'
-}`}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.classNameLight ?? partner.className} block dark:hidden`}
+                  />
+                  <Image
+                    src={partner.srcDark}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.className} hidden dark:block`}
                   />
                 </div>
-
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-                  {partner.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-      <div className="h-16 md:h-24" />
-
-      {/* ── Closing CTA ── */}
-      <section className="relative py-16 md:py-24 overflow-hidden" style={{ background: isDark ? '#12121e' : '#1a1a2e' }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,72,0,0.12) 0%, transparent 70%)' }} />
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }}>
-            <p className="-mt-10 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>GET STARTED</p>
-            <h2
-              className="text-white font-normal text-[clamp(1.75rem,5vw,3.75rem)] mb-6"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
-            >
-              Stop paying a monthly tax on manual work
-            </h2>
-            <p className="text-base sm:text-[17px] leading-[1.6] mb-10 max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              Book a 30 Minute strategy call. You&apos;ll walk away with a working hypothesis for what to automate first. If it&apos;s a fit, we send a proposal within 48 hours.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => onNavigate('contact')}
-                className="glow-hover w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg px-8 py-4 text-[15px] font-medium text-white shadow-lg shadow-orange-500/20"
-                style={{ background: '#FF4800' }}
-              >
-                Book a 30-min working call <ArrowRight className="h-4 w-4" />
-              </motion.button>
-              <button
-                onClick={() => onNavigate('services')}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg px-8 py-4 text-[15px] transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
-              >
-                See how we work
-              </button>
+              ))}
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── Capabilities (Why Straveda) ── */}
+      <section
+        id="section-capabilities"
+        className="relative overflow-hidden bg-white py-14 md:py-20 dark:bg-[#0a0a14]"
+      >
+        {/* Background */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
+          <div className="absolute right-[-80px] top-[120px] h-[280px] w-[280px] rounded-full bg-orange-100/40 blur-3xl dark:bg-orange-500/5" />
+        </div>
+
+        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+          {/* ── Heading ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, ease }}
+            className="mb-14 md:mb-20"
+          >
+            <SectionHeader
+              label="WHY STRAVEDA"
+              heading="Enterprise Grade Execution, Without the Complexity"
+            />
+          </motion.div>
+
+          {/* ── Timeline Items ── */}
+          <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-20">
+            {bentoItems.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{
+                  opacity: 0,
+                  y: 30,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: false,
+                  margin: '-60px',
+                }}
+                transition={{
+                  duration: 0.65,
+                  delay: index * 0.08,
+                  ease,
+                }}
+                style={{
+                  gridColumn:
+                    index === 4
+                      ? '2'
+                      : index === 5
+                        ? '3'
+                        : undefined,
+                }}
+                className="group relative"
+              >
+                {/* ── Number + Line ── */}
+                <div className="mb-6 flex items-center">
+                  {/* Number */}
+                  <motion.div
+                    whileHover={{
+                      scale: 1.08,
+                    }}
+                    transition={{
+                      duration: 0.2,
+                    }}
+                    className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
+                    style={{
+                      background: '#FF4800',
+                      color: '#ffffff',
+                    }}
+                  >
+                    {String(index + 1).padStart(2, '0')}
+                  </motion.div>
+
+                  {/* Horizontal line */}
+                  <div
+                    className="ml-3 h-px flex-1"
+                    style={{
+                      background: '#FF4800',
+                    }}
+                  />
+                </div>
+
+                {/* ── Content ── */}
+                <div className="pr-2">
+                  <h3
+                    className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]"
+                    style={{
+                      fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
+                      lineHeight: 1.35,
+                      letterSpacing: '-0.2px',
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p
+                    className="text-[13px] leading-[1.65] text-slate-500 dark:text-[#9ca3af]"
+                    style={{
+                      maxWidth: '290px',
+                      width: '100%',
+                      minHeight: '84',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                    }}
+                  >
+                    {item.description}
+                  </p>
+                </div>
+
+                {/* ── Small hover indicator ── */}
+                <motion.div
+                  className="absolute left-0 top-0 h-8 w-8 rounded-full border border-orange-500/30"
+                  initial={{
+                    scale: 1,
+                    opacity: 0,
+                  }}
+                  whileHover={{
+                    scale: 1.45,
+                    opacity: 1,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                  }}
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
