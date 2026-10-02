@@ -15,6 +15,9 @@ import {
   Globe,
   Plus,
   Users,
+  Zap,
+  Code,
+  Cpu,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
@@ -457,27 +460,6 @@ function TestimonialsCarousel() {
           : '#ffffff',
       }}
     >
-      {/* Background dots */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(circle, ${isDarkT
-            ? 'rgba(255,255,255,0.05)'
-            : 'rgba(0,0,0,0.04)'
-            } 1px, transparent 1px)`,
-          backgroundSize: '28px 28px',
-        }}
-      />
-
-      {/* Orange glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)',
-        }}
-      />
-
       {/* ================= HEADING ================= */}
       <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-6 md:mb-12">
         <div className="text-center">
@@ -897,68 +879,149 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <AnimatedHero onNavigate={onNavigate} />
       </div>
 
-      {/* ── Sandesa Section ── */}
-      <SandesaSection isDark={isDark} />
-
-      {/* ── What We Build ── */}
-      <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
-        <div className="-mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* ── Our Expertise / Services Section (2nd Section) ── */}
+      <section
+        id="section-services"
+        className="relative py-14 md:py-20 bg-white dark:bg-[#0a0a14] overflow-hidden"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, ease }}
-            className="mt-12 md:mt-16 "
+            transition={{ duration: 0.7, ease }}
+            className="mb-10 md:mb-14"
           >
-            <SectionHeader
-              label="WHAT WE BUILD"
-              heading={
-                <span className='block w-full whitespace-normal break-words'>
-                  Build Smarter Operate Better Grow Faster
-                </span>
-              }
-            />
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+              OUR Services
+            </p>
+             <h2 className="font-normal text-black text-center md:text-left text-[2.5rem]" style={{ color: '#000000' }}>
+               Enterprise Software & AI Automation Services
+              </h2>
+            <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 max-w-8xl leading-relaxed">
+              We build high performance infrastructure and intelligent automation systems designed for the next generation of enterprise growth.
+            </p>
           </motion.div>
 
-          <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: '-60px' }}
-  transition={{ duration: 0.8, delay: 0.2, ease }}
-  className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
->
-  {services
-    .filter(
-      (service) =>
-        !activeService || service.page === activeService
-    )
-    .map((service, i) => (
-      <motion.div
-        key={service.page}
-        initial={{
-          opacity: 0,
-          x: 100,
-        }}
-        animate={{
-          opacity: 1,
-          x: 0,
-        }}
-        transition={{
-          duration: 0.8,
-          delay: i * 2,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
-        <ServiceCard
-          service={service}
-          onNavigate={onNavigate}
-          isDark={isDark}
-        />
-      </motion.div>
-    ))}
-</motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: Zap,
+                badge: 'AUTOMATION',
+                title: 'AI & Business Automation',
+                description:
+                  'WhatsApp flows, email sequences, and AI agents that remove 30–60% of manual operations within the first 90 days.',
+                capabilities: [
+                  'WhatsApp Automation',
+                  'Email Sequences',
+                  'AI Support',
+                ],
+                route: 'automation',
+              },
+              {
+                icon: Code,
+                badge: 'SOFTWARE',
+                title: 'Custom Software & Systems',
+                description:
+                  'AI powered CRMs, real time dashboards, and internal tools built around your exact workflow—not rigid SaaS constraints.',
+                capabilities: [
+                  'AI Powered CRMs',
+                  'Operational Dashboards',
+                  'Customer Portals',
+                ],
+                route: 'custom-software',
+              },
+              {
+                icon: Cpu,
+                badge: 'STRATEGY',
+                title: 'AI Strategy & Integration',
+                description:
+                  'GPT class models, custom LLMs, and RAG systems integrated directly into your existing operations stack for measurable ROI.',
+                capabilities: [
+                  'AI Architecture',
+                  'LLM Fine Tuning',
+                  'RAG Systems',
+                ],
+                route: 'ai-strategy',
+              },
+              {
+                icon: Globe,
+                badge: 'DIGITAL',
+                title: 'Web Design & Experiences',
+                description:
+                  'High-performance Next.js sites, 3D interactive builds, and conversion funnels deployed to global edge infrastructure.',
+                capabilities: [
+                  'Next.js Performance',
+                  '3D & Interactive',
+                  'Conversion Funnels',
+                ],
+                route: 'web-development',
+              },
+            ].map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{
+                  duration: 0.55,
+                  delay: i * 0.08,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
+                onClick={() => onNavigate(card.route)}
+                className="group relative flex flex-col justify-between h-full cursor-pointer select-none bg-white border border-[#eeeeee] shadow-[0_4px_20px_rgba(0,0,0,0.05),0_1px_3px_rgba(0,0,0,0.04)] dark:bg-[#1a1a1a] dark:border-white/[0.06] dark:shadow-none hover:border-[#FF4800]/30 transition-all duration-200 rounded-2xl p-6 sm:p-7"
+              >
+                <div>
+                  {/* Squircle icon container */}
+                  <div
+                    className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl"
+                    style={{
+                      background: 'rgba(255, 72, 0, 0.08)',
+                      border: '1px solid rgba(255, 72, 0, 0.12)',
+                    }}
+                  >
+                    <card.icon size={22} className="text-[#FF4800]" strokeWidth={1.8} />
+                  </div>
+
+                  {/* Badge */}
+                  <span className="mb-2.5 block text-[10px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
+                    {card.badge}
+                  </span>
+
+                  {/* Title */}
+                  <h3 className="mb-3 text-xl font-bold leading-tight tracking-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+                    {card.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="mb-6 text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
+                    {card.description}
+                  </p>
+
+                  {/* Capabilities bullet list */}
+                  <ul className="space-y-2.5">
+                    {card.capabilities.map((cap, capIdx) => (
+                      <li
+                        key={capIdx}
+                        className="flex items-center gap-2 text-[12px] text-[#6b7280] dark:text-[#9ca3af]"
+                      >
+                        <span
+                          className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#FF4800]"
+                          aria-hidden="true"
+                        />
+                        {cap}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* ── Sandesa Section ── */}
+      <SandesaSection isDark={isDark} />
 
       {/* ── About / Stats ── */}
 
@@ -966,8 +1029,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         id="section-about"
         className="relative py-8 md:py-14 bg-white dark:bg-[#0a0a14]"
       >
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row lg:items-start relative">
 
           {/* Stats column */}
@@ -1586,8 +1647,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="relative py-16 md:py-28"
         style={{ background: isDark ? '#12121e' : '#ffffff' }}
       >
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
 
           <motion.div
@@ -1697,10 +1756,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
       {/* ── Pricing Section ── */}
-      <section id="pricing"
-        className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-white dark:bg-[#0a0a14] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="-mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <section
+        id="pricing"
+        className="relative py-16 md:py-24 bg-white dark:bg-[#0a0a14] overflow-hidden"
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1708,22 +1768,55 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8, ease }}
             className="text-center mb-10 md:mb-16"
           >
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>PRICING</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
+              PRICING
+            </p>
             <h2
-              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px', color: '#000000' }}
+              className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
               Flexible Engagement Models
             </h2>
-            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] max-w-xl mx-auto">
+            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">
               Tailored systems built around your business goals not predefined packages.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
             {[
-              { tier: 'Focused Automation Builds', coreValue: 'Streamline key workflows and reduce manual effort.', items: ['One custom automation workflow', 'Seamless integration with your tools', 'Documentation & handover'], timeline: '2-3 weeks', cta: 'Start here', highlight: false },
-              { tier: 'Custom Software & AI Systems', coreValue: 'Build scalable, business specific systems.', items: ['End To End custom development', 'AI workflow integration', 'Scalable, ownership ready code'], timeline: 'Based on scope', cta: 'Book a call', highlight: true },
-              { tier: 'Ongoing Optimization & Scale', coreValue: 'Improve, upgrade, and scale your systems.', items: ['Performance monitoring', 'Feature enhancements', 'Continuous optimization'], timeline: 'Monthly', cta: 'Book a call', highlight: false },
+              {
+                tier: 'Focused Automation Builds',
+                coreValue: 'Streamline key workflows and reduce manual effort.',
+                items: [
+                  'One custom automation workflow',
+                  'Seamless integration with your tools',
+                  'Documentation & handover',
+                ],
+                timeline: '2-3 weeks',
+                highlight: false,
+              },
+              {
+                tier: 'Custom Software & AI Systems',
+                coreValue: 'Build scalable, business specific systems.',
+                items: [
+                  'End To End custom development',
+                  'AI workflow integration',
+                  'Scalable, ownership ready code',
+                ],
+                timeline: 'Based on scope',
+                highlight: true,
+              },
+              {
+                tier: 'Ongoing Optimization & Scale',
+                coreValue: 'Improve, upgrade, and scale your systems.',
+                items: [
+                  'Performance monitoring',
+                  'Feature enhancements',
+                  'Continuous optimization',
+                ],
+                timeline: 'Monthly',
+                highlight: false,
+              },
             ].map((plan) => (
               <motion.div
                 key={plan.tier}
@@ -1731,61 +1824,82 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.7, ease }}
-                className={`rounded-xl p-5 sm:p-6 md:p-8 border flex flex-col ${plan.highlight ? 'border-[#FF4800]/40' : 'border-black/[0.06] dark:border-white/[0.08]'}`}
-                style={{
-                  background: plan.highlight
-                    ? isDark ? 'rgba(255,72,0,0.08)' : 'rgba(255,72,0,0.04)'
-                    : isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.68)',
-                  backdropFilter: 'blur(18px) saturate(1.6)',
-                  WebkitBackdropFilter: 'blur(18px) saturate(1.6)',
-                  boxShadow: plan.highlight
-                    ? '0 8px 32px rgba(255,72,0,0.12), inset 0 1px 0 rgba(255,72,0,0.1)'
-                    : '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
-                }}
+                className={`rounded-2xl p-6 sm:p-8 flex flex-col justify-between bg-white dark:bg-[#12121a] transition-shadow duration-200 ${
+                  plan.highlight
+                    ? 'border-2 border-black dark:border-white shadow-xl relative'
+                    : 'border border-neutral-200 dark:border-neutral-800 shadow-sm'
+                }`}
               >
-                <div className="h-6 mb-4 flex items-start">
-                  {plan.highlight && (
-                    <span className="inline-block rounded-full px-3 py-1 text-[10px] font-medium text-white" style={{ background: '#FF4800' }}>
-                      Most Popular
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] font-semibold uppercase tracking-widest mb-2 text-[#FF4800]">{plan.tier}</p>
-                <p className="text-[15px] font-medium leading-[1.5] mb-5 text-[#1a1a2e] dark:text-[#f0f0f5] min-h-[3rem]">{plan.coreValue}</p>
-                <div className="border-t border-black/[0.06] dark:border-white/[0.08] pt-4 mb-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-3 text-[#6b7280] dark:text-[#9ca3af]">Deliverables</p>
-                  <ul className="flex flex-col gap-2 flex-1">
-                    {plan.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-[13px] text-[#6b7280] dark:text-[#9ca3af]">
-                        <span className="mt-1 flex-shrink-0 text-[10px]" style={{ color: '#FF4800' }}>●</span>
-                        {item}
+                <div>
+                  {/* Top Badge Slot (Uniform height so all 3 card headings start at identical horizontal line) */}
+                  <div className="h-7 mb-3 flex items-center">
+                    {plan.highlight && (
+                      <span className="inline-flex items-center rounded-full bg-orange-500 px-3.5 py-1 text-xs font-semibold text-neutral-900 shrink-0">
+                        Most Popular
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Heading Title (Uniform min-height so descriptions & dividers align horizontally) */}
+                  <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white leading-tight min-h-[3.5rem] flex items-start">
+                    {plan.tier}
+                  </h3>
+
+                  {/* Description (Uniform min-height so divider line aligns horizontally) */}
+                  <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed min-h-[44px] flex items-start">
+                    {plan.coreValue}
+                  </p>
+
+                  {/* Horizontal Line & Features Heading (Aligned in exact same horizontal line across all cards) */}
+                  <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
+                    <p className="text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+                      Features
+                    </p>
+                    <ul className="space-y-3.5">
+                      {plan.items.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300"
+                        >
+                          <span className="text-neutral-900 dark:text-white font-bold leading-none select-none text-base">
+                            •
+                          </span>
+                          <span className="leading-snug">{item}</span>
+                        </li>
+                      ))}
+                      {/* Timeline directly under 3 points  */}
+                      <li className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300">
+                        <span className="leading-snug">
+                          <strong className="font-semibold text-neutral-900 dark:text-white">
+                            Timeline:
+                          </strong>{' '}
+                          {plan.timeline}
+                        </span>
                       </li>
-                    ))}
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 mb-6 mt-auto">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#9ca3af]">Timeline:</span>
-                  <span className="text-[13px] text-[#6b7280] dark:text-[#9ca3af]">{plan.timeline}</span>
+
+                {/* Button placed directly after points and timeline */}
+                <div className="mt-8 pt-2">
+                 <button
+  onClick={() => onNavigate('contact')}
+  className={`w-full rounded-full py-3.5 px-6 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+    plan.highlight
+      ? 'bg-black text-white hover:bg-neutral-800 shadow-sm dark:bg-white dark:text-black dark:hover:bg-neutral-200'
+      : 'border border-neutral-300 bg-white text-neutral-900 hover:bg-black hover:text-white hover:border-black dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-black'
+  }`}
+>
+  {plan.tier === 'Focused Automation Builds'
+    ? 'Start Here'
+    : plan.tier === 'Ongoing Optimization & Scale'
+    ? 'Book a Call'
+    : 'Get Started'}
+</button>
                 </div>
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="w-full rounded-lg py-3 text-[14px] font-medium transition-all duration-200"
-                  style={{
-                    background: plan.highlight ? '#FF4800' : 'transparent',
-                    color: plan.highlight ? '#ffffff' : '#FF4800',
-                    border: plan.highlight ? 'none' : '1px solid rgba(255,72,0,0.3)',
-                  }}
-                  onMouseEnter={(e) => { if (!plan.highlight) e.currentTarget.style.background = 'rgba(255,72,0,0.06)'; }}
-                  onMouseLeave={(e) => { if (!plan.highlight) e.currentTarget.style.background = 'transparent'; }}
-                >
-                  {plan.cta}
-                </button>
               </motion.div>
             ))}
           </div>
-          <p className="mt-8 text-center text-[13px] text-[#9ca3af]">
-            All engagements include full source code ownership and zero vendor lock in. Fixed price quote after a 30-min discovery call.
-          </p>
         </div>
       </section>
 
@@ -1986,138 +2100,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Capabilities (Why Straveda) ── */}
-      <section
-        id="section-capabilities"
-        className="relative overflow-hidden bg-white py-14 md:py-20 dark:bg-[#0a0a14]"
-      >
-        {/* Background */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
-          <div className="absolute right-[-80px] top-[120px] h-[280px] w-[280px] rounded-full bg-orange-100/40 blur-3xl dark:bg-orange-500/5" />
-        </div>
 
-        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-          {/* ── Heading ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease }}
-            className="mb-14 md:mb-20"
-          >
-            <SectionHeader
-              label="WHY STRAVEDA"
-              heading="Enterprise Grade Execution, Without the Complexity"
-            />
-          </motion.div>
-
-          {/* ── Timeline Items ── */}
-          <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-20">
-            {bentoItems.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: false,
-                  margin: '-60px',
-                }}
-                transition={{
-                  duration: 0.65,
-                  delay: index * 0.08,
-                  ease,
-                }}
-                style={{
-                  gridColumn:
-                    index === 4
-                      ? '2'
-                      : index === 5
-                        ? '3'
-                        : undefined,
-                }}
-                className="group relative"
-              >
-                {/* ── Number + Line ── */}
-                <div className="mb-6 flex items-center">
-                  {/* Number */}
-                  <motion.div
-                    whileHover={{
-                      scale: 1.08,
-                    }}
-                    transition={{
-                      duration: 0.2,
-                    }}
-                    className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
-                    style={{
-                      background: '#FF4800',
-                      color: '#ffffff',
-                    }}
-                  >
-                    {String(index + 1).padStart(2, '0')}
-                  </motion.div>
-
-                  {/* Horizontal line */}
-                  <div
-                    className="ml-3 h-px flex-1"
-                    style={{
-                      background: '#FF4800',
-                    }}
-                  />
-                </div>
-
-                {/* ── Content ── */}
-                <div className="pr-2">
-                  <h3
-                    className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]"
-                    style={{
-                      fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
-                      lineHeight: 1.35,
-                      letterSpacing: '-0.2px',
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-
-                  <p
-                    className="text-[13px] leading-[1.65] text-slate-500 dark:text-[#9ca3af]"
-                    style={{
-                      maxWidth: '290px',
-                      width: '100%',
-                      minHeight: '84',
-                      textAlign: 'justify',
-                      textJustify: 'inter-word',
-                    }}
-                  >
-                    {item.description}
-                  </p>
-                </div>
-
-                {/* ── Small hover indicator ── */}
-                <motion.div
-                  className="absolute left-0 top-0 h-8 w-8 rounded-full border border-orange-500/30"
-                  initial={{
-                    scale: 1,
-                    opacity: 0,
-                  }}
-                  whileHover={{
-                    scale: 1.45,
-                    opacity: 1,
-                  }}
-                  transition={{
-                    duration: 0.3,
-                  }}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <FAQSection />
     </div>
