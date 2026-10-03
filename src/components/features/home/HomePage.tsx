@@ -15,9 +15,13 @@ import {
   Globe,
   Plus,
   Users,
+  Zap,
+  Code,
+  Cpu,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
+import InteractiveServices from '@/components/features/home/InteractiveServices';
 import SandesaSection from '@/components/features/home/SandesaSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 
@@ -450,34 +454,13 @@ function TestimonialsCarousel() {
 
   return (
     <section
-      className="relative w-full overflow-hidden py-14 md:py-20 bg-white"
+      className="hidden w-full overflow-hidden py-14 md:py-20 bg-white"
       style={{
         background: isDarkT
           ? '#0a0a14'
           : '#ffffff',
       }}
     >
-      {/* Background dots */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(circle, ${isDarkT
-            ? 'rgba(255,255,255,0.05)'
-            : 'rgba(0,0,0,0.04)'
-            } 1px, transparent 1px)`,
-          backgroundSize: '28px 28px',
-        }}
-      />
-
-      {/* Orange glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)',
-        }}
-      />
-
       {/* ================= HEADING ================= */}
       <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-6 md:mb-12">
         <div className="text-center">
@@ -527,13 +510,11 @@ function TestimonialsCarousel() {
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 const faqs = [
-  { question: 'What services does Straveda Tech offer?', answer: 'We provide AI automation, custom software development, cloud & DevOps, cybersecurity, and data analytics solutions built to reduce manual work and scale your operations.' },
+  { question: 'What services does Straveda Tech offer?', answer: 'We provide AI automation, custom software development, cloud & DevOps, cybersecurity, and data analytics solutions built to reduce manual work as well We offer ongoing maintenance, optimization, and upgrades to keep your system aligned with business growth.' },
   { question: 'How can AI automation benefit my business?', answer: 'AI automation reduces repetitive tasks, lowers costs, and improves decision making. Common use cases include lead qualification, customer support, and workflow automation.' },
   { question: 'Do you build custom solutions and integrate with existing tools?', answer: 'We build fully custom solutions tailored to your workflows, goals, and scalability needs — ensuring better performance and long term ROI.' },
-  { question: 'How long does a project take?', answer: 'Small systems: 1 to 2 weeks. Medium projects: 3 to 5 weeks. Large solutions: 6 to 9+ weeks. We follow a structured process from planning to deployment.' },
+  { question: 'How long does a project take?', answer: 'Small systems: 1 to 2 weeks. Medium projects: 3 to 5 weeks. Large solutions: 6 to 9+ weeks. We follow a structured process from planning to deployment.Share your requirements → Get a tailored strategy → Start with a clear execution roadmap. Book a 30 Min call and we\'ll send a proposal within 48 hours.' },
   { question: 'How secure are your solutions?', answer: 'We follow industry standards like GDPR, ISO, SOC2, and HIPAA to ensure strong data protection and system security.' },
-  { question: 'Do you provide post launch support?', answer: 'Yes. We offer ongoing maintenance, optimization, and upgrades to keep your system aligned with business growth.' },
-  { question: 'How do I get started?', answer: 'Share your requirements → Get a tailored strategy → Start with a clear execution roadmap. Book a 30 Min call and we\'ll send a proposal within 48 hours.' },
 ];
 
 function FAQSection() {
@@ -897,139 +878,187 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <AnimatedHero onNavigate={onNavigate} />
       </div>
 
+      {/* ── Our Expertise / Services Section (2nd Section) ── */}
+      <InteractiveServices isDark={isDark} onNavigate={onNavigate} />
+
       {/* ── Sandesa Section ── */}
       <SandesaSection isDark={isDark} />
-
-      {/* ── What We Build ── */}
-      <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
-        <div className="-mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, ease }}
-            className="mt-12 md:mt-16 "
-          >
-            <SectionHeader
-              label="WHAT WE BUILD"
-              heading={
-                <span className='block w-full whitespace-normal break-words'>
-                  Build Smarter Operate Better Grow Faster
-                </span>
-              }
-            />
-          </motion.div>
-
-          <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: '-60px' }}
-  transition={{ duration: 0.8, delay: 0.2, ease }}
-  className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+{/* ── About / Stats ── */}
+<section
+  id="section-about"
+  className="relative bg-white py-12 md:py-16"
 >
-  {services
-    .filter(
-      (service) =>
-        !activeService || service.page === activeService
-    )
-    .map((service, i) => (
+  <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+
+    <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
+
+      {/* ───────── LEFT SIDE ───────── */}
       <motion.div
-        key={service.page}
-        initial={{
-          opacity: 0,
-          x: 100,
-        }}
-        animate={{
-          opacity: 1,
-          x: 0,
-        }}
-        transition={{
-          duration: 0.8,
-          delay: i * 2,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+        initial={{ opacity: 0, x: -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease }}
+        className="flex h-full flex-col"
       >
-        <ServiceCard
-          service={service}
-          onNavigate={onNavigate}
-          isDark={isDark}
-        />
+        {/* Small Label */}
+        <p
+          className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em]"
+          style={{ color: "#FF4800" }}
+        >
+          WHO WE ARE
+        </p>
+
+        {/* Heading */}
+        <h2
+          className="text-[clamp(2.2rem,4.5vw,4rem)] font-normal text-black"
+          style={{
+            lineHeight: 1.05,
+            letterSpacing: "-2.5px",
+          }}
+        >
+          We Get It Because
+          <br />
+          We&apos;ve Lived It
+        </h2>
+
+        {/* Paragraph */}
+        <p className="mt-8 max-w-[520px] text-[14px] leading-[1.65] text-[#6b7280] sm:text-[15px] lg:mt-[50px]">
+          Every growing company hits the same wall: scattered tools,
+          disconnected spreadsheets, and wasted manual hours. You don&apos;t
+          need another vendor or enterprise bloat you need a partner who
+          truly understands the problem. At Straveda, we engineer unified,
+          AI-powered systems that replace operational chaos with structure,
+          clarity, and real efficiency.
+        </p>
       </motion.div>
-    ))}
-</motion.div>
-        </div>
-      </section>
 
-      {/* ── About / Stats ── */}
-
-      <section
-        id="section-about"
-        className="relative py-8 md:py-14 bg-white dark:bg-[#0a0a14]"
+      {/* ───────── RIGHT SIDE — STATS ───────── */}
+      <motion.div
+        ref={statsRef}
+        initial={{ opacity: 0, x: 40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease }}
+        className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:gap-x-16"
       >
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row lg:items-start relative">
 
-          {/* Stats column */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col lg:w-[40%]"
+        {/* ───── STAT 1 ───── */}
+        <div className="flex flex-col">
+          <p
+            className="font-bold text-black"
+            style={{
+              fontSize: "clamp(2.4rem, 4vw, 3.5rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.05em",
+            }}
           >
-            {/* On mobile: centered stats block; on desktop: left-bordered */}
-            <div
-              ref={statsRef}
-              className="grid grid-cols-1 gap-6 md:gap-8 border-l-[3px] border-[#FF4800] pl-6">
-              {[
-                { val: `${count55}%`, label: 'Manual Work Reduced' },
-                { val: `${count3}–${count5}x`, label: 'Operational Efficiency' },
-                { val: `${count100}%`, label: 'Code Ownership' },
-                { val: 'End-to-End', label: 'Strategy → Build → Deploy' },
-              ].map(s => (
-                <div key={s.label} className="text-center md:text-left">
-                  <p
-                    className="text-[#1a1a2e] dark:text-[#f0f0f5]"
-                    style={{ fontSize: 'clamp(2rem, 5.5vw, 4rem)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em' }}
-                  >
-                    {s.label === 'Manual Work Reduced'
-                      ? `${count55}%`
-                      : s.label === 'Operational Efficiency'
-                        ? `3–${count5}x`
-                        : s.label === 'Code Ownership'
-                          ? `${count100}%`
-                          : s.val}
-                  </p>
-                  <p className="mt-1.5 text-[13px] sm:text-[14px] font-normal tracking-wide" style={{ color: '#6b7280', letterSpacing: '0.01em' }}>
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+            {count55}%
+          </p>
 
-          {/* Text column */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col lg:w-[50%]"
+          <span
+            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
+            style={{
+              backgroundColor: "#F1F1F1",
+              color: "#555555",
+            }}
           >
-            <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
-            <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
-              <h2 className="font-normal text-black text-center md:text-left text-[2.5rem]" style={{ color: '#000000' }}>
-                We Get It  Because We've Lived It
-              </h2>
-            </div>
-            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
-              Every growing company hits the same wall: scattered tools, disconnected spreadsheets, and wasted manual hours. You don't need another vendor or enterprise bloat—you need a partner who truly understands the problem. At Straveda, we engineer unified, AI-powered systems that replace operational chaos with structure, clarity, and real efficiency.
-            </p>
-          </motion.div>
+            Manual Work Reduced
+          </span>
+
+          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+            Reduce repetitive work and improve everyday operations.
+          </p>
         </div>
-      </section>
 
+        {/* ───── STAT 2 ───── */}
+        <div className="flex flex-col">
+          <p
+            className="font-bold text-black"
+            style={{
+              fontSize: "clamp(2.4rem, 4vw, 3.5rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            3–{count5}x
+          </p>
+
+          <span
+            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
+            style={{
+              backgroundColor: "#F1F1F1",
+              color: "#555555",
+            }}
+          >
+            Operational Efficiency
+          </span>
+
+          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+            Build faster workflows with connected systems.
+          </p>
+        </div>
+
+        {/* ───── STAT 3 ───── */}
+        <div className="flex flex-col">
+          <p
+            className="font-bold text-black"
+            style={{
+              fontSize: "clamp(2.4rem, 4vw, 3.5rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            {count100}%
+          </p>
+
+          <span
+            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
+            style={{
+              backgroundColor: "#F1F1F1",
+              color: "#555555",
+            }}
+          >
+            Code Ownership
+          </span>
+
+          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+            Scalable solutions with complete ownership of your codebase.
+          </p>
+        </div>
+
+        {/* ───── STAT 4 ───── */}
+        <div className="flex flex-col">
+          <p
+            className="whitespace-nowrap font-bold text-black"
+            style={{
+              fontSize: "clamp(2rem, 3.5vw, 3.5rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            End-to-End
+          </p>
+
+          <span
+            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
+            style={{
+              backgroundColor: "#F1F1F1",
+              color: "#555555",
+            }}
+          >
+            Strategy → Build → Deploy
+          </span>
+
+          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+            From strategy and development to deployment and optimization.
+          </p>
+        </div>
+
+      </motion.div>
+
+    </div>
+  </div>
+</section>
       <TestimonialsCarousel />
 
       {/* ── Client People / Connection Section ── */}
@@ -1450,144 +1479,158 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
         </div>
       </section>
-      {/* ── Problem Section ── */}
-      <section className="relative py-14 md:py-22 bg-white dark:bg-[#0a0a14] overflow-hidden">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+   {/* ── Problem Section ── */}
+<section className="relative py-14 md:py-22 bg-white dark:bg-[#0a0a14] overflow-hidden">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+
+    {/* Heading */}
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, ease }}
+      className="text-left mb-12 md:mb-16"
+    >
+      <p
+        className="mb-4 text-[11px] font-medium uppercase tracking-widest"
+        style={{ color: "#FF4800" }}
+      >
+        THE REAL PROBLEM
+      </p>
+
+      <h2
+        className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] whitespace-nowrap"
+        style={{
+          lineHeight: 1.05,
+          letterSpacing: "-2px",
+        }}
+      >
+        You&apos;re not short on software
+        <span className="mx-3">·</span>
+        You&apos;re drowning in it
+      </h2>
+    </motion.div>
+
+
+    {/* Cards */}
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{
+        duration: 0.8,
+        delay: 0.1,
+        ease,
+      }}
+      className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 text-center"
+    >
+
+      {[
+        {
+          num: "01",
+          heading: "The Tool Tax",
+          body:
+            "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
+        },
+        {
+          num: "02",
+          heading: "The Integration Debt",
+          body:
+            'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
+        },
+        {
+          num: "03",
+          heading: "The Visibility Gap",
+          body:
+            "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
+        },
+        {
+          num: "04",
+          heading: "The Process Drag",
+          body:
+            "Manual approvals, repetitive data entry, and scattered workflows slow your team down. Simple tasks take longer than they should.",
+        },
+        {
+          num: "05",
+          heading: "The Growth Barrier",
+          body:
+            "As your business grows, disconnected systems become harder to manage. More people, more tools, and more data create even more complexity.",
+        },
+      ].map((item) => (
+        <motion.div
+          key={item.num}
+          initial="rest"
+          whileHover="hover"
+          className="group flex flex-col items-center cursor-pointer"
+        >
+
+          {/* NUMBER AREA */}
+          <div className="relative h-[100px] sm:h-[110px] md:h-[118px] w-full flex items-end justify-center overflow-hidden">
+
+            <motion.div
+              variants={{
+                rest: {
+                  y: 20,
+                  opacity: 1,
+                  scale: 0.96,
+                  color: isDark
+                    ? "rgba(255,255,255,0.4)"
+                    : "#CBD5E1",
+                },
+                hover: {
+                  y: 0,
+                  opacity: 1,
+                  scale: 1,
+                  color: "#FF4800",
+                },
+              }}
+              transition={{
+                duration: 0.45,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+                problem-number-fade
+                absolute
+                bottom-2
+                text-[78px]
+                sm:text-[84px]
+                md:text-[90px]
+                lg:text-[96px]
+                font-extrabold
+                tracking-[-0.07em]
+                leading-[0.72]
+                select-none
+              "
+            >
+              {item.num}
+            </motion.div>
+          </div>
+
 
           {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease }}
-            className="text-center mb-12 md:mb-16"
-          >
-            <p
-              className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-              style={{ color: "#FF4800" }}
-            >
-              THE REAL PROBLEM
-            </p>
+          <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+            {item.heading}
+          </h3>
 
-            <h2
-              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{
-                lineHeight: 1.05,
-                letterSpacing: "-2px",
-                color: "#000000",
-              }}
-            >
-              You&apos;re not short on software
-              <br />
-              You&apos;re drowning in it
-            </h2>
 
-            <p className="mt-5 text-base sm:text-[17px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto text-center">
-              Too many tools and disconnected processes create unnecessary complexity. We simplify your workflow by bringing the right systems together in one practical solution.
-            </p>
-          </motion.div>
+          {/* Description — 3 lines */}
+          <p className="mt-2 max-w-[320px] h-[72px] text-[16px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] line-clamp-3 overflow-hidden">
+            {item.body}
+          </p>
 
-          {/* Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{
-              duration: 0.8,
-              delay: 0.1,
-              ease,
-            }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 lg:gap-10 text-center"
-          >
-            {[
-              {
-                num: "01",
-                heading: "The Tool Tax",
-                body:
-                  "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
-              },
-              {
-                num: "02",
-                heading: "The Integration Debt",
-                body:
-                  'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
-              },
-              {
-                num: "03",
-                heading: "The Visibility Gap",
-                body:
-                  "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
-              },
-            ].map((item) => (
-              <motion.div
-                key={item.num}
-                initial="rest"
-                whileHover="hover"
-                className="group flex flex-col items-center cursor-pointer"
-              >
+        </motion.div>
+      ))}
+    </motion.div>
 
-                {/* NUMBER AREA */}
-                <div className="relative h-[96px] sm:h-[100px] md:h-[108px] w-full flex items-end justify-center overflow-hidden">
+  </div>
+</section>
 
-                  <motion.div
-                    variants={{
-                      rest: {
-                        y: 20,
-                        opacity: 1,
-                        scale: 0.96,
-                        color: isDark ? "rgba(255,255,255,0.4)" : "#CBD5E1",
-                      },
-                      hover: {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        color: "#FF4800",
-                      },
-                    }}
-                    transition={{
-                      duration: 0.45,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="
-    problem-number-fade
-    absolute
-    bottom-2
-    text-[78px]
-    sm:text-[84px]
-    md:text-[90px]
-    lg:text-[96px]
-    font-semibold
-    tracking-[-0.07em]
-    leading-[0.72]
-    select-none
-  "
-                  >
-                    {item.num}
-                  </motion.div>
-                </div>
-
-                {/* Heading */}
-                <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
-                  {item.heading}
-                </h3>
-
-                {/* Description */}
-                <p className="mt-2 max-w-[320px] text-[14px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af]">
-                  {item.body}
-                </p>
-
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
       {/* ── Process Section ── */}
       <section
         className="relative py-16 md:py-28"
         style={{ background: isDark ? '#12121e' : '#ffffff' }}
       >
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
 
           <motion.div
@@ -1686,7 +1729,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   </h3>
 
                   {/* Description */}
-                  <p className="w-full text-[13.5px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3">
+                  <p className="w-full text-[16px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -1697,10 +1740,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
       {/* ── Pricing Section ── */}
-      <section id="pricing"
-        className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-white dark:bg-[#0a0a14] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="-mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <section
+        id="pricing"
+        className="relative py-16 md:py-24 bg-white dark:bg-[#0a0a14] overflow-hidden"
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1708,22 +1752,55 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.8, ease }}
             className="text-center mb-10 md:mb-16"
           >
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>PRICING</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
+              PRICING
+            </p>
             <h2
-              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px', color: '#000000' }}
+              className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
               Flexible Engagement Models
             </h2>
-            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] max-w-xl mx-auto">
+            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">
               Tailored systems built around your business goals not predefined packages.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
             {[
-              { tier: 'Focused Automation Builds', coreValue: 'Streamline key workflows and reduce manual effort.', items: ['One custom automation workflow', 'Seamless integration with your tools', 'Documentation & handover'], timeline: '2-3 weeks', cta: 'Start here', highlight: false },
-              { tier: 'Custom Software & AI Systems', coreValue: 'Build scalable, business specific systems.', items: ['End To End custom development', 'AI workflow integration', 'Scalable, ownership ready code'], timeline: 'Based on scope', cta: 'Book a call', highlight: true },
-              { tier: 'Ongoing Optimization & Scale', coreValue: 'Improve, upgrade, and scale your systems.', items: ['Performance monitoring', 'Feature enhancements', 'Continuous optimization'], timeline: 'Monthly', cta: 'Book a call', highlight: false },
+              {
+                tier: 'Focused Automation Builds',
+                coreValue: 'Streamline key workflows and reduce manual effort.',
+                items: [
+                  'One custom automation workflow',
+                  'Seamless integration with your tools',
+                  'Documentation & handover',
+                ],
+                timeline: '2-3 weeks',
+                highlight: false,
+              },
+              {
+                tier: 'Custom Software & AI Systems',
+                coreValue: 'Build scalable, business specific systems.',
+                items: [
+                  'End To End custom development',
+                  'AI workflow integration',
+                  'Scalable, ownership ready code',
+                ],
+                timeline: 'Based on scope',
+                highlight: true,
+              },
+              {
+                tier: 'Ongoing Optimization & Scale',
+                coreValue: 'Improve, upgrade, and scale your systems.',
+                items: [
+                  'Performance monitoring',
+                  'Feature enhancements',
+                  'Continuous optimization',
+                ],
+                timeline: 'Monthly',
+                highlight: false,
+              },
             ].map((plan) => (
               <motion.div
                 key={plan.tier}
@@ -1731,61 +1808,82 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.7, ease }}
-                className={`rounded-xl p-5 sm:p-6 md:p-8 border flex flex-col ${plan.highlight ? 'border-[#FF4800]/40' : 'border-black/[0.06] dark:border-white/[0.08]'}`}
-                style={{
-                  background: plan.highlight
-                    ? isDark ? 'rgba(255,72,0,0.08)' : 'rgba(255,72,0,0.04)'
-                    : isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.68)',
-                  backdropFilter: 'blur(18px) saturate(1.6)',
-                  WebkitBackdropFilter: 'blur(18px) saturate(1.6)',
-                  boxShadow: plan.highlight
-                    ? '0 8px 32px rgba(255,72,0,0.12), inset 0 1px 0 rgba(255,72,0,0.1)'
-                    : '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
-                }}
+                className={`rounded-2xl p-6 sm:p-8 flex flex-col justify-between bg-white dark:bg-[#12121a] transition-shadow duration-200 ${
+                  plan.highlight
+                    ? 'border-2 border-black dark:border-white shadow-xl relative'
+                    : 'border border-neutral-200 dark:border-neutral-800 shadow-sm'
+                }`}
               >
-                <div className="h-6 mb-4 flex items-start">
-                  {plan.highlight && (
-                    <span className="inline-block rounded-full px-3 py-1 text-[10px] font-medium text-white" style={{ background: '#FF4800' }}>
-                      Most Popular
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] font-semibold uppercase tracking-widest mb-2 text-[#FF4800]">{plan.tier}</p>
-                <p className="text-[15px] font-medium leading-[1.5] mb-5 text-[#1a1a2e] dark:text-[#f0f0f5] min-h-[3rem]">{plan.coreValue}</p>
-                <div className="border-t border-black/[0.06] dark:border-white/[0.08] pt-4 mb-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-3 text-[#6b7280] dark:text-[#9ca3af]">Deliverables</p>
-                  <ul className="flex flex-col gap-2 flex-1">
-                    {plan.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-[13px] text-[#6b7280] dark:text-[#9ca3af]">
-                        <span className="mt-1 flex-shrink-0 text-[10px]" style={{ color: '#FF4800' }}>●</span>
-                        {item}
+                <div>
+                  {/* Top Badge Slot (Uniform height so all 3 card headings start at identical horizontal line) */}
+                  <div className="h-7 mb-3 flex items-center">
+                    {plan.highlight && (
+                      <span className="inline-flex items-center rounded-full bg-orange-500 px-3.5 py-1 text-xs font-semibold text-neutral-900 shrink-0">
+                        Most Popular
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Heading Title (Uniform min-height so descriptions & dividers align horizontally) */}
+                  <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white leading-tight min-h-[3.5rem] flex items-start">
+                    {plan.tier}
+                  </h3>
+
+                  {/* Description (Uniform min-height so divider line aligns horizontally) */}
+                  <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed min-h-[44px] flex items-start">
+                    {plan.coreValue}
+                  </p>
+
+                  {/* Horizontal Line & Features Heading (Aligned in exact same horizontal line across all cards) */}
+                  <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
+                    <p className="text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+                      Features
+                    </p>
+                    <ul className="space-y-3.5">
+                      {plan.items.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300"
+                        >
+                          <span className="text-neutral-900 dark:text-white font-bold leading-none select-none text-base">
+                            •
+                          </span>
+                          <span className="leading-snug">{item}</span>
+                        </li>
+                      ))}
+                      {/* Timeline directly under 3 points  */}
+                      <li className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300">
+                        <span className="leading-snug">
+                          <strong className="font-semibold text-neutral-900 dark:text-white">
+                            Timeline:
+                          </strong>{' '}
+                          {plan.timeline}
+                        </span>
                       </li>
-                    ))}
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 mb-6 mt-auto">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#9ca3af]">Timeline:</span>
-                  <span className="text-[13px] text-[#6b7280] dark:text-[#9ca3af]">{plan.timeline}</span>
+
+                {/* Button placed directly after points and timeline */}
+                <div className="mt-8 pt-2">
+                 <button
+  onClick={() => onNavigate('contact')}
+  className={`w-full rounded-full py-3.5 px-6 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+    plan.highlight
+      ? 'bg-black text-white hover:bg-neutral-800 shadow-sm dark:bg-white dark:text-black dark:hover:bg-neutral-200'
+      : 'border border-neutral-300 bg-white text-neutral-900 hover:bg-black hover:text-white hover:border-black dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-black'
+  }`}
+>
+  {plan.tier === 'Focused Automation Builds'
+    ? 'Start Here'
+    : plan.tier === 'Ongoing Optimization & Scale'
+    ? 'Book a Call'
+    : 'Get Started'}
+</button>
                 </div>
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="w-full rounded-lg py-3 text-[14px] font-medium transition-all duration-200"
-                  style={{
-                    background: plan.highlight ? '#FF4800' : 'transparent',
-                    color: plan.highlight ? '#ffffff' : '#FF4800',
-                    border: plan.highlight ? 'none' : '1px solid rgba(255,72,0,0.3)',
-                  }}
-                  onMouseEnter={(e) => { if (!plan.highlight) e.currentTarget.style.background = 'rgba(255,72,0,0.06)'; }}
-                  onMouseLeave={(e) => { if (!plan.highlight) e.currentTarget.style.background = 'transparent'; }}
-                >
-                  {plan.cta}
-                </button>
               </motion.div>
             ))}
           </div>
-          <p className="mt-8 text-center text-[13px] text-[#9ca3af]">
-            All engagements include full source code ownership and zero vendor lock in. Fixed price quote after a 30-min discovery call.
-          </p>
         </div>
       </section>
 
@@ -1986,138 +2084,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Capabilities (Why Straveda) ── */}
-      <section
-        id="section-capabilities"
-        className="relative overflow-hidden bg-white py-14 md:py-20 dark:bg-[#0a0a14]"
-      >
-        {/* Background */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
-          <div className="absolute right-[-80px] top-[120px] h-[280px] w-[280px] rounded-full bg-orange-100/40 blur-3xl dark:bg-orange-500/5" />
-        </div>
 
-        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-          {/* ── Heading ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease }}
-            className="mb-14 md:mb-20"
-          >
-            <SectionHeader
-              label="WHY STRAVEDA"
-              heading="Enterprise Grade Execution, Without the Complexity"
-            />
-          </motion.div>
-
-          {/* ── Timeline Items ── */}
-          <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-20">
-            {bentoItems.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: false,
-                  margin: '-60px',
-                }}
-                transition={{
-                  duration: 0.65,
-                  delay: index * 0.08,
-                  ease,
-                }}
-                style={{
-                  gridColumn:
-                    index === 4
-                      ? '2'
-                      : index === 5
-                        ? '3'
-                        : undefined,
-                }}
-                className="group relative"
-              >
-                {/* ── Number + Line ── */}
-                <div className="mb-6 flex items-center">
-                  {/* Number */}
-                  <motion.div
-                    whileHover={{
-                      scale: 1.08,
-                    }}
-                    transition={{
-                      duration: 0.2,
-                    }}
-                    className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
-                    style={{
-                      background: '#FF4800',
-                      color: '#ffffff',
-                    }}
-                  >
-                    {String(index + 1).padStart(2, '0')}
-                  </motion.div>
-
-                  {/* Horizontal line */}
-                  <div
-                    className="ml-3 h-px flex-1"
-                    style={{
-                      background: '#FF4800',
-                    }}
-                  />
-                </div>
-
-                {/* ── Content ── */}
-                <div className="pr-2">
-                  <h3
-                    className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]"
-                    style={{
-                      fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
-                      lineHeight: 1.35,
-                      letterSpacing: '-0.2px',
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-
-                  <p
-                    className="text-[13px] leading-[1.65] text-slate-500 dark:text-[#9ca3af]"
-                    style={{
-                      maxWidth: '290px',
-                      width: '100%',
-                      minHeight: '84',
-                      textAlign: 'justify',
-                      textJustify: 'inter-word',
-                    }}
-                  >
-                    {item.description}
-                  </p>
-                </div>
-
-                {/* ── Small hover indicator ── */}
-                <motion.div
-                  className="absolute left-0 top-0 h-8 w-8 rounded-full border border-orange-500/30"
-                  initial={{
-                    scale: 1,
-                    opacity: 0,
-                  }}
-                  whileHover={{
-                    scale: 1.45,
-                    opacity: 1,
-                  }}
-                  transition={{
-                    duration: 0.3,
-                  }}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <FAQSection />
     </div>

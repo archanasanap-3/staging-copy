@@ -38,9 +38,9 @@ const FULL_LIGHT = {
 } as const;
 
 const COMPACT_LIGHT = {
-  bg: 'rgba(255, 72, 0, 0.08)',
-  border: 'rgba(255, 72, 0, 0.22)',
-  shadow: '0 4px 32px rgba(255,72,0,0.12), 0 1px 0 rgba(255,255,255,0.18) inset',
+  bg: 'rgba(255, 255, 255, 0.88)',
+  border: 'rgba(200, 200, 200, 0.30)',
+  shadow: '0 4px 32px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.90) inset',
   text: '#000000', textMuted: '#000000', ctaBg: '#FF4800', ctaColor: '#FFFFFF',
 } as const;
 
@@ -152,16 +152,6 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           onMouseEnter={() => setCursorStyle('nav')}
           onMouseLeave={() => setCursorStyle('default')}
         >
-          {/* Orange glass wash (compact mode) */}
-          <span
-            aria-hidden="true"
-            style={{
-              position: 'absolute', inset: 0, borderRadius: 'inherit', pointerEvents: 'none',
-              opacity: compact ? 1 : 0, transition: 'opacity 0.42s ease',
-              background: 'linear-gradient(90deg, transparent 0%, rgba(255,72,0,0.05) 20%, rgba(255,72,0,0.12) 50%, rgba(255,72,0,0.05) 80%, transparent 100%)',
-              boxShadow: ['inset 0 -1px 0 rgba(255,72,0,0.40)', 'inset 0 1px 0 rgba(255,255,255,0.22)', '0 0 24px rgba(255,72,0,0.08)'].join(', '),
-            }}
-          />
 
           {/* Wordmark */}
           <Link

@@ -11,7 +11,6 @@ import Footer from '@/components/shared/Footer'
 import BackToTop from '@/components/features/common/BackToTop'
 import CustomCursor from '@/components/shared/CustomCursor'
 import CookieConsent from '@/components/features/common/CookieConsent'
-import ScrollProgress from '@/components/features/common/ScrollProgress'
 import SearchOverlay from '@/components/features/common/SearchOverlay'
 import KeyboardHint from '@/components/features/common/KeyboardHint'
 
@@ -50,7 +49,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <CustomCursor>
         <AppLayout className="noise-overlay bg-white dark:bg-[#121212] text-[#1a1a2e] dark:text-[#f0f0f5]">
           <Preloader />
-          <ScrollProgress />
           <Navbar onSearchToggle={() => setSearchOpen(prev => !prev)} />
 
           {/* Screen reader live region for page navigation announcements */}
