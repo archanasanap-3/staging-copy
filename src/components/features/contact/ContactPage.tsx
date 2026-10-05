@@ -275,7 +275,7 @@ export default function ContactPage() {
       `}</style>
 
       {/* CONTACT SECTION */}
-      <section className="px-4 sm:px-6 pt-12 sm:pt-24 pb-24 sm:pb-32 bg-[#f8f8fc] dark:bg-[#0a0a14] relative">
+      <section className="px-0 pt-12 sm:pt-24 pb-24 sm:pb-32 bg-[#f8f8fc] dark:bg-[#0a0a14] relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,72,0,0.04)_0%,_transparent_50%)]" />
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start relative z-10">
@@ -530,7 +530,7 @@ export default function ContactPage() {
       </section>
 
       {/* PROJECT REQUEST WIZARD */}
-      <section className="px-6 py-24 bg-white dark:bg-[#121212]">
+      <section className="px-5 py-24 bg-white dark:bg-[#121212]">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <motion.p
             initial={{ opacity: 0, y: 10 }}

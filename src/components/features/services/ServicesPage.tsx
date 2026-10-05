@@ -178,8 +178,8 @@ const services: ServiceBlockData[] = [
 
 function HeroSection() {
   return (
-   <section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-8 overflow-hidden">
-  <div className="mx-auto w-full max-w-7xl px-6">
+   <section className="relative bg-white dark:bg-[#0a0a14] pt-32 pb-8 overflow-hidden">
+  <div className="mx-auto w-full max-w-7xl">
         <PageHeader
   eyebrow="Our Expertise"
   title="Enterprise Software & AI Automation Services"
@@ -223,7 +223,7 @@ function ServiceBlock({
     <motion.section
       id={service.id}
       ref={containerRef}
-      className={`relative overflow-hidden px-6 py-24 lg:px-16 ${
+      className={`relative overflow-hidden py-24 ${
         isEven
           ? 'bg-white dark:bg-[#0a0a14]'
           : 'bg-[#fcfcfd] dark:bg-[#0d0d1a]'
@@ -352,7 +352,7 @@ function WhyStravedaSection() {
   ];
 
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] px-6 py-24">
+    <section className="relative bg-white dark:bg-[#0a0a14] py-24">
       <div className="mx-auto max-w-7xl">
 
         {/* ================= HEADING ================= */}
@@ -522,7 +522,7 @@ function TechStackSection() {
 
   return (
     <section className="border-t border-black/[0.06] bg-white py-16 md:py-24 dark:border-white/[0.06] dark:bg-[#0a0a14]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.4fr] gap-10 lg:gap-12 items-center">
           {/* Left Column: Heading & Description (Untouched Content) */}
           <div className="text-left pr-0 lg:pr-8">

@@ -620,7 +620,7 @@ export default function CareerApplyPage({ slug }: { slug: string }) {
 
   return (
     <div className="bg-white dark:bg-[#0d0d1a] min-h-screen">
-      <section className="pt-32 pb-16 px-6">
+      <section className="pt-32 pb-16 px-5">
         <div className="max-w-[860px] mx-auto">
           <Link href="/careers#open-roles" className="text-[14px] text-[#6b7280] hover:text-[#FF4800] transition-colors">
             ← Back to careers

@@ -111,7 +111,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
 
   if (!mounted) {
     return (
-      <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+      <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 md:px-0">
         <div
           className="rounded-full w-full max-w-7xl"
           style={{ height: 60, background: DARK.bg, border: `1px solid ${DARK.border}`, boxShadow: DARK.shadow }}
@@ -127,11 +127,11 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
       ══════════════════════════════════════════ */}
       <motion.header
         className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none"
-        initial={{ opacity: 0, y: -20, paddingLeft: '1rem', paddingRight: '1rem' }}
+        initial={{ opacity: 0, y: -20, paddingLeft: '0rem', paddingRight: '0rem' }}
         animate={{
           opacity: 1, y: 0,
-          paddingLeft:  compact ? (isMobile ? '1rem' : '12%') : '1rem',
-          paddingRight: compact ? (isMobile ? '1rem' : '12%') : '1rem',
+          paddingLeft:  compact ? (isMobile ? '1rem' : '12%') : (isMobile ? '1rem' : '0rem'),
+          paddingRight: compact ? (isMobile ? '1rem' : '12%') : (isMobile ? '1rem' : '0rem'),
         }}
         transition={{ duration: 0.55, ease: EASE }}
       >

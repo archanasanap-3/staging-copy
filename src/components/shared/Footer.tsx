@@ -87,7 +87,7 @@ export default function Footer() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 flex justify-center">
+      <div className="relative z-10 max-w-7xl mx-auto flex justify-center">
 
         {/* MOBILE */}
         <div className="flex flex-col items-center text-center md:hidden pb-2">

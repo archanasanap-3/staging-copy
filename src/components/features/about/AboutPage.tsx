@@ -150,7 +150,7 @@ function HeroSection() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full px-6 lg:px-8 relative z-10 pt-32 pb-20">
+      <div className="max-w-7xl mx-auto w-full relative z-10 pt-32 pb-20">
         <div className="relative pl-8 md:pl-16">
           {/* Vertical Accent Line */}
           <motion.div
@@ -288,7 +288,7 @@ const inView = useInView(ref, {
 function StatsSection() {
   return (
     <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-black/5">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
         <div className="mb-10 md:mb-16">
@@ -425,7 +425,7 @@ const clarityItems = [
 function StorySection() {
   return (
     <section className="bg-white dark:bg-[#0a0a14]  pb-8 md:pt-24 md:pb-12 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
 
         <div className="mb-10 md:mb-16 text-center">
           <div className="mb-8">
@@ -577,7 +577,7 @@ function ResultsSection() {
 
   return (
     <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-12 md:pt-12 md:pb-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
         <div className="mb-8 md:mb-10">
@@ -652,7 +652,7 @@ const roadmap = [
 function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
     <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto">
         <h2 className="masked-title text-xl md:text-4xl font-normal tracking-tighter mb-10 md:mb-16">Let's build something that matters</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 md:mb-20">
           {roadmap.map((r, i) => (

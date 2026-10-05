@@ -391,7 +391,7 @@ useEffect(() => {
 
         </div>
 
-        <div className="relative mx-auto grid max-w-7xl lg:items-start gap-10 px-6 pt-4 pb-20 md:px-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="relative mx-auto grid max-w-7xl lg:items-start gap-10 pt-4 pb-20 lg:grid-cols-[0.9fr_1.1fr]">
 
           {/* LEFT CONTENT */}
 
@@ -1115,7 +1115,7 @@ useEffect(() => {
 ───────────────────────────────────────────────────────────── */}
 
 <section className="bg-white pt-8 py-16 md:pt-10 md:py-20">
-  <div className="mx-auto max-w-7xl px-6 md:px-10">
+  <div className="mx-auto max-w-7xl">
 
     {/* Section Header */}
     <div className="mb-10 md:mb-12">
@@ -1597,7 +1597,7 @@ useEffect(() => {
 ========================================================= */}
 
 <section className="bg-white py-16 md:py-20">
-  <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
+  <div className="-mt-10 mx-auto max-w-7xl">
 
     {/* Heading */}
     <div className="max-w-4xl">
@@ -2020,7 +2020,7 @@ useEffect(() => {
 
       <section className="bg-white py-16 md:py-20">
 
-        <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
+        <div className="-mt-10 mx-auto max-w-7xl">
 
           <div className="max-w-4xl">
 
@@ -2185,7 +2185,7 @@ useEffect(() => {
       <section className="relative overflow-hidden bg-white py-16 md:py-20">
 
 
-        <div className="-mt-10 mx-auto max-w-7xl px-6 md:px-10">
+        <div className="-mt-10 mx-auto max-w-7xl">
 
           <SectionLabel>
             Your Commerce Partner
