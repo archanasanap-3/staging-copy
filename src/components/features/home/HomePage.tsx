@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
-import InteractiveServices from '@/components/features/home/InteractiveServices';
 import SandesaSection from '@/components/features/home/SandesaSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 
@@ -59,226 +58,214 @@ const bentoItems: { title: string; description: string; size: 'large' | 'normal'
   { title: "Senior Execution", description: "We cap engagements each quarter so we can ship fast and stay accountable. You get senior attention on every build not a deck from partners and delivery from juniors.", size: "normal", icon: Users },
 ];
 
+// ─── Interactive Services (Section 2) ─────────────────────────────────────────
 
-// ─── Services Data ────────────────────────────────────────────────────────────
-
-interface ServiceItem {
+interface ServiceDetail {
+  number: string;
   badge: string;
   title: string;
-  bullets: string[];
-  metric?: string;
+  description: string;
   ctaLabel: string;
-  ctaDesc: string;
-  page: string;
+  route: string;
+  image: string;
 }
 
-const services: ServiceItem[] = [
+const servicesData: ServiceDetail[] = [
   {
-    badge: 'Automation',
+    number: '01',
+    badge: 'AUTOMATION',
     title: 'AI & Business Automation',
-    bullets: [
-      'WhatsApp flows that qualify leads and drive conversions',
-      'Behavior Triggered email sequences for engagement and retention',
-      'AI agents handling tier 1 customer support',
-      'Workflow automation reducing manual operational load',
-    ],
-    metric: '',
-    ctaLabel: 'See automation',
-    ctaDesc: 'Book a free strategy call',
-    page: 'automation',
+    description:
+      'WhatsApp flows, behavior-triggered email sequences, and AI agents that remove 30–60% of manual operations within the first 90 days.',
+    ctaLabel: 'Explore AI & Automation',
+    route: 'automation',
+    image: '/images/services/automation.jpg',
   },
   {
-    badge: 'Software',
+    number: '02',
+    badge: 'SOFTWARE',
     title: 'Custom Software & Systems',
-    bullets: [
-      'AI powered CRMs designed for real team adoption',
-      'Real time dashboards replacing fragmented monitoring tools',
-      'Internal systems built around your workflows (not rigid SaaS tools)',
-      'Centralized data systems for better decision making',
-    ],
-    ctaLabel: 'Explore custom',
-    ctaDesc: 'Built around your workflow',
-    page: 'custom-software',
+    description:
+      'AI-powered CRMs, real-time dashboards, and internal tools built around your exact workflow—free from rigid SaaS constraints.',
+    ctaLabel: 'Explore Custom Software',
+    route: 'custom-software',
+    image: '/images/services/custom-software.jpg',
   },
   {
-    badge: 'Strategy',
+    number: '03',
+    badge: 'STRATEGY',
     title: 'AI Strategy & Integration',
-    bullets: [
-      'Deployment of GPT Class models and advanced AI APIs',
-      'Custom LLM integration tailored to business workflows',
-      'End To End AI architecture, training, and deployment',
-      'Seamless integration into your existing tech stack',
-    ],
-    ctaLabel: 'Talk AI strategy',
-    ctaDesc: 'Embedded in your operations',
-    page: 'ai-strategy',
+    description:
+      'GPT-class models, custom fine-tuned LLMs, and enterprise RAG systems integrated directly into your operations stack for measurable ROI.',
+    ctaLabel: 'Explore AI Strategy',
+    route: 'ai-strategy',
+    image: '/images/services/ai-strategy.jpg',
   },
   {
-    badge: 'Digital',
-    title: 'Web Development & 3D Experiences',
-    bullets: [
-      'High Performance websites built using modern frameworks (e.g., Next.js)',
-      '3D interactive experiences for premium brand differentiation',
-      'Conversion Focused landing pages (not just visual design)',
-      'Fast loading, SEO Ready, Edge Deployed architecture',
-    ],
-    metric: '',
-    ctaLabel: 'View web capabilities',
-    ctaDesc: 'Edge Deployed, conversion first',
-    page: 'web-development',
+    number: '04',
+    badge: 'DIGITAL',
+    title: 'Web Design & Experiences',
+    description:
+      'High-performance Next.js sites, 3D interactive builds, and conversion funnels deployed to global edge infrastructure.',
+    ctaLabel: 'Explore Web Experiences',
+    route: 'web-development',
+    image: '/images/services/web-development.jpg',
   },
 ];
 
-// ─── Service Card ─────────────────────────────────────────────────────────────
+function InteractiveServicesSection({
+  isDark,
+  onNavigate,
+}: {
+  isDark: boolean;
+  onNavigate: (page: string) => void;
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; onNavigate: (page: string) => void; isDark: boolean }) {
-  const bg = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.70)';
-  const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
-  const shadow = isDark ? '0 4px 24px rgba(0,0,0,0.30)' : '0 4px 24px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)';
- const [cardsAnimationKey, setCardsAnimationKey] = useState(0);
+  // Auto rotate timer every 4s
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % servicesData.length);
+    }, 4000);
 
-useEffect(() => {
-  const handleScroll = () => {
-    const section = document.getElementById('services-section');
+    return () => clearInterval(timer);
+  }, []);
 
-    if (!section) return;
+  const activeService = servicesData[activeIndex];
 
-    const rect = section.getBoundingClientRect();
-    const isVisible =
-      rect.top < window.innerHeight * 0.75 &&
-      rect.bottom > window.innerHeight * 0.25;
-
-    if (isVisible) {
-      setCardsAnimationKey(prev => prev + 1);
-    }
+  const handleSelectService = (index: number) => {
+    setActiveIndex(index);
   };
 
-  window.addEventListener('scroll', handleScroll);
-
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
-
   return (
-  <motion.div
-    className="svc-card relative flex h-full flex-col overflow-hidden rounded-[20px]"
-    initial={{
-  opacity: 0,
-  x: 70,
-  scale: 0.97,
-}}
-animate={{
-  opacity: 1,
-  x: 0,
-  scale: 1,
-}}
-transition={{
-  duration: 0.8,
-  ease: [0.22, 1, 0.36, 1],
-}}
-      onMouseLeave={e => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = '';
-        el.style.borderColor = border;
-        el.style.boxShadow = shadow;
-        const glow = el.querySelector('.svc-glow') as HTMLElement | null;
-        if (glow) glow.style.opacity = '0';
-      }}
+    <section
+      id="section-services"
+      className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden transition-colors duration-300"
     >
-      {/* Top glow line */}
-      <div className="svc-glow pointer-events-none absolute inset-x-[10%] top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.6), transparent)', opacity: 0, transition: 'opacity 0.3s ease' }} />
-
-      {/* Badge + Title */}
-      <div className="flex h-[7rem] flex-col  justify-start p-6 pb-0">
-        <span className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: '#FF4800', background: 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.15)' }}>
-          {service.badge}
-        </span>
-        <h3 className="text-xl font-bold leading-[1.2] tracking-tight text-gray-900 dark:text-white">
-          {service.title}
-        </h3>
-      </div>
-
-      {/* Divider */}
-      <div className="mx-6 my-4 mb-2 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03), rgba(0,0,0,0.06))' }} />
-
-      {/* Bullet list */}
-      <div className="px-6">
-        <ul className="flex flex-col gap-2.5">
-          {service.bullets.map((bullet, i) => (
-            <li key={i} className="flex items-start gap-3 text-[13.5px] font-normal leading-[1.5] text-gray-700 dark:text-gray-300">
-              <span className="mt-2 h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 4px rgba(255,72,0,0.4)' }} />
-              <span>{bullet}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Metric or invisible spacer */}
-      {service.metric ? (
-        <div className="mx-6 mt-5 rounded-[10px] px-4 py-3" style={{ background: 'rgba(255,72,0,0.07)', border: '1px solid rgba(255,72,0,0.13)', minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
-          <p className="text-[12px] font-semibold leading-[1.55]" style={{ color: '#FF4800' }}>→ {service.metric}</p>
-        </div>
-      ) : (
-        <div className="mx-6 mt-2 px-4 py-1 invisible" aria-hidden="true" style={{ minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
-          <p className="text-[12px] leading-[1.55]">30–60% reduction in manual operations within the first 90 days</p>
-        </div>
-      )}
-
-      {/* Orange footer strip */}
-      <div
-        className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)',
-          borderTop: '1px solid rgba(255,72,0,0.12)',
-        }}
-      >
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-px"
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)',
-          }}
-        />
-
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <span
-            className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]"
-            style={{ color: '#FF4800' }}
-          >
-            {service.ctaLabel} →
-          </span>
-
-          <span
-            className="text-[11.5px] font-medium leading-[1.3]"
-            style={{ color: 'rgba(255,72,0,0.75)' }}
-          >
-            {service.ctaDesc}
-          </span>
-        </div>
-
-        <button
-          onClick={() => onNavigate(service.page)}
-          aria-label={service.ctaLabel}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
-          style={{
-            background: '#FF4800',
-            boxShadow: '0 4px 12px rgba(255,72,0,0.35)',
-          }}
-          onMouseEnter={e => {
-            const b = e.currentTarget as HTMLButtonElement;
-            b.style.background = '#e03e00';
-            b.style.transform = 'scale(1.1) translateX(1px)';
-            b.style.boxShadow = '0 6px 20px rgba(255,72,0,0.45)';
-          }}
-          onMouseLeave={e => {
-            const b = e.currentTarget as HTMLButtonElement;
-            b.style.background = '#FF4800';
-            b.style.transform = '';
-            b.style.boxShadow = '0 4px 12px rgba(255,72,0,0.35)';
-          }}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* ── Section Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          className="mb-10 md:mb-14"
         >
-          <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
-        </button>
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+            OUR Services
+          </p>
+          <h2
+            className="font-bold text-black dark:text-white text-left text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
+            style={{ color: isDark ? '#ffffff' : '#000000' }}
+          >
+            Enterprise Software &amp; AI Automation Services
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 max-w-full leading-relaxed">
+            We build high performance infrastructure and intelligent automation
+            systems designed for the next generation of enterprise growth.
+          </p>
+        </motion.div>
+
+        {/* ── Main Showcase: Left Names List & Right Direct Image + Info ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+          {/* ──── Left Side: Only Numbers + Service Names (Highlight on Active/Hover) ──── */}
+          <div className="lg:col-span-7 flex flex-col space-y-4 sm:space-y-6">
+            {servicesData.map((item, index) => {
+              const isActive = index === activeIndex;
+
+              return (
+                <div
+                  key={item.number}
+                  onClick={() => handleSelectService(index)}
+                  onMouseEnter={() => handleSelectService(index)}
+                  className="group flex items-center gap-6 sm:gap-9 cursor-pointer select-none py-1.5 transition-all duration-200"
+                >
+                  {/* Left Number (01, 02, 03, 04) */}
+                  <span
+                    className={`font-mono text-2xl sm:text-3xl md:text-4xl transition-colors duration-300 w-10 sm:w-12 shrink-0 ${
+                      isActive
+                        ? 'font-bold text-black dark:text-white'
+                        : 'font-normal text-neutral-300 dark:text-neutral-700'
+                    }`}
+                  >
+                    {item.number}
+                  </span>
+
+                  {/* Service Title */}
+                  <h3
+                    className={`text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] tracking-tight transition-all duration-300 leading-snug ${
+                      isActive
+                        ? 'font-bold text-black dark:text-white'
+                        : 'font-semibold text-neutral-300 dark:text-neutral-700 group-hover:text-neutral-500 dark:group-hover:text-neutral-400'
+                    }`}
+                  >
+                    {item.title}
+                  </h3>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ──── Right Side: Direct Image (No outer card) + Info + Button ──── */}
+          <div className="lg:col-span-5 flex flex-col items-start lg:items-end">
+            <div className="w-full max-w-md flex flex-col">
+              {/* Image Preview Container (Sleek, Compact, No outer card box) */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl shadow-lg bg-neutral-100 dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeService.number}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                    className="relative w-full h-full"
+                  >
+                    <Image
+                      src={activeService.image}
+                      alt={activeService.title}
+                      fill
+                      priority
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, 450px"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Info text beneath image */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeService.number}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                  className="mt-3.5 space-y-3.5"
+                >
+                  <p className="text-[13px] sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                    {activeService.description}
+                  </p>
+
+                  {/* Compact Pill CTA Button */}
+                  <div>
+                    <button
+                      onClick={() => onNavigate(activeService.route)}
+                      className="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 px-5 py-2.5 text-xs sm:text-[13px] font-medium hover:bg-[#FF4800] dark:hover:bg-[#FF4800] dark:hover:text-white transition-all duration-200 shadow-sm cursor-pointer group"
+                    >
+                      <span>{activeService.ctaLabel}</span>
+                      <ArrowRight
+                        size={13}
+                        className="transition-transform duration-200 group-hover:translate-x-1"
+                      />
+                    </button>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </section>
   );
 }
 
@@ -462,7 +449,7 @@ function TestimonialsCarousel() {
       }}
     >
       {/* ================= HEADING ================= */}
-      <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-6 md:mb-12">
+      <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-5 md:mb-12">
         <div className="text-center">
           <p
             className="mb-4 text-[11px] font-medium uppercase tracking-widest"
@@ -472,7 +459,7 @@ function TestimonialsCarousel() {
           </p>
 
           <h2
-            className="text-black mx-auto font-normal text-[clamp(1.75rem,5vw,3.5rem)]"
+            className="text-black mx-auto font-bold text-[clamp(1.75rem,5vw,3.5rem)]"
             style={{
               lineHeight: 1.05,
               letterSpacing: '-2px',
@@ -485,7 +472,7 @@ function TestimonialsCarousel() {
       </div>
 
       {/* ================= SINGLE MARQUEE ROW ================= */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl overflow-hidden px-6 md:px-10 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl overflow-hidden">
         <motion.div
           className="flex w-max items-stretch gap-5"
           animate={{
@@ -526,9 +513,9 @@ function FAQSection() {
   return (
     <section
       id="section-faq"
-      className="glow-hover py-6 md:py-8 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+      className="glow-hover py-12 md:py-16 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
     >
-      <div className="mt-0 mx-auto max-w-7xl px-6 md:px-10 lg:px-12">
+      <div className="mt-0 mx-auto max-w-7xl">
 
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.5fr] gap-12 lg:gap-24">
 
@@ -548,7 +535,7 @@ function FAQSection() {
             </p>
 
             <h2
-              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)]"
+              className="font-bold text-black text-[clamp(1.75rem,5vw,3.5rem)]"
               style={{
                 lineHeight: 1.02,
                 letterSpacing: "-2.5px",
@@ -688,13 +675,179 @@ function SectionHeader({
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#FF4800' }}>{label}</p>
       <div className={`flex gap-4 ${isCenter ? 'justify-center' : 'justify-center md:justify-start'}`}>
         {/* Accent bar — desktop only */}
-        <h2 className="font-normal text-black" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word', color: '#000000' }}>
+        <h2 className="font-bold text-black dark:text-white" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word' }}>
           {heading}
         </h2>
       </div>
     </div>
   );
 }
+
+interface TechnologyPartner {
+  name: string;
+  srcLight: string;
+  srcDark: string;
+  width: number;
+  height: number;
+  className: string;
+  classNameLight?: string;
+}
+
+const technologyPartners: TechnologyPartner[] = [
+  {
+    name: 'Next.js',
+    srcLight: '/logos/nextjs-light.svg',
+    srcDark: '/logos/nextjs-dark.svg',
+    width: 110,
+    height: 34,
+    className: 'h-[38px] md:h-[46px] w-auto object-contain',
+    classNameLight: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'React',
+    srcLight: '/logos/react-light.svg',
+    srcDark: '/logos/react-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'TypeScript',
+    srcLight: '/logos/typescript-light.svg',
+    srcDark: '/logos/typescript-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Tailwind CSS',
+    srcLight: '/logos/tailwind-light.svg',
+    srcDark: '/logos/tailwind-dark.svg',
+    width: 210,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'OpenAI GPT-4o',
+    srcLight: '/logos/openai-light.svg',
+    srcDark: '/logos/openai-dark.svg',
+    width: 235,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Claude API',
+    srcLight: '/logos/claude-light.svg',
+    srcDark: '/logos/claude-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'LangChain',
+    srcLight: '/logos/langchain-light.svg',
+    srcDark: '/logos/langchain-dark.svg',
+    width: 185,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Vector DBs',
+    srcLight: '/logos/vectordb-light.svg',
+    srcDark: '/logos/vectordb-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'AWS',
+    srcLight: '/logos/aws-light.png',
+    srcDark: '/logos/aws-dark.png',
+    width: 100,
+    height: 60,
+    className: 'h-[44px] md:h-[52px] w-auto object-contain',
+  },
+  {
+    name: 'Google Cloud',
+    srcLight: '/logos/gcp-light.png',
+    srcDark: '/logos/gcp-dark.png',
+    width: 288,
+    height: 48,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'Microsoft Azure',
+    srcLight: '/logos/azure-light.png',
+    srcDark: '/logos/azure-dark.png',
+    width: 190,
+    height: 52,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'Docker',
+    srcLight: '/logos/docker-light.png',
+    srcDark: '/logos/docker-dark.png',
+    width: 220,
+    height: 52,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'CI/CD',
+    srcLight: '/logos/cicd-light.svg',
+    srcDark: '/logos/cicd-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Security',
+    srcLight: '/logos/security-light.svg',
+    srcDark: '/logos/security-dark.svg',
+    width: 165,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'PostgreSQL',
+    srcLight: '/logos/postgresql-light.svg',
+    srcDark: '/logos/postgresql-dark.svg',
+    width: 65,
+    height: 60,
+    className: 'h-[48px] md:h-[56px] w-auto object-contain',
+  },
+  {
+    name: 'Redis',
+    srcLight: '/logos/redis-light.svg',
+    srcDark: '/logos/redis-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Node.js',
+    srcLight: '/logos/nodejs-light.svg',
+    srcDark: '/logos/nodejs-dark.svg',
+    width: 160,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'REST / GraphQL',
+    srcLight: '/logos/graphql-light.svg',
+    srcDark: '/logos/graphql-dark.svg',
+    width: 245,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Vercel',
+    srcLight: '/logos/vercel-light.svg',
+    srcDark: '/logos/vercel-dark.svg',
+    width: 130,
+    height: 26,
+    className: 'h-[28px] md:h-[34px] w-auto object-contain',
+  },
+];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -859,6 +1012,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="overflow-x-hidden w-full bg-white dark:bg-[#0a0a14]">
+
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -879,16 +1033,20 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* ── Our Expertise / Services Section (2nd Section) ── */}
-      <InteractiveServices isDark={isDark} onNavigate={onNavigate} />
+      <div id="section-services">
+        <InteractiveServicesSection isDark={isDark} onNavigate={onNavigate} />
+      </div>
 
       {/* ── Sandesa Section ── */}
-      <SandesaSection isDark={isDark} />
+      <div id="section-sandesa">
+        <SandesaSection isDark={isDark} />
+      </div>
 {/* ── About / Stats ── */}
 <section
   id="section-about"
   className="relative bg-white py-12 md:py-16"
 >
-  <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+  <div className="mx-auto w-full max-w-7xl">
 
     <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
 
@@ -910,7 +1068,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
         {/* Heading */}
         <h2
-          className="text-[clamp(2.2rem,4.5vw,4rem)] font-normal text-black"
+          className="text-[clamp(2.2rem,4.5vw,4rem)] font-bold text-black dark:text-white"
           style={{
             lineHeight: 1.05,
             letterSpacing: "-2.5px",
@@ -924,9 +1082,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         {/* Paragraph */}
         <p className="mt-8 max-w-[520px] text-[14px] leading-[1.65] text-[#6b7280] sm:text-[15px] lg:mt-[50px]">
           Every growing company hits the same wall: scattered tools,
-          disconnected spreadsheets, and wasted manual hours. You don&apos;t
-          need another vendor or enterprise bloat you need a partner who
-          truly understands the problem. At Straveda, we engineer unified,
+           and wasted manual hours. At Straveda, we engineer unified,
           AI-powered systems that replace operational chaos with structure,
           clarity, and real efficiency.
         </p>
@@ -944,112 +1100,104 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
         {/* ───── STAT 1 ───── */}
         <div className="flex flex-col">
-          <p
-            className="font-bold text-black"
-            style={{
-              fontSize: "clamp(2.4rem, 4vw, 3.5rem)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.05em",
-            }}
-          >
-            {count55}%
-          </p>
+          <div className="h-[48px] flex items-end">
+            <p
+              className="font-bold text-black dark:text-white"
+              style={{
+                fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              {count55}%
+            </p>
+          </div>
 
           <span
-            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
-            style={{
-              backgroundColor: "#F1F1F1",
-              color: "#555555",
-            }}
+            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
           >
             Manual Work Reduced
           </span>
 
-          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
             Reduce repetitive work and improve everyday operations.
           </p>
         </div>
 
         {/* ───── STAT 2 ───── */}
         <div className="flex flex-col">
-          <p
-            className="font-bold text-black"
-            style={{
-              fontSize: "clamp(2.4rem, 4vw, 3.5rem)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.05em",
-            }}
-          >
-            3–{count5}x
-          </p>
+          <div className="h-[48px] flex items-end">
+            <p
+              className="font-bold text-black dark:text-white"
+              style={{
+                fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              3–{count5}x
+            </p>
+          </div>
 
           <span
-            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
-            style={{
-              backgroundColor: "#F1F1F1",
-              color: "#555555",
-            }}
+            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
           >
             Operational Efficiency
           </span>
 
-          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
             Build faster workflows with connected systems.
           </p>
         </div>
 
         {/* ───── STAT 3 ───── */}
         <div className="flex flex-col">
-          <p
-            className="font-bold text-black"
-            style={{
-              fontSize: "clamp(2.4rem, 4vw, 3.5rem)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.05em",
-            }}
-          >
-            {count100}%
-          </p>
+          <div className="h-[48px] flex items-end">
+            <p
+              className="font-bold text-black dark:text-white"
+              style={{
+                fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              {count100}%
+            </p>
+          </div>
 
           <span
-            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
-            style={{
-              backgroundColor: "#F1F1F1",
-              color: "#555555",
-            }}
+            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
           >
             Code Ownership
           </span>
 
-          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
             Scalable solutions with complete ownership of your codebase.
           </p>
         </div>
 
         {/* ───── STAT 4 ───── */}
         <div className="flex flex-col">
-          <p
-            className="whitespace-nowrap font-bold text-black"
-            style={{
-              fontSize: "clamp(2rem, 3.5vw, 3.5rem)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.05em",
-            }}
-          >
-            End-to-End
-          </p>
+          <div className="h-[48px] flex items-end">
+            <p
+              className="whitespace-nowrap font-bold text-black dark:text-white"
+              style={{
+                fontSize: "clamp(1.75rem, 2.8vw, 2.5rem)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              End-to-End
+            </p>
+          </div>
 
           <span
-            className="mt-4 inline-flex w-fit rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide sm:text-[11px]"
-            style={{
-              backgroundColor: "#F1F1F1",
-              color: "#555555",
-            }}
+            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
           >
             Strategy → Build → Deploy
           </span>
 
-          <p className="mt-3 max-w-[220px] text-[13px] leading-[1.45] text-[#6b7280]">
+          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
             From strategy and development to deployment and optimization.
           </p>
         </div>
@@ -1066,7 +1214,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="hidden relative w-full overflow-hidden bg-white py-8 md:py-10 dark:bg-[#0a0a14]"
       >
         {/* Heading */}
-        <div className="relative z-40 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        <div className="relative z-40 mx-auto max-w-7xl px-0 text-center">
           <p
             className="mb-4 text-[11px] font-medium uppercase tracking-widest"
             style={{ color: "#FF4800" }}
@@ -1076,7 +1224,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
           <h2
-            className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+            className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
             style={{
               lineHeight: 1.05,
               letterSpacing: "-2px",
@@ -1481,8 +1629,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
    {/* ── Problem Section ── */}
-<section className="relative py-14 md:py-22 bg-white dark:bg-[#0a0a14] overflow-hidden">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+<section className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden">
+  <div className="mx-auto max-w-7xl relative z-10">
 
     {/* Heading */}
     <motion.div
@@ -1500,7 +1648,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </p>
 
       <h2
-        className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] whitespace-nowrap"
+        className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] whitespace-nowrap"
         style={{
           lineHeight: 1.05,
           letterSpacing: "-2px",
@@ -1531,31 +1679,31 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           num: "01",
           heading: "The Tool Tax",
           body:
-            "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
+            "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
         },
         {
           num: "02",
           heading: "The Integration Debt",
           body:
-            'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
+            'Every new tool requires a Zapier hack.  IT says a "proper integration" is a 6 Month project.',
         },
         {
           num: "03",
           heading: "The Visibility Gap",
           body:
-            "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
+            "Leadership can't see pipeline health, ops can't see inventory, and finance.",
         },
         {
           num: "04",
           heading: "The Process Drag",
           body:
-            "Manual approvals, repetitive data entry, and scattered workflows slow your team down. Simple tasks take longer than they should.",
+            "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
         },
         {
           num: "05",
           heading: "The Growth Barrier",
           body:
-            "As your business grows, disconnected systems become harder to manage. More people, more tools, and more data create even more complexity.",
+            "As your business grows, disconnected systems become harder to manage.",
         },
       ].map((item) => (
         <motion.div
@@ -1615,7 +1763,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
           {/* Description — 3 lines */}
-          <p className="mt-2 max-w-[320px] h-[72px] text-[16px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] line-clamp-3 overflow-hidden">
+          <p className="mt-2 max-w-[320px] h-[72px] text-[16px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3 overflow-hidden">
             {item.body}
           </p>
 
@@ -1628,17 +1776,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── Process Section ── */}
       <section
-        className="relative py-16 md:py-28"
+        className="relative py-12 md:py-16"
         style={{ background: isDark ? '#12121e' : '#ffffff' }}
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-7xl relative z-10">
 
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
-            className="-mt-20 mb-10 md:mb-16"
+            className="mb-10 md:mb-16"
           >
             <SectionHeader
               label="HOW WE WORK"
@@ -1663,31 +1811,31 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 {
                   step: '01',
                   label: 'Discovery',
-                  desc: '30-min strategy call to analyze workflows, identify bottlenecks, and map high-impact automation with zero sales pitch.',
+                  desc: '30-min strategy call to analyze workflows, and map high-impact automation.',
                   icon: Activity,
                 },
                 {
                   step: '02',
                   label: 'Architecture',
-                  desc: 'We architect the solution, define the tech stack, and deliver a clear fixed-price proposal within 24 hours.',
+                  desc: 'We architect the solution, define the tech stack, and deliver a clear fixed-price.',
                   icon: Brain,
                 },
                 {
                   step: '03',
                   label: 'Build',
-                  desc: 'We build in weekly sprints with total visibility. You review progress, give feedback, and stay in full control.',
+                  desc: 'We build in weekly sprints with total visibility & stay in full control.',
                   icon: Shield,
                 },
                 {
                   step: '04',
                   label: 'Automate',
-                  desc: 'We wire triggers, workflows, and AI agents so the system runs smoothly without any manual intervention.',
+                  desc: 'We wire triggers, workflows, and AI agents so the system runs smoothly .',
                   icon: Globe,
                 },
                 {
                   step: '05',
                   label: 'Scale',
-                  desc: 'Full handover with documentation and training. Your team owns 100% of the code and operational systems.',
+                  desc: 'Full handover with and  documentation, Your team owns 100% of the code.',
                   icon: Cloud,
                 },
               ].map((item) => (
@@ -1714,7 +1862,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                       className="text-[#FF4800] group-hover/btn:text-white transition-colors duration-200"
                     />
                   </div>
-
                   {/* Step */}
                   <p
                     className="text-[14px] font-semibold uppercase tracking-wide mb-2"
@@ -1729,7 +1876,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   </h3>
 
                   {/* Description */}
-                  <p className="w-full text-[16px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3">
+                  <p className="w-full text-[16px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] text-justify line-clamp-4">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -1742,9 +1889,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Pricing Section ── */}
       <section
         id="pricing"
-        className="relative py-16 md:py-24 bg-white dark:bg-[#0a0a14] overflow-hidden"
+        className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-7xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1756,7 +1903,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               PRICING
             </p>
             <h2
-              className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
               Flexible Engagement Models
@@ -1890,13 +2037,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Where We Stand / Technology Partners ── */}
       <section
         id="section-partners"
-        className="py-14 md:py-20 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
+        className="py-12 md:py-16 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
-            className="font-normal text-black mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word', color: '#000000' }}
+            className="font-bold text-black dark:text-white mx-auto"
+            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
             A Foundation for What&apos;s Next
           </h2>
@@ -1907,75 +2054,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             className="flex w-max items-center"
             animate={{ x: [0, '-50%'] }}
             transition={{
-              duration: 25,
+              duration: 40,
               ease: 'linear',
               repeat: Infinity,
             }}
           >
             {/* First set */}
             <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
-              {[
-                {
-                  name: 'AWS',
-                  srcLight: '/logos/aws-light.png',
-                  srcDark: '/logos/aws-dark.png',
-                  width: 100,
-                  height: 60,
-                  className: 'h-[44px] md:h-[52px] w-auto object-contain',
-                },
-                {
-                  name: 'Google Cloud',
-                  srcLight: '/logos/gcp-light.png',
-                  srcDark: '/logos/gcp-dark.png',
-                  width: 288,
-                  height: 48,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Docker',
-                  srcLight: '/logos/docker-light.png',
-                  srcDark: '/logos/docker-dark.png',
-                  width: 220,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Microsoft Azure',
-                  srcLight: '/logos/azure-light.png',
-                  srcDark: '/logos/azure-dark.png',
-                  width: 190,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-{
-  name: "Vercel",
-  srcLight: "/logos/vercel-light.svg",
-  srcDark: "/logos/vercel-dark.svg",
-  width: 130,
-  height: 26,
-  className: "h-[22px] md:h-[26px] w-auto object-contain",
-  style: {
-    width: "auto",
-  },
-},
-                {
-                  name: 'PostgreSQL',
-                  srcLight: '/logos/postgresql-light.svg',
-                  srcDark: '/logos/postgresql-dark.svg',
-                  width: 65,
-                  height: 60,
-                  className: 'h-[48px] md:h-[56px] w-auto object-contain',
-                },
-                {
-                  name: 'Next.js',
-                  srcLight: '/logos/nextjs-light.svg',
-                  srcDark: '/logos/nextjs-dark.svg',
-                  width: 110,
-                  height: 34,
-                  className: 'h-[30px] md:h-[34px] w-auto object-contain',
-                  classNameLight: 'h-[42px] md:h-[48px] w-auto object-contain',
-                },
-              ].map((partner) => (
+              {technologyPartners.map((partner) => (
                 <div
                   key={`first-${partner.name}`}
                   className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
@@ -2000,65 +2086,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
             {/* Duplicate set for seamless auto-scroll */}
             <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
-              {[
-                {
-                  name: 'AWS',
-                  srcLight: '/logos/aws-light.png',
-                  srcDark: '/logos/aws-dark.png',
-                  width: 100,
-                  height: 60,
-                  className: 'h-[44px] md:h-[52px] w-auto object-contain',
-                },
-                {
-                  name: 'Google Cloud',
-                  srcLight: '/logos/gcp-light.png',
-                  srcDark: '/logos/gcp-dark.png',
-                  width: 288,
-                  height: 48,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Docker',
-                  srcLight: '/logos/docker-light.png',
-                  srcDark: '/logos/docker-dark.png',
-                  width: 220,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Microsoft Azure',
-                  srcLight: '/logos/azure-light.png',
-                  srcDark: '/logos/azure-dark.png',
-                  width: 190,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Vercel',
-                  srcLight: '/logos/vercel-light.svg',
-                  srcDark: '/logos/vercel-dark.svg',
-                  width: 130,
-                  height: 26,
-                  className: 'h-[22px] md:h-[26px] w-auto object-contain',
-                },
-                {
-                  name: 'PostgreSQL',
-                  srcLight: '/logos/postgresql-light.svg',
-                  srcDark: '/logos/postgresql-dark.svg',
-                  width: 65,
-                  height: 60,
-                  className: 'h-[48px] md:h-[56px] w-auto object-contain',
-                },
-                {
-                  name: 'Next.js',
-                  srcLight: '/logos/nextjs-light.svg',
-                  srcDark: '/logos/nextjs-dark.svg',
-                  width: 110,
-                  height: 34,
-                  className: 'h-[30px] md:h-[34px] w-auto object-contain',
-                  classNameLight: 'h-[42px] md:h-[48px] w-auto object-contain',
-                },
-              ].map((partner) => (
+              {technologyPartners.map((partner) => (
                 <div
                   key={`second-${partner.name}`}
                   className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"

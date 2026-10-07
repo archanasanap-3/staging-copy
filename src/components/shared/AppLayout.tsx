@@ -27,7 +27,7 @@ export default function AppLayout({
         /* Centering shell */
         'relative flex flex-col items-center',
         /* Full width, hard overflow guard */
-        'w-full max-w-[100vw] overflow-x-hidden',
+        'w-full max-w-[100vw] overflow-x-clip',
         /* Fill viewport vertically */
         'min-h-screen',
         className,

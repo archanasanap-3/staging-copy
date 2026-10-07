@@ -111,7 +111,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
 
   if (!mounted) {
     return (
-      <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+      <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 md:px-0">
         <div
           className="rounded-full w-full max-w-7xl"
           style={{ height: 60, background: DARK.bg, border: `1px solid ${DARK.border}`, boxShadow: DARK.shadow }}
@@ -127,11 +127,11 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
       ══════════════════════════════════════════ */}
       <motion.header
         className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none"
-        initial={{ opacity: 0, y: -20, paddingLeft: '1rem', paddingRight: '1rem' }}
+        initial={{ opacity: 0, y: -20, paddingLeft: '0rem', paddingRight: '0rem' }}
         animate={{
           opacity: 1, y: 0,
-          paddingLeft:  compact ? (isMobile ? '1rem' : '12%') : '1rem',
-          paddingRight: compact ? (isMobile ? '1rem' : '12%') : '1rem',
+          paddingLeft:  compact ? (isMobile ? '1rem' : '12%') : (isMobile ? '1rem' : '0rem'),
+          paddingRight: compact ? (isMobile ? '1rem' : '12%') : (isMobile ? '1rem' : '0rem'),
         }}
         transition={{ duration: 0.55, ease: EASE }}
       >
@@ -157,12 +157,12 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           <Link
             href="/"
             className="z-10 shrink-0 select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
-            style={{ height: 64, width: 280 }}
+            style={{ height: 42, width: 150 }}
             onMouseEnter={(e) => { e.stopPropagation(); setCursorStyle('link'); }}
             onMouseLeave={() => setCursorStyle('nav')}
           >
             <Image
-              src={isDarkMode ? '/logos/blackmain_logo.png' : '/logos/main_logo.png'}
+              src={isDarkMode ? '/logos/blackmain_logo_cropped.png' : '/logos/main_logo_cropped.png'}
               alt="Straveda"
               fill
               sizes="220px"
@@ -221,7 +221,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
               href="/contact"
               className="hidden lg:inline-flex items-center gap-2 rounded-full select-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800]"
               style={{
-                height: 36, padding: '0 18px', fontSize: 13, fontWeight: 500,
+                height: 40, padding: '0 24px', fontSize: 14, fontWeight: 500,
                 background: T.ctaBg, color: T.ctaColor,
                 border: compact ? '1px solid rgba(255,72,0,0.3)' : '1px solid transparent',
                 transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease',

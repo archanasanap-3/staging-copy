@@ -83,7 +83,7 @@ export default function DashboardMockup({ isDark }: { isDark: boolean }) {
         borderRadius: '20px',
         border: `1px solid ${border}`,
         overflow: 'hidden',
-        fontFamily: 'var(--font-geist-sans), system-ui, sans-serif',
+        fontFamily: 'var(--font-plus-jakarta-sans), "Plus Jakarta Sans", system-ui, sans-serif',
       }}
     >
       {/* Sidebar */}

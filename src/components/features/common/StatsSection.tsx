@@ -131,7 +131,7 @@ export default function StatsSection() {
         <div className="absolute bottom-1/4 -left-24 w-[400px] h-[400px] bg-blue-500/5 blur-[120px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex justify-start">
 
           {/* CONTENT */}

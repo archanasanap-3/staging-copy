@@ -109,7 +109,7 @@ export default function ServiceCard({
 
       {/* ── Title (text-xl bold, tight tracking) ─────────────── */}
 
-      <h3 className="mb-3 text-xl font-bold leading-tight tracking-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+      <h3 className="mb-3 text-xl font-bold leading-tight tracking-tight text-black dark:text-white">
 
         {title}
 

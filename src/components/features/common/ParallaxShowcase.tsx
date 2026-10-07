@@ -69,7 +69,7 @@ export default function ParallaxShowcase({ onNavigate }: ParallaxShowcaseProps) 
 
       {/* Feature cards grid */}
       <div className="relative z-10">
-        <div className="mx-auto w-full max-w-7xl px-6 pt-20 lg:px-8 lg:pt-24">
+        <div className="mx-auto w-full max-w-7xl px-0 pt-20 lg:pt-24">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featureCards.map((card, i) => {
               const Icon = card.icon;

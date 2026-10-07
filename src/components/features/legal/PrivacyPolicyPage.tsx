@@ -296,7 +296,7 @@ export default function PrivacyPolicyPage() {
     <div className="relative bg-white dark:bg-[#0a0a14]">
       <PrivacyHero effectiveDate="January 1, 2026" lastUpdated="July 14, 2026" readingTime="10 min read" version="v1.0" />
 
-      <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
+      <div className="mx-auto max-w-7xl px-0 pb-24">
         <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12">
           {/* Table of contents — desktop sticky sidebar, mobile accordion (self-managed responsive variants) */}
           <div ref={tocTrackRef} className="mt-10 mb-8 lg:relative lg:mt-10 lg:mb-0">

@@ -16,6 +16,12 @@ const config: Config = {
         "3xl": "1920px", // Ultra-wide monitors
       },
 
+      /* ── Font Family ────────────────────────────────────────────── */
+      fontFamily: {
+        sans: ["var(--font-plus-jakarta-sans)", "Plus Jakarta Sans", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        heading: ["var(--font-plus-jakarta-sans)", "Plus Jakarta Sans", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+      },
+
       /* ── Typography scale ───────────────────────────────────────── */
       fontSize: {
         display: ["82px", { lineHeight: "1.00", letterSpacing: "-2.05px", fontWeight: "400" }],

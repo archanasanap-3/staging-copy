@@ -147,7 +147,7 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
                 boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.3)' : '0 4px 24px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
               }}
             >
-              <h3 className="text-[22px] font-normal mb-4" style={{ fontWeight: 400, color: isDark ? '#f0f0f5' : '#1a1a2e', letterSpacing: '-0.5px' }}>
+              <h3 className="text-[22px] font-bold mb-4" style={{ fontWeight: 700, color: isDark ? '#f0f0f5' : '#1a1a2e', letterSpacing: '-0.5px' }}>
                 Get Weekly Insights
               </h3>
               <p className="text-[14px] leading-[1.5] mb-6" style={{ color: isDark ? '#9ca3af' : '#6b7280', fontWeight: 400 }}>
