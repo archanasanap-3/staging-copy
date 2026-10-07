@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MapPin, Clock, Globe, CheckCircle2, Loader2, Award, FolderGit2, ArrowRight, Phone } from 'lucide-react';
 import { toast } from 'sonner';
@@ -34,168 +35,42 @@ const infoItemVariants = {
 }
 
 
-/* ─── Floating Label Input ────────────────────────────────────────── */
-function FloatingInput({
-  id,
-  name,
-  type = 'text',
-  required = false,
-  value,
-  onChange,
-  label,
-  delay = 0,
-}: {
-  id: string
-  name: string
-  type?: string
-  required?: boolean
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  label: string
-  delay?: number
-}) {
-  const [focused, setFocused] = useState(false);
-  const isActive = focused || value.length > 0;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: 0.2 + delay, ease: [0.16, 1, 0.3, 1] }}
-      className="floating-input-group relative group"
-    >
-      <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className="floating-input w-full bg-white/5 dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl px-4 min-h-[56px] py-3 outline-none transition-all duration-500 focus:border-[#FF4800] focus:ring-4 focus:ring-[#FF4800]/10"
-      />
-      <label
-        htmlFor={id}
-        className={`floating-label absolute left-4 transition-all duration-300 ease-[0.16,1,0.3,1] pointer-events-none ${isActive
-          ? 'floating-label-active'
-          : 'floating-label-inactive'
-          }`}
-      >
-        {label}
-      </label>
-
-      {/* Animated underline / glow */}
-      <motion.div
-        initial={false}
-        animate={{ scaleX: focused ? 1 : 0 }}
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF4800] origin-center z-[2] shadow-[0_0_15px_rgba(255,72,0,0.5)]"
-      />
-    </motion.div>
-  );
-}
-
-/* ─── Floating Label Textarea ─────────────────────────────────────── */
-function FloatingTextarea({
-  id,
-  name,
-  required = false,
-  value,
-  onChange,
-  label,
-  rows = 5,
-  delay = 0,
-}: {
-  id: string
-  name: string
-  required?: boolean
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
-  label: string
-  rows?: number
-  delay?: number
-}) {
-  const [focused, setFocused] = useState(false);
-  const isActive = focused || value.length > 0;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: 0.2 + delay, ease: [0.16, 1, 0.3, 1] }}
-      className="floating-input-group relative group"
-    >
-      <textarea
-        id={id}
-        name={name}
-        required={required}
-        rows={rows}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className="floating-input w-full bg-white/5 dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl px-4 py-4 outline-none transition-all duration-500 focus:border-[#FF4800] focus:ring-4 focus:ring-[#FF4800]/10 resize-none"
-      />
-      <label
-        htmlFor={id}
-        className={`floating-label absolute left-4 transition-all duration-300 ease-[0.16,1,0.3,1] pointer-events-none ${isActive
-          ? 'floating-label-active'
-          : 'floating-label-inactive'
-          }`}
-      >
-        {label}
-      </label>
-
-      {/* Animated underline / glow */}
-      <motion.div
-        initial={false}
-        animate={{ scaleX: focused ? 1 : 0 }}
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FF4800] origin-center z-[2] shadow-[0_0_15px_rgba(255,72,0,0.5)]"
-      />
-    </motion.div>
-  );
-}
-
 type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState<FormData>(initialFormData)
-  const [formStatus, setFormStatus] = useState<FormStatus>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
-  const formRef = useRef<HTMLFormElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [termsAccepted, setTermsAccepted] = useState(true);
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const isSubmitting = formStatus === 'sending';
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!formRef.current) return;
-    const rect = formRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setFormStatus('sending')
-    setErrorMsg('')
+    e.preventDefault();
+
+    if (!termsAccepted) {
+      setErrorMsg('Please accept the terms and privacy policy.');
+      return;
+    }
+
+    setFormStatus('sending');
+    setErrorMsg('');
 
     try {
       const formspreeUrl = `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_CONTACT_ID}`;
       const res = await fetch(formspreeUrl, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           name: formData.name,
@@ -203,328 +78,236 @@ export default function ContactPage() {
           phone: formData.phone,
           message: formData.message,
         }),
-      })
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error ?? 'Something went wrong.')
+      if (!res.ok) throw new Error(data.error ?? 'Something went wrong.');
 
-      setFormStatus('success')
-      setFormData(initialFormData)
-      toast.success("Message sent! We'll get back to you within 1 business day.")
+      setFormStatus('success');
+      setFormData(initialFormData);
+      toast.success("Message sent! We'll get back to you within 24 hours.");
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to send. Please try again.'
-      setFormStatus('error')
-      setErrorMsg(msg)
-      toast.error(msg)
+      const msg =
+        err instanceof Error
+          ? err.message
+          : 'Failed to send. Please try again.';
+      setFormStatus('error');
+      setErrorMsg(msg);
+      toast.error(msg);
     }
-  }
+  };
 
   return (
     <div className="bg-white dark:bg-[#0a0a14] min-h-screen">
-      {/* ─── Inline styles for floating labels, mobile card & animations ─── */}
-      <style>{`
-        /* ─── Floating Label base ───────────────────────────────────── */
-        .floating-label-inactive {
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 15px;
-          color: #9ca3af;
-        }
-        .floating-label-active {
-          top: 0;
-          transform: translateY(-50%);
-          font-size: 11px;
-          font-weight: 500;
-          color: #FF4800;
-          background: transparent;
-          padding: 0 6px;
-          letter-spacing: 0.02em;
-        }
-        textarea ~ .floating-label-inactive {
-          top: 16px;
-          transform: translateY(0);
-        }
-        textarea ~ .floating-label-active {
-          top: 0;
-          transform: translateY(-50%);
-        }
-
-        /* ─── Dark Mode Overrides ────────────────────────────────────── */
-        html.dark .contact-form-card {
-          background: rgba(255, 255, 255, 0.02);
-          backdrop-filter: blur(30px) saturate(1.8);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-        }
-        
-        .dark .floating-label-active {
-          background: #0a0a14 !important;
-        }
-
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          20% { transform: translateX(-6px); }
-          40% { transform: translateX(6px); }
-          60% { transform: translateX(-6px); }
-          80% { transform: translateX(6px); }
-        }
-        .shake-error {
-          animation: shake 0.5s ease-in-out;
-        }
-      `}</style>
-
-      {/* CONTACT SECTION */}
-      <section className="px-0 pt-12 sm:pt-24 pb-24 sm:pb-32 bg-[#f8f8fc] dark:bg-[#0a0a14] relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(255,72,0,0.04)_0%,_transparent_50%)]" />
-
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start relative z-10">
-          {/* LEFT — Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8 }}
-          >
-            <form
-              ref={formRef}
-              onMouseMove={handleMouseMove}
-              onSubmit={handleSubmit}
-              className={`contact-form-card relative p-6 sm:p-12 space-y-8 rounded-[32px] overflow-hidden group ${formStatus === 'error' ? 'shake-error' : ''}`}
+      {/* ─── HERO / MAIN CONTACT SECTION (Matched with Reference UI) ─── */}
+      <section className="relative bg-white dark:bg-[#0a0a14] pt-28 sm:pt-36 pb-20 sm:pb-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            {/* ── LEFT COLUMN: Info ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease }}
+              className="lg:col-span-5 xl:col-span-6 space-y-8"
             >
-              {/* Cursor Light Effect */}
-              <div
-                className="pointer-events-none absolute -inset-px transition-opacity duration-500 opacity-0 group-hover:opacity-100 z-0"
-                style={{
-                  background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,72,0,0.12), transparent 40%)`
-                }}
-              />
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                <FloatingInput
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  label="Full Name *"
-                  delay={0.1}
-                />
-                <FloatingInput
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
-                  label="Phone Number *"
-                  delay={0.2}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 relative z-10">
-                <FloatingInput
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  label="Work Email (optional)"
-                  delay={0.3}
-                />
-              </div>
-
-              <div className="relative z-10">
-                <FloatingTextarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  label="Tell us about your challenge... (optional)"
-                  delay={0.5}
-                />
-              </div>
-
-              {errorMsg && (
-                <motion.p
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-red-500 dark:text-red-400 text-xs font-bold uppercase tracking-widest rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 px-5 py-4 relative z-10 text-center"
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800] block mb-3">
+                  Get In Touch
+                </span>
+                <h2
+                  className="font-bold text-black dark:text-white text-left text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] whitespace-nowrap"
+                  style={{ color: isDark ? '#ffffff' : '#000000' }}
                 >
-                  {errorMsg}
-                </motion.p>
-              )}
+                  Always Here to Help you
+                </h2>
+                <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl">
+                  Have a question about custom software, business automation, or AI solutions? Our team is ready to understand your challenges and build systems that deliver real outcomes.
+                </p>
+              </div>
 
+              {/* 4 Info Items */}
+              <div className="space-y-6 pt-2">
+                {/* Location */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#f0f2f7] dark:bg-white/[0.06] text-black dark:text-white shrink-0">
+                    <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-black dark:text-white">
+                      Location
+                    </h3>
+                    <p className="mt-0.5 text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400">
+                      Pune, Maharashtra 411001, India
+                    </p>
+                  </div>
+                </div>
 
-              <div className="relative z-10 pt-4">
-                <MagneticButton className="w-full">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full relative overflow-hidden group/btn bg-[#FF4800] text-white text-[13px] font-bold uppercase tracking-[0.2em] rounded-2xl min-h-[64px] transition-all hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_20px_50px_rgba(255,72,0,0.4)] disabled:opacity-50"
-                  >
-                    <AnimatePresence mode="wait">
-                      {formStatus === 'success' ? (
-                        <motion.div
-                          key="success"
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          className="flex items-center justify-center gap-3"
-                        >
-                          <CheckCircle2 size={20} />
-                          SENT SUCCESSFULLY
-                        </motion.div>
-                      ) : isSubmitting ? (
-                        <motion.div
-                          key="loading"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="flex items-center justify-center gap-3"
-                        >
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          PROCESSING...
-                        </motion.div>
+                {/* Contact */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#f0f2f7] dark:bg-white/[0.06] text-black dark:text-white shrink-0">
+                    <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-black dark:text-white">
+                      Contact
+                    </h3>
+                    <p className="mt-0.5 text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400">
+                      <a href="tel:+919623095766" className="hover:text-[#FF4800] transition-colors">
+                        +91 96230 95766
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#f0f2f7] dark:bg-white/[0.06] text-black dark:text-white shrink-0">
+                    <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-black dark:text-white">
+                      Email
+                    </h3>
+                    <p className="mt-0.5 text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400">
+                      <a href="mailto:stravedatech@gmail.com" className="hover:text-[#FF4800] transition-colors">
+                        stravedatech@gmail.com
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Hours of operation */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#f0f2f7] dark:bg-white/[0.06] text-black dark:text-white shrink-0">
+                    <Clock className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-black dark:text-white">
+                      Hours of operation
+                    </h3>
+                    <p className="mt-0.5 text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400">
+                      Monday &ndash; Friday: 09:00 &ndash; 18:00 IST
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ── RIGHT COLUMN: Form Card ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease }}
+              className="lg:col-span-7 xl:col-span-6"
+            >
+              <div className="rounded-3xl bg-[#f8f9fb] dark:bg-[#0f0f1d] p-6 sm:p-10 lg:p-12 border border-neutral-200/80 dark:border-neutral-800 shadow-[0_12px_40px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
+                <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  Ready To Get Started?
+                </h2>
+                <p className="mt-2 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
+                  Tell us about your project and we&apos;ll get back to you within 24 hours.
+                </p>
+
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                  {/* Name */}
+                  <div>
+                    <input
+                      required
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Name"
+                      className="w-full rounded-xl bg-white dark:bg-[#151528] px-4.5 py-3.5 text-base font-medium text-black dark:text-white placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-700/80 shadow-sm focus:border-[#FF4800] focus:ring-2 focus:ring-[#FF4800]/20 focus:outline-none transition duration-200"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <input
+                      required
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      className="w-full rounded-xl bg-white dark:bg-[#151528] px-4.5 py-3.5 text-base font-medium text-black dark:text-white placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-700/80 shadow-sm focus:border-[#FF4800] focus:ring-2 focus:ring-[#FF4800]/20 focus:outline-none transition duration-200"
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <input
+                      required
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Enter number"
+                      className="w-full rounded-xl bg-white dark:bg-[#151528] px-4.5 py-3.5 text-base font-medium text-black dark:text-white placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-700/80 shadow-sm focus:border-[#FF4800] focus:ring-2 focus:ring-[#FF4800]/20 focus:outline-none transition duration-200"
+                    />
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <textarea
+                      required
+                      rows={4}
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Write a message..."
+                      className="w-full rounded-xl bg-white dark:bg-[#151528] px-4.5 py-3.5 text-base font-medium text-black dark:text-white placeholder:text-neutral-400 border border-neutral-200 dark:border-neutral-700/80 shadow-sm focus:border-[#FF4800] focus:ring-2 focus:ring-[#FF4800]/20 focus:outline-none transition duration-200 resize-none"
+                    />
+                  </div>
+
+                  {/* Terms & Privacy checkbox */}
+                  <div className="flex items-center gap-2.5 pt-1">
+                    <input
+                      id="termsCheckbox"
+                      type="checkbox"
+                      required
+                      checked={termsAccepted}
+                      onChange={(e) => setTermsAccepted(e.target.checked)}
+                      className="h-4 w-4 rounded border-neutral-300 text-[#0f172a] focus:ring-[#FF4800] accent-[#0f172a] cursor-pointer"
+                    />
+                    <label
+                      htmlFor="termsCheckbox"
+                      className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 select-none cursor-pointer"
+                    >
+                      Accept terms and privacy policy.
+                    </label>
+                  </div>
+
+                  {errorMsg && (
+                    <p className="text-xs font-semibold text-red-500">
+                      {errorMsg}
+                    </p>
+                  )}
+
+                  {/* Send Message Button */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex items-center justify-center rounded-full bg-[#0c1222] hover:bg-[#FF4800] dark:bg-[#1a1a2e] dark:hover:bg-[#FF4800] text-white px-8 py-3.5 text-sm sm:text-base font-semibold shadow-md transition-all duration-300 disabled:opacity-60 cursor-pointer"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                          Sending...
+                        </>
                       ) : (
-                        <motion.div
-                          key="idle"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="flex items-center justify-center gap-3"
-                        >
-                          SEND MESSAGE
-                          <ArrowRight size={18} className="transition-transform group-hover/btn:translate-x-2" />
-                        </motion.div>
+                        'Send Message'
                       )}
-                    </AnimatePresence>
-                  </button>
-                </MagneticButton>
-              </div>
-
-              <p className="text-[#9ca3af] dark:text-slate-500 text-[10px] text-center uppercase tracking-[0.2em] relative z-10 font-bold">
-                Zero spam policy. We respond within 24 hours.
-              </p>
-            </form>
-          </motion.div>
-
-          {/* RIGHT — Contact Info */}
-          <div className="mt-8 lg:mt-0">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.5, delay: 0, ease }}
-              custom={0}
-              className="text-[#6b7280] dark:text-[#9ca3af] text-[12px] uppercase tracking-[0.15em] font-medium mb-8"
-            >
-              Or reach us directly
-            </motion.div>
-
-            {/* Email */}
-            <motion.div
-              custom={1}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="flex items-start gap-4 mb-6"
-            >
-              <Mail className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
-              <div>
-                <a href="mailto:stravedatech@gmail.com" className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors">
-                  stravedatech@gmail.com
-                </a>
+                    </button>
+                  </div>
+                </form>
               </div>
             </motion.div>
 
-            {/* Phone */}
-            <motion.div
-              custom={1.5}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="flex items-start gap-4 mb-6"
-            >
-              <Phone className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
-              <div>
-                <a href="tel:+919623095766" className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors">
-                  +91 96230 95766
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Location */}
-            <motion.div
-              custom={2}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="flex items-start gap-4 mb-6"
-            >
-              <MapPin className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
-              <div>
-                <p className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[16px] font-medium">
-                  Pune, Maharashtra 411001
-                </p>
-                <p className="text-[#6b7280] dark:text-[#9ca3af] text-[14px]">India</p>
-              </div>
-            </motion.div>
-
-            {/* Hours */}
-            <motion.div
-              custom={3}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="flex items-start gap-4 mb-6"
-            >
-              <Clock className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
-              <div>
-                <p className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[16px] font-medium">
-                  Monday &ndash; Friday
-                </p>
-                <p className="text-[#6b7280] dark:text-[#9ca3af] text-[14px]">
-                  9:00 AM &ndash; 6:00 PM IST
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Website */}
-            <motion.div
-              custom={4}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="flex items-start gap-4 mb-6"
-            >
-              <Globe className="w-5 h-5 text-[#FF4800] mt-0.5 shrink-0" />
-              <a
-                href="https://stravedatech.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#1a1a2e] dark:text-[#f0f0f5] text-[18px] font-medium hover:text-[#FF4800] transition-colors"
-              >
-                stravedatech.com
-              </a>
-            </motion.div>
-
-
-            {/* Divider */}
-            <motion.div
-              custom={6}
-              variants={infoItemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
-              className="h-px bg-[#e5e7eb] dark:bg-white/[0.06] my-8"
-            />
           </div>
         </div>
       </section>

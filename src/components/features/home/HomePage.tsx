@@ -155,7 +155,7 @@ function InteractiveServicesSection({
             OUR Services
           </p>
           <h2
-            className="font-normal text-black dark:text-white text-left text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
+            className="font-bold text-black dark:text-white text-left text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
             style={{ color: isDark ? '#ffffff' : '#000000' }}
           >
             Enterprise Software &amp; AI Automation Services
@@ -459,7 +459,7 @@ function TestimonialsCarousel() {
           </p>
 
           <h2
-            className="text-black mx-auto font-normal text-[clamp(1.75rem,5vw,3.5rem)]"
+            className="text-black mx-auto font-bold text-[clamp(1.75rem,5vw,3.5rem)]"
             style={{
               lineHeight: 1.05,
               letterSpacing: '-2px',
@@ -535,7 +535,7 @@ function FAQSection() {
             </p>
 
             <h2
-              className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)]"
+              className="font-bold text-black text-[clamp(1.75rem,5vw,3.5rem)]"
               style={{
                 lineHeight: 1.02,
                 letterSpacing: "-2.5px",
@@ -675,13 +675,179 @@ function SectionHeader({
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#FF4800' }}>{label}</p>
       <div className={`flex gap-4 ${isCenter ? 'justify-center' : 'justify-center md:justify-start'}`}>
         {/* Accent bar — desktop only */}
-        <h2 className="font-normal text-black" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word', color: '#000000' }}>
+        <h2 className="font-bold text-black dark:text-white" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word' }}>
           {heading}
         </h2>
       </div>
     </div>
   );
 }
+
+interface TechnologyPartner {
+  name: string;
+  srcLight: string;
+  srcDark: string;
+  width: number;
+  height: number;
+  className: string;
+  classNameLight?: string;
+}
+
+const technologyPartners: TechnologyPartner[] = [
+  {
+    name: 'Next.js',
+    srcLight: '/logos/nextjs-light.svg',
+    srcDark: '/logos/nextjs-dark.svg',
+    width: 110,
+    height: 34,
+    className: 'h-[38px] md:h-[46px] w-auto object-contain',
+    classNameLight: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'React',
+    srcLight: '/logos/react-light.svg',
+    srcDark: '/logos/react-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'TypeScript',
+    srcLight: '/logos/typescript-light.svg',
+    srcDark: '/logos/typescript-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Tailwind CSS',
+    srcLight: '/logos/tailwind-light.svg',
+    srcDark: '/logos/tailwind-dark.svg',
+    width: 210,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'OpenAI GPT-4o',
+    srcLight: '/logos/openai-light.svg',
+    srcDark: '/logos/openai-dark.svg',
+    width: 235,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Claude API',
+    srcLight: '/logos/claude-light.svg',
+    srcDark: '/logos/claude-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'LangChain',
+    srcLight: '/logos/langchain-light.svg',
+    srcDark: '/logos/langchain-dark.svg',
+    width: 185,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Vector DBs',
+    srcLight: '/logos/vectordb-light.svg',
+    srcDark: '/logos/vectordb-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'AWS',
+    srcLight: '/logos/aws-light.png',
+    srcDark: '/logos/aws-dark.png',
+    width: 100,
+    height: 60,
+    className: 'h-[44px] md:h-[52px] w-auto object-contain',
+  },
+  {
+    name: 'Google Cloud',
+    srcLight: '/logos/gcp-light.png',
+    srcDark: '/logos/gcp-dark.png',
+    width: 288,
+    height: 48,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'Microsoft Azure',
+    srcLight: '/logos/azure-light.png',
+    srcDark: '/logos/azure-dark.png',
+    width: 190,
+    height: 52,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'Docker',
+    srcLight: '/logos/docker-light.png',
+    srcDark: '/logos/docker-dark.png',
+    width: 220,
+    height: 52,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'CI/CD',
+    srcLight: '/logos/cicd-light.svg',
+    srcDark: '/logos/cicd-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Security',
+    srcLight: '/logos/security-light.svg',
+    srcDark: '/logos/security-dark.svg',
+    width: 165,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'PostgreSQL',
+    srcLight: '/logos/postgresql-light.svg',
+    srcDark: '/logos/postgresql-dark.svg',
+    width: 65,
+    height: 60,
+    className: 'h-[48px] md:h-[56px] w-auto object-contain',
+  },
+  {
+    name: 'Redis',
+    srcLight: '/logos/redis-light.svg',
+    srcDark: '/logos/redis-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Node.js',
+    srcLight: '/logos/nodejs-light.svg',
+    srcDark: '/logos/nodejs-dark.svg',
+    width: 160,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'REST / GraphQL',
+    srcLight: '/logos/graphql-light.svg',
+    srcDark: '/logos/graphql-dark.svg',
+    width: 245,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Vercel',
+    srcLight: '/logos/vercel-light.svg',
+    srcDark: '/logos/vercel-dark.svg',
+    width: 130,
+    height: 26,
+    className: 'h-[28px] md:h-[34px] w-auto object-contain',
+  },
+];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -846,6 +1012,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="overflow-x-hidden w-full bg-white dark:bg-[#0a0a14]">
+
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -866,10 +1033,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* ── Our Expertise / Services Section (2nd Section) ── */}
-      <InteractiveServicesSection isDark={isDark} onNavigate={onNavigate} />
+      <div id="section-services">
+        <InteractiveServicesSection isDark={isDark} onNavigate={onNavigate} />
+      </div>
 
       {/* ── Sandesa Section ── */}
-      <SandesaSection isDark={isDark} />
+      <div id="section-sandesa">
+        <SandesaSection isDark={isDark} />
+      </div>
 {/* ── About / Stats ── */}
 <section
   id="section-about"
@@ -897,7 +1068,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
         {/* Heading */}
         <h2
-          className="text-[clamp(2.2rem,4.5vw,4rem)] font-normal text-black"
+          className="text-[clamp(2.2rem,4.5vw,4rem)] font-bold text-black dark:text-white"
           style={{
             lineHeight: 1.05,
             letterSpacing: "-2.5px",
@@ -1053,7 +1224,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
           <h2
-            className="font-normal text-black text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+            className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
             style={{
               lineHeight: 1.05,
               letterSpacing: "-2px",
@@ -1477,7 +1648,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </p>
 
       <h2
-        className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] whitespace-nowrap"
+        className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] whitespace-nowrap"
         style={{
           lineHeight: 1.05,
           letterSpacing: "-2px",
@@ -1732,7 +1903,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               PRICING
             </p>
             <h2
-              className="font-normal text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
+              className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
               style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
             >
               Flexible Engagement Models
@@ -1871,8 +2042,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
-            className="font-normal text-black mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word', color: '#000000' }}
+            className="font-bold text-black dark:text-white mx-auto"
+            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
             A Foundation for What&apos;s Next
           </h2>
@@ -1883,75 +2054,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             className="flex w-max items-center"
             animate={{ x: [0, '-50%'] }}
             transition={{
-              duration: 25,
+              duration: 40,
               ease: 'linear',
               repeat: Infinity,
             }}
           >
             {/* First set */}
             <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
-              {[
-                {
-                  name: 'AWS',
-                  srcLight: '/logos/aws-light.png',
-                  srcDark: '/logos/aws-dark.png',
-                  width: 100,
-                  height: 60,
-                  className: 'h-[44px] md:h-[52px] w-auto object-contain',
-                },
-                {
-                  name: 'Google Cloud',
-                  srcLight: '/logos/gcp-light.png',
-                  srcDark: '/logos/gcp-dark.png',
-                  width: 288,
-                  height: 48,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Docker',
-                  srcLight: '/logos/docker-light.png',
-                  srcDark: '/logos/docker-dark.png',
-                  width: 220,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Microsoft Azure',
-                  srcLight: '/logos/azure-light.png',
-                  srcDark: '/logos/azure-dark.png',
-                  width: 190,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-{
-  name: "Vercel",
-  srcLight: "/logos/vercel-light.svg",
-  srcDark: "/logos/vercel-dark.svg",
-  width: 130,
-  height: 26,
-  className: "h-[22px] md:h-[26px] w-auto object-contain",
-  style: {
-    width: "auto",
-  },
-},
-                {
-                  name: 'PostgreSQL',
-                  srcLight: '/logos/postgresql-light.svg',
-                  srcDark: '/logos/postgresql-dark.svg',
-                  width: 65,
-                  height: 60,
-                  className: 'h-[48px] md:h-[56px] w-auto object-contain',
-                },
-                {
-                  name: 'Next.js',
-                  srcLight: '/logos/nextjs-light.svg',
-                  srcDark: '/logos/nextjs-dark.svg',
-                  width: 110,
-                  height: 34,
-                  className: 'h-[30px] md:h-[34px] w-auto object-contain',
-                  classNameLight: 'h-[42px] md:h-[48px] w-auto object-contain',
-                },
-              ].map((partner) => (
+              {technologyPartners.map((partner) => (
                 <div
                   key={`first-${partner.name}`}
                   className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
@@ -1976,65 +2086,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
             {/* Duplicate set for seamless auto-scroll */}
             <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
-              {[
-                {
-                  name: 'AWS',
-                  srcLight: '/logos/aws-light.png',
-                  srcDark: '/logos/aws-dark.png',
-                  width: 100,
-                  height: 60,
-                  className: 'h-[44px] md:h-[52px] w-auto object-contain',
-                },
-                {
-                  name: 'Google Cloud',
-                  srcLight: '/logos/gcp-light.png',
-                  srcDark: '/logos/gcp-dark.png',
-                  width: 288,
-                  height: 48,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Docker',
-                  srcLight: '/logos/docker-light.png',
-                  srcDark: '/logos/docker-dark.png',
-                  width: 220,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Microsoft Azure',
-                  srcLight: '/logos/azure-light.png',
-                  srcDark: '/logos/azure-dark.png',
-                  width: 190,
-                  height: 52,
-                  className: 'h-[38px] md:h-[44px] w-auto object-contain',
-                },
-                {
-                  name: 'Vercel',
-                  srcLight: '/logos/vercel-light.svg',
-                  srcDark: '/logos/vercel-dark.svg',
-                  width: 130,
-                  height: 26,
-                  className: 'h-[22px] md:h-[26px] w-auto object-contain',
-                },
-                {
-                  name: 'PostgreSQL',
-                  srcLight: '/logos/postgresql-light.svg',
-                  srcDark: '/logos/postgresql-dark.svg',
-                  width: 65,
-                  height: 60,
-                  className: 'h-[48px] md:h-[56px] w-auto object-contain',
-                },
-                {
-                  name: 'Next.js',
-                  srcLight: '/logos/nextjs-light.svg',
-                  srcDark: '/logos/nextjs-dark.svg',
-                  width: 110,
-                  height: 34,
-                  className: 'h-[30px] md:h-[34px] w-auto object-contain',
-                  classNameLight: 'h-[42px] md:h-[48px] w-auto object-contain',
-                },
-              ].map((partner) => (
+              {technologyPartners.map((partner) => (
                 <div
                   key={`second-${partner.name}`}
                   className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"

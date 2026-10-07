@@ -212,7 +212,7 @@ export default function ServiceComparison() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.7, delay: 0.15, ease }}
-            className="masked-title font-normal"
+            className="font-bold text-black dark:text-white"
             style={{ fontSize: 'clamp(1.5rem, 4vw, 2.8rem)', lineHeight: 1.1, letterSpacing: '-2.05px' }}
           >
             Find the right solution for your enterprise.

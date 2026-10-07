@@ -10,6 +10,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'export',        // Fully static export — zero Node.js server required
+  trailingSlash: true,
   images: {
     unoptimized: true,     // Required for static export (no Image Optimization API)
     remotePatterns: [

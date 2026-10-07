@@ -17,7 +17,7 @@ const fadeUp = {
 };
 
 // Shared typography — matches PageHeader (Services / Insights)
-const H2_CLASS = 'font-normal heading-gradient';
+const H2_CLASS = 'font-bold heading-gradient';
 const H2_STYLE = {
   fontSize: 'clamp(2rem, 4vw, 3rem)',
   lineHeight: 1.0,
@@ -142,7 +142,7 @@ function HeroSection({ onViewRoles }: { onViewRoles: () => void }) {
             <span className="h-[1px] w-8 bg-[#FF4800]" />
             <span className="text-[12px] font-bold uppercase tracking-[0.25em] text-[#FF4800]">Careers at StravedaTech</span>
           </div>
-          <h1 className="font-normal leading-[1.1] tracking-[-2.05px] mb-6 text-[#24213F] dark:text-[#f0f0f5] max-w-3xl" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
+          <h1 className="font-bold leading-[1.1] tracking-[-2.05px] mb-6 text-[#24213F] dark:text-[#f0f0f5] max-w-3xl" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
             Build the systems that eliminate busywork<br />
             <span style={{ color: '#FF4800' }}>for mid-market teams.</span>
           </h1>
@@ -214,7 +214,7 @@ function WhoWorksHereSection() {
       <div className="max-w-[1320px] mx-auto">
         <motion.div {...fadeUp} className="mb-12">
           <p className="text-[12px] font-normal uppercase tracking-[0.25em] text-[#FF4800] mb-4">Who We Are</p>
-          <h2 className="font-normal leading-[1.1] tracking-[-2.05px] text-[#202039] dark:text-[#f0f0f5] mb-4" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
+          <h2 className="font-bold leading-[1.1] tracking-[-2.05px] text-[#202039] dark:text-[#f0f0f5] mb-4" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
             Smart people solving<br />real problems. That&apos;s us.
           </h2>
         </motion.div>

@@ -1133,7 +1133,7 @@ useEffect(() => {
 
      
            <h2
-  className="font-normal heading-gradient"
+  className="font-bold heading-gradient"
   style={{
     fontSize: 'clamp(1.6rem, 3.5vw, 3rem)',
     lineHeight: 1.05,
@@ -1606,7 +1606,7 @@ useEffect(() => {
       </SectionLabel>
 
       <h2
-        className="font-normal heading-gradient"
+        className="font-bold heading-gradient"
         style={{
           fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
           lineHeight: 1.05,
@@ -2030,7 +2030,7 @@ useEffect(() => {
 
             
             <h2
-            className="font-normal heading-gradient mx-auto"
+            className="font-bold heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
             Why Business Choose Straveda
@@ -2193,7 +2193,7 @@ useEffect(() => {
 
           
             <h2
-            className="font-normal heading-gradient mx-auto"
+            className="font-bold heading-gradient mx-auto"
             style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
           >
             Premium eCommerce, Built to Scale
