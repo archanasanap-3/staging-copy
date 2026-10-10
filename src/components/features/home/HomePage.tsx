@@ -677,7 +677,7 @@ function FAQSection() {
             className="mt-0 text-left lg:pt-0"
           >
             <p
-              className="mb-2 text-[11px] font-medium uppercase tracking-widest"
+              className="mb-2 text-[11px] font-bold uppercase tracking-widest"
               style={{ color: "#FF4800" }}
             >
               FREQUENTLY ASKED QUESTIONS
@@ -1207,10 +1207,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         }}
         className="flex flex-col items-start"
       >
+
         {/* Small label */}
         <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF4800]">
           WHO WE ARE
         </p>
+
+       {/* Small Label */}
+<p
+  className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em]"
+  style={{ color: "#FF4800" }}
+>
+  WHO WE ARE
+</p>
 
         {/* Heading */}
         <h2
@@ -1337,12 +1346,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       >
         {/* Heading */}
         <div className="relative z-40 mx-auto max-w-7xl px-0 text-center">
-          <p
-            className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-            style={{ color: "#FF4800" }}
-          >
-            OUR CLIENTS
-          </p>
+         {/* Small Label */}
+<p
+  className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em]"
+  style={{ color: "#FF4800" }}
+>
+  our clients
+</p>
 
 
           <h2
@@ -1745,7 +1755,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-   {/* ── Problem Section ── */}
+ 
+{/* ── Problem Section ── */}
 <section className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden">
   <div className="mx-auto max-w-7xl relative z-10">
 
@@ -1755,24 +1766,20 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="text-left mb-12 md:mb-16"
+      className="text-left mb-6 md:mb-8"
     >
       <p
-        className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-        style={{ color: "#FF4800" }}
-      >
-        THE REAL PROBLEM
-      </p>
-
-      <h2
-        className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
-      >
+  className="mb-4 text-[11px] font-bold uppercase tracking-widest"
+  style={{ color: "#FF4800" }}
+>
+  THE REAL PROBLEM
+</p>
+      <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
         You&apos;re not short on software
         <span className="mx-3"></span>
         You&apos;re drowning in it
       </h2>
     </motion.div>
-
 
     {/* Cards */}
     <motion.div
@@ -1786,37 +1793,31 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       }}
       className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 text-center"
     >
-
       {[
         {
           num: "01",
           heading: "The Tool Tax",
-          body:
-            "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
+          body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
         },
         {
           num: "02",
           heading: "The Integration Debt",
-          body:
-            'Every new tool requires a Zapier hack.  IT says a "proper integration" is a 6 Month project.',
+          body: 'Every new tool requires a Zapier hack. IT says a "proper integration" is a 6 Month project.',
         },
         {
           num: "03",
           heading: "The Visibility Gap",
-          body:
-            "Leadership can't see pipeline health, ops can't see inventory, and finance.",
+          body: "Leadership can't see pipeline health, ops can't see inventory, and finance.",
         },
         {
           num: "04",
           heading: "The Process Drag",
-          body:
-            "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
+          body: "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
         },
         {
           num: "05",
           heading: "The Growth Barrier",
-          body:
-            "As your business grows, disconnected systems become harder to manage.",
+          body: "As your business grows, disconnected systems become harder to manage.",
         },
       ].map((item) => (
         <motion.div
@@ -1825,16 +1826,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           whileHover="hover"
           className="group flex flex-col items-center cursor-pointer"
         >
-
           {/* NUMBER AREA */}
           <div className="relative h-[100px] sm:h-[110px] md:h-[118px] w-full flex items-end justify-center overflow-hidden">
-
             <motion.div
               variants={{
                 rest: {
                   y: 20,
                   opacity: 1,
-                  scale: 0.96,
+                  scale: 1,
+                  scaleX: 1.12,
                   color: isDark
                     ? "rgba(255,255,255,0.4)"
                     : "#94A3B8",
@@ -1843,6 +1843,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   y: 0,
                   opacity: 1,
                   scale: 1,
+                  scaleX: 1.18,
                   color: "#FF4800",
                 },
               }}
@@ -1854,32 +1855,31 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 problem-number-fade
                 absolute
                 bottom-2
-                text-[78px]
-                sm:text-[84px]
-                md:text-[90px]
-                lg:text-[96px]
-                font-extrabold
+                text-[86px]
+                sm:text-[94px]
+                md:text-[104px]
+                lg:text-[110px]
+                font-black
                 tracking-[-0.07em]
                 leading-[0.72]
                 select-none
+                origin-center
+                whitespace-nowrap
               "
             >
               {item.num}
             </motion.div>
           </div>
 
-
           {/* Heading */}
           <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
             {item.heading}
           </h3>
 
-
-          {/* Description — 3 lines */}
+          {/* Description */}
           <p className="mt-2 max-w-[320px] h-[72px] text-[16px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3 overflow-hidden">
             {item.body}
           </p>
-
         </motion.div>
       ))}
     </motion.div>
@@ -1887,25 +1887,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   </div>
 </section>
 
-     
-{/* ── Process Section ── */}
-<section
-  className="relative overflow-hidden py-14 md:py-20"
-  style={{ background: isDark ? "#12121e" : "#ffffff" }}
->
-  <div className="relative z-10 mx-auto max-w-7xl">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="mb-12 md:mb-16"
-    >
-      <SectionHeader
-        label="HOW WE WORK"
-        heading="From Strategy Call to Live System"
-      />
-    </motion.div>
+
+      {/* ── Process Section ── */}
+      <section
+        className="relative py-12 md:py-16"
+        style={{ background: isDark ? '#12121e' : '#ffffff' }}
+      >
+        <div className="mx-auto max-w-7xl relative z-10">
 
     <div className="relative">
       {/* Connecting line */}
@@ -2009,7 +1997,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-10 md:mb-16"
           >
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
               PRICING
             </p>
             <h2
@@ -2149,7 +2137,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
-          <p className="mb-4 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
             className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
           >
