@@ -2199,30 +2199,17 @@ useEffect(() => {
             Premium eCommerce, Built to Scale
           </h2>
 
-            {/* Timeline UI matching Work Process design */}
-            <div className="mt-14 mx-auto max-w-3xl">
-              <div className="relative pl-6 sm:pl-10">
-                {/* Vertical Orange Timeline Line */}
-                <div
-                  className="absolute left-[7px] sm:left-[11px] top-3 bottom-6 w-[2px]"
-                  style={{ backgroundColor: '#FF4800' }}
-                />
-
-                <div className="space-y-8 sm:space-y-10">
-                  {finalFeatures.map((feature, index) => (
-                    <div key={feature} className="relative flex items-start gap-4 sm:gap-6 group">
-                      {/* Orange Dot on Timeline */}
-                      <div
-                        className="absolute -left-[24px] sm:-left-[36px] top-1.5 w-3 h-3 rounded-full border-2 border-white dark:border-[#0a0a14] shrink-0 transition-transform duration-300 group-hover:scale-125"
-                        style={{ backgroundColor: '#FF4800', boxShadow: '0 0 10px rgba(255,72,0,0.4)' }}
-                      />
-
-                      {/* Step Number */}
+            {/* Features List: 01-05 on Left, 06-10 on Right */}
+            <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20 gap-y-8 sm:gap-y-10">
+              {/* Left Column (01 - 05) */}
+              <div className="space-y-8 sm:space-y-10">
+                {finalFeatures.slice(0, 5).map((feature, idx) => {
+                  const number = String(idx + 1).padStart(2, '0');
+                  return (
+                    <div key={feature} className="flex items-start gap-4 sm:gap-6">
                       <span className="text-base sm:text-lg font-mono font-medium text-slate-400 dark:text-slate-500 tracking-wider pt-0.5 shrink-0 select-none">
-                        {String(index + 1).padStart(2, '0')}
+                        {number}
                       </span>
-
-                      {/* Content */}
                       <div className="flex-1">
                         <h3 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
                           {feature}
@@ -2232,36 +2219,32 @@ useEffect(() => {
                         </p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
+              </div>
+
+              {/* Right Column (06 - 10) */}
+              <div className="space-y-8 sm:space-y-10">
+                {finalFeatures.slice(5, 10).map((feature, idx) => {
+                  const number = String(idx + 6).padStart(2, '0');
+                  return (
+                    <div key={feature} className="flex items-start gap-4 sm:gap-6">
+                      <span className="text-base sm:text-lg font-mono font-medium text-slate-400 dark:text-slate-500 tracking-wider pt-0.5 shrink-0 select-none">
+                        {number}
+                      </span>
+                      <div className="flex-1">
+                        <h3 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+                          {feature}
+                        </h3>
+                        <p className="mt-0.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                          ({featureDescriptions[feature] || 'premium commerce solution built around your business'})
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-          
-
-          <div className="mt-12 flex flex-wrap items-center gap-4">
-
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-3 rounded-full bg-[#FF4800] px-7 py-4 text-sm font-semibold text-white transition-all hover:bg-[#e64000] hover:scale-[1.02]"
-            >
-
-              Build Your Commerce Platform
-
-              <ArrowRight size={17} />
-
-            </a>
-
-            <a
-              href="/"
-              className="inline-flex items-center gap-3 rounded-full border border-[#0f172a]/15 bg-white px-7 py-4 text-sm font-semibold transition-all hover:border-[#FF4800] hover:text-[#FF4800]"
-            >
-
-              Explore Straveda
-
-            </a>
-
-          </div>
 
         </div>
 

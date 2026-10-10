@@ -402,12 +402,7 @@ function WhyStravedaSection() {
           </span>
 
           <h2
-            className="mt-4 font-bold text-black dark:text-white"
-            style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.25rem)',
-              lineHeight: 1.1,
-              letterSpacing: '-2.05px',
-            }}
+            className="mt-4 font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
           >
             Built for How You Work
           </h2>
