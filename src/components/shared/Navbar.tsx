@@ -157,7 +157,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
           <Link
             href="/"
             className="z-10 shrink-0 select-none relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
-            style={{ height: 42, width: 150 }}
+            style={{ height: 32, width: 120 }}
             onMouseEnter={(e) => { e.stopPropagation(); setCursorStyle('link'); }}
             onMouseLeave={() => setCursorStyle('nav')}
           >
