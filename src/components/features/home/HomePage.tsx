@@ -459,12 +459,7 @@ function TestimonialsCarousel() {
           </p>
 
           <h2
-            className="text-black mx-auto font-bold text-[clamp(1.75rem,5vw,3.5rem)]"
-            style={{
-              lineHeight: 1.05,
-              letterSpacing: '-2px',
-              color: '#000000',
-            }}
+            className="text-black dark:text-white mx-auto font-bold text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
           >
             What Our Clients Say
           </h2>
@@ -521,10 +516,10 @@ function FAQSection() {
 
           {/* LEFT SIDE */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-0 text-left lg:pt-0"
           >
             <p
@@ -535,12 +530,7 @@ function FAQSection() {
             </p>
 
             <h2
-              className="font-bold text-black text-[clamp(1.75rem,5vw,3.5rem)]"
-              style={{
-                lineHeight: 1.02,
-                letterSpacing: "-2.5px",
-                color: "#000000",
-              }}
+              className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
             >
               Questions?
               <br />
@@ -555,7 +545,7 @@ function FAQSection() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-40px" }}
             variants={{
               hidden: {},
               visible: {
@@ -675,7 +665,7 @@ function SectionHeader({
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#FF4800' }}>{label}</p>
       <div className={`flex gap-4 ${isCenter ? 'justify-center' : 'justify-center md:justify-start'}`}>
         {/* Accent bar — desktop only */}
-        <h2 className="font-bold text-black dark:text-white" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word' }}>
+        <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
           {heading}
         </h2>
       </div>
@@ -1052,10 +1042,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ───────── LEFT SIDE ───────── */}
       <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         className="flex h-full flex-col"
       >
         {/* Small Label */}
@@ -1068,11 +1058,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
         {/* Heading */}
         <h2
-          className="text-[clamp(2.2rem,4.5vw,4rem)] font-bold text-black dark:text-white"
-          style={{
-            lineHeight: 1.05,
-            letterSpacing: "-2.5px",
-          }}
+          className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
         >
           We Get It Because
           <br />
@@ -1091,10 +1077,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ───────── RIGHT SIDE — STATS ───────── */}
       <motion.div
         ref={statsRef}
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
         className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:gap-x-16"
       >
 
@@ -1211,7 +1197,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── Client People / Connection Section ── */}
       <section
-        className="hidden relative w-full overflow-hidden bg-white py-8 md:py-10 dark:bg-[#0a0a14]"
+        className="relative w-full overflow-hidden bg-white py-8 md:py-10 dark:bg-[#0a0a14]"
       >
         {/* Heading */}
         <div className="relative z-40 mx-auto max-w-7xl px-0 text-center">
@@ -1224,12 +1210,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
           <h2
-            className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-            style={{
-              lineHeight: 1.05,
-              letterSpacing: "-2px",
-              color: "#000000",
-            }}
+            className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
           >
             Built Together Growing Together
           </h2>
@@ -1634,10 +1615,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
     {/* Heading */}
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       className="text-left mb-12 md:mb-16"
     >
       <p
@@ -1648,11 +1629,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </p>
 
       <h2
-        className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] whitespace-nowrap"
-        style={{
-          lineHeight: 1.05,
-          letterSpacing: "-2px",
-        }}
+        className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
       >
         You&apos;re not short on software
         <span className="mx-3">·</span>
@@ -1663,13 +1640,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
     {/* Cards */}
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-40px" }}
       transition={{
-        duration: 0.8,
+        duration: 0.6,
         delay: 0.1,
-        ease,
+        ease: [0.25, 0.1, 0.25, 1],
       }}
       className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 text-center"
     >
@@ -1782,10 +1759,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="mx-auto max-w-7xl relative z-10">
 
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="mb-10 md:mb-16"
           >
             <SectionHeader
@@ -1841,13 +1818,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               ].map((item) => (
                 <motion.div
                   key={item.step}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
+                  viewport={{ once: true, margin: '-40px' }}
                   transition={{
-                    duration: 0.6,
-                    delay: parseInt(item.step) * 0.08,
-                    ease,
+                    duration: 0.5,
+                    delay: parseInt(item.step) * 0.05,
+                    ease: [0.25, 0.1, 0.25, 1],
                   }}
                   className="relative flex flex-col items-center text-center min-w-0"
                 >
@@ -1893,18 +1870,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       >
         <div className="mx-auto max-w-7xl relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-10 md:mb-16"
           >
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
               PRICING
             </p>
             <h2
-              className="font-bold text-black dark:text-white text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
+              className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
             >
               Flexible Engagement Models
             </h2>
@@ -2037,13 +2013,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Where We Stand / Technology Partners ── */}
       <section
         id="section-partners"
-        className="py-12 md:py-16 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
+        className="py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
           <h2
-            className="font-bold text-black dark:text-white mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
+            className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
           >
             A Foundation for What&apos;s Next
           </h2>
