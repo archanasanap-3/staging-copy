@@ -165,7 +165,7 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
               src={isDarkMode ? '/logos/blackmain_logo_cropped.png' : '/logos/main_logo_cropped.png'}
               alt="Straveda"
               fill
-              sizes="220px"
+              sizes="180px"
               className="object-contain object-left"
               priority
             />

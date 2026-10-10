@@ -2,8 +2,11 @@
 'use client';
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence, animate, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, animate, useMotionValueEvent, useMotionValue } from 'framer-motion';
+import { useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from 'next-themes';
 import {
   Star,
@@ -19,6 +22,14 @@ import {
   Code,
   Cpu,
 } from 'lucide-react';
+import {
+  BrainCircuit,
+  Settings,
+  Database,
+  Workflow,
+  Code2,
+  ShieldCheck,
+} from "lucide-react";
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SandesaSection from '@/components/features/home/SandesaSection';
@@ -111,7 +122,9 @@ const servicesData: ServiceDetail[] = [
     route: 'web-development',
     image: '/images/services/web-development.jpg',
   },
+  
 ];
+
 
 function InteractiveServicesSection({
   isDark,
@@ -121,153 +134,294 @@ function InteractiveServicesSection({
   onNavigate: (page: string) => void;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const total = servicesData.length;
 
-  // Auto rotate timer every 4s
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % servicesData.length);
-    }, 4000);
+ const sectionRef = useRef<HTMLElement | null>(null);
 
-    return () => clearInterval(timer);
-  }, []);
+ const scrollDirectionRef = useRef(0);
+
+useEffect(() => {
+  if (total <= 1 || !sectionRef.current) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = sectionRef.current;
+  
+
+const trigger = ScrollTrigger.create({
+  trigger: section,
+  start: "top top",
+  end: () => `+=${(total - 1) * window.innerHeight * 0.2}`,
+  pin: true,
+  scrub: false,
+  anticipatePin: 1,
+
+  // snap: {
+  //   snapTo: 1 / (total - 1),
+  //   duration: 0.15,
+  //   delay: 0,
+  //   ease: "power1.out",
+  // },
+
+  
+
+  onUpdate: (self) => {
+  const nextIndex = Math.min(
+    total - 1,
+    Math.floor(self.progress * total)
+  );
+
+  setActiveIndex((current) =>
+    current === nextIndex ? current : nextIndex
+  );
+},
+
+});
+
+  return () => {
+    trigger.kill();
+  };
+}, [total]);
+
+  if (total === 0) return null;
 
   const activeService = servicesData[activeIndex];
 
-  const handleSelectService = (index: number) => {
-    setActiveIndex(index);
-  };
-
   return (
     <section
-      id="section-services"
-      className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden transition-colors duration-300"
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* ── Section Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-          className="mb-10 md:mb-14"
+  ref={sectionRef}
+  id="section-services"
+  className="bg-white py-10 transition-colors duration-300 dark:bg-[#0a0a14] md:py-14"
+>
+      {/* Section heading */}
+      <div className="mx-auto max-w-7xl px-4 pb-7 sm:px-6 lg:px-8">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+          OUR Services
+        </p>
+
+        <h2
+          className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
+          style={{ color: isDark ? "#ffffff" : "#000000" }}
         >
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
-            OUR Services
-          </p>
-          <h2
-            className="font-bold text-black dark:text-white text-left text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
-            style={{ color: isDark ? '#ffffff' : '#000000' }}
-          >
-            Enterprise Software &amp; AI Automation Services
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-400 max-w-full leading-relaxed">
-            We build high performance infrastructure and intelligent automation
-            systems designed for the next generation of enterprise growth.
-          </p>
-        </motion.div>
+          Enterprise Software &amp; AI Automation Services
+        </h2>
 
-        {/* ── Main Showcase: Left Names List & Right Direct Image + Info ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-          {/* ──── Left Side: Only Numbers + Service Names (Highlight on Active/Hover) ──── */}
-          <div className="lg:col-span-7 flex flex-col space-y-4 sm:space-y-6">
-            {servicesData.map((item, index) => {
-              const isActive = index === activeIndex;
+        <p className="mt-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+          We build high performance infrastructure and intelligent automation
+          systems designed for the next generation of enterprise growth.
+        </p>
+      </div>
 
-              return (
-                <div
-                  key={item.number}
-                  onClick={() => handleSelectService(index)}
-                  onMouseEnter={() => handleSelectService(index)}
-                  className="group flex items-center gap-6 sm:gap-9 cursor-pointer select-none py-1.5 transition-all duration-200"
-                >
-                  {/* Left Number (01, 02, 03, 04) */}
-                  <span
-                    className={`font-mono text-2xl sm:text-3xl md:text-4xl transition-colors duration-300 w-10 sm:w-12 shrink-0 ${
-                      isActive
-                        ? 'font-bold text-black dark:text-white'
-                        : 'font-normal text-neutral-300 dark:text-neutral-700'
-                    }`}
-                  >
-                    {item.number}
-                  </span>
+      {/* 3D upward card transition */}
+      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div
+          className="relative h-[440px] sm:h-[390px] lg:h-[360px]"
+          style={{ perspective: "1400px" }}
+        >
+          {/* Cards behind the active card */}
+          {servicesData.map((service, index) => {
+            const distance = (index - activeIndex + total) % total;
 
-                  {/* Service Title */}
-                  <h3
-                    className={`text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] tracking-tight transition-all duration-300 leading-snug ${
-                      isActive
-                        ? 'font-bold text-black dark:text-white'
-                        : 'font-semibold text-neutral-300 dark:text-neutral-700 group-hover:text-neutral-500 dark:group-hover:text-neutral-400'
-                    }`}
-                  >
-                    {item.title}
-                  </h3>
-                </div>
-              );
-            })}
-          </div>
+            if (distance === 0 || distance > 3) return null;
 
-          {/* ──── Right Side: Direct Image (No outer card) + Info + Button ──── */}
-          <div className="lg:col-span-5 flex flex-col items-start lg:items-end">
-            <div className="w-full max-w-md flex flex-col">
-              {/* Image Preview Container (Sleek, Compact, No outer card box) */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl shadow-lg bg-neutral-100 dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeService.number}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeInOut' }}
-                    className="relative w-full h-full"
-                  >
-                    <Image
-                      src={activeService.image}
-                      alt={activeService.title}
-                      fill
-                      priority
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 100vw, 450px"
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+            return (
+              <motion.div
+                key={service.number}
+                className="absolute inset-0"
+                initial={false}
+                animate={{
+                  y: distance * 18,
+                  scale: 1 - distance * 0.035,
+                  rotateX: -4 * distance,
+                  opacity: 1,
+                }}
+                transition={{
+                  duration: 0.45,
+                  ease: [0.76, 0, 0.24, 1],
+                }}
+                style={{
+                  zIndex: total - distance,
+                  transformOrigin: "center top",
+                  pointerEvents: "none",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                <StackedServiceCard
+                  service={service}
+                  index={index}
+                  total={total}
+                  isDark={isDark}
+                  onNavigate={onNavigate}
+                />
+              </motion.div>
+            );
+          })}
 
-              {/* Info text beneath image */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeService.number}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.25, ease: 'easeOut' }}
-                  className="mt-3.5 space-y-3.5"
-                >
-                  <p className="text-[13px] sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                    {activeService.description}
-                  </p>
+          {/* Active card lifts upward and exits in 3D */}
+          <AnimatePresence initial={false} mode="sync">
+            <motion.div
+              key={activeService.number}
+              className="absolute inset-0"
+              initial={{
+                y: "100%",
+                rotateX: 12,
+                scale: 0.94,
+                opacity: 0,
+              }}
+              animate={{
+                y: 0,
+                rotateX: 0,
+                scale: 1,
+                opacity: 1,
+              }}
+              exit={{
+  y: "-45%",
+  rotateX: 90,
+  scale: 1,
+  opacity: 1,
+}}
+transition={{
+  duration: 1.2,
+  ease: [0.76, 0, 0.24, 1],
+}}
+style={{
+  zIndex: total + 10,
+  transformOrigin: "center top",
+  transformStyle: "preserve-3d",
+  backfaceVisibility: "visible",
+}}
+            >
+              <StackedServiceCard
+                service={activeService}
+                index={activeIndex}
+                total={total}
+                isDark={isDark}
+                onNavigate={onNavigate}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-                  {/* Compact Pill CTA Button */}
-                  <div>
-                    <button
-                      onClick={() => onNavigate(activeService.route)}
-                      className="inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 px-5 py-2.5 text-xs sm:text-[13px] font-medium hover:bg-[#FF4800] dark:hover:bg-[#FF4800] dark:hover:text-white transition-all duration-200 shadow-sm cursor-pointer group"
-                    >
-                      <span>{activeService.ctaLabel}</span>
-                      <ArrowRight
-                        size={13}
-                        className="transition-transform duration-200 group-hover:translate-x-1"
-                      />
-                    </button>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+        {/* Current service indicator */}
+        <div className="mt-5 flex justify-center gap-2">
+          {servicesData.map((service, index) => (
+            <button
+              key={service.number}
+              type="button"
+              aria-label={`Show service ${index + 1}`}
+              onClick={() => setActiveIndex(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? "w-7 bg-[#FF4800]"
+                  : "w-2 bg-neutral-300 dark:bg-neutral-700"
+              }`}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 }
+
+
+
+function StackedServiceCard({
+  service,
+  index,
+  total,
+  isDark,
+  onNavigate,
+}: {
+  service: (typeof servicesData)[number];
+  index: number;
+  total: number;
+  isDark: boolean;
+  onNavigate: (page: string) => void;
+}) {
+  return (
+    <article className="h-full overflow-hidden rounded-2xl md:rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a14] shadow-xl">
+      <div className="grid h-full grid-cols-1 md:grid-cols-2">
+        {/* Text */}
+        <div className="flex min-h-0 flex-col justify-between overflow-y-auto p-5 sm:p-7 md:p-8 lg:p-10">
+          <div>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#FF4800]">
+                OUR SERVICES
+              </span>
+
+              <span className="font-mono text-xs sm:text-sm text-neutral-400">
+                {service.number} / {String(total).padStart(2, "0")}
+              </span>
+            </div>
+
+            <h3
+              className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight text-black dark:text-white"
+              style={{ color: isDark ? "#ffffff" : "#000000" }}
+            >
+              {service.title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+              {service.description}
+            </p>
+          </div>
+
+          <button
+            onClick={() => onNavigate(service.route)}
+            className="mt-5 self-start inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#FF4800] dark:hover:bg-[#FF4800] dark:hover:text-white transition-colors"
+          >
+            {service.ctaLabel}
+            <ArrowRight size={14} />
+          </button>
+        </div>
+
+        {/* Right Side: Service Icons */}
+<div className="flex items-center justify-center border-t md:border-t-0 md:border-l border-neutral-200 dark:border-neutral-800 bg-orange-50/40 dark:bg-[#101019] p-5 sm:p-6">
+  <div className="grid w-full max-w-sm grid-cols-2 gap-4">
+    {(
+      service.title.includes("AI")
+        ? [
+            { label: "AI Consulting", Icon: BrainCircuit },
+            { label: "LLM Development", Icon: Settings },
+            { label: "RAG Integration", Icon: Database },
+            { label: "AI Automation", Icon: Workflow },
+          ]
+        : service.title.includes("Cloud")
+        ? [
+            { label: "Cloud Services", Icon: Cloud },
+            { label: "Development", Icon: Code2 },
+            { label: "Integration", Icon: Workflow },
+            { label: "Security", Icon: ShieldCheck },
+          ]
+        : [
+            { label: "Development", Icon: Code2 },
+            { label: "Integration", Icon: Workflow },
+            { label: "Database", Icon: Database },
+            { label: "Security", Icon: ShieldCheck },
+          ]
+    ).map(({ label, Icon }) => (
+      <div key={label} className="flex flex-col items-center text-center gap-2">
+        <div className="flex h-20 w-full items-center justify-center rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a14] shadow-sm">
+          <Icon
+            size={30}
+            strokeWidth={1.7}
+            className="text-[#FF4800]"
+          />
+        </div>
+
+        <span className="text-xs text-neutral-700 dark:text-neutral-300">
+          {label}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+      </div>
+    </article>
+  );
+}
+
+
 
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
@@ -1031,168 +1185,150 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <div id="section-sandesa">
         <SandesaSection isDark={isDark} />
       </div>
-{/* ── About / Stats ── */}
+
+
+
+{/* ── About / Who We Are / Stats Section ── */}
 <section
   id="section-about"
-  className="relative bg-white py-12 md:py-16"
+  className="relative overflow-hidden bg-white py-14 transition-colors duration-300 dark:bg-[#12121e] md:py-20 lg:py-24"
 >
-  <div className="mx-auto w-full max-w-7xl">
+  <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
 
-    <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
-
-      {/* ───────── LEFT SIDE ───────── */}
+      {/* ── LEFT SIDE: WHO WE ARE ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-        className="flex h-full flex-col"
+        transition={{
+          duration: 0.6,
+          ease: [0.25, 0.1, 0.25, 1],
+        }}
+        className="flex flex-col items-start"
       >
-        {/* Small Label */}
-        <p
-          className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em]"
-          style={{ color: "#FF4800" }}
-        >
+        {/* Small label */}
+        <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF4800]">
           WHO WE ARE
         </p>
 
         {/* Heading */}
         <h2
-          className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
+          className="max-w-xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.25rem]"
+          style={{
+            color: isDark ? "#ffffff" : "#000000",
+          }}
         >
           We Get It Because
-          <br />
-          We&apos;ve Lived It
+          <br className="hidden sm:block" /> We&apos;ve Lived It
         </h2>
 
-        {/* Paragraph */}
-        <p className="mt-8 max-w-[520px] text-[14px] leading-[1.65] text-[#6b7280] sm:text-[15px] lg:mt-[50px]">
-          Every growing company hits the same wall: scattered tools,
-           and wasted manual hours. At Straveda, we engineer unified,
-          AI-powered systems that replace operational chaos with structure,
-          clarity, and real efficiency.
+        {/* Description */}
+        <p className="mt-6 max-w-[500px] text-[14px] leading-7 text-[#6b7280] dark:text-[#9ca3af] sm:text-[15px] sm:leading-7">
+          Every growing company hits the same wall: scattered tools, and wasted
+          manual hours. At Straveda, we engineer unified, AI-powered systems that
+          replace operational chaos with structure, clarity, and real efficiency.
         </p>
       </motion.div>
 
-      {/* ───────── RIGHT SIDE — STATS ───────── */}
+      {/* ── RIGHT SIDE: STATISTICS ── */}
       <motion.div
         ref={statsRef}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:gap-x-16"
+        transition={{
+          duration: 0.6,
+          delay: 0.1,
+          ease: [0.25, 0.1, 0.25, 1],
+        }}
+        className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 lg:gap-x-12 lg:gap-y-14"
       >
-
-        {/* ───── STAT 1 ───── */}
-        <div className="flex flex-col">
-          <div className="h-[48px] flex items-end">
+        {/* STAT 1 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
             <p
-              className="font-bold text-black dark:text-white"
-              style={{
-                fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                lineHeight: 1,
-                letterSpacing: "-0.04em",
-              }}
+              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
+              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
             >
               {count55}%
             </p>
           </div>
 
-          <span
-            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
-          >
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
             Manual Work Reduced
           </span>
 
-          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
             Reduce repetitive work and improve everyday operations.
           </p>
         </div>
 
-        {/* ───── STAT 2 ───── */}
-        <div className="flex flex-col">
-          <div className="h-[48px] flex items-end">
+        {/* STAT 2 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
             <p
-              className="font-bold text-black dark:text-white"
-              style={{
-                fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                lineHeight: 1,
-                letterSpacing: "-0.04em",
-              }}
+              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
+              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
             >
               3–{count5}x
             </p>
           </div>
 
-          <span
-            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
-          >
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
             Operational Efficiency
           </span>
 
-          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
             Build faster workflows with connected systems.
           </p>
         </div>
 
-        {/* ───── STAT 3 ───── */}
-        <div className="flex flex-col">
-          <div className="h-[48px] flex items-end">
+        {/* STAT 3 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
             <p
-              className="font-bold text-black dark:text-white"
-              style={{
-                fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                lineHeight: 1,
-                letterSpacing: "-0.04em",
-              }}
+              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
+              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
             >
               {count100}%
             </p>
           </div>
 
-          <span
-            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
-          >
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
             Code Ownership
           </span>
 
-          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
             Scalable solutions with complete ownership of your codebase.
           </p>
         </div>
 
-        {/* ───── STAT 4 ───── */}
-        <div className="flex flex-col">
-          <div className="h-[48px] flex items-end">
+        {/* STAT 4 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
             <p
-              className="whitespace-nowrap font-bold text-black dark:text-white"
-              style={{
-                fontSize: "clamp(1.75rem, 2.8vw, 2.5rem)",
-                lineHeight: 1,
-                letterSpacing: "-0.04em",
-              }}
+              className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-black dark:text-white"
+              style={{ fontSize: "clamp(1.8rem, 2.8vw, 2.5rem)" }}
             >
               End-to-End
             </p>
           </div>
 
-          <span
-            className="mt-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-wide bg-[#F1F1F1] text-[#555555] dark:bg-white/10 dark:text-neutral-300"
-          >
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
             Strategy → Build → Deploy
           </span>
 
-          <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
             From strategy and development to deployment and optimization.
           </p>
         </div>
-
       </motion.div>
-
     </div>
   </div>
 </section>
+
+
       <TestimonialsCarousel />
 
       {/* ── Client People / Connection Section ── */}
@@ -1632,7 +1768,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
       >
         You&apos;re not short on software
-        <span className="mx-3">·</span>
+        <span className="mx-3"></span>
         You&apos;re drowning in it
       </h2>
     </motion.div>
@@ -1701,7 +1837,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   scale: 0.96,
                   color: isDark
                     ? "rgba(255,255,255,0.4)"
-                    : "#CBD5E1",
+                    : "#94A3B8",
                 },
                 hover: {
                   y: 0,
@@ -1751,118 +1887,115 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   </div>
 </section>
 
-      {/* ── Process Section ── */}
-      <section
-        className="relative py-12 md:py-16"
-        style={{ background: isDark ? '#12121e' : '#ffffff' }}
-      >
-        <div className="mx-auto max-w-7xl relative z-10">
+     
+{/* ── Process Section ── */}
+<section
+  className="relative overflow-hidden py-14 md:py-20"
+  style={{ background: isDark ? "#12121e" : "#ffffff" }}
+>
+  <div className="relative z-10 mx-auto max-w-7xl">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+      className="mb-12 md:mb-16"
+    >
+      <SectionHeader
+        label="HOW WE WORK"
+        heading="From Strategy Call to Live System"
+      />
+    </motion.div>
 
+    <div className="relative">
+      {/* Connecting line */}
+      <div
+        className="pointer-events-none absolute left-[10%] right-[10%] top-10 hidden h-px md:block"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(255,72,0,0.15), #FF4800 20%, #FF4800 80%, rgba(255,72,0,0.15))",
+        }}
+      />
+
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-5 md:gap-5 lg:gap-7">
+        {[
+          {
+            step: "01",
+            label: "Discovery",
+            desc: "30-minute strategy call to analyze workflows and identify high-impact automation opportunities.",
+            icon: Activity,
+          },
+          {
+            step: "02",
+            label: "Architecture",
+            desc: "We architect the solution, define the tech stack, and prepare a clear fixed-price plan.",
+            icon: Brain,
+          },
+          {
+            step: "03",
+            label: "Build",
+            desc: "We build in weekly sprints with full visibility, testing, and control.",
+            icon: Shield,
+          },
+          {
+            step: "04",
+            label: "Automate",
+            desc: "We connect triggers, workflows, and AI agents so the system runs smoothly.",
+            icon: Globe,
+          },
+          {
+            step: "05",
+            label: "Scale",
+            desc: "We hand over documentation and code, giving your team full ownership.",
+            icon: Cloud,
+          },
+        ].map((item, index) => (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            key={item.step}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-10 md:mb-16"
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.08,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className="group relative flex min-w-0 flex-col items-center text-center"
           >
-            <SectionHeader
-              label="HOW WE WORK"
-              heading="From Strategy Call to Live System"
-            />
+            {/* Icon */}
+            <motion.div
+              whileHover={{ y: -4, scale: 1.04 }}
+              transition={{ duration: 0.25 }}
+              className="relative z-10 mb-5 flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-colors duration-300 group-hover:bg-[#FF4800] dark:bg-[#12121e] dark:group-hover:bg-[#FF4800]"
+            >
+              <item.icon
+                size={24}
+                strokeWidth={1.8}
+                className="text-[#FF4800] transition-colors duration-300 group-hover:text-white"
+              />
+            </motion.div>
+
+            {/* Step number */}
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#FF4800]">
+              STEP {item.step}
+            </p>
+
+            {/* Title */}
+            <h3 className="mb-3 text-base font-semibold tracking-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+              {item.label}
+            </h3>
+
+            {/* Description */}
+            <p className="w-full max-w-[240px] text-left text-sm leading-6 text-[#6b7280] dark:text-[#9ca3af] md:text-center">
+              {item.desc}
+            </p>
           </motion.div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-          <div className="relative isolate">
-
-            {/* Horizontal line */}
-            <div
-              className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px z-0 pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
-              }}
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5  lg:gap-6 relative z-10 ">
-
-              {[
-                {
-                  step: '01',
-                  label: 'Discovery',
-                  desc: '30-min strategy call to analyze workflows, and map high-impact automation.',
-                  icon: Activity,
-                },
-                {
-                  step: '02',
-                  label: 'Architecture',
-                  desc: 'We architect the solution, define the tech stack, and deliver a clear fixed-price.',
-                  icon: Brain,
-                },
-                {
-                  step: '03',
-                  label: 'Build',
-                  desc: 'We build in weekly sprints with total visibility & stay in full control.',
-                  icon: Shield,
-                },
-                {
-                  step: '04',
-                  label: 'Automate',
-                  desc: 'We wire triggers, workflows, and AI agents so the system runs smoothly .',
-                  icon: Globe,
-                },
-                {
-                  step: '05',
-                  label: 'Scale',
-                  desc: 'Full handover with and  documentation, Your team owns 100% of the code.',
-                  icon: Cloud,
-                },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{
-                    duration: 0.5,
-                    delay: parseInt(item.step) * 0.05,
-                    ease: [0.25, 0.1, 0.25, 1],
-                  }}
-                  className="relative flex flex-col items-center text-center min-w-0"
-                >
-
-                  {/* Icon */}
-                  <div
-                    className="group/btn relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4 border border-[#FF4800] bg-white dark:bg-[#12121e] hover:bg-[#FF4800] dark:hover:bg-[#FF4800] transition-colors duration-200 cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
-                  >
-                    <item.icon
-                      size={24}
-                      strokeWidth={1.8}
-                      className="text-[#FF4800] group-hover/btn:text-white transition-colors duration-200"
-                    />
-                  </div>
-                  {/* Step */}
-                  <p
-                    className="text-[14px] font-semibold uppercase tracking-wide mb-2"
-                    style={{ color: '#FF4800' }}
-                  >
-                    STEP {item.step}
-                  </p>
-
-                  {/* Title */}
-                  <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">
-                    {item.label}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="w-full text-[16px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] text-justify line-clamp-4">
-                    {item.desc}
-                  </p>
-                </motion.div>
-              ))}
-
-            </div>
-          </div>
-        </div>
-      </section>
       {/* ── Pricing Section ── */}
       <section
         id="pricing"
