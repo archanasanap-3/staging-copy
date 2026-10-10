@@ -1,11 +1,15 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
+import StatsSectionNew from '@/components/features/common/StatsSection';
 import {
   ArrowRight, Zap, Lock, Clock, Eye, TrendingUp, Users,
-  CheckCircle2, PhoneCall, FileText, Rocket
+  Quote, CheckCircle2
 } from 'lucide-react';
+import MagneticButton from '@/components/features/common/MagneticButton';
+import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
+import { StackedCarousel } from '@/components/features/common/StackedCarousel';
 import AnimatedLiquidBackground from '@/components/animations/AnimatedLiquidBackground';
 import ParticleField from '@/components/animations/ParticleField';
 
@@ -43,35 +47,6 @@ const STYLES = `
   .dark .glass-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  @media (min-width: 768px) {
-    .perspective-stage {
-      perspective: 1400px;
-    }
-    .card-3d-left {
-      transform: perspective(1400px) rotateY(13deg);
-      transform-origin: right center;
-    }
-    .card-3d-center {
-      transform: perspective(1400px) translateZ(24px) scale(1.03);
-      z-index: 10;
-    }
-    .card-3d-right {
-      transform: perspective(1400px) rotateY(-13deg);
-      transform-origin: left center;
-    }
-    .card-3d-left:hover {
-      transform: perspective(1400px) rotateY(0deg) translateZ(24px) scale(1.04);
-      z-index: 20;
-    }
-    .card-3d-center:hover {
-      transform: perspective(1400px) translateZ(36px) scale(1.06);
-      z-index: 20;
-    }
-    .card-3d-right:hover {
-      transform: perspective(1400px) rotateY(0deg) translateZ(24px) scale(1.04);
-      z-index: 20;
-    }
   }
 `;
 
@@ -175,7 +150,7 @@ function HeroSection() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10 pt-32 pb-20">
+      <div className="max-w-7xl mx-auto w-full px-6 lg:px-8 relative z-10 pt-32 pb-20">
         <div className="relative pl-8 md:pl-16">
           {/* Vertical Accent Line */}
           <motion.div
@@ -253,217 +228,165 @@ function HeroSection() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────── */
-/* Who We Are Section (Same as Home Page)                                 */
+/* 4. Company Stats                                                        */
 /* ─────────────────────────────────────────────────────────────────────── */
 
-function WhoWeAreSection() {
-  const [count55, setCount55] = useState(0);
-  const [count5, setCount5] = useState(0);
-  const [count100, setCount100] = useState(0);
-  const statsRef = useRef<HTMLDivElement>(null);
+const stats = [
+  { label: "Clients", value: "15+", count: 15, suffix: "+", prefix: "", barClass: "h-12 md:h-32" },
+  { label: "Projects", value: "20+", count: 20, suffix: "+", prefix: "", barClass: "h-24 md:h-56" },
+  { label: "Avg ROI", value: "3–5x", count: null, suffix: "", prefix: "", barClass: "h-20 md:h-44" },
+  { label: "Retention", value: "88%+", count: 88, suffix: "%+", prefix: "", barClass: "h-28 md:h-64" },
+  { label: "Impl. Time", value: "4-5w", count: null, suffix: "", prefix: "", barClass: "h-20 md:h-48" },
+  { label: "Uptime", value: "99.5%", count: 99.5, suffix: "%", prefix: "", barClass: "h-16 md:h-36" },
+];
 
-  useEffect(() => {
-    const element = statsRef.current;
-    if (!element) return;
+function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
+  const ref = useRef<HTMLSpanElement>(null);
+const inView = useInView(ref, {
+  once: false,
+  margin: "-60px",
+});
+ const [count, setCount] = useState(0);
 
-    let animationFrame: number | null = null;
+ useEffect(() => {
+  if (!inView || stat.count === null) {
+    if (stat.count !== null) {
+      setCount(0);
+    }
+    return;
+  }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setCount55(0);
-          setCount5(0);
-          setCount100(0);
+  const target = stat.count;
+  const duration = 1800;
+  const start = performance.now();
+  const isDecimal = target % 1 !== 0;
 
-          const duration = 1500;
-          const start = performance.now();
+  function step(now: number) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = eased * target;
 
-          const update = (time: number) => {
-            const progress = Math.min((time - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-
-            const finalCount55 = progress >= 1 ? 55 : Math.floor(55 * eased);
-            const finalCount5 = progress >= 1 ? 5 : Math.floor(5 * eased);
-            const finalCount100 = progress >= 1 ? 100 : Math.floor(100 * eased);
-
-            setCount55(finalCount55);
-            setCount5(finalCount5);
-            setCount100(finalCount100);
-
-            if (progress < 1) {
-              animationFrame = requestAnimationFrame(update);
-            }
-          };
-
-          animationFrame = requestAnimationFrame(update);
-        } else {
-          if (animationFrame) {
-            cancelAnimationFrame(animationFrame);
-          }
-          setCount55(0);
-          setCount5(0);
-          setCount100(0);
-        }
-      },
-      { threshold: 0.3 }
+    setCount(
+      isDecimal
+        ? Math.round(current * 10) / 10
+        : Math.round(current)
     );
 
-    observer.observe(element);
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
 
-    return () => {
-      observer.disconnect();
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, []);
+  requestAnimationFrame(step);
+}, [inView, stat.count]);
 
+  if (stat.count === null) return <span ref={ref}>{stat.value}</span>;
+  return <span ref={ref}>{stat.prefix}{count}{stat.suffix}</span>;
+}
+
+function StatsSection() {
   return (
-    <section
-      id="section-about"
-      className="relative bg-white dark:bg-[#0a0a14] pt-28 pb-16 md:pt-36 md:pb-24 border-b border-black/5 dark:border-white/5"
-    >
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
+    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-black/5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
-          {/* ───────── LEFT SIDE ───────── */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+        {/* Heading */}
+        <div className="mb-10 md:mb-16">
+          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
+            By The Numbers
+          </span>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease }}
-            className="flex h-full flex-col"
+            className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]"
           >
-            {/* Small Label */}
-            <p
-              className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em]"
-              style={{ color: "#FF4800" }}
+            Measurable Operational Impact
+          </motion.h2>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 items-end border-b border-black/10 pb-1">
+
+          {stats.map((s, i) => (
+            <div
+              key={i}
+              className="relative group flex flex-col items-center"
             >
-              WHO WE ARE
-            </p>
 
-            {/* Heading */}
-            <h2 className="text-3xl sm:text-4xl md:text-[2.5rem] font-bold tracking-tight leading-[1.2] text-black dark:text-white">
-              We Get It Because
-              <br />
-              We&apos;ve Lived It
-            </h2>
-
-            {/* Paragraph */}
-            <p className="mt-8 max-w-[520px] text-[14px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] sm:text-[15px] lg:mt-[50px]">
-              Every growing company hits the same wall: scattered tools,
-              and wasted manual hours. At Straveda, we engineer unified,
-              AI-powered systems that replace operational chaos with structure,
-              clarity, and real efficiency.
-            </p>
-          </motion.div>
-
-          {/* ───────── RIGHT SIDE — STATS ───────── */}
-          <motion.div
-            ref={statsRef}
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease }}
-            className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:gap-x-16"
-          >
-
-            {/* ───── STAT 1 ───── */}
-            <div className="flex flex-col">
-              <div className="h-[48px] flex items-end">
-                <p
-                  className="font-bold text-black dark:text-white"
-                  style={{
-                    fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.04em",
-                  }}
-                >
-                  {count55}%
+              {/* Number + Label */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{
+                  duration: 0.8,
+                  delay: i * 0.12,
+                  ease,
+                }}
+                className="mb-4 md:mb-5"
+              >
+                <p className="text-2xl md:text-4xl font-normal text-[#1a1a1a] tracking-tighter text-center">
+                  <AnimatedStatValue stat={s} />
                 </p>
+
+                <p className="text-[10px] text-[#666] uppercase tracking-widest mt-2 text-center">
+                  {s.label}
+                </p>
+              </motion.div>
+
+              {/* Animated Vertical Line */}
+              <div className="relative">
+                <motion.div
+                  initial={{
+                    scaleY: 0,
+                    opacity: 0,
+                  }}
+                  whileInView={{
+                    scaleY: 1,
+                    opacity: 1,
+                  }}
+                  viewport={{
+                    once: false,
+                    amount: 0.4,
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    delay: i * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                   style={{
+    transformOrigin: "bottom center",
+    background:
+      "linear-gradient(to top, #FF4800 0%, rgba(255,72,0,0.5) 60%, transparent 100%)",
+    boxShadow: "0 0 8px 1px rgba(255,72,0,0.35)",
+  }}
+                  className={`w-[2px] ${s.barClass}`}
+                />
               </div>
 
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#555555] dark:text-neutral-400">Manual Work Reduced</p>
-
-              <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
-                Reduce repetitive work and improve everyday operations.
-              </p>
             </div>
-
-            {/* ───── STAT 2 ───── */}
-            <div className="flex flex-col">
-              <div className="h-[48px] flex items-end">
-                <p
-                  className="font-bold text-black dark:text-white"
-                  style={{
-                    fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.04em",
-                  }}
-                >
-                  3–{count5}x
-                </p>
-              </div>
-
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#555555] dark:text-neutral-400">Operational Efficiency</p>
-
-              <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
-                Build faster workflows with connected systems.
-              </p>
-            </div>
-
-            {/* ───── STAT 3 ───── */}
-            <div className="flex flex-col">
-              <div className="h-[48px] flex items-end">
-                <p
-                  className="font-bold text-black dark:text-white"
-                  style={{
-                    fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.04em",
-                  }}
-                >
-                  {count100}%
-                </p>
-              </div>
-
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#555555] dark:text-neutral-400">Code Ownership</p>
-
-              <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
-                Scalable solutions with complete ownership of your codebase.
-              </p>
-            </div>
-
-            {/* ───── STAT 4 ───── */}
-            <div className="flex flex-col">
-              <div className="h-[48px] flex items-end">
-                <p
-                  className="whitespace-nowrap font-bold text-black dark:text-white"
-                  style={{
-                    fontSize: "clamp(1.75rem, 2.8vw, 2.5rem)",
-                    lineHeight: 1,
-                    letterSpacing: "-0.04em",
-                  }}
-                >
-                  End-to-End
-                </p>
-              </div>
-
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#555555] dark:text-neutral-400">Strategy → Build → Deploy</p>
-
-              <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-[#6b7280] dark:text-[#9ca3af]">
-                From strategy and development to deployment and optimization.
-              </p>
-            </div>
-
-          </motion.div>
+          ))}
 
         </div>
+
+        {/* Bottom Information */}
+        <div className="flex justify-between items-center mt-4">
+          <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-[#777]">
+            Typical client size: ₹1Cr–₹50Cr annual revenue
+          </span>
+
+          <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-[#777]">
+            Location: Pune, Maharashtra
+          </span>
+        </div>
+
       </div>
     </section>
   );
 }
-
 /* ─────────────────────────────────────────────────────────────────────── */
 /* 3. Operating Principles                                                 */
 /* ─────────────────────────────────────────────────────────────────────── */
@@ -502,7 +425,7 @@ const clarityItems = [
 function StorySection() {
   return (
     <section className="bg-white dark:bg-[#0a0a14]  pb-8 md:pt-24 md:pb-12 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
         <div className="mb-10 md:mb-16 text-center">
           <div className="mb-8">
@@ -547,7 +470,7 @@ function StorySection() {
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/40 shrink-0" />
 
                   <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">
-                    {item}
+           function Prin         {item}
                   </span>
                 </div>
               ))}
@@ -595,134 +518,168 @@ function StorySection() {
 }
 
 
+/* ─────────────────────────────────────────────────────────────────────── */
+/* 5. Results Section                                                      */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+const testimonials = [
+  {
+    quote: "We were drowning in manual lead qualification work. Straveda built a WhatsApp bot that handles 80% of our lead flow now.",
+    impact: "80% manual work reduction / 6x lead throughput",
+    company: "D2C Fashion Brand, Mumbai",
+    role: "Operations Director"
+  },
+  {
+    quote: "Our CRM was killing us it didn't match our sales process. Straveda built us a custom CRM in 8 weeks. Team adoption was instant.",
+    impact: "3x sales velocity / 90% team adoption",
+    company: "SaaS Startup, Bangalore",
+    role: "Founder"
+  },
+  {
+    quote: "We were paying for six different tools. Straveda consolidated everything into one integrated platform. ROI in first quarter.",
+    impact: "50% cost reduction / Unified data",
+    company: "E-Commerce, Delhi NCR",
+    role: "CEO"
+  },
+  {
+    quote:
+      "Straveda automated our repetitive workflows and gave the team more time to focus on growth.",
+    impact: "50% LESS MANUAL WORK",
+    role: "Operations Head",
+    company: "SaaS Company, Pune",
+  },
+  {
+    quote:
+      "The custom system was much easier for our team to adopt than the tools we were using before.",
+    impact: "2× FASTER OPERATIONS",
+    role: "Founder",
+    company: "Technology Startup, Mumbai",
+  },
+  {
+    quote:
+      "We finally have one connected workflow instead of switching between multiple disconnected tools.",
+    impact: "40% FASTER REPORTING",
+    role: "Business Director",
+    company: "Enterprise, Bangalore",
+  },
+  {
+    quote:
+      "The automation reduced repetitive tasks and helped our team concentrate on higher-value work.",
+    impact: "60% TASK AUTOMATION",
+    role: "COO",
+    company: "Growth Company, Hyderabad",
+  },
+];
+
+function ResultsSection() {
+  // Duplicate cards for seamless single-line infinite scrolling
+  const scrollingResults = [...testimonials, ...testimonials];
+
+  return (
+    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-12 md:pt-12 md:pb-16 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+        {/* Heading */}
+        <div className="mb-8 md:mb-10">
+          <h2 className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]">
+            Results that speak
+          </h2>
+        </div>
+
+        {/* ================= SINGLE HORIZONTAL ROW ================= */}
+        <div className="relative w-full overflow-hidden">
+          <motion.div
+            className="flex w-max items-stretch gap-5"
+            animate={{
+              x: ["0%", "-50%"],
+            }}
+            transition={{
+              duration: 35,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            {scrollingResults.map((item, i) => (
+              <div
+                key={`results-${i}`}
+                className="
+                  glass-card
+                  w-[280px]
+                  md:w-[320px]
+                  flex-shrink-0
+                  rounded-[22px]
+                  p-6
+                  min-h-[200px]
+                  flex
+                  flex-col
+                "
+              >
+                {/* Description */}
+                <p className="text-[#475569] dark:text-[#cbd5e1] text-sm leading-6 italic">
+                  “{item.quote}”
+                </p>
+
+                {/* Impact + Client */}
+                <div className="mt-auto border-t border-black/5 dark:border-white/10 pt-4">
+                  <p className="text-[#FF4800] text-[9px] font-bold uppercase tracking-[0.15em] mb-2">
+                    {item.impact}
+                  </p>
+
+                  <p className="text-[#64748b] dark:text-[#888] text-[9px] font-medium uppercase tracking-[0.12em]">
+                    — {item.role}, {item.company}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
 
 /* ─────────────────────────────────────────────────────────────────────── */
 /* 6. Work With Us Section                                                 */
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const roadmap = [
-  {
-    step: "01",
-    subtitle: "Audit & Discover",
-    title: "Book a Strategy Call",
-    meta: "30 min, free",
-    desc: "We audit your operations and biggest bottlenecks, recommend what to build first.",
-    badge: "Zero Commitment",
-    icon: PhoneCall,
-    cta: "Book Now",
-  },
-  {
-    step: "02",
-    subtitle: "Fixed Scope & ROI",
-    title: "Get a Custom Proposal",
-    meta: "48 hours",
-    desc: "Fixed Price quote for your project. Timeline and success metrics included.",
-    badge: "Fixed Price",
-    icon: FileText,
-    cta: "Request Proposal",
-  },
-  {
-    step: "03",
-    subtitle: "Weekly Sprints",
-    title: "Start Building",
-    meta: "4–6 weeks",
-    desc: "Weekly sprints with visible progress. Go live and reclaim your time.",
-    badge: "Full Ownership",
-    icon: Rocket,
-    cta: "Start Building",
-  },
+  { step: "01", title: "Book a Strategy Call", meta: "30 min, free", desc: "We audit your operations and biggest bottlenecks, recommend what to build first.", cta: "Book Now" },
+  { step: "02", title: "Get a Custom Proposal", meta: "48 hours", desc: "Fixed Price quote for your project. Timeline and success metrics included.", cta: "Request Proposal" },
+  { step: "03", title: "Start Building", meta: "4–6 weeks", desc: "Weekly sprints with visible progress. Go live and reclaim your time.", cta: "Book a Strategy Call" },
 ];
 
 function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
-    <section className="relative bg-[#fafafc] dark:bg-[#0a0a14] pt-16 pb-20 md:pt-24 md:pb-28 border-t border-black/5 dark:border-white/5 overflow-hidden">
-      {/* Background ambient glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[140px] opacity-40 dark:opacity-20"
-        style={{ background: 'radial-gradient(circle, rgba(255,72,0,0.12) 0%, transparent 70%)' }}
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading Left-aligned */}
-        <div className="mb-10 md:mb-14 text-left max-w-3xl">
-          <span className="mb-3 inline-block text-[11px] font-bold uppercase tracking-[0.28em] text-[#FF4800]">
-            Work With Us
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-[2.5rem] font-bold tracking-tight text-black dark:text-white leading-[1.18]">
-            Let&apos;s build something that matters
-          </h2>
-          <p className="mt-3.5 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 max-w-xl">
-            From operational discovery to production-ready automated systems.
-          </p>
-        </div>
-
-        {/* 3D Curved Perspective Stage */}
-        <div className="perspective-stage mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-            {roadmap.map((r, i) => {
-              const Icon = r.icon;
-              const card3dClass = i === 0 ? 'card-3d-left' : i === 1 ? 'card-3d-center' : 'card-3d-right';
-
-              return (
-                <div
-                  key={r.step}
-                  className={`${card3dClass} relative flex flex-col justify-between rounded-[26px] sm:rounded-[28px] bg-white p-6 sm:p-7 shadow-[0_15px_45px_rgba(0,0,0,0.06)] border border-neutral-200/90 dark:bg-[#12121e] dark:border-white/10 dark:shadow-[0_15px_45px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out`}
-                >
-                  {/* Top Bar: Icon + Step on Left Corner, Duration pill on Right */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2.5">
-                      {/* Small Icon in Left Corner */}
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF4800]/10 text-[#FF4800] border border-[#FF4800]/20 shrink-0">
-                        <Icon size={16} strokeWidth={2} />
-                      </div>
-
-                      {/* Step Number only: 01, 02, 03 */}
-                      <span className="text-xs font-mono font-bold tracking-wider text-[#FF4800]">
-                        {r.step}
-                      </span>
-                    </div>
-
-                    <span className="inline-flex items-center rounded-full bg-neutral-100 px-2.5 py-1 text-[11px] font-medium text-neutral-600 border border-neutral-200/60 dark:bg-white/10 dark:text-neutral-300 dark:border-white/5">
-                      {r.meta}
-                    </span>
-                  </div>
-
-                  {/* Body: Left-aligned, compact height */}
-                  <div className="my-5 text-left">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF4800]/80 mb-1.5 block">
-                      {r.subtitle}
-                    </span>
-
-                    <h3 className="text-lg sm:text-xl font-bold tracking-tight text-black dark:text-white">
-                      {r.title}
-                    </h3>
-
-                    <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                      {r.desc}
-                    </p>
-                  </div>
-
-                  {/* Bottom: Terms Guarantee & CTA Button */}
-                  <div className="pt-4 border-t border-neutral-100 dark:border-white/5 flex items-center justify-between gap-3">
-                    <div className="flex flex-col">
-                      <span className="text-[10px] text-neutral-400">Terms</span>
-                      <span className="text-xs font-semibold text-neutral-800 dark:text-neutral-200">{r.badge}</span>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => onNavigate('contact')}
-                      className="group inline-flex items-center gap-2 rounded-xl bg-black dark:bg-white py-2.5 px-4 text-xs font-bold uppercase tracking-wider text-white dark:text-black hover:bg-[#FF4800] dark:hover:bg-[#FF4800] dark:hover:text-white transition-all duration-300 shadow-sm shrink-0"
-                    >
-                      <span>{r.cta}</span>
-                      <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
-                    </button>
-                  </div>
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 className="masked-title text-xl md:text-4xl font-normal tracking-tighter mb-10 md:mb-16">Let's build something that matters</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 md:mb-20">
+          {roadmap.map((r, i) => (
+            <motion.div
+              key={i}
+              {...fadeUp}
+              className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between h-full hover:border-[#FF4800]/20 transition-all active:scale-95"
+            >
+              <div>
+                <div className="flex justify-end mb-8">
+                  <span className="text-[10px] font-bold uppercase text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full">{r.meta}</span>
                 </div>
-              );
-            })}
-          </div>
+                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold mb-4 text-left">{r.title}</h4>
+                <p className="text-[#475569] dark:text-[#8a8a8a] text-sm md:text-base leading-relaxed mb-8">{r.desc}</p>
+              </div>
+              {r.cta && (
+                <div className="mt-auto">
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="bg-[#FF4800] text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#e03f00] transition-colors"
+                  >
+                    {r.cta} →
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -733,8 +690,10 @@ export default function AboutPage({ onNavigate }: { onNavigate: (page: string) =
   return (
     <main className="min-h-screen bg-white dark:bg-[#0a0a14]">
       <style>{STYLES}</style>
-      <WhoWeAreSection />
+      <StatsSectionNew />
+      <StatsSection />
       <StorySection />
+      <ResultsSection />
       <WorkWithUsSection onNavigate={onNavigate} />
     </main>
   );
