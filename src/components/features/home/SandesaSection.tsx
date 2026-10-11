@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Check } from 'lucide-react';
+import SandesaScene, { type SceneKey } from '@/components/features/home/SandesaScenes';
 
 interface Props {
   isDark: boolean;
@@ -12,11 +12,9 @@ interface Props {
 interface SandesaStory {
   id: number;
   highlight: string;
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
-  image: string;
+  description: string;
+  points: string[];
+  scene: SceneKey;
   badge: string;
   ctaText: string;
   ctaLink: string;
@@ -25,133 +23,127 @@ interface SandesaStory {
 const sandesaStories: SandesaStory[] = [
   {
     id: 0,
-    highlight: '98% Open Rate on Campaigns',
-    quote:
-      'Adding verified WhatsApp broadcasts with Sandesa didn\'t just increase reach — it created an instant connection with customers and 4x our conversion rates compared to traditional email marketing.',
-    author: 'Aarav Mehta',
-    role: 'Growth Lead',
-    company: 'Peak Brands',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85',
-    badge: 'Marketing & Drip Flows',
-    ctaText: 'Explore WhatsApp Broadcasts',
+    badge: 'Broadcast Campaigns',
+    highlight: 'Reach every customer where they already are',
+    description:
+      'Send approved templates to your whole audience, schedule them ahead of time and see exactly how each campaign performed.',
+    points: ['Import contacts from a CSV', 'Schedule campaigns in advance', 'Track sent, delivered and read'],
+    scene: 'campaigns',
+    ctaText: 'Explore Campaigns',
     ctaLink: 'https://sandesaai.com/',
   },
   {
     id: 1,
-    highlight: '100% Instant AI Response',
-    quote:
-      'Sandesa\'s 24/7 AI agent handles over 75% of our tier-1 customer inquiries in under 2 seconds, resolving support tickets effortlessly in English, Hindi, and regional languages.',
-    author: 'Neha Sharma',
-    role: 'Head of Support',
-    company: 'QuickRetail',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=85',
-    badge: '24/7 Autonomous AI Agent',
-    ctaText: 'Test Live AI Bot',
+    badge: 'Approved Templates',
+    highlight: 'Design once, preview exactly as customers see it',
+    description:
+      'Build marketing and utility templates with media, buttons and variables, then submit them to Meta without leaving the screen.',
+    points: ['Live WhatsApp preview', 'Images, video, buttons and variables', 'One-click submit for approval'],
+    scene: 'templates',
+    ctaText: 'Explore Templates',
     ctaLink: 'https://sandesaai.com/',
   },
   {
     id: 2,
-    highlight: '3.5x Inbound Lead Conversion',
-    quote:
-      'Inbound WhatsApp prospects are now scored, qualified, and booked directly into our team\'s calendar in real-time. Our sales pipeline has never moved faster.',
-    author: 'Vikram Singhania',
-    role: 'Founder & CEO',
-    company: 'ScaleMatrix',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=85',
-    badge: 'AI Lead Qualification',
-    ctaText: 'See Inbound Flows',
+    badge: 'No-Code Chatbots',
+    highlight: 'Bots that answer while you sleep',
+    description:
+      'Create keyword-triggered flows and FAQ auto-responders with a visual builder, with a human handoff whenever it matters.',
+    points: ['Visual flow builder', 'FAQ auto-responders', 'English, Hindi and Marathi'],
+    scene: 'bots',
+    ctaText: 'Explore Utility Bots',
     ctaLink: 'https://sandesaai.com/',
   },
   {
     id: 3,
-    highlight: '70% Manual Work Reduced',
-    quote:
-      'Managing thousands of daily customer chats across 8 agents was chaotic. The shared team inbox with automatic routing and CRM sync brought total clarity to operations.',
-    author: 'Pooja Verma',
-    role: 'Operations Director',
-    company: 'MediSync Health',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=85',
-    badge: 'Multi-Agent Team Inbox',
-    ctaText: 'Explore Team Inbox',
+    badge: 'AI Agent',
+    highlight: 'An AI agent trained on your own documents',
+    description:
+      'Upload your PDFs, FAQs and policies, choose a tone, and let the agent answer customers around the clock using only what you taught it.',
+    points: ['Upload PDFs as its knowledge', 'Set tone and instructions', 'Test it before going live'],
+    scene: 'agent',
+    ctaText: 'Explore the AI Agent',
     ctaLink: 'https://sandesaai.com/',
   },
   {
     id: 4,
-    highlight: 'Zero-Code CRM Integration',
-    quote:
-      'Connecting our Shopify store and CRM to WhatsApp took minutes. Abandoned cart reminders, order confirmations, and payment links now dispatch on 100% autopilot.',
-    author: 'Rohan Patel',
-    role: 'CTO & Co-Founder',
-    company: 'CloudCart Tech',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=85',
-    badge: 'CRM & Webhook Sync',
-    ctaText: 'View Integrations',
+    badge: 'Dashboard & Reports',
+    highlight: 'Your whole WhatsApp business in one view',
+    description:
+      'Leads, conversations, delivery rate and campaign performance update live, with quick actions one click away.',
+    points: ['Live connection status', 'Campaign performance charts', 'Quick actions for your team'],
+    scene: 'insights',
+    ctaText: 'Explore the Dashboard',
     ctaLink: 'https://sandesaai.com/',
   },
 ];
 
-export default function SandesaSection({ isDark }: Props) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState<number>(1);
-  const [isPaused, setIsPaused] = useState(false);
-  const count = sandesaStories.length;
+const EASE = [0.32, 0.72, 0, 1] as const;
+const DURATION = 0.85;
+const AUTOPLAY_MS = 4500;
 
-  // 3-second automatic scroll
+// Visual spec per distance from the active slide (0 = main card)
+const SIDE_SPEC = {
+  1: { w: 94, h: 350, opacity: 0.9, radius: 42 },
+  2: { w: 64, h: 260, opacity: 0.55, radius: 34 },
+} as const;
+
+function useContainerWidth() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [width, setWidth] = useState(1100);
+
   useEffect(() => {
-    if (isPaused) return;
+    const el = ref.current;
+    if (!el) return;
+    setWidth(el.clientWidth);
+    const ro = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
-    const interval = setInterval(() => {
-      setDirection(1);
-      setActiveIndex((prev) => (prev + 1) % count);
-    }, 3000);
+  return [ref, width] as const;
+}
 
-    return () => clearInterval(interval);
-  }, [isPaused, count]);
+export default function SandesaSection({ isDark }: Props) {
+  const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [trackRef, trackWidth] = useContainerWidth();
+  const count = sandesaStories.length;
+  const hoverLockUntil = useRef(0);
 
-  const goToSlide = (idx: number) => {
-    setDirection(idx > activeIndex ? 1 : -1);
-    setActiveIndex(idx);
+  // Hover opens a capsule, but ignore hovers while the row is still moving so the
+  // pointer landing on a neighbouring capsule mid-animation doesn't cascade.
+  const selectOnHover = (i: number) => {
+    if (Date.now() < hoverLockUntil.current) return;
+    hoverLockUntil.current = Date.now() + DURATION * 1000;
+    setActive(i);
   };
 
-  // Indexes for flanking side capsules
-  const left2Idx = (activeIndex - 2 + count) % count;
-  const left1Idx = (activeIndex - 1 + count) % count;
-  const right1Idx = (activeIndex + 1) % count;
-  const right2Idx = (activeIndex + 2) % count;
+  useEffect(() => {
+    if (isPaused) return;
+    const id = setInterval(() => setActive((p) => (p + 1) % count), AUTOPLAY_MS);
+    return () => clearInterval(id);
+  }, [isPaused, count, active]);
 
-  const currentStory = sandesaStories[activeIndex];
+  // Responsive geometry
+  const isMobile = trackWidth < 640;
+  const showSide1 = trackWidth >= 640;
+  const showSide2 = trackWidth >= 1024;
+  const gap = trackWidth < 768 ? 12 : 28;
+  const centerW = isMobile ? trackWidth : Math.min(940, trackWidth - (showSide1 ? 2 * (SIDE_SPEC[1].w + gap) : 0));
+  const centerH = isMobile ? 700 : 520;
 
-  const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 80 : -80,
-      opacity: 0,
-      scale: 0.95,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        x: { type: 'spring' as const, stiffness: 320, damping: 32 },
-        opacity: { duration: 0.3 },
-        scale: { duration: 0.3 },
-      },
-    },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -80 : 80,
-      opacity: 0,
-      scale: 0.95,
-      transition: {
-        x: { type: 'spring' as const, stiffness: 320, damping: 32 },
-        opacity: { duration: 0.25 },
-        scale: { duration: 0.25 },
-      },
-    }),
+  const centerX = (offset: number) => {
+    const sign = Math.sign(offset);
+    const abs = Math.abs(offset);
+    if (abs === 0) return 0;
+    let x = centerW / 2 + gap + SIDE_SPEC[1].w / 2;
+    if (abs >= 2) x += SIDE_SPEC[1].w / 2 + gap + SIDE_SPEC[2].w / 2;
+    return sign * x;
   };
 
   return (
-    <section className="relative z-10 py-14 md:py-20 overflow-hidden bg-gradient-to-br from-[#fff6f0] to-[#ffffff] dark:from-[#110c0a] dark:to-[#0a0a14] transition-colors duration-300">
-      {/* Background radial glow */}
+    <section className="relative z-10 py-14 md:py-20 overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] transition-colors duration-300">
       <div
         className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20"
         style={{
@@ -161,207 +153,197 @@ export default function SandesaSection({ isDark }: Props) {
       />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* LEFT-ALIGNED HEADER (SINGLE-LINE HEADING & PARAGRAPH)               */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
         <div className="text-left w-full mb-10 md:mb-14">
-          {/* Top Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF4800]/10 border border-[#FF4800]/20 mb-3.5 shadow-xs">
+          <div className="inline-flex items-center gap-2 mb-4">
             <span className="flex h-2 w-2 rounded-full bg-[#FF4800] animate-pulse" />
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
               BUILT BY STRAVEDA • WHATSAPP AI
             </span>
           </div>
 
-          {/* Heading (One Single Line) */}
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-bold tracking-tight text-neutral-950 dark:text-white leading-tight">
-            Meet <span className="text-[#FF4800]">Sandesa</span> — WhatsApp Automation, Powered by AI
+          <h2 className="text-2xl sm:text-3xl md:text-[clamp(1.4rem,2.6vw,2.5rem)] md:whitespace-nowrap font-bold tracking-tight text-neutral-950 dark:text-white leading-tight">
+            Meet <span className="text-[#FF4800]">Sandesa</span> — WhatsApp Business Platform, Powered by AI
           </h2>
 
-          {/* Paragraph (One Clean Line / Full Width) */}
           <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-5xl leading-relaxed">
-            Automate customer support, trigger verified broadcasts, and qualify high-intent leads 24/7 on WhatsApp.
+            Run campaigns, chatbots, an AI agent and your customer conversations from one dashboard, all on WhatsApp.
           </p>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* 3D CAROUSEL TRACK (INCREASED HEIGHT, NO HORIZONTAL LINE, CLEAN IMG) */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {/* Persistent track: every story is always mounted and glides between slots */}
         <div
-          className="relative flex items-center justify-center min-h-[480px] md:min-h-[520px] w-full"
+          ref={trackRef}
+          className="relative w-full"
+          style={{ height: centerH + 40 }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="relative z-10 flex items-center justify-center w-full gap-3 sm:gap-5 md:gap-7">
-            
-            {/* ──── LEFT CAPSULE 2 (Farthest Left) ──── */}
-            <div
-              onClick={() => goToSlide(left2Idx)}
-              className="hidden lg:flex flex-col items-center justify-center w-[54px] xl:w-[64px] h-[220px] xl:h-[260px] rounded-[34px] overflow-hidden cursor-pointer opacity-50 hover:opacity-95 transition-all duration-300 transform hover:scale-105 border-[3.5px] border-white dark:border-neutral-800 shadow-lg bg-neutral-100 shrink-0"
-              title={sandesaStories[left2Idx].highlight}
-            >
-              <div className="relative w-full h-full flex items-center justify-center p-2">
-  <h3
-    className="text-xs font-semibold text-neutral-900 dark:text-white whitespace-nowrap"
-    style={{
-      writingMode: 'vertical-rl',
-      transform: 'rotate(180deg)',
-    }}
-  >
-    {sandesaStories[left1Idx].badge}
-  </h3>
-  <span className="absolute bottom-2 left-1/2 -translate-x-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 text-xs font-semibold text-neutral-900 dark:text-white">
-  {String(left2Idx + 1).padStart(2, '0')}
-</span>
-</div>
-            </div>
-
-            {/* ──── LEFT CAPSULE 1 (Immediate Left) ──── */}
-            <div
-              onClick={() => goToSlide(left1Idx)}
-              className="hidden sm:flex flex-col items-center justify-center w-[68px] md:w-[82px] xl:w-[94px] h-[300px] md:h-[350px] rounded-[42px] overflow-hidden cursor-pointer opacity-80 hover:opacity-100 transition-all duration-300 transform hover:scale-105 border-[4px] border-white dark:border-neutral-800 shadow-xl bg-neutral-100 shrink-0"
-              title={sandesaStories[left1Idx].highlight}
-            >
-              <div className="relative w-full h-full flex items-center justify-center p-1">
-  <h3
-    className="text-[10px] font-semibold text-neutral-700 dark:text-white text-center leading-tight"
-    style={{
-      writingMode: 'vertical-rl',
-      transform: 'rotate(180deg)',
-    }}
-  >
-    {sandesaStories[left2Idx].badge}
-  </h3>
-  <span className="absolute bottom-2 left-1/2 -translate-x-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 text-xs font-semibold text-neutral-900 dark:text-white">
-  {String(left1Idx + 1).padStart(2, '0')}
-</span>
-</div>
-            </div>
-
-            {/* ──── ACTIVE CENTER CARD (INCREASED HEIGHT) ──── */}
-            <div className="relative w-full max-w-[650px] min-h-[380px] md:min-h-[400px] shrink-0">
-              <AnimatePresence custom={direction} mode="wait">
-                <motion.div
-                  key={currentStory.id}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="w-full h-full bg-white dark:bg-[#14141f] rounded-[32px] sm:rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-black/[0.06] dark:border-white/[0.08] overflow-hidden"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-12 min-h-[380px] md:min-h-[400px]">
-                    
-                    {/* Left Details Column */}
-                    <div className="md:col-span-7 p-7 sm:p-9 md:p-11 flex flex-col justify-between order-2 md:order-1">
-                      <div>
-                        {/* Highlight Badge */}
-                        <div className="flex items-center gap-2 mb-4">
-                          <span className="inline-flex rounded-full bg-[#FF4800]/10 px-3.5 py-1 text-[11px] font-bold text-[#FF4800] uppercase tracking-wider">
-                            {currentStory.badge}
-                          </span>
-                        </div>
-
-                        {/* Title Highlight */}
-                        <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white tracking-tight leading-snug mb-4">
-                          {currentStory.highlight}
-                        </h3>
-
-                        {/* Customer Quote */}
-                        <p className="text-[14px] sm:text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-300 italic mb-6">
-                          &ldquo;{currentStory.quote}&rdquo;
-                        </p>
-                      </div>
-
-                      {/* Author Info & Direct CTA */}
-                      <div className="pt-6 border-t border-neutral-100 dark:border-neutral-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                          <p className="text-base font-bold text-neutral-900 dark:text-white">
-                            {currentStory.author}
-                          </p>
-                          <p className="text-xs sm:text-[13px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-                            {currentStory.role} • {currentStory.company}
-                          </p>
-                        </div>
-
-                        <a
-                          href={currentStory.ctaLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#FF4800] hover:text-[#e03e00] transition-colors group"
-                        >
-                          <span>{currentStory.ctaText}</span>
-                          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* Right Clean Image Column */}
-                    <div className="md:col-span-5 relative min-h-[260px] md:min-h-full order-1 md:order-2 bg-neutral-100 dark:bg-neutral-900">
-                      <Image
-                        src={currentStory.image}
-                        alt={currentStory.author}
-                        fill
-                        priority
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 400px"
-                      />
-                    </div>
-
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* ──── RIGHT CAPSULE 1 (Immediate Right) ──── */}
-            <div
-              onClick={() => goToSlide(right1Idx)}
-              className="hidden sm:flex flex-col items-center justify-center w-[68px] md:w-[82px] xl:w-[94px] h-[300px] md:h-[350px] rounded-[42px] overflow-hidden cursor-pointer opacity-80 hover:opacity-100 transition-all duration-300 transform hover:scale-105 border-[4px] border-white dark:border-neutral-800 shadow-xl bg-neutral-100 shrink-0"
-              title={sandesaStories[right1Idx].highlight}
-            >
-              <div className="relative w-full h-full flex items-center justify-center p-2">
-  <h3
-    className="text-xs font-semibold text-neutral-800 dark:text-white text-center leading-tight"
-    style={{
-      writingMode: 'vertical-rl',
-      transform: 'rotate(180deg)',
-    }}
-  >
-    {sandesaStories[right1Idx].badge}
-  </h3>
-  <span className="absolute bottom-2 left-1/2 -translate-x-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 text-xs font-semibold text-neutral-900 dark:text-white">
-  {String(right1Idx + 1).padStart(2, '0')}
-</span>
-</div>
-            </div>
-
-            {/* ──── RIGHT CAPSULE 2 (Farthest Right) ──── */}
-            <div
-              onClick={() => goToSlide(right2Idx)}
-              className="hidden lg:flex flex-col items-center justify-center w-[54px] xl:w-[64px] h-[220px] xl:h-[260px] rounded-[34px] overflow-hidden cursor-pointer opacity-50 hover:opacity-95 transition-all duration-300 transform hover:scale-105 border-[3.5px] border-white dark:border-neutral-800 shadow-lg bg-neutral-100 shrink-0"
-              title={sandesaStories[right2Idx].highlight}
-            >
-              <div className="relative w-full h-full flex items-center justify-center p-1">
-  <h3
-    className="text-[10px] font-semibold text-neutral-700 dark:text-white text-center leading-tight"
-    style={{
-      writingMode: 'vertical-rl',
-      transform: 'rotate(180deg)',
-    }}
-  >
-    {sandesaStories[right2Idx].badge}
-  </h3>
-  <span className="absolute bottom-2 left-1/2 -translate-x-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 text-xs font-semibold text-neutral-900 dark:text-white">
-  {String(right2Idx + 1).padStart(2, '0')}
-</span>
-</div>
-            </div>
-
-          </div>
+          {sandesaStories.map((story, i) => {
+            const offset = ((i - active + 2 + count) % count) - 2; // -2..2
+            return (
+              <SandesaSlide
+                key={story.id}
+                story={story}
+                index={i}
+                offset={offset}
+                x={centerX(offset)}
+                centerW={centerW}
+                centerH={centerH}
+                visible={offset === 0 || (Math.abs(offset) === 1 && showSide1) || (Math.abs(offset) === 2 && showSide2)}
+                onSelect={() => setActive(i)}
+                onHoverOpen={() => selectOnHover(i)}
+              />
+            );
+          })}
         </div>
-
       </div>
     </section>
+  );
+}
+
+function SandesaSlide({
+  story,
+  index,
+  offset,
+  x,
+  centerW,
+  centerH,
+  visible,
+  onSelect,
+  onHoverOpen,
+}: {
+  story: SandesaStory;
+  index: number;
+  offset: number;
+  x: number;
+  centerW: number;
+  centerH: number;
+  visible: boolean;
+  onSelect: () => void;
+  onHoverOpen: () => void;
+}) {
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevOffset = useRef(offset);
+  // Item wrapping from one end of the row to the other: don't fly across the track, fade in instead
+  const wrapped = Math.abs(offset - prevOffset.current) > 2;
+  useEffect(() => {
+    prevOffset.current = offset;
+  }, [offset]);
+
+  const isCenter = offset === 0;
+  const abs = Math.min(Math.abs(offset), 2) as 0 | 1 | 2;
+  const spec = abs === 0 ? { w: centerW, h: centerH, opacity: 1, radius: 40 } : SIDE_SPEC[abs];
+  const targetOpacity = visible ? spec.opacity : 0;
+  const w = visible ? spec.w : 0;
+
+  const move = { duration: wrapped ? 0 : DURATION, ease: EASE };
+
+  return (
+    <motion.div
+      initial={false}
+      animate={{
+        width: w,
+        height: spec.h,
+        x: x - w / 2,
+        y: -spec.h / 2,
+        opacity: wrapped && visible ? [0, targetOpacity] : targetOpacity,
+        borderRadius: spec.radius,
+      }}
+      transition={{
+        width: move,
+        height: move,
+        x: move,
+        y: move,
+        borderRadius: move,
+        opacity: { duration: wrapped ? 0.6 : DURATION * 0.7, ease: 'easeOut' },
+      }}
+      onClick={isCenter ? undefined : onSelect}
+      onHoverStart={() => {
+        if (isCenter || !visible) return;
+        hoverTimer.current = setTimeout(onHoverOpen, 120);
+      }}
+      onHoverEnd={() => {
+        if (hoverTimer.current) clearTimeout(hoverTimer.current);
+      }}
+      whileHover={isCenter || !visible ? undefined : { opacity: 1 }}
+      role={isCenter ? undefined : 'button'}
+      aria-label={isCenter ? undefined : story.badge}
+      title={isCenter ? undefined : story.badge}
+      className={`absolute left-1/2 top-1/2 overflow-hidden border-white dark:border-neutral-800 bg-white dark:bg-[#14141f] ${
+        isCenter
+          ? 'border border-black/[0.06] dark:border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)]'
+          : 'cursor-pointer border-[4px] bg-neutral-100 shadow-xl'
+      }`}
+      style={{ zIndex: isCenter ? 10 : 5 - abs, pointerEvents: visible ? 'auto' : 'none', willChange: 'transform, width, height' }}
+    >
+      {/* Capsule face */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        animate={{ opacity: isCenter ? 0 : 1 }}
+        transition={{ duration: 0.3, delay: isCenter ? 0 : DURATION * 0.4 }}
+      >
+        <h3
+          className="text-xs font-semibold text-neutral-800 dark:text-white whitespace-nowrap"
+          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+        >
+          {story.badge}
+        </h3>
+        <span className="absolute bottom-2 left-1/2 -translate-x-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-neutral-200 dark:bg-neutral-800 text-xs font-semibold text-neutral-900 dark:text-white">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </motion.div>
+
+      {/* Full card face — fixed size, revealed as the capsule opens */}
+      <motion.div
+        className="absolute left-1/2 top-1/2"
+        style={{ width: centerW, height: centerH, x: '-50%', y: '-50%' }}
+        animate={{ opacity: isCenter ? 1 : 0 }}
+        transition={{ duration: 0.45, delay: isCenter ? DURATION * 0.35 : 0 }}
+        aria-hidden={!isCenter}
+      >
+        <div className="grid h-full grid-cols-1 md:grid-cols-12">
+          <div className="md:col-span-5 p-6 sm:p-8 md:p-9 flex flex-col justify-between order-2 md:order-1">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="inline-flex rounded-full bg-[#FF4800]/10 px-3.5 py-1 text-[11px] font-bold text-[#FF4800] uppercase tracking-wider">
+                  {story.badge}
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight leading-snug mb-3">
+                {story.highlight}
+              </h3>
+              <p className="text-[13.5px] leading-relaxed text-neutral-600 dark:text-neutral-300 mb-4">
+                {story.description}
+              </p>
+              <ul className="space-y-2">
+                {story.points.map((pt) => (
+                  <li key={pt} className="flex items-start gap-2 text-[13px] leading-snug text-neutral-700 dark:text-neutral-200">
+                    <Check size={15} className="mt-0.5 shrink-0 text-[#FF4800]" strokeWidth={3} />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="pt-5 mt-4 border-t border-neutral-100 dark:border-neutral-800/80">
+              <a
+                href={story.ctaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={isCenter ? 0 : -1}
+                className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#FF4800] hover:text-[#e03e00] transition-colors group"
+              >
+                <span>{story.ctaText}</span>
+                <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
+
+          <div className="md:col-span-7 relative min-h-[300px] md:min-h-full order-1 md:order-2 overflow-hidden">
+            {isCenter && <SandesaScene scene={story.scene} />}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }

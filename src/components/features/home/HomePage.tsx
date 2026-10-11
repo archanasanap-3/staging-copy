@@ -3,6 +3,7 @@
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, animate, useMotionValueEvent, useMotionValue } from 'framer-motion';
+import type { MotionValue } from 'framer-motion';
 import { useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import gsap from "gsap";
@@ -21,6 +22,7 @@ import {
   Zap,
   Code,
   Cpu,
+  Check,
 } from 'lucide-react';
 import {
   BrainCircuit,
@@ -33,6 +35,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SandesaSection from '@/components/features/home/SandesaSection';
+import ClientProjectsSection from '@/components/features/home/ClientProjectsSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 
 interface HomePageProps {
@@ -76,6 +79,7 @@ interface ServiceDetail {
   badge: string;
   title: string;
   description: string;
+  points: string[];
   ctaLabel: string;
   route: string;
   image: string;
@@ -87,7 +91,8 @@ const servicesData: ServiceDetail[] = [
     badge: 'AUTOMATION',
     title: 'AI & Business Automation',
     description:
-      'WhatsApp flows, behavior-triggered email sequences, and AI agents that remove 30–60% of manual operations within the first 90 days.',
+      'WhatsApp flows, behavior-triggered email sequences, and AI agents that remove 30–60% of manual operations within the first 90 days. We map your workflow first, then automate what is left.',
+    points: ['WhatsApp broadcasts, chatbots and AI agents', 'Triggered email and follow-up sequences', 'Approvals, data entry and reporting on autopilot'],
     ctaLabel: 'Explore AI & Automation',
     route: 'automation',
     image: '/images/services/automation.jpg',
@@ -97,7 +102,8 @@ const servicesData: ServiceDetail[] = [
     badge: 'SOFTWARE',
     title: 'Custom Software & Systems',
     description:
-      'AI-powered CRMs, real-time dashboards, and internal tools built around your exact workflow—free from rigid SaaS constraints.',
+      'AI-powered CRMs, real-time dashboards, and internal tools built around your exact workflow—free from rigid SaaS constraints. You own the code and the roadmap.',
+    points: ['Custom CRMs and internal tools', 'Live dashboards across sales, ops and finance', 'Role-based access, secure by design'],
     ctaLabel: 'Explore Custom Software',
     route: 'custom-software',
     image: '/images/services/custom-software.jpg',
@@ -107,7 +113,8 @@ const servicesData: ServiceDetail[] = [
     badge: 'STRATEGY',
     title: 'AI Strategy & Integration',
     description:
-      'GPT-class models, custom fine-tuned LLMs, and enterprise RAG systems integrated directly into your operations stack for measurable ROI.',
+      'GPT-class models, custom fine-tuned LLMs, and enterprise RAG systems integrated directly into your operations stack for measurable ROI. Every use case is tied to a number you can track.',
+    points: ['AI readiness and use-case audit', 'LLM fine-tuning and enterprise RAG', 'Integration into your existing stack'],
     ctaLabel: 'Explore AI Strategy',
     route: 'ai-strategy',
     image: '/images/services/ai-strategy.jpg',
@@ -117,7 +124,8 @@ const servicesData: ServiceDetail[] = [
     badge: 'DIGITAL',
     title: 'Web Design & Experiences',
     description:
-      'High-performance Next.js sites, 3D interactive builds, and conversion funnels deployed to global edge infrastructure.',
+      'High-performance Next.js sites, 3D interactive builds, and conversion funnels deployed to global edge infrastructure. Built to load fast and turn visitors into leads.',
+    points: ['Next.js sites built for speed and SEO', '3D and interactive brand experiences', 'Conversion funnels on global edge hosting'],
     ctaLabel: 'Explore Web Experiences',
     route: 'web-development',
     image: '/images/services/web-development.jpg',
@@ -126,6 +134,40 @@ const servicesData: ServiceDetail[] = [
 ];
 
 
+const serviceThemes = [
+  { bg: '#FF5A1F', tab: '#E84A12' },
+  { bg: '#E8372C', tab: '#C92A20' },
+  { bg: '#5B34D9', tab: '#4824BC' },
+  { bg: '#16162A', tab: '#0E0E1C' },
+];
+
+const serviceTiles: Record<string, { label: string; Icon: LucideIcon }[]> = {
+  automation: [
+    { label: 'WhatsApp Flows', Icon: Workflow },
+    { label: 'AI Agents', Icon: BrainCircuit },
+    { label: 'Email Sequences', Icon: Zap },
+    { label: 'Ops Automation', Icon: Settings },
+  ],
+  'custom-software': [
+    { label: 'AI CRMs', Icon: Database },
+    { label: 'Dashboards', Icon: Activity },
+    { label: 'Internal Tools', Icon: Code2 },
+    { label: 'Security', Icon: ShieldCheck },
+  ],
+  'ai-strategy': [
+    { label: 'AI Consulting', Icon: BrainCircuit },
+    { label: 'LLM Development', Icon: Cpu },
+    { label: 'RAG Integration', Icon: Database },
+    { label: 'AI Automation', Icon: Workflow },
+  ],
+  'web-development': [
+    { label: 'Next.js Sites', Icon: Code2 },
+    { label: '3D Experiences', Icon: Globe },
+    { label: 'Edge Hosting', Icon: Cloud },
+    { label: 'Conversion Funnels', Icon: Activity },
+  ],
+};
+
 function InteractiveServicesSection({
   isDark,
   onNavigate,
@@ -133,291 +175,169 @@ function InteractiveServicesSection({
   isDark: boolean;
   onNavigate: (page: string) => void;
 }) {
-  const [activeIndex, setActiveIndex] = useState(0);
   const total = servicesData.length;
-
- const sectionRef = useRef<HTMLElement | null>(null);
-
- const scrollDirectionRef = useRef(0);
-
-useEffect(() => {
-  if (total <= 1 || !sectionRef.current) return;
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const section = sectionRef.current;
-  
-
-const trigger = ScrollTrigger.create({
-  trigger: section,
-  start: "top top",
-  end: () => `+=${(total - 1) * window.innerHeight * 0.2}`,
-  pin: true,
-  scrub: false,
-  anticipatePin: 1,
-
-  // snap: {
-  //   snapTo: 1 / (total - 1),
-  //   duration: 0.15,
-  //   delay: 0,
-  //   ease: "power1.out",
-  // },
-
-  
-
-  onUpdate: (self) => {
-  const nextIndex = Math.min(
-    total - 1,
-    Math.floor(self.progress * total)
-  );
-
-  setActiveIndex((current) =>
-    current === nextIndex ? current : nextIndex
-  );
-},
-
-});
-
-  return () => {
-    trigger.kill();
-  };
-}, [total]);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: trackRef,
+    offset: ['start start', 'end end'],
+  });
+  // 0 → total-1: integer values mean that card is fully in place
+  const stage = useTransform(scrollYProgress, [0, 0.88], [0, total - 1]);
 
   if (total === 0) return null;
 
-  const activeService = servicesData[activeIndex];
-
   return (
     <section
-  ref={sectionRef}
-  id="section-services"
-  className="bg-white py-10 transition-colors duration-300 dark:bg-[#0a0a14] md:py-14"
->
-      {/* Section heading */}
-      <div className="mx-auto max-w-7xl px-4 pb-7 sm:px-6 lg:px-8">
+      className="rounded-t-[36px] bg-[#F6F1E7] pt-14 shadow-[0_-30px_60px_rgba(0,0,0,0.12)] transition-colors duration-300 dark:bg-[#0a0a14] md:rounded-t-[56px] md:pt-20"
+    >
+      <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
         <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
           OUR Services
         </p>
-
         <h2
-          className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
-          style={{ color: isDark ? "#ffffff" : "#000000" }}
+          className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-[2.5rem]"
+          style={{ color: isDark ? '#ffffff' : '#000000' }}
         >
           Enterprise Software &amp; AI Automation Services
         </h2>
-
         <p className="mt-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
           We build high performance infrastructure and intelligent automation
           systems designed for the next generation of enterprise growth.
         </p>
       </div>
 
-      {/* 3D upward card transition */}
-      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+      {/* Scroll track: each service gets one viewport of scroll */}
+      <div ref={trackRef} style={{ height: `${total * 100}vh` }} className="relative">
         <div
-          className="relative h-[440px] sm:h-[390px] lg:h-[360px]"
-          style={{ perspective: "1400px" }}
+          className="sticky top-0 flex h-screen items-start justify-center overflow-hidden px-3 pt-24 sm:px-6 lg:px-8"
+          style={{ perspective: '1600px' }}
         >
-          {/* Cards behind the active card */}
-          {servicesData.map((service, index) => {
-            const distance = (index - activeIndex + total) % total;
-
-            if (distance === 0 || distance > 3) return null;
-
-            return (
-              <motion.div
-                key={service.number}
-                className="absolute inset-0"
-                initial={false}
-                animate={{
-                  y: distance * 18,
-                  scale: 1 - distance * 0.035,
-                  rotateX: -4 * distance,
-                  opacity: 1,
-                }}
-                transition={{
-                  duration: 0.45,
-                  ease: [0.76, 0, 0.24, 1],
-                }}
-                style={{
-                  zIndex: total - distance,
-                  transformOrigin: "center top",
-                  pointerEvents: "none",
-                  backfaceVisibility: "hidden",
-                }}
-              >
-                <StackedServiceCard
-                  service={service}
-                  index={index}
-                  total={total}
-                  isDark={isDark}
-                  onNavigate={onNavigate}
-                />
-              </motion.div>
-            );
-          })}
-
-          {/* Active card lifts upward and exits in 3D */}
-          <AnimatePresence initial={false} mode="sync">
-            <motion.div
-              key={activeService.number}
-              className="absolute inset-0"
-              initial={{
-                y: "100%",
-                rotateX: 12,
-                scale: 0.94,
-                opacity: 0,
-              }}
-              animate={{
-                y: 0,
-                rotateX: 0,
-                scale: 1,
-                opacity: 1,
-              }}
-              exit={{
-  y: "-45%",
-  rotateX: 90,
-  scale: 1,
-  opacity: 1,
-}}
-transition={{
-  duration: 1.2,
-  ease: [0.76, 0, 0.24, 1],
-}}
-style={{
-  zIndex: total + 10,
-  transformOrigin: "center top",
-  transformStyle: "preserve-3d",
-  backfaceVisibility: "visible",
-}}
-            >
+          <div className="relative mx-auto h-[min(calc(100vh-9.5rem),580px)] w-full max-w-6xl">
+            {servicesData.map((service, index) => (
               <StackedServiceCard
-                service={activeService}
-                index={activeIndex}
+                key={service.number}
+                service={service}
+                index={index}
                 total={total}
-                isDark={isDark}
+                stage={stage}
                 onNavigate={onNavigate}
               />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Current service indicator */}
-        <div className="mt-5 flex justify-center gap-2">
-          {servicesData.map((service, index) => (
-            <button
-              key={service.number}
-              type="button"
-              aria-label={`Show service ${index + 1}`}
-              onClick={() => setActiveIndex(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === activeIndex
-                  ? "w-7 bg-[#FF4800]"
-                  : "w-2 bg-neutral-300 dark:bg-neutral-700"
-              }`}
-            />
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-
-
 function StackedServiceCard({
   service,
   index,
   total,
-  isDark,
+  stage,
   onNavigate,
 }: {
-  service: (typeof servicesData)[number];
+  service: ServiceDetail;
   index: number;
   total: number;
-  isDark: boolean;
+  stage: MotionValue<number>;
   onNavigate: (page: string) => void;
 }) {
-  return (
-    <article className="h-full overflow-hidden rounded-2xl md:rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a14] shadow-xl">
-      <div className="grid h-full grid-cols-1 md:grid-cols-2">
-        {/* Text */}
-        <div className="flex min-h-0 flex-col justify-between overflow-y-auto p-5 sm:p-7 md:p-8 lg:p-10">
-          <div>
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#FF4800]">
-                OUR SERVICES
-              </span>
+  const theme = serviceThemes[index % serviceThemes.length];
+  const tiles = serviceTiles[service.route] ?? [];
 
-              <span className="font-mono text-xs sm:text-sm text-neutral-400">
-                {service.number} / {String(total).padStart(2, "0")}
+  // d < 0: card still below, rising and un-tilting. d > 0: card buried under newer ones.
+  const y = useTransform(stage, (v) => {
+    const d = v - index;
+    return d < 0 ? `${-d * 105}%` : `${-Math.min(d, 3) * 5}%`;
+  });
+  const rotateX = useTransform(stage, (v) => {
+    const d = v - index;
+    return d < 0 ? Math.min(-d, 1) * 24 : 0;
+  });
+  const scale = useTransform(stage, (v) => {
+    const d = v - index;
+    return d > 0 ? 1 - Math.min(d, 3) * 0.045 : 1;
+  });
+  const filter = useTransform(stage, (v) => {
+    const d = v - index;
+    return d > 0 ? `brightness(${1 - Math.min(d, 3) * 0.14})` : 'brightness(1)';
+  });
+
+  return (
+    <motion.article
+      className="absolute inset-0 overflow-hidden rounded-[28px] text-white shadow-2xl md:rounded-[36px]"
+      style={{
+        y,
+        rotateX,
+        scale,
+        filter,
+        zIndex: index + 1,
+        transformOrigin: 'center top',
+        backgroundColor: theme.bg,
+        willChange: 'transform',
+      }}
+    >
+      <div className="grid h-full grid-cols-1 md:grid-cols-[1.1fr_1fr]">
+        <div className="flex min-h-0 flex-col justify-between p-6 sm:p-8 lg:p-11">
+          <div>
+            <div className="mb-6 flex items-center justify-between">
+              <span
+                className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] sm:text-xs"
+                style={{ backgroundColor: theme.tab }}
+              >
+                {service.badge}
+              </span>
+              <span className="font-mono text-xs text-white/70 sm:text-sm">
+                {service.number} / {String(total).padStart(2, '0')}
               </span>
             </div>
 
-            <h3
-              className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight text-black dark:text-white"
-              style={{ color: isDark ? "#ffffff" : "#000000" }}
-            >
+            <h3 className="text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl lg:text-[3.4rem]">
               {service.title}
             </h3>
-
-            <p className="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
               {service.description}
             </p>
+            <ul className="mt-5 hidden max-w-xl space-y-2 md:block">
+              {service.points.map((pt) => (
+                <li key={pt} className="flex items-start gap-2.5 text-sm font-medium text-white/95">
+                  <span className="mt-[3px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-white/20">
+                    <Check size={11} strokeWidth={3.5} />
+                  </span>
+                  {pt}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <button
             onClick={() => onNavigate(service.route)}
-            className="mt-5 self-start inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#FF4800] dark:hover:bg-[#FF4800] dark:hover:text-white transition-colors"
+            className="mt-6 inline-flex items-center gap-2 self-start rounded-full bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-transform hover:scale-105"
           >
             {service.ctaLabel}
-            <ArrowRight size={14} />
+            <ArrowRight size={16} />
           </button>
         </div>
 
-        {/* Right Side: Service Icons */}
-<div className="flex items-center justify-center border-t md:border-t-0 md:border-l border-neutral-200 dark:border-neutral-800 bg-orange-50/40 dark:bg-[#101019] p-5 sm:p-6">
-  <div className="grid w-full max-w-sm grid-cols-2 gap-4">
-    {(
-      service.title.includes("AI")
-        ? [
-            { label: "AI Consulting", Icon: BrainCircuit },
-            { label: "LLM Development", Icon: Settings },
-            { label: "RAG Integration", Icon: Database },
-            { label: "AI Automation", Icon: Workflow },
-          ]
-        : service.title.includes("Cloud")
-        ? [
-            { label: "Cloud Services", Icon: Cloud },
-            { label: "Development", Icon: Code2 },
-            { label: "Integration", Icon: Workflow },
-            { label: "Security", Icon: ShieldCheck },
-          ]
-        : [
-            { label: "Development", Icon: Code2 },
-            { label: "Integration", Icon: Workflow },
-            { label: "Database", Icon: Database },
-            { label: "Security", Icon: ShieldCheck },
-          ]
-    ).map(({ label, Icon }) => (
-      <div key={label} className="flex flex-col items-center text-center gap-2">
-        <div className="flex h-20 w-full items-center justify-center rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a14] shadow-sm">
-          <Icon
-            size={30}
-            strokeWidth={1.7}
-            className="text-[#FF4800]"
-          />
+        <div
+          className="hidden items-center justify-center p-8 md:flex lg:p-12"
+          style={{ backgroundColor: theme.tab }}
+        >
+          <div className="grid w-full max-w-md grid-cols-2 gap-4">
+            {tiles.map(({ label, Icon }) => (
+              <div
+                key={label}
+                className="flex aspect-[4/3] flex-col items-center justify-center gap-3 rounded-2xl bg-white/10 text-center ring-1 ring-white/20 backdrop-blur-sm"
+              >
+                <Icon size={34} strokeWidth={1.6} />
+                <span className="px-2 text-xs font-medium text-white/90">{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <span className="text-xs text-neutral-700 dark:text-neutral-300">
-          {label}
-        </span>
       </div>
-    ))}
-  </div>
-</div>
-      </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -595,11 +515,11 @@ function TestimonialsCarousel() {
 
   return (
     <section
-      className="hidden w-full overflow-hidden py-14 md:py-20 bg-white"
+      className="hidden w-full overflow-hidden py-14 md:py-20 bg-[#F6F1E7]"
       style={{
         background: isDarkT
           ? '#0a0a14'
-          : '#ffffff',
+          : '#F6F1E7',
       }}
     >
       {/* ================= HEADING ================= */}
@@ -662,9 +582,9 @@ function FAQSection() {
   return (
     <section
       id="section-faq"
-      className="glow-hover py-12 md:py-16 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+      className="py-12 md:py-16 bg-[#F6F1E7] dark:bg-[#0a0a14]"
     >
-      <div className="mt-0 mx-auto max-w-7xl">
+      <div className="mt-0 mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.5fr] gap-12 lg:gap-24">
 
@@ -1154,31 +1074,66 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     return () => window.removeEventListener('resize', updateConstraints);
   }, []);
 
+  const { scrollY } = useScroll();
+  const heroOpacity = useTransform(scrollY, [0, 700], [1, 0.25]);
+
   return (
-    <div className="overflow-x-hidden w-full bg-white dark:bg-[#0a0a14]">
+    <div className="overflow-x-clip w-full bg-[#F6F1E7] dark:bg-[#0a0a14]">
 
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .problem-number-fade {
-          -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 85%);
-          mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 85%);
-          transition: -webkit-mask-image 0.35s ease, mask-image 0.35s ease;
+        .problem-num-win {
+          position: relative;
+          width: 100%;
+          height: 0.82em;
+          font-size: clamp(72px, 7vw, 100px);
+          font-weight: 700;
+          overflow: hidden;
         }
-        .group:hover .problem-number-fade {
-          -webkit-mask-image: none !important;
-          mask-image: none !important;
+        .problem-num {
+          display: block;
+          margin-top: -0.06em;
+          line-height: 1;
+          letter-spacing: -0.02em;
+          color: #bcc3cd;
+          transform: translateY(28%);
+          transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s ease;
         }
+        .problem-num-win::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0; bottom: 0;
+          height: 50%;
+          background: linear-gradient(to bottom, rgba(246,241,231,0) 0%, rgba(246,241,231,0.9) 100%);
+          transition: opacity 0.4s ease;
+          pointer-events: none;
+        }
+        :is(.dark) .problem-num-win::after {
+          background: linear-gradient(to bottom, rgba(10,10,20,0) 0%, rgba(10,10,20,0.9) 100%);
+        }
+        .problem-step { cursor: pointer; }
+        .problem-step:hover .problem-num { transform: translateY(0); color: #FF4800; }
+        .problem-step:hover .problem-num-win::after { opacity: 0; }
+        .problem-step:hover .problem-title { color: #FF4800; }
+        .problem-title { transition: color 0.3s ease; }
       `}</style>
 
       {/* ── Hero ── */}
-      <div id="section-hero">
-        <AnimatedHero onNavigate={onNavigate} />
-      </div>
+      {/* Hero stays pinned (lg+) while the services section slides up and covers it */}
+      <div className="relative">
+        <motion.div
+          id="section-hero"
+          className="lg:sticky lg:top-0"
+          style={{ opacity: heroOpacity }}
+        >
+          <AnimatedHero onNavigate={onNavigate} />
+        </motion.div>
 
-      {/* ── Our Expertise / Services Section (2nd Section) ── */}
-      <div id="section-services">
-        <InteractiveServicesSection isDark={isDark} onNavigate={onNavigate} />
+        {/* ── Our Expertise / Services Section (2nd Section) ── */}
+        <div id="section-services" className="relative z-10">
+          <InteractiveServicesSection isDark={isDark} onNavigate={onNavigate} />
+        </div>
       </div>
 
       {/* ── Sandesa Section ── */}
@@ -1188,152 +1143,167 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
 
+{/* ── Problem Section ── */}
+<section className="relative py-12 md:py-16 bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden">
+  <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
+
+    {/* Heading */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+      className="text-left mb-6 md:mb-8"
+    >
+      <p
+  className="mb-4 text-[11px] font-bold uppercase tracking-widest"
+  style={{ color: "#FF4800" }}
+>
+  THE REAL PROBLEM
+</p>
+      <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
+        You&apos;re not short on software
+        <span className="mx-3"></span>
+        You&apos;re drowning in it
+      </h2>
+    </motion.div>
+
+    {/* Problem columns */}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+      className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-14 lg:grid-cols-5 lg:gap-x-6"
+    >
+      {[
+        {
+          heading: "The Tool Tax",
+          body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
+        },
+        {
+          heading: "The Integration Debt",
+          body: 'Every new tool requires a Zapier hack. IT says a "proper integration" is a 6 Month project.',
+        },
+        {
+          heading: "The Visibility Gap",
+          body: "Leadership can't see pipeline health, ops can't see inventory, and finance.",
+        },
+        {
+          heading: "The Process Drag",
+          body: "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
+        },
+        {
+          heading: "The Growth Barrier",
+          body: "As your business grows, disconnected systems become harder to manage.",
+        },
+      ].map(({ heading, body }, i) => (
+        <div key={heading} className="problem-step flex flex-col items-center text-center">
+          <div className="problem-num-win" aria-hidden="true">
+            <span className="problem-num">{String(i + 1).padStart(2, "0")}</span>
+          </div>
+          <h3 className="problem-title mt-4 text-xl font-bold leading-tight text-[#0b0b14] dark:text-white">
+            {heading}
+          </h3>
+          <p className="mt-4 max-w-[270px] text-[15px] leading-[1.9] text-neutral-600 dark:text-neutral-400">
+            {body}
+          </p>
+        </div>
+      ))}
+    </motion.div>
+
+  </div>
+</section>
+
+{/* ── Client Projects ── */}
+<ClientProjectsSection />
+
 {/* ── About / Who We Are / Stats Section ── */}
 <section
   id="section-about"
-  className="relative overflow-hidden bg-white py-14 transition-colors duration-300 dark:bg-[#12121e] md:py-20 lg:py-24"
+  className="relative overflow-hidden bg-[#F6F1E7] py-16 transition-colors duration-300 dark:bg-[#0a0a14] md:py-24 lg:py-28"
 >
   <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-
-      {/* ── LEFT SIDE: WHO WE ARE ── */}
+    {/* Top: editorial statement + supporting copy */}
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.35fr_0.65fr] lg:gap-20">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{
-          duration: 0.6,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
-        className="flex flex-col items-start"
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
-
-        {/* Small label */}
-        <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF4800]">
-          WHO WE ARE
+        <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
+          Who we are
         </p>
-
-       {/* Small Label */}
-<p
-  className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em]"
-  style={{ color: "#FF4800" }}
->
-  WHO WE ARE
-</p>
-
-        {/* Heading */}
         <h2
-          className="max-w-xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.25rem]"
-          style={{
-            color: isDark ? "#ffffff" : "#000000",
-          }}
+          className="max-w-3xl text-[2.1rem] font-bold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.75rem]"
+          style={{ color: isDark ? "#ffffff" : "#0b0b14" }}
         >
-          We Get It Because
-          <br className="hidden sm:block" /> We&apos;ve Lived It
+          We get it because{" "}
+          <motion.span
+            initial={{ backgroundSize: "0% 100%", color: isDark ? "#ffffff" : "#0b0b14" }}
+            whileInView={{ backgroundSize: "100% 100%", color: "#ffffff" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="box-decoration-clone px-2"
+            style={{
+              backgroundImage: "linear-gradient(#FF4800, #FF4800)",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "left center",
+            }}
+          >
+            we&apos;ve lived it.
+          </motion.span>
         </h2>
-
-        {/* Description */}
-        <p className="mt-6 max-w-[500px] text-[14px] leading-7 text-[#6b7280] dark:text-[#9ca3af] sm:text-[15px] sm:leading-7">
-          Every growing company hits the same wall: scattered tools, and wasted
-          manual hours. At Straveda, we engineer unified, AI-powered systems that
-          replace operational chaos with structure, clarity, and real efficiency.
-        </p>
       </motion.div>
 
-      {/* ── RIGHT SIDE: STATISTICS ── */}
-      <motion.div
-        ref={statsRef}
-        initial={{ opacity: 0, y: 20 }}
+      <motion.p
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{
-          duration: 0.6,
-          delay: 0.1,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
-        className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 lg:gap-x-12 lg:gap-y-14"
+        transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="self-end text-[15px] leading-[1.8] text-neutral-600 dark:text-neutral-400"
       >
-        {/* STAT 1 */}
-        <div className="flex min-w-0 flex-col items-start">
-          <div className="flex h-[52px] items-end">
-            <p
-              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
-              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
-            >
-              {count55}%
-            </p>
-          </div>
-
-          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
-            Manual Work Reduced
-          </span>
-
-          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
-            Reduce repetitive work and improve everyday operations.
-          </p>
-        </div>
-
-        {/* STAT 2 */}
-        <div className="flex min-w-0 flex-col items-start">
-          <div className="flex h-[52px] items-end">
-            <p
-              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
-              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
-            >
-              3–{count5}x
-            </p>
-          </div>
-
-          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
-            Operational Efficiency
-          </span>
-
-          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
-            Build faster workflows with connected systems.
-          </p>
-        </div>
-
-        {/* STAT 3 */}
-        <div className="flex min-w-0 flex-col items-start">
-          <div className="flex h-[52px] items-end">
-            <p
-              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
-              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
-            >
-              {count100}%
-            </p>
-          </div>
-
-          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
-            Code Ownership
-          </span>
-
-          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
-            Scalable solutions with complete ownership of your codebase.
-          </p>
-        </div>
-
-        {/* STAT 4 */}
-        <div className="flex min-w-0 flex-col items-start">
-          <div className="flex h-[52px] items-end">
-            <p
-              className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-black dark:text-white"
-              style={{ fontSize: "clamp(1.8rem, 2.8vw, 2.5rem)" }}
-            >
-              End-to-End
-            </p>
-          </div>
-
-          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
-            Strategy → Build → Deploy
-          </span>
-
-          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
-            From strategy and development to deployment and optimization.
-          </p>
-        </div>
-      </motion.div>
+        Every growing company hits the same wall: scattered tools and wasted
+        manual hours. At Straveda, we engineer unified, AI-powered systems that
+        replace operational chaos with structure, clarity, and real efficiency.
+      </motion.p>
     </div>
+
+    {/* Stats row */}
+    <motion.div
+      ref={statsRef}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className="mt-14 grid grid-cols-2 gap-y-10 border-t border-neutral-300/80 pt-10 dark:border-white/15 md:mt-20 lg:grid-cols-4"
+    >
+      {[
+        { value: `${count55}%`, label: 'Manual work reduced', desc: 'Reduce repetitive work and improve everyday operations.' },
+        { value: `3–${count5}x`, label: 'Operational efficiency', desc: 'Build faster workflows with connected systems.' },
+        { value: `${count100}%`, label: 'Code ownership', desc: 'Scalable solutions with complete ownership of your codebase.' },
+        { value: 'End-to-End', label: 'Strategy → Build → Deploy', desc: 'From strategy and development to deployment and optimization.' },
+      ].map((stat, i) => (
+        <div
+          key={stat.label}
+          className={`min-w-0 pl-5 sm:pl-8 ${i > 0 ? 'border-l border-neutral-300/80 dark:border-white/15' : 'border-l border-transparent lg:pl-0'} ${i === 2 ? 'max-lg:border-l-transparent max-lg:pl-0' : ''}`}
+        >
+          <p
+            className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-[#FF4800]"
+            style={{ fontSize: stat.value === 'End-to-End' ? 'clamp(1.9rem, 3.2vw, 3rem)' : 'clamp(2.75rem, 5vw, 4.5rem)' }}
+          >
+            {stat.value}
+          </p>
+          <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-900 dark:text-white">
+            {stat.label}
+          </p>
+          <p className="mt-2 max-w-[240px] text-[13px] leading-6 text-neutral-600 dark:text-neutral-400">
+            {stat.desc}
+          </p>
+        </div>
+      ))}
+    </motion.div>
   </div>
 </section>
 
@@ -1342,10 +1312,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── Client People / Connection Section ── */}
       <section
-        className="relative w-full overflow-hidden bg-white py-8 md:py-10 dark:bg-[#0a0a14]"
+        className="hidden relative w-full overflow-hidden bg-[#F6F1E7] py-8 md:py-10 dark:bg-[#0a0a14]"
       >
         {/* Heading */}
-        <div className="relative z-40 mx-auto max-w-7xl px-0 text-center">
+        <div className="relative z-40 mx-auto max-w-7xl px-5 text-center sm:px-6 lg:px-8">
          {/* Small Label */}
 <p
   className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em]"
@@ -1756,144 +1726,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
  
-{/* ── Problem Section ── */}
-<section className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden">
-  <div className="mx-auto max-w-7xl relative z-10">
-
-    {/* Heading */}
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="text-left mb-6 md:mb-8"
-    >
-      <p
-  className="mb-4 text-[11px] font-bold uppercase tracking-widest"
-  style={{ color: "#FF4800" }}
->
-  THE REAL PROBLEM
-</p>
-      <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
-        You&apos;re not short on software
-        <span className="mx-3"></span>
-        You&apos;re drowning in it
-      </h2>
-    </motion.div>
-
-    {/* Cards */}
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{
-        duration: 0.6,
-        delay: 0.1,
-        ease: [0.25, 0.1, 0.25, 1],
-      }}
-      className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 text-center"
-    >
-      {[
-        {
-          num: "01",
-          heading: "The Tool Tax",
-          body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
-        },
-        {
-          num: "02",
-          heading: "The Integration Debt",
-          body: 'Every new tool requires a Zapier hack. IT says a "proper integration" is a 6 Month project.',
-        },
-        {
-          num: "03",
-          heading: "The Visibility Gap",
-          body: "Leadership can't see pipeline health, ops can't see inventory, and finance.",
-        },
-        {
-          num: "04",
-          heading: "The Process Drag",
-          body: "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
-        },
-        {
-          num: "05",
-          heading: "The Growth Barrier",
-          body: "As your business grows, disconnected systems become harder to manage.",
-        },
-      ].map((item) => (
-        <motion.div
-          key={item.num}
-          initial="rest"
-          whileHover="hover"
-          className="group flex flex-col items-center cursor-pointer"
-        >
-          {/* NUMBER AREA */}
-          <div className="relative h-[100px] sm:h-[110px] md:h-[118px] w-full flex items-end justify-center overflow-hidden">
-            <motion.div
-              variants={{
-                rest: {
-                  y: 20,
-                  opacity: 1,
-                  scale: 1,
-                  scaleX: 1.12,
-                  color: isDark
-                    ? "rgba(255,255,255,0.4)"
-                    : "#94A3B8",
-                },
-                hover: {
-                  y: 0,
-                  opacity: 1,
-                  scale: 1,
-                  scaleX: 1.18,
-                  color: "#FF4800",
-                },
-              }}
-              transition={{
-                duration: 0.45,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="
-                problem-number-fade
-                absolute
-                bottom-2
-                text-[86px]
-                sm:text-[94px]
-                md:text-[104px]
-                lg:text-[110px]
-                font-black
-                tracking-[-0.07em]
-                leading-[0.72]
-                select-none
-                origin-center
-                whitespace-nowrap
-              "
-            >
-              {item.num}
-            </motion.div>
-          </div>
-
-          {/* Heading */}
-          <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
-            {item.heading}
-          </h3>
-
-          {/* Description */}
-          <p className="mt-2 max-w-[320px] h-[72px] text-[16px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3 overflow-hidden">
-            {item.body}
-          </p>
-        </motion.div>
-      ))}
-    </motion.div>
-
-  </div>
-</section>
-
-
-      {/* ── Process Section ── */}
+{/* ── Process Section ── */}
       <section
         className="relative py-12 md:py-16"
-        style={{ background: isDark ? '#12121e' : '#ffffff' }}
+        style={{ background: isDark ? '#0a0a14' : '#F6F1E7' }}
       >
-        <div className="mx-auto max-w-7xl relative z-10">
+        <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
 
     <div className="relative">
       {/* Connecting line */}
@@ -1987,30 +1825,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Pricing Section ── */}
       <section
         id="pricing"
-        className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
+        className="relative py-16 md:py-24 bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden"
       >
-        <div className="mx-auto max-w-7xl relative z-10">
+        <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-center mb-10 md:mb-16"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="text-left mb-10 md:mb-14"
           >
-            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
-              PRICING
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
+              Pricing
             </p>
-            <h2
-              className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
-            >
+            <h2 className="font-bold text-neutral-950 dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.15]">
               Flexible Engagement Models
             </h2>
-            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">
-              Tailored systems built around your business goals not predefined packages.
+            <p className="mt-3 text-base sm:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-2xl">
+              Tailored systems built around your business goals, not predefined packages.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7 items-stretch">
             {[
               {
                 tier: 'Focused Automation Builds',
@@ -2021,6 +1857,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   'Documentation & handover',
                 ],
                 timeline: '2-3 weeks',
+                cta: 'Start Here',
                 highlight: false,
               },
               {
@@ -2032,6 +1869,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   'Scalable, ownership ready code',
                 ],
                 timeline: 'Based on scope',
+                cta: 'Get Started',
                 highlight: true,
               },
               {
@@ -2043,87 +1881,78 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   'Continuous optimization',
                 ],
                 timeline: 'Monthly',
+                cta: 'Book a Call',
                 highlight: false,
               },
-            ].map((plan) => (
+            ].map((plan, i) => (
               <motion.div
                 key={plan.tier}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.7, ease }}
-                className={`rounded-2xl p-6 sm:p-8 flex flex-col justify-between bg-white dark:bg-[#12121a] transition-shadow duration-200 ${
-                  plan.highlight
-                    ? 'border-2 border-black dark:border-white shadow-xl relative'
-                    : 'border border-neutral-200 dark:border-neutral-800 shadow-sm'
-                }`}
+                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full"
               >
-                <div>
-                  {/* Top Badge Slot (Uniform height so all 3 card headings start at identical horizontal line) */}
-                  <div className="h-7 mb-3 flex items-center">
-                    {plan.highlight && (
-                      <span className="inline-flex items-center rounded-full bg-orange-500 px-3.5 py-1 text-xs font-semibold text-neutral-900 shrink-0">
-                        Most Popular
-                      </span>
-                    )}
-                  </div>
+                <div
+                  className={`relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-7 sm:p-8 ${
+                    plan.highlight
+                      ? 'bg-[#14110c] text-white shadow-[0_24px_60px_rgba(20,17,12,0.28)] dark:bg-[#1a1a28] dark:ring-1 dark:ring-white/10'
+                      : 'bg-white text-neutral-900 border border-black/[0.07] shadow-[0_8px_30px_rgba(20,17,12,0.06)] dark:bg-[#12121a] dark:border-white/10 dark:text-white'
+                  }`}
+                >
+                  <div className="relative">
+                    <div className="h-7 mb-4 flex items-center">
+                      {plan.highlight && (
+                        <span className="inline-flex items-center rounded-full bg-[#FF4800] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white shrink-0">
+                          Most Popular
+                        </span>
+                      )}
+                    </div>
 
-                  {/* Heading Title (Uniform min-height so descriptions & dividers align horizontally) */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white leading-tight min-h-[3.5rem] flex items-start">
-                    {plan.tier}
-                  </h3>
+                    <h3 className="text-xl sm:text-2xl font-bold leading-tight min-h-[3.5rem] flex items-start">
+                      {plan.tier}
+                    </h3>
 
-                  {/* Description (Uniform min-height so divider line aligns horizontally) */}
-                  <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed min-h-[44px] flex items-start">
-                    {plan.coreValue}
-                  </p>
-
-                  {/* Horizontal Line & Features Heading (Aligned in exact same horizontal line across all cards) */}
-                  <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
-                    <p className="text-sm font-semibold text-neutral-900 dark:text-white mb-4">
-                      Features
+                    <p className={`mt-3 text-sm leading-relaxed min-h-[44px] flex items-start ${plan.highlight ? 'text-white/70' : 'text-neutral-600 dark:text-neutral-400'}`}>
+                      {plan.coreValue}
                     </p>
-                    <ul className="space-y-3.5">
-                      {plan.items.map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300"
-                        >
-                          <span className="text-neutral-900 dark:text-white font-bold leading-none select-none text-base">
-                            •
-                          </span>
-                          <span className="leading-snug">{item}</span>
-                        </li>
-                      ))}
-                      {/* Timeline directly under 3 points  */}
-                      <li className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300">
-                        <span className="leading-snug">
-                          <strong className="font-semibold text-neutral-900 dark:text-white">
-                            Timeline:
-                          </strong>{' '}
+
+                    <div className={`mt-6 pt-6 border-t ${plan.highlight ? 'border-white/15' : 'border-neutral-200 dark:border-white/10'}`}>
+                      <ul className="space-y-3.5">
+                        {plan.items.map((item) => (
+                          <li key={item} className="flex items-start gap-3 text-sm">
+                            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FF4800]/15 text-[#FF4800]">
+                              <Check size={12} strokeWidth={3} />
+                            </span>
+                            <span className={`leading-snug ${plan.highlight ? 'text-white/90' : 'text-neutral-700 dark:text-neutral-300'}`}>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <p className={`mt-6 text-xs font-semibold uppercase tracking-[0.16em] ${plan.highlight ? 'text-white/60' : 'text-neutral-500 dark:text-neutral-400'}`}>
+                        Timeline
+                        <span className={`ml-2 text-sm normal-case tracking-normal font-bold ${plan.highlight ? 'text-white' : 'text-neutral-900 dark:text-white'}`}>
                           {plan.timeline}
                         </span>
-                      </li>
-                    </ul>
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                {/* Button placed directly after points and timeline */}
-                <div className="mt-8 pt-2">
-                 <button
-  onClick={() => onNavigate('contact')}
-  className={`w-full rounded-full py-3.5 px-6 text-sm font-semibold transition-all duration-200 cursor-pointer ${
-    plan.highlight
-      ? 'bg-black text-white hover:bg-neutral-800 shadow-sm dark:bg-white dark:text-black dark:hover:bg-neutral-200'
-      : 'border border-neutral-300 bg-white text-neutral-900 hover:bg-black hover:text-white hover:border-black dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-black'
-  }`}
->
-  {plan.tier === 'Focused Automation Builds'
-    ? 'Start Here'
-    : plan.tier === 'Ongoing Optimization & Scale'
-    ? 'Book a Call'
-    : 'Get Started'}
-</button>
+                  <div className="relative mt-8">
+                    <button
+                      onClick={() => onNavigate('contact')}
+                      className={`group/btn inline-flex w-full items-center justify-between rounded-full py-2 pl-6 pr-2 text-sm font-semibold transition-colors duration-300 cursor-pointer ${
+                        plan.highlight
+                          ? 'bg-white text-neutral-950 hover:bg-[#FF4800] hover:text-white'
+                          : 'bg-[#14110c] text-white hover:bg-[#FF4800] dark:bg-white dark:text-neutral-950 dark:hover:bg-[#FF4800] dark:hover:text-white'
+                      }`}
+                    >
+                      {plan.cta}
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF4800] text-white transition-all duration-300 group-hover/btn:rotate-45 group-hover/btn:bg-white group-hover/btn:text-[#FF4800]">
+                        <ArrowRight size={16} />
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -2134,7 +1963,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Where We Stand / Technology Partners ── */}
       <section
         id="section-partners"
-        className="py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
+        className="py-12 md:py-16 bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
           <p className="mb-4 text-[11px] font-bold uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
