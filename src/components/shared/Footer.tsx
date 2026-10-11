@@ -3,8 +3,7 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, MapPin, ArrowUp, Phone } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import { useCursorStyle } from '@/lib/cursor-context';
 
 const FOOTER_LINKS = {
@@ -24,8 +23,8 @@ const FOOTER_LINKS = {
 
 /* Shared dark-mode-safe social icon class */
 const SOCIAL_CLS =
-  'w-11 h-11 rounded-full border-2 border-[#0f172a]/10 dark:border-white/20 flex items-center justify-center ' +
-  'text-[#0f172a] dark:text-white hover:bg-[#FF4800] hover:text-white hover:border-[#FF4800] dark:hover:border-[#FF4800] transition-all cursor-pointer';
+  'w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-[0_4px_16px_rgba(120,60,20,0.15)] ' +
+  'text-[#FF4800] hover:bg-[#FF4800] hover:text-white transition-all cursor-pointer';
 
 const LinkedInIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -50,52 +49,39 @@ export default function Footer() {
   const { setCursorStyle } = useCursorStyle();
 
   return (
+    <div className="mt-auto bg-[#F6F1E7] dark:bg-[#0a0a14]">
     <footer
       ref={footerRef}
-      className="relative mt-auto overflow-hidden bg-[#fffaf8] py-10 pb-6 dark:bg-[#0a0a14]"
+      className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#FFD0B2] via-[#FFBD94] to-[#FFA877] pt-10 pb-5 text-[#2b1608] dark:from-[#2b1608] dark:via-[#1f1209] dark:to-[#14110c] dark:text-white md:rounded-t-[48px] md:pt-12"
       onMouseEnter={() => setCursorStyle('nav')}
       onMouseLeave={() => setCursorStyle('default')}
     >
-      {/* Background gradients */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute -right-[10%] -top-[20%] w-[70%] h-[140%] rounded-full opacity-[0.65] blur-[120px]"
-          style={{ background: 'radial-gradient(circle, #FF4800 0%, #ff8c00 100%)' }} />
-        <div className="absolute -left-[5%] bottom-[-10%] w-[50%] h-[70%] rounded-full opacity-[0.3] blur-[100px]"
-          style={{ background: 'radial-gradient(circle, #ffebd5 0%, #FF4800 100%)' }} />
+      {/* Subtle brand glow */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute left-1/2 top-0 h-px w-3/5 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#FF4800]/40 to-transparent" />
+        <div className="absolute -right-[10%] -top-[30%] h-[70%] w-[45%] rounded-full bg-[#FF4800]/[0.10] blur-[120px]" />
       </div>
 
       {/* Watermark */}
-      <div className="absolute inset-0 z-1 flex items-end justify-center px-4 pb-4 pointer-events-none select-none overflow-hidden" aria-hidden="true">
-        <div className="relative w-full flex justify-center items-end h-full">
-          <motion.div
-            animate={{ opacity: [0.3, 0.6, 0.3], scale: [0.9, 1.1, 0.9] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-[5%] w-[60%] h-[20%] bg-[#FF4800]/10 blur-[100px] dark:bg-[#FF4800]/15 rounded-full"
-          />
-          <motion.span
-            animate={{ y: [0, -5, 0], opacity: [0.8, 1, 0.8] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            className="text-[20vw] font-bold uppercase tracking-tighter"
-            style={{ fontFamily: 'var(--font-plus-jakarta-sans), "Plus Jakarta Sans", system-ui, sans-serif', lineHeight: '0.6', marginBottom: '20px' }}
-          >
-            <span className="relative inline-block text-black/[0.04] dark:text-white/[0.08] dark:drop-shadow-[0_0_15px_rgba(255,72,0,0.15)]">
-              Straveda
-              <span className="absolute inset-0 bg-gradient-to-t from-[#FF4800]/10 to-transparent bg-clip-text text-transparent dark:from-[#FF4800]/20" />
-            </span>
-          </motion.span>
-        </div>
+      <div className="absolute inset-0 z-[1] flex items-end justify-center overflow-hidden px-4 pointer-events-none select-none" aria-hidden="true">
+        <span
+          className="translate-y-[18%] text-[20vw] font-bold uppercase leading-none tracking-tighter text-[#FF4800]/[0.07] dark:text-white/[0.04]"
+          style={{ fontFamily: 'var(--font-plus-jakarta-sans), "Plus Jakarta Sans", system-ui, sans-serif' }}
+        >
+          Straveda
+        </span>
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto flex justify-center">
+      <div className="relative z-10 mx-auto flex max-w-7xl justify-center px-4 sm:px-6 lg:px-8">
 
         {/* MOBILE */}
         <div className="flex flex-col items-center text-center md:hidden pb-2">
-          <div className="relative h-20 w-72 mb-1">
+          <div className="relative h-16 w-64 -my-1 mb-1">
             <Image src="/logos/main_logo.png" alt="Straveda" fill sizes="288px" className="object-contain dark:hidden" />
             <Image src="/logos/blackmain_logo.png" alt="Straveda" fill sizes="288px" className="object-contain hidden dark:block" />
           </div>
-          <p className="text-[13px] text-[#0f172a] dark:text-gray-300 font-medium mb-5">
+          <p className="text-[13px] text-[#2b1608]/75 dark:text-white/80 font-medium mb-5">
             Exceptional value. Cost effective solutions.
           </p>
 
@@ -104,7 +90,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[13px] font-semibold text-[#0f172a] dark:text-gray-200 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors text-center"
+                className="text-[14px] font-medium text-[#2b1608]/85 dark:text-white/85 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors transition-colors text-center"
               >
                 {link.label}
               </Link>
@@ -117,40 +103,28 @@ export default function Footer() {
             <a href="https://wa.me/919623095766" target="_blank" rel="noopener noreferrer" aria-label="Straveda on WhatsApp" className={SOCIAL_CLS}><WhatsAppIcon /></a>
           </div>
 
-          <div className="border-t-2 border-[#0f172a]/5 dark:border-white/10 pt-4 w-full flex flex-col items-center gap-2 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
+          <div className="border-t border-[#2b1608]/15 dark:border-white/10 pt-4 w-full flex flex-col items-center gap-2 text-[11px] font-semibold text-[#2b1608]/60 dark:text-white/50 uppercase tracking-[0.18em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
-            <div className="flex gap-6 normal-case tracking-normal text-[13px] font-bold text-gray-500 dark:text-gray-400">
-              <Link href="/privacy-policy" className="hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors">Privacy Policy</Link>
+            <div className="flex gap-6 normal-case tracking-normal text-[13px] font-bold text-[#2b1608]/75 dark:text-white/70">
+              <Link href="/privacy-policy" className="hover:text-[#FF4800] transition-colors">Privacy Policy</Link>
             </div>
           </div>
         </div>
 
        {/* DESKTOP */}
-<div className="hidden md:block">
+<div className="hidden w-full md:block">
 
-  <div className="grid grid-cols-4 gap-x-12 gap-y-8 mb-8 items-start w-full max-w-[1500px] mx-auto">
+  <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4 lg:gap-x-12 lg:gap-y-6 mb-5 items-start w-full max-w-[1500px] mx-auto">
 
     {/* Brand */}
-    <div className="space-y-4 flex flex-col items-center">
+    <div className="space-y-3 flex flex-col items-center">
       <div>
-        <div className="relative h-20 w-72">
-          <Image
-            src="/logos/main_logo.png"
-            alt="Straveda"
-            fill
-            sizes="288px"
-            className="object-contain object-center dark:hidden"
-          />
-          <Image
-            src="/logos/blackmain_logo.png"
-            alt="Straveda"
-            fill
-            sizes="288px"
-            className="object-contain object-center hidden dark:block"
-          />
+        <div className="relative h-16 w-64 -my-1">
+          <Image src="/logos/main_logo.png" alt="Straveda" fill sizes="224px" className="object-contain object-center dark:hidden" />
+          <Image src="/logos/blackmain_logo.png" alt="Straveda" fill sizes="224px" className="object-contain object-center hidden dark:block" />
         </div>
 
-        <p className="mt-2 text-[14px] text-[#0f172a] dark:text-gray-300 font-bold leading-snug max-w-[280px] text-center">
+        <p className="mt-2 text-[14px] text-[#2b1608]/75 dark:text-white/80 font-medium leading-snug max-w-[280px] text-center">
           Exceptional value.<br />
           Cost effective solutions.
         </p>
@@ -194,19 +168,19 @@ export default function Footer() {
   <div
     key={title}
     className={`space-y-3 text-left ${
-      title === 'EXPLORE' ? 'md:ml-20' : ''
+      title === 'EXPLORE' ? 'lg:ml-20' : ''
     }`}
   >
-        <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">
+        <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E03A00] dark:text-[#ff6b2b]">
           {title}
         </h3>
 
-        <ul className="space-y-2">
+        <ul className="space-y-1.5">
           {links.map((link) => (
             <li key={link.label}>
               <Link
                 href={link.href}
-                className="text-[13px] font-bold text-[#0f172a] dark:text-gray-200 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors"
+                className="text-[14px] font-medium text-[#2b1608]/85 dark:text-white/85 hover:text-[#FF4800] dark:hover:text-[#FF4800] transition-colors transition-colors"
               >
                 {link.label}
               </Link>
@@ -218,11 +192,11 @@ export default function Footer() {
 
     {/* Contact */}
     <div className="space-y-3 text-left">
-      <h3 className="text-[11px] font-black uppercase tracking-widest text-[#FF4800] dark:text-[#ff6b2b] [text-shadow:0_1px_3px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_8px_rgba(0,0,0,0.95)]">
+      <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E03A00] dark:text-[#ff6b2b]">
         CONTACT US
       </h3>
 
-      <div className="space-y-3 text-[13px] font-bold text-[#0f172a] dark:text-gray-200">
+      <div className="space-y-3 text-[14px] font-medium text-[#2b1608]/85 dark:text-white/85">
 
         <a
           href="https://mail.google.com/mail/?view=cm&fs=1&to=stravedatech@gmail.com"
@@ -232,9 +206,9 @@ export default function Footer() {
         >
           <Mail
             size={18}
-            className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]"
+            className="shrink-0 text-[#FF4800]"
           />
-          <span className="hover:text-[#FF4800] dark:hover:text-[#ff6b2b] transition-colors">
+          <span className="hover:text-[#FF4800] transition-colors">
             stravedatech@gmail.com
           </span>
         </a>
@@ -245,7 +219,7 @@ export default function Footer() {
         >
           <Phone
             size={18}
-            className="shrink-0 text-[#FF4800] dark:text-[#ff6b2b]"
+            className="shrink-0 text-[#FF4800]"
           />
           <span>+91 96230 95766</span>
         </a>
@@ -253,7 +227,7 @@ export default function Footer() {
         <div className="flex items-start justify-start gap-3">
           <MapPin
             size={18}
-            className="mt-1 shrink-0 text-[#FF4800] dark:text-[#ff6b2b] drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+            className="mt-1 shrink-0 text-[#FF4800]"
           />
 
           <span className="leading-5">
@@ -267,12 +241,12 @@ export default function Footer() {
     </div>
 
   </div>
-          <div className="pt-5 border-t-2 border-[#0f172a]/5 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-black text-[#0f172a]/40 dark:text-white/30 uppercase tracking-[0.2em]">
+          <div className="pt-4 border-t border-[#2b1608]/15 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] font-semibold text-[#2b1608]/60 dark:text-white/50 uppercase tracking-[0.18em]">
             <p>© 2026 Straveda Tech. All rights reserved.</p>
-            <div className="flex gap-10 normal-case tracking-normal text-[13px] font-bold text-[#0f172a]/60 dark:text-white/50">
+            <div className="flex gap-10 normal-case tracking-normal text-[13px] font-bold text-[#2b1608]/75 dark:text-white/70">
   <Link
     href="/privacy-policy"
-    className="hover:text-[#0f172a]/80 dark:hover:text-white/80 transition-colors duration-300"
+    className="hover:text-[#FF4800] transition-colors duration-300"
   >
     Privacy Policy
   </Link>
@@ -282,5 +256,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    </div>
   );
 }

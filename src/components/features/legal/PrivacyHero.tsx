@@ -27,7 +27,7 @@ export default function PrivacyHero({ effectiveDate, lastUpdated, readingTime, v
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-black/[0.06] bg-white px-6 pt-36 pb-20 dark:border-white/[0.06] dark:bg-[#0a0a14] md:pt-44 md:pb-28">
+    <section className="relative overflow-hidden border-b border-black/[0.06] bg-[#F6F1E7] px-6 dark:border-white/[0.06] dark:bg-[#0a0a14] pt-32 md:pt-36 pb-12 md:pb-16">
       {/* Ambient gradient backdrop */}
       <div aria-hidden className="pointer-events-none absolute inset-0 gradient-mesh-indigo dark:opacity-0" />
       <div
@@ -57,7 +57,7 @@ export default function PrivacyHero({ effectiveDate, lastUpdated, readingTime, v
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05, ease }}
-          className="mb-5 text-[11px] font-bold uppercase tracking-[0.4em] text-[#FF4800]"
+          className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]"
         >
           Legal &middot; Privacy
         </motion.p>

@@ -41,7 +41,7 @@ export default function PrivacyTableOfContents({
       {/* Desktop — sidebar (position driven manually via rAF, see navRef) */}
       <nav ref={navRef} aria-label="Table of contents" className="glass-card hidden rounded-3xl p-5 lg:block">
         <div className="mb-4 flex items-center justify-between px-1">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#FF4800]">On this page</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">On this page</p>
           <span ref={progressTextRef} className="text-[11px] font-semibold text-gray-400" aria-hidden="true">
             0%
           </span>

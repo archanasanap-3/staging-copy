@@ -35,7 +35,7 @@ export default function PrivacySection({ id, number, title, icon: Icon, children
         <div className="min-w-0 flex-1">
           <h2
             id={`${id}-heading`}
-            className="text-[22px] leading-tight font-semibold text-[#1a1a2e] dark:text-[#f0f0f5] md:text-[26px]"
+            className="text-[22px] leading-tight font-bold text-black dark:text-white md:text-[26px]"
           >
             {title}
           </h2>

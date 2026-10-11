@@ -134,7 +134,7 @@ function TestimonialScrollColumn({
         className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to right, #f8f8fc, transparent)',
+            'linear-gradient(to right, #F6F1E7, transparent)',
         }}
       />
 
@@ -142,7 +142,7 @@ function TestimonialScrollColumn({
         className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to left, #f8f8fc, transparent)',
+            'linear-gradient(to left, #F6F1E7, transparent)',
         }}
       />
 
@@ -244,8 +244,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
       {/* HERO SECTION                                     */}
       {/* ═══════════════════════════════════════════════ */}
       <section
-        className="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-white dark:bg-[#0a0a14]"
-        style={{ background: '#FFFFFF' }}
+        className="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14]"
       >
         {/* Decorative gradient glow */}
         <div
@@ -319,8 +318,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
       {/* SCROLLING TESTIMONIALS COLUMNS                   */}
       {/* ═══════════════════════════════════════════════ */}
       <section
-        className="py-16 md:py-20 bg-[#f8f8fc] dark:bg-[#0a0a14]"
-        style={{ background: '#f8f8fc' }}
+        className="bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16"
       >
         <div className="max-w-7xl mx-auto px-0">
           {/* Section header */}
@@ -339,7 +337,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
             </p>
 
             <h2
-              className="text-[32px] md:text-[42px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5]"
+              className="text-[32px] md:text-[42px] font-bold text-black dark:text-white"
               style={{ fontWeight: 500 }}
             >
               Voices of transformation
@@ -365,7 +363,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
       {/* FEATURED TESTIMONIAL — HIGHLIGHT                */}
       {/* ═══════════════════════════════════════════════ */}
       <section
-        className="relative py-20 bg-gradient-to-b from-white via-[#f8f8fc] to-white dark:from-[#0a0a14] dark:via-[#0a0a14] dark:to-[#0a0a14]"
+        className="relative bg-[#F6F1E7] dark:from-[#0a0a14] dark:via-[#0a0a14] dark:to-[#0a0a14] py-12 md:py-16"
       >
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <motion.div
@@ -423,8 +421,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
       {/* CTA SECTION                                      */}
       {/* ═══════════════════════════════════════════════ */}
       <section
-        className="py-20 bg-white dark:bg-[#0a0a14]"
-        style={{ background: '#FFFFFF' }}
+        className="bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16"
       >
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
           <motion.div
@@ -433,7 +430,7 @@ export default function TestimonialsPage({ onNavigate }: TestimonialsPageProps) 
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease }}
           >
-            <h2 className="text-[32px] md:text-[42px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5] mb-4">
+            <h2 className="text-[32px] md:text-[42px] font-bold text-black dark:text-white mb-4">
               Ready to join our success stories?
             </h2>
 
