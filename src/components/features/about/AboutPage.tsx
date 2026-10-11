@@ -2,16 +2,18 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
-import StatsSectionNew from '@/components/features/common/StatsSection';
+import { useTheme } from 'next-themes';
 import {
   ArrowRight, Zap, Lock, Clock, Eye, TrendingUp, Users,
-  Quote, CheckCircle2
+  Quote, CheckCircle2, PhoneCall, FileText, Rocket
 } from 'lucide-react';
 import MagneticButton from '@/components/features/common/MagneticButton';
 import HorizontalCarousel from '@/components/features/common/HorizontalCarousel';
 import { StackedCarousel } from '@/components/features/common/StackedCarousel';
 import AnimatedLiquidBackground from '@/components/animations/AnimatedLiquidBackground';
 import ParticleField from '@/components/animations/ParticleField';
+import ReelsCarouselSection from './ReelsCarouselSection';
+import ClientsSection from './ClientsSection';
 
 /* ─────────────────────────────────────────────────────────────────────── */
 /* Styles & Brand Constants                                                */
@@ -285,14 +287,132 @@ const inView = useInView(ref, {
   return <span ref={ref}>{stat.prefix}{count}{stat.suffix}</span>;
 }
 
-function StatsSection() {
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Who We Are Section                                                      */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+const whoWeAreStats = [
+  { value: 55, suffix: "%", label: "Manual Work Reduced" },
+  { value: 100, suffix: "%", label: "Code Ownership" },
+  { value: null, display: "3–5×", label: "Operational Efficiency" },
+];
+
+function AnimatedWhoWeAreStat({
+  target,
+  suffix = "",
+  display,
+}: {
+  target: number | null;
+  suffix?: string;
+  display?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView || target === null) return;
+    const num = target;
+    const duration = 1600;
+    const start = performance.now();
+    function step(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * num));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }, [inView, target]);
+
+  if (target === null) return <span ref={ref}>{display}</span>;
   return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden border-y border-black/5">
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
+function WhoWeAreSection() {
+  return (
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-32 pb-14 md:pt-36 md:pb-16 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* LEFT SIDE */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease }}
+            className="flex flex-col text-left"
+          >
+            <div className="mb-4">
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800]">
+                WHO WE ARE
+              </span>
+            </div>
+
+            <h2 className="whitespace-nowrap text-2xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-3xl md:text-[2.5rem]">
+  Built by Operators, Driven by Outcomes
+</h2>
+
+            <p className="mt-6 text-base sm:text-lg text-[#64748b] dark:text-[#94a3b8] leading-relaxed max-w-xl font-light">
+              Every growing business hits the same wall: disconnected tools and
+              wasted manual hours. We engineer unified systems that replace
+              operational chaos with clarity and speed. Built from the ground up for resilience, scale, and high-velocity teams.
+            </p>
+          </motion.div>
+
+          {/* RIGHT SIDE — STATS */}
+          <div className="flex flex-col lg:items-end w-full lg:max-w-md lg:ml-auto lg:pr-8 xl:pr-12">
+            {whoWeAreStats.map((stat, i) => (
+              <div key={i} className="flex flex-col items-start lg:items-end w-full">
+                {i > 0 && (
+                  <div className="w-44 sm:w-56 h-px bg-black/[0.06] dark:bg-white/[0.08] my-6 sm:my-7 lg:self-end" />
+                )}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.15, ease }}
+                  className="flex flex-col items-start lg:items-end text-left lg:text-right"
+                >
+                  <div className="text-4xl sm:text-5xl md:text-[3.25rem] font-bold text-black dark:text-white tracking-tight leading-none tabular-nums">
+                    <AnimatedWhoWeAreStat
+                      target={stat.value}
+                      suffix={stat.suffix}
+                      display={stat.display}
+                    />
+                  </div>
+                  <p className="mt-2.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] text-[#64748b] dark:text-[#94a3b8]">
+                    {stat.label}
+                  </p>
+                </motion.div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatsSection() {
+  const { resolvedTheme, theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const isDark = mounted && (resolvedTheme === 'dark' || theme === 'dark');
+
+  return (
+    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-6 md:pt-10 md:pb-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Heading */}
         <div className="mb-10 md:mb-16">
-          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
+          <span className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
             By The Numbers
           </span>
 
@@ -301,7 +421,8 @@ function StatsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease }}
-            className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]"
+            className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
+            style={{ color: isDark ? "#ffffff" : "#000000" }}
           >
             Measurable Operational Impact
           </motion.h2>
@@ -328,7 +449,7 @@ function StatsSection() {
                 }}
                 className="mb-4 md:mb-5"
               >
-                <p className="text-2xl md:text-4xl font-normal text-[#1a1a1a] tracking-tighter text-center">
+                <p className="text-2xl md:text-4xl font-semibold text-[#1a1a1a] dark:text-white tracking-tighter text-center">
                   <AnimatedStatValue stat={s} />
                 </p>
 
@@ -357,13 +478,11 @@ function StatsSection() {
                     delay: i * 0.12,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                   style={{
-    transformOrigin: "bottom center",
-    background:
-      "linear-gradient(to top, #FF4800 0%, rgba(255,72,0,0.5) 60%, transparent 100%)",
-    boxShadow: "0 0 8px 1px rgba(255,72,0,0.35)",
-  }}
-                  className={`w-[2px] ${s.barClass}`}
+                  style={{
+                    transformOrigin: "bottom center",
+                    backgroundColor: "#FF4800",
+                  }}
+                  className={`w-[3px] ${s.barClass} bg-[#FF4800]`}
                 />
               </div>
 
@@ -424,24 +543,23 @@ const clarityItems = [
 
 function StorySection() {
   return (
-    <section className="bg-white dark:bg-[#0a0a14]  pb-8 md:pt-24 md:pb-12 border-y border-black/5 dark:border-white/5 relative overflow-hidden">
+    <section className="bg-white dark:bg-[#0a0a14] pt-6 pb-8 md:pt-10 md:pb-12 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
-        <div className="mb-10 md:mb-16 text-center">
-          <div className="mb-8">
-  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800]">
-    Our Story
-  </span>
-</div>
+        <div className="mb-10 md:mb-16 text-left">
+          <div className="mb-4">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800]">
+              Our Story
+            </span>
+          </div>
 
           {/* Story Heading */}
           <h2
-            className="font-bold uppercase leading-[0.95] mx-auto text-[#1a1a2e] dark:text-white text-3xl sm:text-4xl md:text-5xl tracking-[-2px]"
+            className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
           >
-            Two Paths {" "}
-            <span style={{ color: '#FF4800' }}>
-              One Choice
-            </span>
+            Two Paths{" "}
+            One Choice
+         
           </h2>
 
         </div>
@@ -450,7 +568,17 @@ function StorySection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
 
           {/* OLD WAY */}
-          <div className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col">
+          <motion.div
+            initial={{ opacity: 0, scale: 1.18, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.25 }}
+            transition={{
+              duration: 0.85,
+              delay: 0.05,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col transition-all duration-300 hover:shadow-xl"
+          >
             <div className="mb-6">
               <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800]/60 border border-[#FF4800]/20 px-2.5 py-1 rounded-full mb-3">
                 The Old Way
@@ -470,16 +598,24 @@ function StorySection() {
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/40 shrink-0" />
 
                   <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">
-           function Prin         {item}
+                    {item}
                   </span>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* STRAVEDA WAY */}
-          <div
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20"
+          <motion.div
+            initial={{ opacity: 0, scale: 1.18, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.25 }}
+            transition={{
+              duration: 0.85,
+              delay: 0.2,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20 transition-all duration-300 hover:shadow-xl"
             style={{ background: 'rgba(255,72,0,0.05)' }}
           >
             <div className="mb-6">
@@ -509,7 +645,7 @@ function StorySection() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>
@@ -644,42 +780,131 @@ function ResultsSection() {
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const roadmap = [
-  { step: "01", title: "Book a Strategy Call", meta: "30 min, free", desc: "We audit your operations and biggest bottlenecks, recommend what to build first.", cta: "Book Now" },
-  { step: "02", title: "Get a Custom Proposal", meta: "48 hours", desc: "Fixed Price quote for your project. Timeline and success metrics included.", cta: "Request Proposal" },
-  { step: "03", title: "Start Building", meta: "4–6 weeks", desc: "Weekly sprints with visible progress. Go live and reclaim your time.", cta: "Book a Strategy Call" },
+  {
+    step: "01",
+    title: "Book a Strategy Call",
+    meta: "30 MIN, FREE",
+    desc: "We audit your operations and biggest bottlenecks, recommend what to build first. Get an actionable roadmap tailored for your business.",
+    cta: "Book Now",
+    icon: PhoneCall,
+  },
+  {
+    step: "02",
+    title: "Get a Custom Proposal",
+    meta: "48 HOURS",
+    desc: "Fixed Price quote for your project. Timeline and success metrics included. Transparent scope with zero hidden costs or surprises.",
+    cta: "Request Proposal",
+    icon: FileText,
+  },
+  {
+    step: "03",
+    title: "Start Building",
+    meta: "4–6 WEEKS",
+    desc: "Weekly sprints with visible progress. Go live and reclaim your time. Fast deployment with production-ready systems delivered.",
+    cta: "Book a Strategy Call",
+    icon: Rocket,
+  },
 ];
 
 function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 border-t border-black/5 dark:border-white/5 overflow-hidden">
+    <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 className="masked-title text-xl md:text-4xl font-normal tracking-tighter mb-10 md:mb-16">Let's build something that matters</h2>
+        <div className="mb-10 md:mb-16 text-left">
+          <div className="mb-4">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800]">
+              Lets connect
+            </span>
+          </div>
+
+          <h2
+            className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
+          >
+            Let&apos;s build something{" "}
+              that matters
+           
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 md:mb-20">
-          {roadmap.map((r, i) => (
-            <motion.div
-              key={i}
-              {...fadeUp}
-              className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between h-full hover:border-[#FF4800]/20 transition-all active:scale-95"
-            >
-              <div>
-                <div className="flex justify-end mb-8">
-                  <span className="text-[10px] font-bold uppercase text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full">{r.meta}</span>
-                </div>
-                <h4 className="text-[#1a1a2e] dark:text-white text-xl md:text-2xl font-bold mb-4 text-left">{r.title}</h4>
-                <p className="text-[#475569] dark:text-[#8a8a8a] text-sm md:text-base leading-relaxed mb-8">{r.desc}</p>
-              </div>
-              {r.cta && (
-                <div className="mt-auto">
-                  <button
-                    onClick={() => onNavigate('contact')}
-                    className="bg-[#FF4800] text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#e03f00] transition-colors"
+          {roadmap.map((r, i) => {
+            const Icon = r.icon;
+            const isFeatured = i === 0;
+
+            return (
+              <motion.div
+                key={i}
+                {...fadeUp}
+                className={`rounded-[28px] p-7 md:p-8 flex flex-col justify-between min-h-[360px] transition-all duration-300 active:scale-95 ${
+                  isFeatured
+                    ? 'bg-[#0f172a] text-white dark:bg-[#141422] dark:border dark:border-white/10 shadow-2xl hover:shadow-[0_20px_40px_rgba(255,72,0,0.15)]'
+                    : 'bg-[#f8f9fa] text-[#1a1a2e] dark:bg-[#0e0e18] dark:text-white border border-black/5 dark:border-white/10 shadow-sm hover:shadow-xl hover:border-[#FF4800]/20'
+                }`}
+              >
+                <div>
+                  {/* Top: Icon + Meta Badge */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                        isFeatured
+                          ? 'bg-white/10 text-[#FF4800]'
+                          : 'bg-[#FF4800]/10 text-[#FF4800]'
+                      }`}
+                    >
+                      <Icon size={24} strokeWidth={1.8} />
+                    </div>
+
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
+                        isFeatured
+                          ? 'bg-white/15 text-white/90'
+                          : 'bg-[#FF4800]/10 text-[#FF4800]'
+                      }`}
+                    >
+                      {r.meta}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h4
+                    className={`text-xl md:text-2xl font-bold leading-tight mb-3 text-left ${
+                      isFeatured ? 'text-white' : 'text-[#1a1a2e] dark:text-white'
+                    }`}
                   >
-                    {r.cta} →
-                  </button>
+                    {r.title}
+                  </h4>
+
+                  {/* Description */}
+                  <p
+                    className={`text-sm leading-relaxed mb-6 text-left ${
+                      isFeatured
+                        ? 'text-gray-300 dark:text-gray-400'
+                        : 'text-[#475569] dark:text-[#9ca3af]'
+                    }`}
+                  >
+                    {r.desc}
+                  </p>
                 </div>
-              )}
-            </motion.div>
-          ))}
+
+                {/* Pill CTA Button */}
+                {r.cta && (
+                  <div className="mt-auto pt-2">
+                    <button
+                      onClick={() => onNavigate('contact')}
+                      className={`w-full py-3.5 px-6 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all duration-300 flex items-center justify-center gap-2 shadow-md ${
+                        isFeatured
+                          ? 'bg-white text-[#0f172a] hover:bg-[#FF4800] hover:text-white dark:bg-[#FF4800] dark:text-white dark:hover:bg-[#e03f00]'
+                          : 'bg-[#0f172a] text-white hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white'
+                      }`}
+                    >
+                      <span>{r.cta}</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -690,10 +915,11 @@ export default function AboutPage({ onNavigate }: { onNavigate: (page: string) =
   return (
     <main className="min-h-screen bg-white dark:bg-[#0a0a14]">
       <style>{STYLES}</style>
-      <StatsSectionNew />
+      <WhoWeAreSection />
       <StatsSection />
       <StorySection />
-      <ResultsSection />
+      <ReelsCarouselSection onNavigate={onNavigate} />
+      <ClientsSection />
       <WorkWithUsSection onNavigate={onNavigate} />
     </main>
   );
