@@ -153,7 +153,7 @@ function InsightModal({
       onClick={onClose}
     >
       <motion.div
-        className="relative max-w-3xl w-full max-h-[85vh] overflow-y-auto rounded-2xl bg-white dark:bg-[#0a0a14] border border-[#e5e7eb] dark:border-white/[0.08] shadow-xl"
+        className="relative max-w-3xl w-full max-h-[85vh] overflow-y-auto rounded-2xl bg-[#F6F1E7] dark:bg-[#0a0a14] border border-[#e5e7eb] dark:border-white/[0.08] shadow-xl"
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -176,7 +176,7 @@ function InsightModal({
           </span>
 
           {/* Title */}
-          <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-semibold text-[#1a1a2e] dark:text-[#f0f0f5] leading-tight mb-6">
+          <h2 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold text-black dark:text-white leading-tight mb-6">
             {post.title}
           </h2>
 
@@ -240,9 +240,9 @@ export default function InsightsPage() {
   }, [activeTopic]);
 
   return (
-    <div className="bg-white dark:bg-[#0a0a14] min-h-screen">
+    <div className="bg-[#F6F1E7] dark:bg-[#0a0a14] min-h-screen">
       {/* HERO */}
-      <section className="relative bg-white dark:bg-[#0a0a14] px-6 pt-32 pb-20 border-b border-black/[0.06] dark:border-white/[0.06]">
+      <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] px-6 border-b border-black/[0.06] dark:border-white/[0.06] pt-32 md:pt-36 pb-12 md:pb-16">
         <div className="max-w-5xl mx-auto">
           <PageHeader
             eyebrow="Insights & Perspectives"
@@ -253,7 +253,7 @@ export default function InsightsPage() {
       </section>
 
       {/* FEATURED TOPICS — Horizontal Scrollable Tag Row */}
-      <section className="px-6 pt-6 pb-2 bg-white dark:bg-[#0a0a14]">
+      <section className="px-6 pt-6 pb-2 bg-[#F6F1E7] dark:bg-[#0a0a14]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -284,7 +284,7 @@ export default function InsightsPage() {
       </section>
 
       {/* FEATURED POST */}
-      <section className="px-6 py-16 md:py-24 bg-[#f8f8fc] dark:bg-[#0a0a14]">
+      <section className="px-6 bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
@@ -344,7 +344,7 @@ export default function InsightsPage() {
                 <span className="inline-block text-[11px] uppercase tracking-[0.15em] font-medium text-[#FF4800] bg-[#FF4800]/10 px-3 py-1 rounded-full w-fit mb-5">
                   Enterprise Architecture
                 </span>
-                <h2 className="text-[24px] sm:text-[28px] lg:text-[32px] font-medium text-[#1a1a2e] dark:text-[#f0f0f5] leading-snug mb-4">
+                <h2 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-black dark:text-white leading-snug mb-4">
                   The Case for Open Standards in Modern Enterprise Architecture
                 </h2>
                 <p className="text-[#9ca3af] text-[13px] mb-4">March 2024</p>
@@ -364,7 +364,7 @@ export default function InsightsPage() {
       </section>
 
       {/* POST GRID WITH CATEGORY FILTER */}
-      <section className="px-6 py-16 md:py-24 bg-white dark:bg-[#0a0a14]">
+      <section className="px-6 bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
         <div className="max-w-7xl mx-auto">
           {/* Category Filter Bar */}
           <div className="section-glow-top mb-10">

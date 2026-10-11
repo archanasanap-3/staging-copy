@@ -6,8 +6,6 @@ import { motion, AnimatePresence, animate, useMotionValueEvent, useMotionValue }
 import type { MotionValue } from 'framer-motion';
 import { useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from 'next-themes';
 import {
   Star,
@@ -188,7 +186,7 @@ function InteractiveServicesSection({
 
   return (
     <section
-      className="rounded-t-[36px] bg-[#F6F1E7] pt-14 shadow-[0_-30px_60px_rgba(0,0,0,0.12)] transition-colors duration-300 dark:bg-[#0a0a14] md:rounded-t-[56px] md:pt-20"
+      className="rounded-t-[36px] bg-[#F6F1E7] shadow-[0_-30px_60px_rgba(0,0,0,0.12)] transition-colors duration-300 dark:bg-[#0a0a14] md:rounded-t-[56px] pt-12 md:pt-16"
     >
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
         <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
@@ -259,9 +257,10 @@ function StackedServiceCard({
     const d = v - index;
     return d > 0 ? 1 - Math.min(d, 3) * 0.045 : 1;
   });
-  const filter = useTransform(stage, (v) => {
+  // Dim buried cards with an opacity overlay (cheap, GPU-composited) instead of a per-frame CSS filter
+  const dim = useTransform(stage, (v) => {
     const d = v - index;
-    return d > 0 ? `brightness(${1 - Math.min(d, 3) * 0.14})` : 'brightness(1)';
+    return d > 0 ? Math.min(d, 3) * 0.14 : 0;
   });
 
   return (
@@ -271,13 +270,17 @@ function StackedServiceCard({
         y,
         rotateX,
         scale,
-        filter,
         zIndex: index + 1,
         transformOrigin: 'center top',
         backgroundColor: theme.bg,
         willChange: 'transform',
       }}
     >
+      <motion.div
+        aria-hidden="true"
+        style={{ opacity: dim }}
+        className="pointer-events-none absolute inset-0 z-30 bg-black"
+      />
       <div className="grid h-full grid-cols-1 md:grid-cols-[1.1fr_1fr]">
         <div className="flex min-h-0 flex-col justify-between p-6 sm:p-8 lg:p-11">
           <div>
@@ -515,7 +518,7 @@ function TestimonialsCarousel() {
 
   return (
     <section
-      className="hidden w-full overflow-hidden py-14 md:py-20 bg-[#F6F1E7]"
+      className="hidden w-full overflow-hidden bg-[#F6F1E7] py-12 md:py-16"
       style={{
         background: isDarkT
           ? '#0a0a14'
@@ -582,7 +585,7 @@ function FAQSection() {
   return (
     <section
       id="section-faq"
-      className="py-12 md:py-16 bg-[#F6F1E7] dark:bg-[#0a0a14]"
+      className="bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16"
     >
       <div className="mt-0 mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
@@ -1144,7 +1147,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
 {/* ── Problem Section ── */}
-<section className="relative py-12 md:py-16 bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden">
+<section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16">
   <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
 
     {/* Heading */}
@@ -1221,7 +1224,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 {/* ── About / Who We Are / Stats Section ── */}
 <section
   id="section-about"
-  className="relative overflow-hidden bg-[#F6F1E7] py-16 transition-colors duration-300 dark:bg-[#0a0a14] md:py-24 lg:py-28"
+  className="relative overflow-hidden bg-[#F6F1E7] transition-colors duration-300 dark:bg-[#0a0a14] py-12 md:py-16"
 >
   <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
     {/* Top: editorial statement + supporting copy */}
@@ -1290,8 +1293,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           className={`min-w-0 pl-5 sm:pl-8 ${i > 0 ? 'border-l border-neutral-300/80 dark:border-white/15' : 'border-l border-transparent lg:pl-0'} ${i === 2 ? 'max-lg:border-l-transparent max-lg:pl-0' : ''}`}
         >
           <p
-            className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-[#FF4800]"
-            style={{ fontSize: stat.value === 'End-to-End' ? 'clamp(1.9rem, 3.2vw, 3rem)' : 'clamp(2.75rem, 5vw, 4.5rem)' }}
+            className="whitespace-nowrap max-sm:whitespace-normal font-bold leading-none tracking-[-0.045em] text-[#FF4800]"
+            style={{ fontSize: stat.value === 'End-to-End' ? 'clamp(1.5rem, 3.2vw, 3rem)' : 'clamp(2.75rem, 5vw, 4.5rem)' }}
           >
             {stat.value}
           </p>
@@ -1312,7 +1315,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── Client People / Connection Section ── */}
       <section
-        className="hidden relative w-full overflow-hidden bg-[#F6F1E7] py-8 md:py-10 dark:bg-[#0a0a14]"
+        className="hidden relative w-full overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16"
       >
         {/* Heading */}
         <div className="relative z-40 mx-auto max-w-7xl px-5 text-center sm:px-6 lg:px-8">
@@ -1825,7 +1828,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Pricing Section ── */}
       <section
         id="pricing"
-        className="relative py-16 md:py-24 bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden"
+        className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16"
       >
         <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
           <motion.div
@@ -1963,7 +1966,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       {/* ── Where We Stand / Technology Partners ── */}
       <section
         id="section-partners"
-        className="py-12 md:py-16 bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden"
+        className="bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16"
       >
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
           <p className="mb-4 text-[11px] font-bold uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>

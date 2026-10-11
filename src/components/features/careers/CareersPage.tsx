@@ -17,7 +17,7 @@ const fadeUp = {
 };
 
 // Shared typography — matches PageHeader (Services / Insights)
-const H2_CLASS = 'font-bold heading-gradient';
+const H2_CLASS = 'font-bold text-black dark:text-white tracking-tight';
 const H2_STYLE = {
   fontSize: 'clamp(2rem, 4vw, 3rem)',
   lineHeight: 1.0,
@@ -135,14 +135,14 @@ const VALUES = [
 
 function HeroSection({ onViewRoles }: { onViewRoles: () => void }) {
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-32 pb-8 overflow-hidden">
+    <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden pt-32 md:pt-36 pb-12 md:pb-16">
       <div className="mx-auto w-full max-w-4xl px-5">
         <motion.div {...fadeUp}>
           <div className="flex items-center gap-3 mb-8">
             <span className="h-[1px] w-8 bg-[#FF4800]" />
-            <span className="text-[12px] font-bold uppercase tracking-[0.25em] text-[#FF4800]">Careers at StravedaTech</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">Careers at StravedaTech</span>
           </div>
-          <h1 className="font-bold leading-[1.1] tracking-[-2.05px] mb-6 text-[#24213F] dark:text-[#f0f0f5] max-w-3xl" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
+          <h1 className="font-bold leading-[1.1] tracking-tight mb-6 text-black dark:text-white max-w-3xl" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
             Build the systems that eliminate busywork<br />
             <span style={{ color: '#FF4800' }}>for mid-market teams.</span>
           </h1>
@@ -210,11 +210,11 @@ function WhoWorksHereSection() {
   ];
 
   return (
-    <section className="pt-32 pb-12 px-5 bg-white dark:bg-[#0d0d1a]">
+    <section className="px-5 bg-[#F6F1E7] dark:bg-[#0a0a14] pt-32 md:pt-36 pb-12 md:pb-16">
       <div className="max-w-[1320px] mx-auto">
         <motion.div {...fadeUp} className="mb-12">
-          <p className="text-[12px] font-normal uppercase tracking-[0.25em] text-[#FF4800] mb-4">Who We Are</p>
-          <h2 className="font-bold leading-[1.1] tracking-[-2.05px] text-[#202039] dark:text-[#f0f0f5] mb-4" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800] mb-4">Who We Are</p>
+          <h2 className="font-bold leading-[1.1] tracking-tight text-black dark:text-white mb-4" style={{ fontSize: 'clamp(2.5rem, 5vw, 3.25rem)' }}>
             Smart people solving<br />real problems. That&apos;s us.
           </h2>
         </motion.div>
@@ -250,12 +250,12 @@ function WhoWorksHereSection() {
 
 function GrowthSection() {
   return (
-    <section className="pt-32 pb-12 px-5 bg-white dark:bg-[#0d0d1a]">
+    <section className="px-5 bg-[#F6F1E7] dark:bg-[#0a0a14] pt-32 md:pt-36 pb-12 md:pb-16">
       <div className="max-w-[1200px] mx-auto">
         {/* Intro */}
         <motion.div {...fadeUp} className="mb-12">
           <h1
-            className="font-bold text-[#0f172a] dark:text-[#f0f0f5] md:whitespace-nowrap"
+            className="font-bold text-black dark:text-white md:whitespace-nowrap"
             style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.1, letterSpacing: '-1.5px' }}
           >
             We Don&apos;t Offer Jobs,{' '}
@@ -314,7 +314,7 @@ function HiringProcessSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="py-12 px-5 bg-white dark:bg-[#0d0d1a]">
+    <section className="px-5 bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto">
         <motion.div {...fadeUp} className="mb-10">
           <p className={EYEBROW}>Hiring Process</p>
@@ -362,15 +362,15 @@ function HiringProcessSection() {
                   >
                     <div className="px-6 pb-6 pt-0 border-t border-black/[0.06] dark:border-white/[0.06] grid grid-cols-1 md:grid-cols-3 gap-5 mt-2 pt-5">
                       <div>
-                        <p className="text-[10px] font-normal uppercase tracking-widest text-[#FF4800] mb-2">What We Assess</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800] mb-2">What We Assess</p>
                         <p className="font-normal text-[15px] text-[#6b7280] dark:text-[#9ca3af] leading-[1.6]">{s.assesses}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-normal uppercase tracking-widest text-[#FF4800] mb-2">Format</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800] mb-2">Format</p>
                         <p className="font-normal text-[15px] text-[#6b7280] dark:text-[#9ca3af] leading-[1.6]">{s.format}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-normal uppercase tracking-widest text-[#FF4800] mb-2">Expected Timeline</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800] mb-2">Expected Timeline</p>
                         <p className="font-normal text-[15px] text-[#6b7280] dark:text-[#9ca3af] leading-[1.6]">{s.timeline}</p>
                       </div>
                     </div>
@@ -387,7 +387,7 @@ function HiringProcessSection() {
 
 function ValuesSection() {
   return (
-    <section className="py-12 px-5 bg-[#f5f5f0] dark:bg-[#030303]">
+    <section className="px-5 bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       <div className="max-w-[1320px] mx-auto">
       </div>
     </section>
@@ -403,7 +403,7 @@ function OpenRolesSection() {
   const pill = 'inline-flex items-center rounded-full px-3 py-1 text-[12px] font-normal border border-black/[0.15] dark:border-white/[0.18] text-[#1a1a2e] dark:text-[#f0f0f5]';
 
   return (
-    <section id="open-roles" className="py-12 px-5 bg-white dark:bg-[#0d0d1a]">
+    <section id="open-roles" className="px-5 bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto">
         <motion.div {...fadeUp} className="mb-8">
           <p className={EYEBROW}>Open Roles</p>
@@ -478,7 +478,7 @@ function OpenRolesSection() {
                       className="overflow-hidden"
                     >
                       <div className="pb-6">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#FF4800] mb-3">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#FF4800] mb-3">
                           What you&apos;ll do
                         </p>
                         <ul className="space-y-2.5 mb-5">
@@ -515,7 +515,7 @@ function OpenRolesSection() {
 
 function OpenApplicationSection() {
   return (
-    <section className="py-12 px-5 bg-white dark:bg-[#0d0d1a]">
+    <section className="px-5 bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto">
         <motion.div {...fadeUp} className="glass-card rounded-2xl overflow-hidden">
           <div
@@ -524,7 +524,7 @@ function OpenApplicationSection() {
           >
             <div>
               <h2
-                className="font-normal text-white mb-3"
+                className="font-bold text-white mb-3"
                 style={{ ...H2_STYLE, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
               >
                 Don&apos;t see your role?
@@ -558,7 +558,7 @@ export default function CareersPage({ onNavigate: _onNavigate }: CareersPageProp
   };
 
   return (
-    <div className="bg-white dark:bg-[#0d0d1a] min-h-screen">
+    <div className="bg-[#F6F1E7] dark:bg-[#0a0a14] min-h-screen">
       {/* <HeroSection onViewRoles={scrollToRoles} /> */}
       {/* <WhoWorksHereSection /> */}
       <GrowthSection />

@@ -143,7 +143,7 @@ export default function SandesaSection({ isDark }: Props) {
   };
 
   return (
-    <section className="relative z-10 py-14 md:py-20 overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] transition-colors duration-300">
+    <section className="relative z-10 overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] transition-colors duration-300 py-12 md:py-16">
       <div
         className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20"
         style={{

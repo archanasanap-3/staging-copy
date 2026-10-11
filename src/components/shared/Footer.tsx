@@ -73,7 +73,7 @@ export default function Footer() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto flex justify-center">
+      <div className="relative z-10 mx-auto flex max-w-7xl justify-center px-4 sm:px-6 lg:px-8">
 
         {/* MOBILE */}
         <div className="flex flex-col items-center text-center md:hidden pb-2">
@@ -112,9 +112,9 @@ export default function Footer() {
         </div>
 
        {/* DESKTOP */}
-<div className="hidden md:block">
+<div className="hidden w-full md:block">
 
-  <div className="grid grid-cols-4 gap-x-12 gap-y-6 mb-5 items-start w-full max-w-[1500px] mx-auto">
+  <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4 lg:gap-x-12 lg:gap-y-6 mb-5 items-start w-full max-w-[1500px] mx-auto">
 
     {/* Brand */}
     <div className="space-y-3 flex flex-col items-center">
@@ -168,7 +168,7 @@ export default function Footer() {
   <div
     key={title}
     className={`space-y-3 text-left ${
-      title === 'EXPLORE' ? 'md:ml-20' : ''
+      title === 'EXPLORE' ? 'lg:ml-20' : ''
     }`}
   >
         <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E03A00] dark:text-[#ff6b2b]">

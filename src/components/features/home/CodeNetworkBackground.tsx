@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { getPerfTier } from '@/lib/device';
 
 const SNIPPETS = [
   'HTML', 'CSS', 'C++', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Python', 'Java',
@@ -24,6 +25,8 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
     if (!ctx) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lowPower = getPerfTier() === 'low';
+    let frame = 0;
     const ORANGE = '255,72,0';
     const LINK = 170;
     const REVEAL = 190;
@@ -38,7 +41,7 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
     const mouse = { x: -9999, y: -9999 };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = lowPower ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       w = host.clientWidth;
       h = host.clientHeight;
       canvas.width = w * dpr;
@@ -46,7 +49,9 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(90, Math.max(26, Math.round((w * h) / 14000)));
+      const count = lowPower
+        ? Math.min(34, Math.max(16, Math.round((w * h) / 30000)))
+        : Math.min(90, Math.max(26, Math.round((w * h) / 14000)));
       nodes = Array.from({ length: count }, (_, i) => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -89,7 +94,9 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
 
     const draw = () => {
       raf = requestAnimationFrame(draw);
-      if (!visible) return;
+      if (!visible || document.hidden) return;
+      // weak devices render every other frame (30fps) instead of every frame
+      if (lowPower && (frame++ & 1)) return;
       ctx.clearRect(0, 0, w, h);
 
       // separation: neighbours that crowd each other drift apart, keeping the web evenly spaced

@@ -293,7 +293,7 @@ export default function PrivacyPolicyPage() {
   }, []);
 
   return (
-    <div className="relative bg-white dark:bg-[#0a0a14]">
+    <div className="relative bg-[#F6F1E7] dark:bg-[#0a0a14]">
       <PrivacyHero effectiveDate="January 1, 2026" lastUpdated="July 14, 2026" readingTime="10 min read" version="v1.0" />
 
       <div className="mx-auto max-w-7xl px-0 pb-24">

@@ -53,8 +53,8 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
 
   return (
     <section
-      className="subscribe-section relative overflow-hidden py-10 md:py-14"
-      style={{ background: isDark ? '#12121e' : '#f8f8fc' }}
+      className="subscribe-section relative overflow-hidden py-12 md:py-16"
+      style={{ background: isDark ? '#0a0a14' : '#F6F1E7' }}
     >
       {/* Decorative background elements */}
       <div
@@ -106,7 +106,7 @@ export default function SubscribeSection({ onNavigate }: SubscribeSectionProps) 
             </motion.div>
 
             <h2
-              className="text-[32px] md:text-[40px] font-normal mb-4 -translate-y-8"
+              className="text-[32px] md:text-[40px] font-bold mb-4 -translate-y-8"
               style={{ fontWeight: 400, color: isDark ? '#f0f0f5' : '#1a1a2e', lineHeight: 1.15, letterSpacing: '-1.5px' }}
             >
               Stay ahead on <span className="heading-gradient">AI and Automation</span>

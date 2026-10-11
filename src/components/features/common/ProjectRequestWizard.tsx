@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ArrowRight, ArrowLeft, Users, Calendar, DollarSign, Briefcase } from 'lucide-react';
+import { Check, ArrowRight, ArrowLeft, Users, Calendar, DollarSign } from 'lucide-react';
 
 const ease = [0.4, 0, 0.2, 1] as const;
 
@@ -89,17 +89,43 @@ const slideVariants = {
 // ─── Progress Bar ───────────────────────────────────────────────
 
 function ProgressBar({ currentStep }: { currentStep: number }) {
-  const progress = (currentStep / 3) * 100;
+  const labels = ['Project', 'Scope', 'Contact'];
   return (
-    <div className="w-full h-1 bg-[#e5e7eb] dark:bg-white/[0.06] rounded-full overflow-hidden mb-6">
-      <motion.div
-        className="h-full rounded-full"
-        style={{
-          background: 'linear-gradient(90deg, #FF4800, #ff6a33)',
-        }}
-        animate={{ width: `${progress}%` }}
-        transition={{ duration: 0.5, ease }}
-      />
+    <div className="mb-10 flex items-center">
+      {labels.map((label, i) => {
+        const n = i + 1;
+        const active = currentStep === n;
+        const done = currentStep > n;
+        return (
+          <div key={label} className="flex flex-1 items-center last:flex-none">
+            <div className="flex items-center gap-2.5">
+              <span
+                className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold transition-colors duration-300 ${
+                  active || done ? 'bg-[#FF4800] text-white' : 'text-neutral-400 ring-1 ring-black/15 dark:ring-white/20'
+                }`}
+              >
+                {done ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : String(n).padStart(2, '0')}
+              </span>
+              <span
+                className={`hidden text-[11px] font-bold uppercase tracking-[0.18em] transition-colors duration-300 sm:block ${
+                  active ? 'text-black dark:text-white' : 'text-neutral-400'
+                }`}
+              >
+                {label}
+              </span>
+            </div>
+            {i < labels.length - 1 && (
+              <div className="relative mx-4 h-px flex-1 bg-black/10 dark:bg-white/15">
+                <motion.div
+                  className="absolute inset-y-0 left-0 bg-[#FF4800]"
+                  animate={{ width: done ? '100%' : '0%' }}
+                  transition={{ duration: 0.5, ease }}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -121,24 +147,23 @@ function SelectableCard({
     <motion.button
       type="button"
       onClick={onClick}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={`relative flex items-center gap-3 px-4 py-3.5 min-h-[44px] rounded-lg border cursor-pointer transition-all duration-200 text-left w-full ${
+      whileTap={{ scale: 0.97 }}
+      className={`relative flex items-center gap-2 px-5 min-h-[44px] rounded-full cursor-pointer transition-all duration-200 text-left ${
         selected
-          ? 'bg-[#FF4800]/10 border-[#FF4800] text-[#1a1a2e] dark:text-white'
-          : 'bg-[#f8f8fc] dark:bg-[#1e1a3f] border-[#e5e7eb] dark:border-white/[0.08] text-[#6b7280] dark:text-[#A1A1A1] hover:border-[#d1d5db] dark:hover:border-white/20'
+          ? 'bg-[#14110c] text-white dark:bg-white dark:text-[#14110c]'
+          : 'text-neutral-700 ring-1 ring-black/15 hover:ring-[#FF4800] dark:text-neutral-300 dark:ring-white/20'
       }`}
     >
       {icon && <span className="text-lg">{icon}</span>}
-      <span className="text-sm font-medium flex-1">{label}</span>
+      <span className="text-sm font-semibold">{label}</span>
       {selected && (
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          className="w-5 h-5 rounded-full bg-[#FF4800] flex items-center justify-center shrink-0"
+          className="w-4 h-4 rounded-full bg-[#FF4800] flex items-center justify-center shrink-0"
         >
-          <Check className="w-3 h-3 text-white" strokeWidth={3} />
+          <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
         </motion.div>
       )}
     </motion.button>
@@ -152,42 +177,26 @@ function OptionCard({
   onClick,
   label,
   detail,
-  icon: Icon,
 }: {
   selected: boolean;
   onClick: () => void;
   label: string;
   detail?: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
 }) {
   return (
-    <motion.button
+    <button
       type="button"
       onClick={onClick}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className={`relative flex flex-col items-center gap-2 px-5 py-4 min-h-[44px] rounded-xl border cursor-pointer transition-all duration-200 text-center ${
+      className={`relative flex min-h-[44px] flex-col items-start gap-0.5 border-b-2 pb-3 pt-1 text-left transition-colors duration-200 cursor-pointer ${
         selected
-          ? 'bg-[#FF4800]/10 border-[#FF4800] text-[#1a1a2e] dark:text-white shadow-[0_0_20px_rgba(255,72,0,0.15)]'
-          : 'bg-[#f8f8fc] dark:bg-[#1e1a3f] border-[#e5e7eb] dark:border-white/[0.08] text-[#6b7280] dark:text-[#A1A1A1] hover:border-[#d1d5db] dark:hover:border-white/20'
+          ? 'border-[#FF4800] text-black dark:text-white'
+          : 'border-black/10 text-neutral-500 hover:border-black/30 dark:border-white/15 dark:hover:border-white/40'
       }`}
     >
-      <Icon className={`w-5 h-5 ${selected ? 'text-[#FF4800]' : 'text-[#9ca3af] dark:text-[#52525B]'} transition-colors`} />
-      <span className="text-[15px] font-semibold">{label}</span>
-      {detail && (
-        <span className="text-[11px] opacity-60">{detail}</span>
-      )}
-      {selected && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#FF4800] flex items-center justify-center"
-        >
-          <Check className="w-3 h-3 text-white" strokeWidth={3} />
-        </motion.div>
-      )}
-    </motion.button>
+      <span className={`text-[17px] font-bold tracking-tight ${selected ? 'text-[#FF4800]' : ''}`}>{label}</span>
+      {detail && <span className="text-[12px] opacity-70">{detail}</span>}
+    </button>
   );
 }
 
@@ -278,21 +287,20 @@ function Step1({
       className="space-y-6"
     >
       <div>
-        <h3 className="text-xl md:text-2xl font-semibold text-[#1a1a2e] dark:text-white mb-1 flex items-center gap-2">
-          <Briefcase className="w-5 h-5 text-[#FF4800]" />
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-black dark:text-white mb-2">
           Project Details
         </h3>
-        <p className="text-[#6b7280] dark:text-[#A1A1A1] text-sm">
+        <p className="text-neutral-600 dark:text-neutral-400 text-[15px]">
           Select the services you&apos;re interested in and describe your project.
         </p>
       </div>
 
       {/* Service Selection */}
       <div>
-        <label className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] mb-3 block">
+        <label className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 mb-4 block">
           Which services are you interested in? <span className="text-[#FF4800]">*</span>
         </label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="flex flex-wrap gap-2.5">
           {services.map((svc) => (
             <SelectableCard
               key={svc.id}
@@ -307,16 +315,16 @@ function Step1({
 
       {/* Description */}
       <div>
-        <label htmlFor="wizard-description" className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] mb-3 block">
+        <label htmlFor="wizard-description" className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 mb-4 block">
           Project Description
         </label>
         <textarea
           id="wizard-description"
-          rows={4}
+          rows={3}
           placeholder="Tell us about your project goals, challenges, and what success looks like..."
           value={data.description}
           onChange={(e) => onChange({ description: e.target.value })}
-          className="w-full bg-[#f8f8fc] dark:bg-[#1e1a3f] border border-[#e5e7eb] dark:border-white/[0.08] focus:border-[#FF4800] text-[#1a1a2e] dark:text-white rounded-lg px-4 py-3 text-[15px] placeholder-[#9ca3af] dark:placeholder-[#52525B] outline-none transition-colors resize-none"
+          className="w-full bg-transparent border-0 border-b-2 border-black/15 dark:border-white/20 focus:border-[#FF4800] text-black dark:text-white px-0 py-2 text-base placeholder-neutral-400 outline-none transition-colors resize-none"
         />
       </div>
     </motion.div>
@@ -343,22 +351,20 @@ function Step2({
       className="space-y-8"
     >
       <div>
-        <h3 className="text-xl md:text-2xl font-semibold text-[#1a1a2e] dark:text-white mb-1 flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-[#FF4800]" />
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-black dark:text-white mb-2">
           Timeline & Budget
         </h3>
-        <p className="text-[#6b7280] dark:text-[#A1A1A1] text-sm">
+        <p className="text-neutral-600 dark:text-neutral-400 text-[15px]">
           Help us understand your project scope and resource expectations.
         </p>
       </div>
 
       {/* Timeline Selector */}
       <div>
-        <label className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] mb-3 block">
-          <Calendar className="w-4 h-4 inline mr-1.5 text-[#FF4800]" />
+        <label className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 mb-4 block">
           Expected Timeline <span className="text-[#FF4800]">*</span>
         </label>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-5">
           {timelineOptions.map((opt) => (
             <OptionCard
               key={opt.id}
@@ -375,11 +381,10 @@ function Step2({
       {/* Budget Slider */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <label className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] block">
-            <DollarSign className="w-4 h-4 inline mr-1.5 text-[#FF4800]" />
+          <label className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 block">
             Estimated Budget
           </label>
-          <div className="flex rounded-full border border-[#e5e7eb] dark:border-white/[0.08] overflow-hidden">
+          <div className="flex rounded-full ring-1 ring-black/15 dark:ring-white/20 overflow-hidden">
             {(['INR', 'USD'] as const).map((cur) => (
               <button
                 key={cur}
@@ -388,7 +393,7 @@ function Step2({
                 className={`px-3 py-1 text-xs font-semibold transition-colors ${
                   data.budgetCurrency === cur
                     ? 'bg-[#FF4800] text-white'
-                    : 'bg-[#f8f8fc] dark:bg-[#1e1a3f] text-[#6b7280] dark:text-[#A1A1A1]'
+                    : 'bg-transparent text-neutral-500 dark:text-neutral-400'
                 }`}
               >
                 {cur === 'INR' ? '₹ INR' : '$ USD'}
@@ -396,7 +401,7 @@ function Step2({
             ))}
           </div>
         </div>
-        <div className="bg-[#f8f8fc] dark:bg-[#1e1a3f] border border-[#e5e7eb] dark:border-white/[0.08] rounded-lg px-6 py-5">
+        <div className="pt-1">
           <div className="flex justify-between mb-3">
             <span className="text-[11px] text-[#9ca3af] dark:text-[#52525B] uppercase tracking-wider">
               {data.budgetCurrency === 'INR' ? budgetOptions[0].labelINR : budgetOptions[0].labelUSD}
@@ -406,7 +411,7 @@ function Step2({
               initial={{ scale: 1.2, color: '#FF4800' }}
               animate={{ scale: 1, color: '#FF4800' }}
               transition={{ duration: 0.3 }}
-              className="text-base font-semibold text-[#FF4800]"
+              className="text-xl font-bold text-[#FF4800]"
             >
               {data.budgetCurrency === 'INR' ? budgetOptions[data.budget].labelINR : budgetOptions[data.budget].labelUSD}
             </motion.span>
@@ -476,11 +481,10 @@ function Step2({
 
       {/* Team Size Selector */}
       <div>
-        <label className="text-sm font-medium text-[#6b7280] dark:text-[#A1A1A1] mb-3 block">
-          <Users className="w-4 h-4 inline mr-1.5 text-[#FF4800]" />
+        <label className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 mb-4 block">
           Team Size Involved <span className="text-[#FF4800]">*</span>
         </label>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-5">
           {teamSizeOptions.map((opt) => (
             <OptionCard
               key={opt.id}
@@ -500,7 +504,7 @@ function Step2({
 // ─── Step 3: Contact Information ────────────────────────────────
 
 const contactInputClasses =
-  'w-full bg-[#f8f8fc] dark:bg-[#1e1a3f] border border-[#e5e7eb] dark:border-white/[0.08] focus:border-[#FF4800] text-[#1a1a2e] dark:text-white rounded-lg px-4 min-h-[44px] py-2.5 text-[15px] placeholder-[#9ca3af] dark:placeholder-[#52525B] outline-none transition-colors';
+  'w-full bg-transparent border-0 border-b-2 border-black/15 dark:border-white/20 focus:border-[#FF4800] text-black dark:text-white px-0 min-h-[44px] py-2.5 text-base placeholder-neutral-400 outline-none transition-colors';
 
 function Step3({
   data,
@@ -520,15 +524,15 @@ function Step3({
       className="space-y-5"
     >
       <div>
-        <h3 className="text-xl md:text-2xl font-semibold text-[#1a1a2e] dark:text-white mb-1">
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-black dark:text-white mb-2">
           Contact Information
         </h3>
-        <p className="text-[#6b7280] dark:text-[#A1A1A1] text-sm">
+        <p className="text-neutral-600 dark:text-neutral-400 text-[15px]">
           How should we reach you to discuss your project?
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
         <div>
           <label htmlFor="wizard-name" className="sr-only">Full Name</label>
           <input
@@ -555,7 +559,7 @@ function Step3({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
         <div>
           <label htmlFor="wizard-email" className="sr-only">Work Email</label>
           <input
@@ -582,8 +586,8 @@ function Step3({
       </div>
 
       {/* Summary preview */}
-      <div className="bg-[#f8f8fc] dark:bg-[#1e1a3f]/60 rounded-lg p-4 border border-[#e5e7eb] dark:border-white/[0.06]">
-        <p className="text-[11px] uppercase tracking-wider text-[#9ca3af] dark:text-[#52525B] mb-2">Project Summary</p>
+      <div className="pt-2">
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400 mb-3">Project Summary</p>
         <div className="flex flex-wrap gap-1.5">
           {data.selectedServices.length > 0 ? (
             data.selectedServices.map((id) => {
@@ -673,12 +677,7 @@ export default function ProjectRequestWizard() {
   }, []);
 
   return (
-    <div
-      className="w-full max-w-3xl mx-auto rounded-xl border border-[#e5e7eb] dark:border-white/[0.08] bg-white dark:bg-[#121212] p-6 sm:p-8 md:p-10"
-      style={{
-        boxShadow: '0 8px 40px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)',
-      }}
-    >
+    <div className="w-full max-w-3xl mx-auto">
       {/* Progress Bar */}
       <ProgressBar currentStep={isSubmitted ? 3 : currentStep} />
 
@@ -703,13 +702,13 @@ export default function ProjectRequestWizard() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.2 }}
-          className="flex items-center justify-between mt-8 pt-6 border-t border-[#e5e7eb] dark:border-white/[0.06]"
+          className="flex items-center justify-between mt-10"
         >
           <button
             type="button"
             onClick={goBack}
             disabled={currentStep === 1}
-            className={`flex items-center gap-2 px-5 min-h-[44px] rounded-lg text-sm font-medium transition-all duration-200 ${
+            className={`flex items-center gap-2 px-5 min-h-[44px] rounded-full text-sm font-semibold transition-all duration-200 ${
               currentStep === 1
                 ? 'opacity-0 pointer-events-none'
                 : 'text-[#6b7280] dark:text-[#A1A1A1] hover:text-[#1a1a2e] dark:hover:text-white hover:bg-[#f0f0f4] dark:hover:bg-white/[0.05]'
@@ -724,9 +723,9 @@ export default function ProjectRequestWizard() {
               type="button"
               onClick={goNext}
               disabled={!canProceed()}
-              className={`flex items-center gap-2 px-6 min-h-[44px] rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 px-7 min-h-[48px] rounded-full text-sm font-semibold transition-all duration-200 ${
                 canProceed()
-                  ? 'bg-[#FF4800] hover:bg-[#e63f00] text-white shadow-[0_0_20px_rgba(255,72,0,0.2)] hover:shadow-[0_0_30px_rgba(255,72,0,0.3)] btn-shine'
+                  ? 'bg-[#14110c] text-white hover:bg-[#FF4800] dark:bg-white dark:text-[#14110c] dark:hover:bg-[#FF4800] dark:hover:text-white'
                   : 'bg-[#f0f0f4] dark:bg-white/[0.06] text-[#9ca3af] dark:text-[#52525B] cursor-not-allowed'
               }`}
             >
@@ -738,9 +737,9 @@ export default function ProjectRequestWizard() {
               type="button"
               onClick={handleSubmit}
               disabled={!canProceed() || isSubmitting}
-              className={`flex items-center gap-2 px-8 min-h-[44px] rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 px-8 min-h-[48px] rounded-full text-sm font-semibold transition-all duration-200 ${
                 canProceed() && !isSubmitting
-                  ? 'bg-[#FF4800] hover:bg-[#e63f00] text-white shadow-[0_0_20px_rgba(255,72,0,0.2)] hover:shadow-[0_0_30px_rgba(255,72,0,0.3)] btn-shine'
+                  ? 'bg-[#14110c] text-white hover:bg-[#FF4800] dark:bg-white dark:text-[#14110c] dark:hover:bg-[#FF4800] dark:hover:text-white'
                   : 'bg-[#f0f0f4] dark:bg-white/[0.06] text-[#9ca3af] dark:text-[#52525B] cursor-not-allowed'
               }`}
             >

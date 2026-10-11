@@ -34,7 +34,7 @@ export default function PrivacyContactCard() {
       />
 
       <div className="relative z-10">
-        <p className="mb-2 text-[11px] font-bold tracking-[0.3em] text-[#FF4800] uppercase">Get in Touch</p>
+        <p className="mb-2 text-[11px] font-bold tracking-[0.22em] text-[#FF4800] uppercase">Get in Touch</p>
         <h3 className="mb-2 text-[22px] font-semibold text-[#1a1a2e] dark:text-white md:text-[26px]">
           Questions about your privacy?
         </h3>

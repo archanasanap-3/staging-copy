@@ -2,8 +2,9 @@
 
 import { useState, Suspense, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import SmoothScroll from '@/components/shared/SmoothScroll'
+import PerfClass from '@/components/shared/PerfClass'
 import Preloader from '@/components/shared/Preloader'
 import Navbar from '@/components/shared/Navbar'
 import AppLayout from '@/components/shared/AppLayout'
@@ -43,9 +44,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const pageName = pathname === '/' ? 'Home' : pathname.replace('/', '').charAt(0).toUpperCase() + pathname.slice(2)
 
   return (
+    <MotionConfig reducedMotion="user">
+    <PerfClass />
     <SmoothScroll>
       <CustomCursor>
-        <AppLayout className="noise-overlay bg-white dark:bg-[#121212] text-[#1a1a2e] dark:text-[#f0f0f5]">
+        <AppLayout className="noise-overlay bg-[#F6F1E7] dark:bg-[#0a0a14] text-[#1a1a2e] dark:text-[#f0f0f5]">
           <Preloader />
           <Navbar onSearchToggle={() => setSearchOpen(prev => !prev)} />
 
@@ -87,5 +90,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </AppLayout>
       </CustomCursor>
     </SmoothScroll>
+    </MotionConfig>
   )
 }

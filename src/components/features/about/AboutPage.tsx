@@ -13,7 +13,7 @@ import { StackedCarousel } from '@/components/features/common/StackedCarousel';
 import AnimatedLiquidBackground from '@/components/animations/AnimatedLiquidBackground';
 import ParticleField from '@/components/animations/ParticleField';
 import ReelsCarouselSection from './ReelsCarouselSection';
-import ClientsSection from './ClientsSection';
+// import ClientsSection from './ClientsSection';
 
 /* ─────────────────────────────────────────────────────────────────────── */
 /* Styles & Brand Constants                                                */
@@ -93,7 +93,7 @@ function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative flex min-h-[85vh] items-center bg-white dark:bg-[#0a0a14] overflow-hidden"
+      className="relative flex min-h-[85vh] items-center bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -171,14 +171,14 @@ function HeroSection() {
             className="flex items-center gap-4 mb-8"
           >
             <span className="h-px w-8 bg-[#FF4800]/40" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800]">
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
               About Straveda — Pune, India
             </span>
           </motion.div>
 
           {/* Cinematic Heading */}
           <h1
-            className="font-bold uppercase text-[#0f172a] dark:text-[#f0f0f5]"
+            className="font-bold uppercase text-black dark:text-white"
             style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)', lineHeight: 1, letterSpacing: '-2.5px' }}
           >
             {titleWords.map((word, i) => (
@@ -292,9 +292,9 @@ const inView = useInView(ref, {
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const whoWeAreStats = [
-  { value: 55, suffix: "%", label: "Manual Work Reduced" },
-  { value: 100, suffix: "%", label: "Code Ownership" },
-  { value: null, display: "3–5×", label: "Operational Efficiency" },
+  { value: 55, suffix: "%", label: "Manual Work Reduced", desc: "Less repetitive work, more time to grow." },
+  { value: 100, suffix: "%", label: "Code Ownership", desc: "Every system we build is yours to keep." },
+  { value: null, display: "3–5×", label: "Operational Efficiency", desc: "Connected workflows that run faster." },
 ];
 
 function AnimatedWhoWeAreStat({
@@ -336,63 +336,80 @@ function AnimatedWhoWeAreStat({
 
 function WhoWeAreSection() {
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-32 pb-14 md:pt-36 md:pb-16 overflow-hidden">
+    <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden pt-32 md:pt-36 pb-12 md:pb-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* LEFT SIDE */}
+        {/* Headline + intro */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.35fr_0.65fr] lg:gap-20">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease }}
-            className="flex flex-col text-left"
+            transition={{ duration: 0.7, ease }}
           >
-            <div className="mb-4">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800]">
-                WHO WE ARE
-              </span>
-            </div>
-
-            <h2 className="whitespace-nowrap text-2xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-3xl md:text-[2.5rem]">
-  Built by Operators, Driven by Outcomes
-</h2>
-
-            <p className="mt-6 text-base sm:text-lg text-[#64748b] dark:text-[#94a3b8] leading-relaxed max-w-xl font-light">
-              Every growing business hits the same wall: disconnected tools and
-              wasted manual hours. We engineer unified systems that replace
-              operational chaos with clarity and speed. Built from the ground up for resilience, scale, and high-velocity teams.
-            </p>
+            <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">Who we are</p>
+            <h2 className="max-w-3xl text-[2.1rem] font-bold leading-[1.08] tracking-[-0.035em] text-black dark:text-white sm:text-5xl lg:text-[3.75rem]">
+              Built by operators,
+              <br />
+              <motion.span
+                initial={{ backgroundSize: "0% 100%" }}
+                whileInView={{ backgroundSize: "100% 100%", color: "#ffffff" }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.9, delay: 0.4, ease }}
+                className="box-decoration-clone px-2"
+                style={{
+                  backgroundImage: "linear-gradient(#FF4800, #FF4800)",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "left center",
+                }}
+              >
+                driven by outcomes.
+              </motion.span>
+            </h2>
           </motion.div>
 
-          {/* RIGHT SIDE — STATS */}
-          <div className="flex flex-col lg:items-end w-full lg:max-w-md lg:ml-auto lg:pr-8 xl:pr-12">
-            {whoWeAreStats.map((stat, i) => (
-              <div key={i} className="flex flex-col items-start lg:items-end w-full">
-                {i > 0 && (
-                  <div className="w-44 sm:w-56 h-px bg-black/[0.06] dark:bg-white/[0.08] my-6 sm:my-7 lg:self-end" />
-                )}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.15, ease }}
-                  className="flex flex-col items-start lg:items-end text-left lg:text-right"
-                >
-                  <div className="text-4xl sm:text-5xl md:text-[3.25rem] font-bold text-black dark:text-white tracking-tight leading-none tabular-nums">
-                    <AnimatedWhoWeAreStat
-                      target={stat.value}
-                      suffix={stat.suffix}
-                      display={stat.display}
-                    />
-                  </div>
-                  <p className="mt-2.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] text-[#64748b] dark:text-[#94a3b8]">
-                    {stat.label}
-                  </p>
-                </motion.div>
-              </div>
-            ))}
-          </div>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease }}
+            className="self-end text-[15px] leading-[1.8] text-neutral-600 dark:text-neutral-400"
+          >
+            Every growing business hits the same wall: disconnected tools and wasted manual hours. We engineer
+            unified systems that replace operational chaos with clarity and speed, built from the ground up for
+            resilience, scale, and high-velocity teams.
+          </motion.p>
         </div>
+
+        {/* Stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2, ease }}
+          className="mt-14 grid grid-cols-1 gap-y-10 border-t border-neutral-300/80 pt-10 dark:border-white/15 sm:grid-cols-3 md:mt-20"
+        >
+          {whoWeAreStats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={`min-w-0 ${
+                i > 0 ? "sm:border-l sm:border-neutral-300/80 sm:pl-8 dark:sm:border-white/15 lg:pl-12" : ""
+              }`}
+            >
+              <p
+                className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-[#FF4800] tabular-nums"
+                style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)" }}
+              >
+                <AnimatedWhoWeAreStat target={stat.value} suffix={stat.suffix} display={stat.display} />
+              </p>
+              <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-900 dark:text-white">
+                {stat.label}
+              </p>
+              <p className="mt-2 max-w-[260px] text-[13px] leading-6 text-neutral-600 dark:text-neutral-400">
+                {stat.desc}
+              </p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
@@ -407,12 +424,12 @@ function StatsSection() {
   const isDark = mounted && (resolvedTheme === 'dark' || theme === 'dark');
 
   return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-6 md:pt-10 md:pb-10 overflow-hidden">
+    <section className="bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Heading */}
         <div className="mb-10 md:mb-16">
-          <span className="text-[11px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800] mb-4 block">
+          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800] mb-4 block">
             By The Numbers
           </span>
 
@@ -543,12 +560,12 @@ const clarityItems = [
 
 function StorySection() {
   return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-6 pb-8 md:pt-10 md:pb-12 relative overflow-hidden">
+    <section className="bg-[#F6F1E7] dark:bg-[#0a0a14] relative overflow-hidden py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
         <div className="mb-10 md:mb-16 text-left">
           <div className="mb-4">
-            <span className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800]">
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
               Our Story
             </span>
           </div>
@@ -569,14 +586,10 @@ function StorySection() {
 
           {/* OLD WAY */}
           <motion.div
-            initial={{ opacity: 0, scale: 1.18, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.25 }}
-            transition={{
-              duration: 0.85,
-              delay: 0.05,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col transition-all duration-300 hover:shadow-xl"
           >
             <div className="mb-6">
@@ -591,30 +604,30 @@ function StorySection() {
 
             <div className="space-y-5 flex-1">
               {chaosItems.map((item, i) => (
-                <div
+                <motion.div
                   key={i}
-                  className="flex items-start gap-3 opacity-50"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 0.55 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.08 }}
+                  className="flex items-start gap-3"
                 >
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/40 shrink-0" />
 
                   <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">
                     {item}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
 
           {/* STRAVEDA WAY */}
           <motion.div
-            initial={{ opacity: 0, scale: 1.18, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.25 }}
-            transition={{
-              duration: 0.85,
-              delay: 0.2,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20 transition-all duration-300 hover:shadow-xl"
             style={{ background: 'rgba(255,72,0,0.05)' }}
           >
@@ -630,8 +643,12 @@ function StorySection() {
 
             <div className="space-y-5 flex-1">
               {clarityItems.map((item, i) => (
-                <div
+                <motion.div
                   key={i}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 0.5, delay: 0.45 + i * 0.08 }}
                   className="flex items-start gap-3"
                 >
                   <CheckCircle2
@@ -642,7 +659,7 @@ function StorySection() {
                   <span className="text-[13px] font-medium leading-snug text-[#1a1a2e] dark:text-white/90">
                     {item}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -712,12 +729,12 @@ function ResultsSection() {
   const scrollingResults = [...testimonials, ...testimonials];
 
   return (
-    <section className="bg-white dark:bg-[#0a0a14] pt-8 pb-12 md:pt-12 md:pb-16 overflow-hidden">
+    <section className="bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Heading */}
         <div className="mb-8 md:mb-10">
-          <h2 className="masked-title text-3xl md:text-4xl font-normal tracking-[-1.5px]">
+          <h2 className="masked-title text-3xl md:text-4xl font-bold tracking-tight">
             Results that speak
           </h2>
         </div>
@@ -757,7 +774,7 @@ function ResultsSection() {
 
                 {/* Impact + Client */}
                 <div className="mt-auto border-t border-black/5 dark:border-white/10 pt-4">
-                  <p className="text-[#FF4800] text-[9px] font-bold uppercase tracking-[0.15em] mb-2">
+                  <p className="text-[#FF4800] text-[11px] font-bold uppercase tracking-[0.22em] mb-2">
                     {item.impact}
                   </p>
 
@@ -808,11 +825,11 @@ const roadmap = [
 
 function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-8 pb-16 md:pt-12 md:pb-24 overflow-hidden">
+    <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <div className="mb-10 md:mb-16 text-left">
           <div className="mb-4">
-            <span className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#FF4800]">
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
               Lets connect
             </span>
           </div>
@@ -913,13 +930,13 @@ function WorkWithUsSection({ onNavigate }: { onNavigate: (page: string) => void 
 
 export default function AboutPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
-    <main className="min-h-screen bg-white dark:bg-[#0a0a14]">
+    <main className="min-h-screen bg-[#F6F1E7] dark:bg-[#0a0a14]">
       <style>{STYLES}</style>
       <WhoWeAreSection />
       <StatsSection />
       <StorySection />
       <ReelsCarouselSection onNavigate={onNavigate} />
-      <ClientsSection />
+      {/* Hidden for now: <ClientsSection /> */}
       <WorkWithUsSection onNavigate={onNavigate} />
     </main>
   );

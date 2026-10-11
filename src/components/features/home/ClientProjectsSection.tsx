@@ -22,9 +22,9 @@ const clientProjects: ClientProject[] = [
   {
     company: 'MegaClick',
     project: 'Tax & compliance services platform',
-    logo: '/clients/megaclick-logo.png',
+    logo: '/clients/megaclick-logo.webp',
     url: 'https://mega-click-delta.vercel.app/',
-    image: '/clients/megaclick.png',
+    image: '/clients/megaclick.webp',
     quote: 'Straveda gave us a clean, fast website that makes our registration and filing services easy to understand. Clients now reach out with the right questions from day one.',
     author: 'MegaClick Team',
     role: 'Founders',
@@ -35,7 +35,7 @@ const clientProjects: ClientProject[] = [
     project: 'Ayurvedic products storefront',
     logo: '/clients/everlive-logo.webp',
     url: 'https://everliveindia.com/',
-    image: '/clients/everlive.png',
+    image: '/clients/everlive.webp',
     quote: 'The site captures "Ancient Ayurveda. Modern Science." perfectly. Our full herbal range is now easy to browse, and the design feels premium and trustworthy.',
     author: 'Everlive Team',
     role: 'Brand Owners',
@@ -44,9 +44,9 @@ const clientProjects: ClientProject[] = [
   {
     company: 'SMIDI Fertilizers',
     project: 'Plant nutrition catalogue & farmer portal',
-    logo: '/clients/smidi-logo.png',
+    logo: '/clients/smidi-logo.webp',
     url: 'https://www.smidifertilizers.com/',
-    image: '/clients/smidi.png',
+    image: '/clients/smidi.webp',
     quote: 'Our crop-specific products and farmer support programs are finally presented clearly in one place. Dealers and farmers find what they need in seconds.',
     author: 'SMIDI Team',
     role: 'Management',
@@ -55,9 +55,9 @@ const clientProjects: ClientProject[] = [
   {
     company: 'Atharva Enterprises',
     project: 'Electrical contractor website',
-    logo: '/clients/atharva-logo.png',
+    logo: '/clients/atharva-logo.webp',
     url: 'https://atharva-website-theta.vercel.app/',
-    image: '/clients/atharva.png',
+    image: '/clients/atharva.webp',
     quote: 'We wanted a site that reflects our licensed, professional work. Straveda delivered exactly that, on time and with a fixed price.',
     author: 'Atharva Team',
     role: 'Proprietors',
@@ -66,9 +66,9 @@ const clientProjects: ClientProject[] = [
   {
     company: 'Dhanwantari Hospital',
     project: 'Multispeciality hospital website',
-    logo: '/clients/dhanwantari-logo.jpeg',
+    logo: '/clients/dhanwantari-logo.webp',
     url: 'https://dhanwantarihospital.co.in/',
-    image: '/clients/dhanwantari.png',
+    image: '/clients/dhanwantari.webp',
     quote: 'Patients can now see our doctors, services and emergency number instantly and book appointments online. It reflects the trust we have built over 25 years.',
     author: 'Hospital Administration',
     role: 'Administration',
@@ -119,7 +119,7 @@ function FlipCard({ item, index }: { item: ClientProject; index: number }) {
           <div className="flex h-[76px] shrink-0 items-center justify-between border-t border-neutral-200 bg-white px-6 dark:border-white/15 dark:bg-[#181824] sm:h-[82px] sm:px-8">
             <div className="flex min-w-0 items-center gap-3 pr-4">
               {item.logo && (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 ring-1 ring-neutral-200">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 ring-1 ring-neutral-200 dark:bg-white dark:ring-white/20">
                   <Image src={item.logo} alt={`${item.company} logo`} width={40} height={40} className="h-full w-full object-contain" />
                 </span>
               )}
@@ -146,7 +146,7 @@ function FlipCard({ item, index }: { item: ClientProject; index: number }) {
           <div>
             <div className="flex items-start justify-between gap-3">
               {item.logo ? (
-                <span className="flex h-11 items-center rounded-xl bg-white px-3 ring-1 ring-neutral-200"><Image src={item.logo} alt={`${item.company} logo`} width={140} height={36} className="h-8 w-auto max-w-[140px] object-contain" /></span>
+                <span className="flex h-11 items-center rounded-xl bg-white px-3 ring-1 ring-neutral-200 dark:bg-white dark:ring-white/20"><Image src={item.logo} alt={`${item.company} logo`} width={140} height={36} className="h-8 w-auto max-w-[140px] object-contain" /></span>
               ) : (
                 <div className="flex items-center gap-3">
                   <span
@@ -209,7 +209,7 @@ export default function ClientProjectsSection() {
   return (
     <section
       id="section-clients"
-      className="relative overflow-hidden bg-[#F6F1E7] py-16 transition-colors duration-300 dark:bg-[#0a0a14] md:py-24"
+      className="relative overflow-hidden bg-[#F6F1E7] transition-colors duration-300 dark:bg-[#0a0a14] py-12 md:py-16"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <motion.div
