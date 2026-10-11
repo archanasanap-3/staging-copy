@@ -146,7 +146,7 @@
   --tracking-tight: -0.5px;
 
   --radius: 0.625rem;
-  --background: #FFFFFF;
+  --background: #F6F1E7;
   --foreground: #1a1a2e;
   --card: #FFFFFF;
   --card-foreground: #1a1a2e;
@@ -201,6 +201,11 @@
     font-weight: 700;
     letter-spacing: -0.025em;
   }
+
+  h1, h2, h3, h4 { text-wrap: balance; }
+  h1, h2 { line-height: 1.12; }
+  h3, h4 { line-height: 1.25; }
+  p { text-wrap: pretty; }
 
   /* Normal Body Text (img 2: comfortable line-height and regular weight) */
   p, li {
@@ -261,7 +266,7 @@ html.lenis, html.lenis body {
    Noise / Grain Texture Overlay (Light Theme)
    ============================================ */
 .noise-overlay::before {
-  content: '';
+  content: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -2022,8 +2027,14 @@ html {
 }
 
 /* ── Base dark backgrounds ── */
-.dark body,
-.dark .bg-white {
+.dark body {
+  background-color: #0a0a14 !important;
+}
+/* Blanket white -> dark, except elements that handle dark mode themselves
+   (own dark:bg-* variant) or are deliberate light chips/buttons that pair
+   bg-white with an explicit dark text colour. Forcing those dark made their
+   label unreadable (dark text on dark). */
+.dark .bg-white:not([class*="dark:bg-"]):not([class*="text-neutral-"]):not([class*="text-slate-"]):not([class*="text-emerald-"]):not([class*="text-[#FF4800]"]) {
   background-color: #0a0a14 !important;
 }
 .dark .bg-\[\#FFFFFF\],
@@ -2109,10 +2120,15 @@ html {
 }
 
 /* ── Smooth theme transitions for common elements ── */
-.dark *,
-.dark *::before,
-.dark *::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+/* Lives in @layer base: unlayered CSS beats every Tailwind utility, so this
+   would otherwise replace components' own transitions (e.g. the client card
+   flip's transform) in dark mode. */
+@layer base {
+  .dark *,
+  .dark *::before,
+  .dark *::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
 }
 .dark .btn-shine,
 .dark .card-lift,
@@ -3091,5 +3107,39 @@ html.dark .partner-name:hover {
 
   to {
     transform: translateY(-50%);
+  }
+}
+/* ============================================
+   Low-power devices (set by <PerfClass />)
+   Switch off decorative effects that are costly to paint.
+   ============================================ */
+html.perf-low .noise-overlay::before {
+  display: none;
+}
+html.perf-low [class*="backdrop-blur"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.perf-low [class^="blur-["],
+html.perf-low [class*=" blur-["],
+html.perf-low .blur-3xl,
+html.perf-low .blur-2xl {
+  display: none !important;
+}
+html.perf-low .particle-dot {
+  display: none !important;
+}
+html.perf-low .animate-pulse,
+html.perf-low .animate-ping {
+  animation: none !important;
+}
+html.perf-low * {
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

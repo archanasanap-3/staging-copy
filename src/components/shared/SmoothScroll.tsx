@@ -2,41 +2,33 @@
 
 import { useEffect } from 'react'
 import Lenis from '@studio-freight/lenis'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { getPerfTier } from '@/lib/device'
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    // Native scrolling is smoother than JS-driven smoothing on touch and low-power devices
+    if (getPerfTier() === 'low') return
+
+    // Light, responsive smoothing: a high lerp follows the wheel closely instead of trailing behind it
     const lenis = new Lenis({
-      // Smooth natural scroll feel
-      duration: 1.2,
-      // Smooth cubic-bezier style easing curve (no abrupt stops or jerky jumps)
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      // Standard wheel sensitivity
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.2,
+      lerp: 0.14,
+      wheelMultiplier: 1,
       smoothWheel: true,
       syncTouch: false,
       infinite: false,
     })
 
-    // Sync Lenis scroll position into GSAP ScrollTrigger each tick
-    lenis.on('scroll', ScrollTrigger.update)
-
-    // Drive Lenis with standard continuous requestAnimationFrame loop (zero lag or timing drift)
-    let rafId: number;
+    let rafId = 0
     function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+      lenis.raf(time)
+      rafId = requestAnimationFrame(raf)
     }
-    rafId = requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf)
 
     return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-    };
+      cancelAnimationFrame(rafId)
+      lenis.destroy()
+    }
   }, [])
 
   return <>{children}</>

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
   Database,
@@ -210,7 +210,7 @@ const services: ServiceBlockData[] = [
 
 function PageTopHeader() {
   return (
-    <section className="relative overflow-hidden bg-white pb-4 pt-28 sm:pb-6 sm:pt-36 dark:bg-[#0a0a14]">
+    <section className="relative overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] pt-32 md:pt-36 pb-4 md:pb-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -219,16 +219,124 @@ function PageTopHeader() {
           className="max-w-full"
         >
           {/* Eyebrow Badge - Renamed to Our Services */}
-          <p className="mb-2.5 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Our Services
           </p>
 
           {/* Heading - Strictly in ONE SINGLE LINE */}
-          <h1 className="whitespace-nowrap text-xl font-bold tracking-tight text-black sm:text-2xl md:text-3xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
+          <h1 className="whitespace-nowrap max-sm:whitespace-normal text-xl font-bold tracking-tight text-black sm:text-2xl md:text-3xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
             Enterprise Software &amp; AI Automation Services
           </h1>
         </motion.div>
       </div>
+    </section>
+  );
+}
+
+function ServiceBlock({
+  service,
+  index,
+  onNavigate,
+}: {
+  service: ServiceBlockData;
+  index: number;
+  onNavigate: (page: string) => void;
+}) {
+  const ease = [0.22, 1, 0.36, 1] as const;
+  const ref = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 95%', 'end 5%'] });
+  // Soft fade as a service enters and as it leaves, fully clear in the middle
+  const fade = useTransform(scrollYProgress, [0, 0.22, 0.78, 1], [0, 1, 1, 0.12]);
+
+  return (
+    <section
+      ref={ref}
+      id={service.id}
+      className={`relative scroll-mt-24 ${
+        index > 0 ? 'border-t border-black/[0.08] py-10 dark:border-white/10 md:py-14' : 'pb-10 pt-2 md:pb-14 md:pt-4'
+      }`}
+    >
+      <motion.div style={{ opacity: fade }} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-14">
+          {/* ── LEFT: number + title stacked, pinned while the card scrolls past ── */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.8, ease }}
+            >
+              <div className="select-none text-7xl font-bold leading-none tracking-tighter text-black dark:text-white sm:text-8xl lg:text-[8.5rem]">
+                {service.number}
+              </div>
+
+              <span className="mt-5 inline-block text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
+                {service.badge}
+              </span>
+
+              <h2 className="mt-2 text-2xl font-bold leading-[1.18] tracking-tight text-black dark:text-white sm:text-3xl lg:text-4xl">
+                {service.title}
+              </h2>
+
+              <p className="mt-3 text-sm font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
+                {service.category}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => onNavigate('contact')}
+                className="group mt-6 inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white"
+              >
+                <span>Book Strategy Call</span>
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+            </motion.div>
+          </div>
+
+          {/* ── RIGHT: boxed detail card ── */}
+          <motion.div
+            className="lg:col-span-7"
+            initial={{ opacity: 0, y: 56 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, delay: 0.12, ease }}
+          >
+            <div className="rounded-[28px] border border-black/[0.06] bg-white p-6 shadow-[0_18px_50px_rgba(20,17,12,0.07)] dark:border-white/10 dark:bg-[#181824] sm:p-8">
+              <p className="text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base [text-wrap:pretty]">
+                {service.body}
+              </p>
+
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {service.capabilities.map((cap, i) => {
+                  const Icon = cap.icon;
+                  return (
+                    <motion.div
+                      key={cap.title}
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-40px' }}
+                      transition={{ duration: 0.55, delay: 0.25 + i * 0.08, ease }}
+                      className="group flex items-start gap-3.5 rounded-2xl border border-black/[0.05] bg-[#F6F1E7]/60 p-4 transition-colors duration-300 hover:border-[#FF4800]/40 hover:bg-[#FF4800]/[0.05] dark:border-white/10 dark:bg-white/[0.04]"
+                    >
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white">
+                        <Icon size={17} strokeWidth={1.8} />
+                      </div>
+                      <div>
+                        <h3 className="text-[14px] font-bold leading-snug tracking-tight text-black dark:text-white">
+                          {cap.title}
+                        </h3>
+                        <p className="mt-1 text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                          {cap.desc}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -253,112 +361,10 @@ function PushNumbersServicesSection({
   }, [selectedService]);
 
   return (
-    <div className="relative bg-white dark:bg-[#0a0a14]">
+    <div className="relative bg-[#F6F1E7] dark:bg-[#0a0a14]">
       {/* ── 4 Sequential Service Blocks with Reduced Gaps & Touching Sticky Numbers ── */}
-      {services.map((service) => (
-        <section
-          key={service.id}
-          id={service.id}
-          className="relative scroll-mt-24 py-6 sm:py-8 lg:py-10"
-        >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12 xl:gap-16">
-              
-              {/* ── LEFT COLUMN: Number that sticks and touches the next number ── */}
-              <div className="mb-4 lg:col-span-4 lg:mb-0 xl:col-span-3">
-                
-                {/* Mobile view number */}
-                <div className="block lg:hidden mb-3">
-                  <div className="text-6xl sm:text-7xl font-bold tracking-tighter text-black dark:text-white">
-                    {service.number}
-                  </div>
-                </div>
-
-                {/* Desktop sticky number: Sticks at top-32/top-36, reaches and touches next number */}
-                <div className="hidden lg:block lg:sticky lg:top-32 xl:top-36 self-start">
-                  <div className="select-none font-bold leading-none tracking-tighter text-black text-8xl sm:text-9xl lg:text-[10rem] xl:text-[11.5rem] dark:text-white">
-                    {service.number}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* ── RIGHT COLUMN: Content (Title, Description & Icons - NO horizontal lines) ── */}
-              <div className="lg:col-span-8 xl:col-span-9">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8 lg:gap-10">
-                  
-                  {/* Left Sub-column: Badge, Title, Category & CTA */}
-                  <div className="md:col-span-5">
-                    <span className="mb-2.5 inline-block text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
-                      {service.badge}
-                    </span>
-
-                    <h2 className="mb-3 text-2xl font-bold leading-[1.18] tracking-tight text-black sm:text-3xl lg:text-4xl dark:text-white">
-                      {service.title}
-                    </h2>
-
-                    <p className="mb-6 text-sm font-medium tracking-wide text-neutral-500 sm:mb-8 dark:text-neutral-400">
-                      {service.category}
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() => onNavigate('contact')}
-                      className="group inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white"
-                    >
-                      <span>Book Strategy Call</span>
-                      <ArrowRight
-                        size={14}
-                        className="transition-transform duration-300 group-hover:translate-x-1"
-                      />
-                    </button>
-                  </div>
-
-                  {/* Right Sub-column: Detailed Body Paragraph & Capability Icons */}
-                  <div className="md:col-span-7">
-                    <p className="mb-6 text-base leading-relaxed text-neutral-600 sm:mb-8 sm:text-lg dark:text-neutral-400 [text-wrap:pretty]">
-                      {service.body}
-                    </p>
-
-                    {/* Capabilities with small icons */}
-                    <div className="border-t border-neutral-200 pt-6 sm:pt-7 dark:border-neutral-800">
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                        {service.capabilities.map((cap) => {
-                          const Icon = cap.icon;
-                          return (
-                            <div
-                              key={cap.title}
-                              className="group flex items-start gap-3.5"
-                            >
-                              {/* Small icon badge */}
-                              <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-neutral-200 bg-neutral-100 text-black transition-all duration-300 group-hover:border-[#FF4800] group-hover:bg-[#FF4800] group-hover:text-white dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:group-hover:border-[#FF4800] dark:group-hover:bg-[#FF4800] dark:group-hover:text-white">
-                                <Icon size={17} strokeWidth={1.8} />
-                              </div>
-
-                              {/* Capability text */}
-                              <div>
-                                <h3 className="text-[14px] font-bold leading-snug tracking-tight text-black dark:text-white">
-                                  {cap.title}
-                                </h3>
-                                <p className="mt-1 text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                                  {cap.desc}
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </section>
+      {services.map((service, i) => (
+        <ServiceBlock key={service.id} service={service} index={i} onNavigate={onNavigate} />
       ))}
 
     </div>
@@ -392,12 +398,12 @@ function WhyStravedaSection() {
   ];
 
   return (
-    <section className="relative bg-white py-24 dark:bg-[#0a0a14]">
+    <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ================= HEADING ================= */}
         <div className="mb-14 text-center">
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Our Approach
           </span>
 
@@ -489,7 +495,7 @@ export default function ServicesPage({
   }, []);
 
   return (
-    <main className="min-h-screen bg-white dark:bg-[#0a0a14]">
+    <main className="min-h-screen bg-[#F6F1E7] dark:bg-[#0a0a14]">
       <ServicesPageStyles />
 
       {/* ── Top Header: Our Services / Enterprise Software & AI Automation Services (One Line, No paragraph) ── */}

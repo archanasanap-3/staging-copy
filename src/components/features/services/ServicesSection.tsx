@@ -133,7 +133,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section className="relative bg-white dark:bg-[#0a0a14] pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden">
+    <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden pt-32 md:pt-36 pb-12 md:pb-16">
 
       {/* ── Subtle engineering grid background ────────────────── */}
 

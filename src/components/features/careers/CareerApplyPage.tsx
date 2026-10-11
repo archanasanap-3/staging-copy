@@ -165,7 +165,7 @@ function ApplyForm({
       {/* Form Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-6 mb-8 border-b border-neutral-200 dark:border-neutral-800">
         <div>
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Application Form
           </span>
           <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-black dark:text-white">
@@ -477,7 +477,7 @@ function OpenApplicationForm() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-6 mb-8 border-b border-neutral-200 dark:border-neutral-800">
         <div>
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Open Application
           </span>
           <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-black dark:text-white">
@@ -650,8 +650,8 @@ export default function CareerApplyPage({ slug }: { slug: string }) {
   const displayRole = role || (!isOpen ? OPEN_ROLES[0] : null);
 
   return (
-    <div className="bg-white dark:bg-[#0a0a14] min-h-screen">
-      <section className="pt-28 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#F6F1E7] dark:bg-[#0a0a14] min-h-screen">
+      <section className="px-4 sm:px-6 lg:px-8 pt-32 md:pt-36 pb-12 md:pb-16">
         {/* Centered container with reduced spread */}
         <div className="max-w-6xl mx-auto">
           {/* Breadcrumb Navigation at left side corner */}
@@ -671,7 +671,7 @@ export default function CareerApplyPage({ slug }: { slug: string }) {
             transition={{ duration: 0.6, ease }}
             className="mb-8 text-left"
           >
-            <span className="text-xs font-bold text-center uppercase tracking-[0.25em] text-[#FF4800] block mb-2">
+            <span className="text-[11px] font-bold text-center uppercase tracking-[0.22em] text-[#FF4800] block mb-2">
               Career Application
             </span>
 
@@ -700,7 +700,7 @@ export default function CareerApplyPage({ slug }: { slug: string }) {
           </motion.div>
 
           {/* Form Card: Wide Left-to-Right Spread, Professional Surface */}
-          <div className="rounded-3xl border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-[#0d0d1a] shadow-[0_20px_50px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="rounded-3xl border border-neutral-200/90 dark:border-neutral-800 bg-[#F6F1E7] dark:bg-[#0a0a14] shadow-[0_20px_50px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
             {isOpen ? (
               <OpenApplicationForm />
             ) : displayRole ? (

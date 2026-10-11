@@ -194,7 +194,7 @@ export default function ServiceComparison() {
   const allSelected = selected.size === 4;
 
   return (
-    <section className="px-6 py-24" style={{ background: isDark ? '#12121e' : '#f8f8fc' }}>
+    <section className="px-6 py-12 md:py-16" style={{ background: isDark ? '#0a0a14' : '#F6F1E7' }}>
       <div className="mx-auto max-w-6xl">
         {/* Section header */}
         <div className="mb-12 text-center">
@@ -203,7 +203,7 @@ export default function ServiceComparison() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease }}
-            className="-mt-10 mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FF4800]"
+            className="-mt-10 mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]"
           >
             SERVICE COMPARISON
           </motion.p>

@@ -21,6 +21,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Sparkles,
+  Layers,
   Store,
   Truck,
   Users,
@@ -249,7 +250,7 @@ function SectionLabel({
   children: ReactNode;
 }) {
   return (
-    <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-[#FF4800]">
+    <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
       {children}
     </p>
   );
@@ -267,12 +268,12 @@ function ModuleCard({
 }) {
   return (
     <div className="flex items-start gap-4 py-5">
-      <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[#FF4800]/40 bg-white">
+      <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[#FF4800]/40 bg-white dark:bg-[#12121e]">
         <Check size={15} className="text-transparent" />
       </div>
 
       <div className="min-w-0 flex-1">
-        <h3 className="text-lg font-bold text-[#111827]">
+        <h3 className="text-lg font-bold text-black dark:text-white">
           {module.title}
         </h3>
 
@@ -280,7 +281,7 @@ function ModuleCard({
           {module.items.map((item) => (
             <li
               key={item}
-              className="text-sm leading-relaxed text-[#64748b]"
+              className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400"
             >
               {item}
             </li>
@@ -298,12 +299,12 @@ function AdvancedCard({
 }) {
   return (
     <div className="flex items-start gap-4 py-5">
-      <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[#FF4800]/40 bg-white">
+      <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[#FF4800]/40 bg-white dark:bg-[#12121e]">
         <Check size={15} className="text-transparent" />
       </div>
 
       <div className="min-w-0 flex-1">
-        <h3 className="text-lg font-bold text-[#111827]">
+        <h3 className="text-lg font-bold text-black dark:text-white">
           {module.title}
         </h3>
 
@@ -311,7 +312,7 @@ function AdvancedCard({
           {module.items.map((item) => (
             <li
               key={item}
-              className="text-sm leading-relaxed text-[#64748b]"
+              className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400"
             >
               {item}
             </li>
@@ -378,39 +379,37 @@ export default function CommerceOSPage() {
   }, []);
 
   return (
-    <main className="overflow-hidden bg-[#fffaf8] text-[#0f172a]">
+    <main className="overflow-hidden bg-[#F6F1E7] text-black dark:text-white dark:bg-[#0a0a14] dark:text-white">
 
       {/* =========================================================
           01 — HERO
       ========================================================= */}
 
-      <section className="relative min-h-screen overflow-hidden pt-32">
+      <section className="relative overflow-hidden pt-32 lg:pt-36">
 
         {/* Background glow */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute right-[-8%] top-[8%] h-[650px] w-[650px] rounded-full bg-[#FF4800]/10 blur-[130px]" />
-          <div className="absolute bottom-[-15%] left-[-10%] h-[500px] w-[500px] rounded-full bg-orange-200/40 blur-[120px]" />
         </div>
 
-        <div className="relative mx-auto grid max-w-7xl lg:items-start gap-10 pt-4 pb-20 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="relative mx-auto grid max-w-7xl lg:items-stretch gap-10 px-4 pt-4 pb-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
 
           {/* LEFT CONTENT */}
-          <div className="relative z-20 pt-1 lg:pt-2">
+          <div className="relative z-20 flex flex-col pt-1 lg:pt-2">
 
-            <div className="mb-6 inline-flex rounded-full border border-[#FF4800]/25 bg-[#FF4800]/5 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
+            <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
               Premium Commerce Platform
-            </div>
+            </p>
 
             {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 36 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.1 }}
-              className="font-bold text-left mb-5 text-slate-900 dark:text-white"
+              className="font-bold text-left mb-8 text-black dark:text-white tracking-tight"
               style={{
                 fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
                 lineHeight: 1.15,
-                letterSpacing: '-1.5px',
+                letterSpacing: '-0.03em',
                 maxWidth: "680px",
               }}
             >
@@ -422,11 +421,11 @@ export default function CommerceOSPage() {
               </span>
             </motion.h1>
 
-            <p className="mt-7 max-w-xl text-lg font-medium leading-8 text-[#334155]">
+            <p className="mt-4 max-w-xl text-lg font-medium leading-8 text-neutral-700 dark:text-neutral-300">
               A Complete Commerce & Business Platform
             </p>
 
-            <p className="mt-2 max-w-xl text-sm leading-7 text-[#64748b]">
+            <p className="mt-4 max-w-xl text-[15px] leading-7 text-neutral-600 dark:text-neutral-400">
               Premium custom-built eCommerce websites with integrated
               business operations, marketing intelligence, AI insights,
               and enterprise workflows.
@@ -434,37 +433,37 @@ export default function CommerceOSPage() {
 
             <div className="mt-9 grid max-w-xl grid-cols-3">
               <div className="py-5 pr-5">
-                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
                   Platform
                 </p>
                 <p className="mt-2 text-sm font-bold">
                   Commerce OS
                 </p>
-                <p className="mt-1 text-[10px] text-[#64748b]">
+                <p className="mt-1 text-[10px] text-neutral-600 dark:text-neutral-400">
                   Operating system
                 </p>
               </div>
 
               <div className="px-5 py-5">
-                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
                   Modules
                 </p>
                 <p className="mt-2 text-sm font-bold">
                   12+ Built-in
                 </p>
-                <p className="mt-1 text-[10px] text-[#64748b]">
+                <p className="mt-1 text-[10px] text-neutral-600 dark:text-neutral-400">
                   Native integrations
                 </p>
               </div>
 
               <div className="py-5 pl-5">
-                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
                   Brand
                 </p>
                 <p className="mt-2 text-sm font-bold">
                   Straveda
                 </p>
-                <p className="mt-1 text-[10px] text-[#64748b]">
+                <p className="mt-1 text-[10px] text-neutral-600 dark:text-neutral-400">
                   Premium commerce
                 </p>
               </div>
@@ -472,7 +471,7 @@ export default function CommerceOSPage() {
           </div>
 
           {/* RIGHT VISUAL */}
-          <div className="relative min-h-[650px] lg:min-h-[720px]">
+          <div className="relative min-h-[650px] lg:min-h-[640px]">
             {/* Ambient glow */}
             <div className="absolute right-[8%] top-[10%] h-[500px] w-[500px] rounded-full bg-[#FF4800]/10 blur-[100px]" />
 
@@ -481,10 +480,10 @@ export default function CommerceOSPage() {
             <div className="absolute right-[12%] top-[11%] h-[360px] w-[360px] rounded-full border border-[#FF4800]/10" />
 
             {/* MAIN DASHBOARD */}
-            <div className="commerce-dashboard absolute right-[2%] top-0 z-20 w-[88%] max-w-[610px] rounded-[28px] border border-[#0f172a]/10 bg-white p-3">
-              <div className="rounded-[21px] border border-[#0f172a]/10 bg-[#f8fafc] p-4">
+            <div className="commerce-dashboard absolute right-[2%] top-0 z-20 w-[88%] max-w-[610px] rounded-[28px] border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] p-3">
+              <div className="rounded-[21px] border border-[#0f172a]/10 dark:border-white/10 bg-[#f8fafc] dark:bg-[#0d0d18] p-4">
                 {/* Browser header */}
-                <div className="flex items-center justify-between border-b border-[#0f172a]/10 pb-4">
+                <div className="flex items-center justify-between border-b border-[#0f172a]/10 dark:border-white/10 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
                     <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
@@ -508,7 +507,7 @@ export default function CommerceOSPage() {
                     <h3 className="text-xl font-bold">
                       Dashboard Overview
                     </h3>
-                    <span className="rounded-lg border border-[#0f172a]/10 bg-white px-3 py-1.5 text-[8px] text-[#64748b]">
+                    <span className="rounded-lg border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] px-3 py-1.5 text-[8px] text-neutral-600 dark:text-neutral-400">
                       This Month
                     </span>
                   </div>
@@ -523,12 +522,12 @@ export default function CommerceOSPage() {
                   ].map(([label, value, change]) => (
                     <div
                       key={label}
-                      className="rounded-xl border border-[#0f172a]/10 bg-white p-3.5"
+                      className="rounded-xl border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] p-3.5"
                     >
                       <p className="text-[7px] font-bold tracking-wider text-[#94a3b8]">
                         {label}
                       </p>
-                      <p className="mt-2 text-lg font-bold text-[#0f172a]">
+                      <p className="mt-2 text-lg font-bold text-black dark:text-white">
                         {value}
                       </p>
                       <p className="mt-1 text-[8px] font-semibold text-green-600">
@@ -541,9 +540,9 @@ export default function CommerceOSPage() {
                 {/* Graph + Orders */}
                 <div className="mt-4 grid gap-3 md:grid-cols-[1.45fr_1fr]">
                   {/* Revenue graph */}
-                  <div className="rounded-xl border border-[#0f172a]/10 bg-white p-4">
+                  <div className="rounded-xl border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-[8px] font-bold uppercase tracking-wider text-[#64748b]">
+                      <p className="text-[8px] font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
                         Revenue Performance
                       </p>
                       <span className="text-[8px] text-[#94a3b8]">
@@ -576,9 +575,9 @@ export default function CommerceOSPage() {
                   </div>
 
                   {/* Live Orders */}
-                  <div className="rounded-xl border border-[#0f172a]/10 bg-white p-4">
+                  <div className="rounded-xl border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-[8px] font-bold uppercase tracking-wider text-[#64748b]">
+                      <p className="text-[8px] font-bold uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
                         Live Orders
                       </p>
                       <ShoppingCart
@@ -606,7 +605,7 @@ export default function CommerceOSPage() {
                                 ? "text-green-600"
                                 : status === "Packing"
                                   ? "text-[#FF4800]"
-                                  : "text-[#64748b]"
+                                  : "text-neutral-600 dark:text-neutral-400"
                             }
                           >
                             {status}
@@ -615,7 +614,7 @@ export default function CommerceOSPage() {
                       ))}
                     </div>
 
-                    <div className="mt-6 rounded-lg bg-[#fff7f2] p-3">
+                    <div className="mt-6 rounded-lg bg-[#fff7f2] dark:bg-[#FF4800]/10 p-3">
                       <div className="flex items-center gap-2">
                         <Truck
                           size={13}
@@ -625,7 +624,7 @@ export default function CommerceOSPage() {
                           Shipment Tracking
                         </span>
                       </div>
-                      <div className="mt-3 h-1 rounded-full bg-[#e2e8f0]">
+                      <div className="mt-3 h-1 rounded-full bg-[#e2e8f0] dark:bg-white/15">
                         <div className="h-1 w-[76%] rounded-full bg-[#FF4800]" />
                       </div>
                     </div>
@@ -644,13 +643,13 @@ export default function CommerceOSPage() {
                     return (
                       <div
                         key={String(label)}
-                        className="rounded-lg border border-[#0f172a]/10 bg-white px-2 py-3"
+                        className="rounded-lg border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] px-2 py-3"
                       >
                         <ModuleIcon
                           size={12}
                           className="text-[#FF4800]"
                         />
-                        <p className="mt-2 text-[7px] font-semibold text-[#64748b]">
+                        <p className="mt-2 text-[7px] font-semibold text-neutral-600 dark:text-neutral-400">
                           {String(label)}
                         </p>
                       </div>
@@ -661,7 +660,7 @@ export default function CommerceOSPage() {
             </div>
 
             {/* FLOATING NEW ORDER */}
-            <div className="commerce-float-order absolute right-[-8%] top-[-2%] z-20 w-[190px] rounded-2xl border border-[#0f172a]/10 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.14)]">
+            <div className="commerce-float-order absolute right-[-8%] top-[-2%] z-20 w-[190px] rounded-2xl border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] p-4 shadow-[0_20px_60px_rgba(15,23,42,0.14)]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FF4800]/10">
@@ -699,9 +698,9 @@ export default function CommerceOSPage() {
             </div>
 
             {/* FLOATING SHIPMENT CARD */}
-            <div className="commerce-float-shipment absolute bottom-[4%] left-[-8%] z-40 w-[220px] rounded-2xl border border-[#0f172a]/10 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.14)]">
+            <div className="commerce-float-shipment absolute bottom-[3%] left-[-8%] z-40 w-[220px] rounded-2xl border border-[#0f172a]/10 dark:border-white/10 bg-white dark:bg-[#12121e] p-4 shadow-[0_20px_60px_rgba(15,23,42,0.14)]">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#fff0e8]">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#fff0e8] dark:bg-[#FF4800]/10">
                   <Truck
                     size={16}
                     className="text-[#FF4800]"
@@ -727,7 +726,7 @@ export default function CommerceOSPage() {
                       className={`h-2 w-2 rounded-full ${
                         step <= 3
                           ? "bg-[#FF4800]"
-                          : "bg-[#cbd5e1]"
+                          : "bg-[#cbd5e1] dark:bg-white/20"
                       }`}
                     />
                     {step !== 4 && (
@@ -735,7 +734,7 @@ export default function CommerceOSPage() {
                         className={`h-[2px] flex-1 ${
                           step < 3
                             ? "bg-[#FF4800]"
-                            : "bg-[#cbd5e1]"
+                            : "bg-[#cbd5e1] dark:bg-white/20"
                         }`}
                       />
                     )}
@@ -752,16 +751,16 @@ export default function CommerceOSPage() {
             </div>
 
             {/* SMART WATCH */}
-            <div className="commerce-watch absolute bottom-[2%] right-[4%] z-40">
-              <div className="absolute left-1/2 top-[-30px] h-[90px] w-[58px] -translate-x-1/2 rounded-[25px] bg-[#e2e8f0]" />
-              <div className="absolute bottom-[-30px] left-1/2 h-[90px] w-[58px] -translate-x-1/2 rounded-[25px] bg-[#e2e8f0]" />
+            <div className="commerce-watch absolute bottom-[-2%] right-[4%] z-40">
+              <div className="absolute left-1/2 top-[-30px] h-[90px] w-[58px] -translate-x-1/2 rounded-[25px] bg-[#e2e8f0] dark:bg-white/15" />
+              <div className="absolute bottom-[-30px] left-1/2 h-[90px] w-[58px] -translate-x-1/2 rounded-[25px] bg-[#e2e8f0] dark:bg-white/15" />
 
-              <div className="relative flex h-[150px] w-[125px] rotate-[8deg] items-center justify-center rounded-[35px] border-[5px] border-[#cbd5e1] bg-white shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
-                <div className="flex h-[116px] w-[94px] flex-col items-center justify-center rounded-[25px] bg-[#fffaf8]">
+              <div className="relative flex h-[150px] w-[125px] rotate-[8deg] items-center justify-center rounded-[35px] border-[5px] border-[#cbd5e1] dark:border-white/20 bg-white dark:bg-[#12121e] shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                <div className="flex h-[116px] w-[94px] flex-col items-center justify-center rounded-[25px] bg-[#fffaf8] dark:bg-[#FF4800]/10">
                   <p className="text-[7px] font-bold uppercase tracking-widest text-[#94a3b8]">
                     COMMERCE OS
                   </p>
-                  <p className="mt-2 text-xl font-bold text-[#0f172a]">
+                  <p className="mt-2 text-xl font-bold text-black dark:text-white">
                     ₹42.8K
                   </p>
                   <div className="mt-2 flex items-center gap-1 text-[7px] font-bold text-green-600">
@@ -841,27 +840,18 @@ export default function CommerceOSPage() {
       </section>
 
       {/* COMMERCE MODULES */}
-      <section className="hidden bg-white pt-8 py-16 md:pt-10 md:py-20">
+      <section className="hidden bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-10 md:mb-12">
             <span className="mb-4 block px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FF4800]">
               COMMERCE MODULES
             </span>
 
-            <h2
-              className="font-bold heading-gradient"
-              style={{
-                fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-1.5px",
-                overflowWrap: "break-word",
-                wordBreak: "break-word",
-              }}
-            >
+            <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
               Everything Your Online Business Needs
             </h2>
 
-            <p className="mt-4 max-w-5xl text-base leading-relaxed text-[#64748B] md:text-lg">
+            <p className="mt-4 max-w-5xl text-base leading-relaxed text-[#64748B] dark:text-slate-400 md:text-lg">
               Seven integrated modules power the entire Straveda Commerce OS —
               from storefront to shipment.
             </p>
@@ -888,7 +878,7 @@ export default function CommerceOSPage() {
                               className={`relative z-10 flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all duration-500 ${
                                 isCompleted
                                   ? "border-green-600 bg-green-600 text-white"
-                                  : "border-[#FF4800]/40 bg-white text-transparent"
+                                  : "border-[#FF4800]/40 bg-white dark:bg-[#12121e] text-transparent"
                               }`}
                             >
                               <Check
@@ -914,7 +904,7 @@ export default function CommerceOSPage() {
                           </div>
 
                           <div className="min-w-0 flex-1 pb-1">
-                            <h3 className="text-lg font-bold leading-tight text-black md:text-xl">
+                            <h3 className="text-lg font-bold leading-tight text-black dark:text-white md:text-xl">
                               {module.title}
                             </h3>
 
@@ -922,7 +912,7 @@ export default function CommerceOSPage() {
                               {module.points.map((point) => (
                                 <li
                                   key={point}
-                                  className="text-[14px] leading-relaxed text-[#64748B]"
+                                  className="text-[14px] leading-relaxed text-[#64748B] dark:text-slate-400"
                                 >
                                   {point}
                                 </li>
@@ -932,7 +922,7 @@ export default function CommerceOSPage() {
                         </div>
 
                         {!isLastInColumn && (
-                          <div className="h-px w-full bg-[#E2E8F0]/70" />
+                          <div className="h-px w-full bg-[#E2E8F0]/70 dark:bg-white/10" />
                         )}
                       </div>
                     );
@@ -948,53 +938,24 @@ export default function CommerceOSPage() {
           04 — COMPLETE BUSINESS WORKFLOW
       ========================================================= */}
 
-      <section className="bg-white py-16 md:py-20">
-        <div className="-mt-10 mx-auto max-w-7xl">
+      <section className="bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
+        <div className="-mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <SectionLabel>
               Connected Journey
             </SectionLabel>
 
-            <h2
-              className="font-bold heading-gradient"
-              style={{
-                fontSize: "clamp(1.6rem, 3.5vw, 3rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-1.5px",
-                overflowWrap: "break-word",
-                wordBreak: "break-word",
-              }}
-            >
+            <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
               Complete Business Workflow
             </h2>
 
-            <p className="mt-6 max-w-none whitespace-nowrap max-md:whitespace-normal text-base leading-7 text-[#64748b]">
+            <p className="mt-6 max-w-none lg:whitespace-nowrap text-base leading-7 text-neutral-600 dark:text-neutral-400">
               Every customer journey — from first click to retention — flows through one connected Straveda Commerce OS pipeline.
             </p>
           </div>
 
-          <div className="mt-14 rounded-[28px] border border-[#0f172a]/10 bg-white p-5 shadow-[0_20px_70px_rgba(15,23,42,0.06)] md:p-8">
-            <div className="flex flex-col justify-between gap-5 border-b border-[#0f172a]/10 pb-6 md:flex-row md:items-center">
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
-                  One Connected Journey
-                </p>
-                <h3 className="mt-2 text-lg font-semibold">
-                  From first click to retention
-                </h3>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <span className="text-[9px] font-bold text-[#64748b]">
-                  14 STEPS
-                </span>
-                <div className="h-1.5 w-28 rounded-full bg-[#e2e8f0]">
-                  <div className="h-1.5 w-3/4 rounded-full bg-[#FF4800]" />
-                </div>
-              </div>
-            </div>
-
-            <div className="workflow-stepper mt-14">
+          <div className="mt-14">
+            <div className="workflow-stepper">
               <div
                 className="workflow-path"
                 aria-hidden="true"
@@ -1043,7 +1004,7 @@ export default function CommerceOSPage() {
                       </div>
 
                       <div className="workflow-step-content">
-                        <p className="text-sm font-semibold text-[#0f172a]">
+                        <p className="text-sm font-semibold text-black dark:text-white">
                           {title}
                         </p>
                         <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
@@ -1084,7 +1045,7 @@ export default function CommerceOSPage() {
                       </div>
 
                       <div className="workflow-step-content">
-                        <p className="text-sm font-semibold text-[#0f172a]">
+                        <p className="text-sm font-semibold text-black dark:text-white">
                           {title}
                         </p>
                         <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
@@ -1161,7 +1122,7 @@ export default function CommerceOSPage() {
               .workflow-step:hover {
                 transform: translateY(-8px);
                 border-color: #ff4800;
-                background: #fffaf8;
+                background: #F6F1E7;
                 box-shadow: 0 18px 40px rgba(255, 72, 0, 0.14);
               }
               .workflow-active {
@@ -1215,6 +1176,26 @@ export default function CommerceOSPage() {
                 background: #ff4800;
                 color: white;
               }
+              :global(.dark) .workflow-step {
+                background: rgba(18, 18, 30, 0.95);
+                border-color: rgba(255, 72, 0, 0.25);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+              }
+              :global(.dark) .workflow-step:hover,
+              :global(.dark) .workflow-active {
+                background: #1f1812;
+                box-shadow: 0 18px 40px rgba(255, 72, 0, 0.2);
+              }
+              :global(.dark) .workflow-step-number,
+              :global(.dark) .workflow-step-icon {
+                background: rgba(255, 72, 0, 0.14);
+              }
+              :global(.dark) .workflow-step:hover .workflow-step-number,
+              :global(.dark) .workflow-active .workflow-step-number,
+              :global(.dark) .workflow-step:hover .workflow-step-icon,
+              :global(.dark) .workflow-active .workflow-step-icon {
+                background: #ff4800;
+              }
               .workflow-step-content {
                 text-align: center;
                 max-width: 120px;
@@ -1253,13 +1234,6 @@ export default function CommerceOSPage() {
                 }
               }
             `}</style>
-
-            <div className="mt-7 flex justify-end">
-              <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.18em] text-[#FF4800]">
-                <RefreshCw size={12} />
-                Continues +
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -1268,126 +1242,97 @@ export default function CommerceOSPage() {
           05 — STRAVEDA ADVANTAGE
       ========================================================= */}
 
-      <section className="bg-white py-16 md:py-20">
-        <div className="-mt-10 mx-auto max-w-7xl">
+      <section className="bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
+        <div className="-mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <SectionLabel>
                The Straveda Advantage
             </SectionLabel>
 
-            <h2
-              className="font-bold heading-gradient mx-auto"
-              style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
-            >
+            <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto">
               Why Business Choose Straveda
             </h2>
-            <p className="mt-6 text-base leading-7 text-[#64748b] whitespace-nowrap max-md:whitespace-normal">
+            <p className="mt-6 text-base leading-7 text-neutral-600 dark:text-neutral-400 lg:whitespace-nowrap">
               A side-by-side reality check on what changes when you move from stitched-together tools to one unified Commerce OS.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:max-w-6xl lg:mx-auto items-stretch">
-            {/* CARD 1 — THE OLD WAY (Light Gray Theme) */}
-            <div className="relative flex flex-col">
-              <div className="relative flex items-end justify-between h-11 sm:h-12">
-                <div className="flex items-center gap-2 sm:gap-2.5 pb-1.5 pl-1 sm:pl-2 flex-nowrap min-w-0">
-                  <h3 className="text-base sm:text-lg lg:text-[19px] font-semibold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0">
-                    Traditional eCommerce
-                  </h3>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-white/10 text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap shrink-0">
-                    The Old Way
-                  </span>
-                </div>
+          <div className="mt-12 grid items-stretch gap-5 lg:mx-auto lg:max-w-4xl lg:grid-cols-2">
+            {/* THE OLD WAY — light card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col rounded-3xl bg-[#EADFCB] p-6 text-[#14110c] sm:p-7"
+            >
+              <Layers size={28} strokeWidth={1.5} className="text-[#14110c]/80" />
 
-                <div className="relative flex items-end -mb-[1px] shrink-0">
-                  <svg
-                    className="w-5 h-5 fill-current text-[#f4f5f8] dark:text-[#13141c] -mr-[1px]"
-                    viewBox="0 0 20 20"
-                    aria-hidden="true"
-                  >
-                    <path d="M0 20 Q20 20 20 0 L20 20 Z" />
-                  </svg>
-                  <div className="w-20 sm:w-24 md:w-28 h-11 sm:h-12 rounded-tl-2xl rounded-tr-3xl bg-[#f4f5f8] dark:bg-[#13141c]" />
-                </div>
-              </div>
+              <h3 className="mt-5 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
+                Traditional
+                <br />
+                eCommerce
+              </h3>
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#14110c]/65">
+                The old way of running an online store: many separate tools that never quite work together.
+              </p>
 
-              <div className="relative flex-1 flex flex-col justify-between overflow-hidden rounded-tl-3xl rounded-b-3xl bg-[#f4f5f8] dark:bg-[#13141c] border border-slate-200/90 dark:border-slate-800/80 p-5 sm:p-6 shadow-sm">
-                <div className="relative z-10">
-                  <div className="space-y-3">
-                    {oldWay.map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-3 text-sm text-[#64748b] dark:text-[#94a3b8]"
-                      >
-                        <span className="text-[#94a3b8] dark:text-[#64748b] text-base leading-none select-none w-3 text-center">
-                          ×
-                        </span>
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <ul className="mt-5 flex-1 space-y-2">
+                {oldWay.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-[#14110c]/75">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#14110c]/10 text-xs leading-none">
+                      ×
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
-                <div className="relative z-10 mt-6 border-t border-slate-200/80 dark:border-slate-800 pt-3.5">
-                  <p className="text-xs font-semibold text-[#94a3b8] dark:text-[#64748b]">
-                    6+ tools · fragmented ops
-                  </p>
-                </div>
-              </div>
-            </div>
+              <span className="mt-6 inline-flex w-fit items-center rounded-full bg-[#14110c] px-5 py-2.5 text-[13px] font-semibold text-[#F6F1E7]">
+                6+ tools · fragmented ops
+              </span>
+            </motion.div>
 
-            {/* CARD 2 — THE STRAVEDA WAY (Light Orange Theme) */}
-            <div className="relative flex flex-col">
-              <div className="relative flex items-end justify-between h-11 sm:h-12">
-                <div className="flex items-center gap-2 sm:gap-2.5 pb-1.5 pl-1 sm:pl-2 flex-nowrap min-w-0">
-                  <h3 className="text-base sm:text-lg lg:text-[19px] font-semibold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0">
-                    Straveda Commerce Platform
-                  </h3>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-[#FF4800]/30 bg-[#FF4800]/10 text-[11px] sm:text-xs font-medium text-[#FF4800] whitespace-nowrap shrink-0">
-                    The Straveda Way
-                  </span>
-                </div>
+            {/* THE STRAVEDA WAY — dark card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col rounded-3xl bg-[#14110c] p-6 text-[#F6F1E7] dark:bg-[#1a1a28] dark:ring-1 dark:ring-white/10 sm:p-7"
+            >
+              <Sparkles size={28} strokeWidth={1.5} className="text-[#FF4800]" />
 
-                <div className="relative flex items-end -mb-[1px] shrink-0">
-                  <svg
-                    className="w-5 h-5 fill-current text-[#fff3eb] dark:text-[#1e120b] -mr-[1px]"
-                    viewBox="0 0 20 20"
-                    aria-hidden="true"
-                  >
-                    <path d="M0 20 Q20 20 20 0 L20 20 Z" />
-                  </svg>
-                  <div className="w-20 sm:w-24 md:w-28 h-11 sm:h-12 rounded-tl-2xl rounded-tr-3xl bg-[#fff3eb] dark:bg-[#1e120b]" />
-                </div>
-              </div>
+              <h3 className="mt-5 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
+                Straveda
+                <br />
+                Commerce Platform
+              </h3>
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#F6F1E7]/65">
+                One unified Commerce OS that runs your store, your operations and your growth from a single dashboard.
+              </p>
 
-              <div className="relative flex-1 flex flex-col justify-between overflow-hidden rounded-tl-3xl rounded-b-3xl bg-[#fff3eb] dark:bg-[#1e120b] border border-[#FF4800]/25 dark:border-[#FF4800]/30 p-5 sm:p-6 shadow-sm">
-                <div className="relative z-10">
-                  <div className="space-y-3">
-                    {stravedaWay.map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-3 text-sm text-[#1e293b] dark:text-[#f1f5f9]"
-                      >
-                        <Check
-                          size={15}
-                          className="shrink-0 text-[#FF4800]"
-                        />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <ul className="mt-5 flex-1 space-y-2">
+                {stravedaWay.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-[#F6F1E7]/90">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FF4800] text-white">
+                      <Check size={12} strokeWidth={3} />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
-                <div className="relative z-10 mt-6 border-t border-[#FF4800]/20 dark:border-[#FF4800]/25 pt-3.5">
-                  <p className="text-xs font-bold text-[#FF4800]">
-                    1 platform · unified commerce OS
-                  </p>
-                </div>
-              </div>
-            </div>
+              <Link
+                href="/contact"
+                className="mt-6 inline-flex w-fit items-center rounded-full bg-[#F6F1E7] px-5 py-2.5 text-[13px] font-semibold text-[#14110c] transition-colors hover:bg-[#FF4800] hover:text-white"
+              >
+                1 platform · Get started
+              </Link>
+            </motion.div>
           </div>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
             <span>One Platform.</span>
             <span className="text-[#FF4800]">•</span>
             <span>One Dashboard.</span>
@@ -1401,101 +1346,51 @@ export default function CommerceOSPage() {
           06 — FINAL CTA (ANIMATED WITH FRAMER MOTION)
       ========================================================= */}
 
-      <section className="relative overflow-hidden bg-white py-16 md:py-20">
-
-        {/* Ambient Brand Glow */}
-        <div 
-          aria-hidden="true" 
-          className="pointer-events-none absolute top-10 right-1/4 w-96 h-96 bg-[#FF4800]/10 rounded-full blur-3xl animate-pulse" 
-        />
+      <section className="relative overflow-hidden bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
 
         {/* EXACT ORIGINAL CONTAINER — No padding or position changes */}
-        <div className="-mt-10 mx-auto max-w-7xl">
+        <div className="-mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           <SectionLabel>
             Your Commerce Partner
           </SectionLabel>
 
-          <h2
-            className="font-bold heading-gradient mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
-          >
+          <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto">
             Premium eCommerce, Built to Scale
           </h2>
 
-          {/* Features Grid: 01-05 on Left, 06-10 on Right */}
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-            
-            {/* Left Column (01 - 05) */}
-            <div className="space-y-4">
-              {finalFeatures.slice(0, 5).map((feature, idx) => {
-                const number = String(idx + 1).padStart(2, '0');
-                const rawDesc = featureDescriptions[feature] || 'premium commerce solution built around your business';
-                const cleanDesc = rawDesc.replace(/^\(/, '').replace(/\)$/, '');
+          {/* Features: open, divider-led list (no boxes) */}
+          <div className="mt-10 grid grid-cols-1 gap-x-16 md:grid-cols-2">
+            {finalFeatures.slice(0, 10).map((feature, idx) => {
+              const number = String(idx + 1).padStart(2, '0');
+              const rawDesc = featureDescriptions[feature] || 'premium commerce solution built around your business';
+              const cleanDesc = rawDesc.replace(/^\(/, '').replace(/\)$/, '');
 
-                return (
-                  <motion.div
-                    key={feature}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-30px' }}
-                    transition={{ duration: 0.35, delay: idx * 0.08 }}
-                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className="group relative flex items-start gap-4 p-5 rounded-2xl bg-slate-50/70 border border-slate-200/70 hover:bg-white hover:border-[#FF4800]/50 hover:shadow-xl hover:shadow-[#FF4800]/10 transition-colors cursor-default"
-                  >
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white border border-slate-200/80 text-slate-600 font-mono text-xs font-bold shrink-0 group-hover:bg-[#FF4800] group-hover:text-white group-hover:border-[#FF4800] group-hover:scale-105 transition-all duration-200">
-                      {number}
-                    </span>
+              return (
+                <motion.div
+                  key={feature}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.5, delay: (idx % 5) * 0.07 }}
+                  className="group flex cursor-default items-start gap-6 py-5"
+                >
+                  <span className="w-[4.25rem] shrink-0 text-[2.75rem] font-bold leading-[0.9] tracking-tighter text-[#FF4800]/25 transition-colors duration-300 group-hover:text-[#FF4800]">
+                    {number}
+                  </span>
 
-                    <div className="flex-1">
-                      {/* Heading locked to Black on hover */}
-                      <h3 className="text-base font-semibold tracking-tight text-black group-hover:text-black">
-                        {feature}
-                      </h3>
-                      <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-                        {cleanDesc}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold tracking-tight text-black dark:text-white sm:text-xl">
+                      {feature}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                      {cleanDesc}
+                    </p>
+                  </div>
 
-            {/* Right Column (06 - 10) */}
-            <div className="space-y-4">
-              {finalFeatures.slice(5, 10).map((feature, idx) => {
-                const number = String(idx + 6).padStart(2, '0');
-                const rawDesc = featureDescriptions[feature] || 'premium commerce solution built around your business';
-                const cleanDesc = rawDesc.replace(/^\(/, '').replace(/\)$/, '');
-
-                return (
-                  <motion.div
-                    key={feature}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-30px' }}
-                    transition={{ duration: 0.35, delay: idx * 0.08 }}
-                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className="group relative flex items-start gap-4 p-5 rounded-2xl bg-slate-50/70 border border-slate-200/70 hover:bg-white hover:border-[#FF4800]/50 hover:shadow-xl hover:shadow-[#FF4800]/10 transition-colors cursor-default"
-                  >
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white border border-slate-200/80 text-slate-600 font-mono text-xs font-bold shrink-0 group-hover:bg-[#FF4800] group-hover:text-white group-hover:border-[#FF4800] group-hover:scale-105 transition-all duration-200">
-                      {number}
-                    </span>
-
-                    <div className="flex-1">
-                      {/* Heading locked to Black on hover */}
-                      <h3 className="text-base font-semibold tracking-tight text-black group-hover:text-black">
-                        {feature}
-                      </h3>
-                      <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-                        {cleanDesc}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Bottom CTA Banner with Motion Entrance */}

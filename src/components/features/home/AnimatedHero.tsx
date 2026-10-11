@@ -1,10 +1,10 @@
 'use client';
 
-import { useRef, useSyncExternalStore } from 'react';
+import React, { useRef, useSyncExternalStore } from 'react';
+import CodeNetworkBackground from './CodeNetworkBackground';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, TrendingDown, Zap, CheckCircle, Bot } from 'lucide-react';
+import { ArrowUpRight, ArrowDown } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import DashboardMockup from './DashboardMockup';
 
 function usePrefetchContact() {
   const done = useRef(false);
@@ -15,141 +15,30 @@ function usePrefetchContact() {
   };
 }
 
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-function NodeCard({
-  pos,
-  delay,
-  floatAnim,
-  floatDuration = 4.5,
-  isDark,
-  emoji,
-  label,
-  sub,
-  status,
-}: {
-  pos: { left: number; top: number };
-  delay: number;
-  floatAnim: string;
-  floatDuration?: number;
-  isDark: boolean;
-  emoji: string;
-  label: string;
-  sub: string;
-  status: 'success' | 'active';
-}) {
-  const statusColor = status === 'success' ? '#4ade80' : '#FF4800';
-  const statusLabel = status === 'success' ? 'Complete' : 'Running';
-  const bg = isDark ? 'rgba(15,15,28,0.88)' : 'rgba(255,255,255,0.88)';
-  const bdr = isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.95)';
-  const shdw = isDark ? '0 8px 32px rgba(0,0,0,0.45)' : '0 4px 24px rgba(0,0,0,0.10)';
-  const txt = isDark ? '#f0f0f5' : '#0f172a';
-  const muted = isDark ? '#94a3b8' : '#64748b';
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+const stats = [
+  { value: '−50%', label: 'Manual work in 25 days' },
+  { value: '3–5×', label: 'Operational efficiency' },
+  { value: '100%', label: 'Code ownership' },
+];
+
+/** One headline line, revealed from behind a mask */
+function MaskedLine({ children, delay, className }: { children: React.ReactNode; delay: number; className?: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      transition={{ duration: 0.55, delay }}
-      style={{ position: 'absolute', left: `${pos.left}px`, top: `${pos.top}px`, zIndex: 8 }}
-    >
-      <div style={{ animation: `${floatAnim} ${floatDuration}s ease-in-out ${delay + 0.4}s infinite` }}>
-        <div style={{
-          width: '148px', borderRadius: '16px',
-          background: bg,
-          backdropFilter: 'blur(24px) saturate(1.8)',
-          WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
-          border: bdr, boxShadow: shdw,
-          padding: '11px 13px',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px' }}>
-            <span style={{ fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>{emoji}</span>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: txt, lineHeight: 1.2 }}>{label}</span>
-          </div>
-          <p style={{ fontSize: '10px', color: muted, margin: '0 0 6px 0', lineHeight: 1.3 }}>{sub}</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <div style={{
-              width: '6px', height: '6px', borderRadius: '50%',
-              background: statusColor, boxShadow: `0 0 5px ${statusColor}`,
-              flexShrink: 0,
-              animation: status === 'active' ? 'pulse-dot 1.8s ease-in-out infinite' : undefined,
-            }} />
-            <span style={{ fontSize: '9.5px', fontWeight: 600, color: statusColor }}>{statusLabel}</span>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function HeroDashboardVisual({ isDark, scale = 1 }: { isDark: boolean; scale?: number }) {
-  const W = 830;
-  const H = 640;
-  return (
-    <div style={{ position: 'relative', width: `${W * scale}px`, height: `${H * scale}px`, flexShrink: 0 }}>
-      <div style={{ position: 'absolute', left: 0, top: 0, width: `${W}px`, height: `${H}px`, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
-
-        {/* ── Center: Dashboard mockup (scaled up independently so it can grow without inflating the floating cards) ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          style={{ position: 'absolute', left: '15px', top: '55px', zIndex: 10, width: '510px' }}
-        >
-          <div style={{ transform: 'scale(1.5)', transformOrigin: 'top left' }}>
-            <div style={{
-              filter: isDark ? 'drop-shadow(0px 20px 40px rgba(0,0,0,0.5))' : 'drop-shadow(0px 20px 40px rgba(0,0,0,0.10))',
-              animation: 'wf-float-a 6s ease-in-out infinite',
-            }}>
-              <DashboardMockup isDark={isDark} />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* ── Side Image 1: Cost Saved (Top Left) ── */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.7 }}
-          style={{ position: 'absolute', left: '0px', top: '0px', zIndex: 12, width: '150px' }}
-        >
-          <div style={{
-            filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
-            animation: 'wf-float-b 5.2s ease-in-out 0.4s infinite',
-          }}>
-            <img
-              src="/images/cost_saved_card.png"
-              alt="Cost Saved 60%"
-              style={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: '14px',
-                border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
-              }}
-            />
-          </div>
-        </motion.div>
-
-        {/* ── Side Image 2: Time to Live (Bottom Right) ── */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.9 }}
-          style={{ position: 'absolute', right: '25px', bottom: '0px', zIndex: 11, width: '150px' }}
-        >
-          <div style={{
-            filter: isDark ? 'drop-shadow(0px 15px 30px rgba(0,0,0,0.5))' : 'drop-shadow(0px 15px 30px rgba(0,0,0,0.06))',
-            animation: 'wf-float-a 4.8s ease-in-out 0.8s infinite',
-          }}>
-            <img
-              src="/images/time_to_live_card.png"
-              alt="Time To Live 30 Days"
-              style={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: '14px',
-                border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.06)',
-              }}
-            />
-          </div>
-        </motion.div>
-
-      </div>
-    </div>
+    <span className="block overflow-hidden pb-[0.08em]">
+      <motion.span
+        className={`block ${className ?? ''}`}
+        initial={{ y: '110%' }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1, delay, ease: EASE }}
+      >
+        {children}
+      </motion.span>
+    </span>
   );
 }
 
@@ -168,253 +57,153 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
   );
   const isDark = mounted && (resolvedTheme === 'dark' || theme === 'dark');
 
-  const cardBorder = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.07)';
-  const cardShadow = isDark ? '0 8px 28px rgba(0,0,0,0.55)' : '0 8px 24px rgba(0,0,0,0.09)';
-  const textPrimary = isDark ? '#f0f0f5' : '#0f172a';
-  const textMuted = isDark ? '#94a3b8' : '#64748b';
+  const bg = isDark ? '#0a0a14' : '#F6F1E7';
+  const textPrimary = isDark ? '#f5f2ea' : '#14110c';
+  const textMuted = isDark ? '#a29d92' : '#5b5546';
+  const line = isDark ? 'rgba(245,242,234,0.16)' : 'rgba(20,17,12,0.16)';
+  const lineStrong = isDark ? 'rgba(245,242,234,0.4)' : 'rgba(20,17,12,0.45)';
 
   return (
-    <section className="relative flex items-start xl:min-h-[100dvh] xl:items-center overflow-hidden">
+    <section
+      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-5 pb-32 pt-32 text-center"
+      style={{ background: bg }}
+    >
       <style>{`
-        @keyframes fcard-up    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
-        @keyframes fcard-down  { 0%,100%{transform:translateY(0)} 50%{transform:translateY( 9px)} }
-        @keyframes pulse-dot   { 0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:.9;transform:scale(1.4)} }
-        @keyframes wf-float-a  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-        @keyframes wf-float-b  { 0%,100%{transform:translateY(0)} 50%{transform:translateY( 7px)} }
-        @keyframes wf-flow     { 0%{stroke-dashoffset:0} 100%{stroke-dashoffset:-20} }
-        @keyframes hub-ring    { 0%,100%{box-shadow:0 8px 32px rgba(255,72,0,0.40),0 0 0 0 rgba(255,72,0,0.18)} 50%{box-shadow:0 12px 40px rgba(255,72,0,0.58),0 0 0 9px rgba(255,72,0,0)} }
+        @keyframes hero-dot { 0%,100%{opacity:.35;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
       `}</style>
 
-      {/* ── Spotlight background — directional radial gradient shading ── */}
-      <div aria-hidden="true" className="absolute inset-0" style={{ zIndex: 0 }}>
-        {/* Base colour */}
-        <div className="absolute inset-0" style={{
-          background: isDark ? '#06060c' : '#fdfcf9',
-        }} />
-        {/* Primary spotlight — strong orange glow from bottom-left */}
-        <div className="absolute inset-0" style={{
-          background: isDark
-            ? 'radial-gradient(ellipse 95% 85% at -2% 108%, rgba(255,72,0,0.55) 0%, rgba(180,50,0,0.28) 28%, rgba(30,10,0,0.18) 50%, transparent 70%)'
-            : 'radial-gradient(ellipse 95% 85% at -2% 108%, rgba(255,90,10,0.32) 0%, rgba(255,140,60,0.18) 28%, rgba(255,210,150,0.08) 52%, transparent 72%)',
-        }} />
-        {/* Secondary fill — warm halo around text area */}
-        <div className="absolute inset-0" style={{
-          background: isDark
-            ? 'radial-gradient(ellipse 60% 55% at 28% 72%, rgba(255,72,0,0.12) 0%, transparent 65%)'
-            : 'radial-gradient(ellipse 60% 55% at 28% 72%, rgba(255,120,40,0.10) 0%, transparent 65%)',
-        }} />
-        {/* Edge vignette — darkens corners away from spotlight */}
-        <div className="absolute inset-0" style={{
-          background: isDark
-            ? 'radial-gradient(ellipse 70% 80% at 75% 20%, rgba(0,0,0,0.55) 0%, transparent 60%)'
-            : 'radial-gradient(ellipse 70% 80% at 78% 15%, rgba(240,235,228,0.55) 0%, transparent 62%)',
-        }} />
+      {/* ── Background: beige paper + orange constellation that reveals code on hover ── */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <CodeNetworkBackground isDark={isDark} />
+        <div
+          className="absolute inset-0 opacity-[0.07] mix-blend-multiply dark:opacity-[0.1] dark:mix-blend-screen"
+          style={{ backgroundImage: GRAIN }}
+        />
       </div>
 
-      {/* ── Two-column layout ── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl pt-8 pb-10 md:pt-10 md:pb-12 xl:pt-12 xl:pb-14 grid grid-cols-1 xl:grid-cols-[0.85fr_1.25fr] gap-8 xl:gap-6 items-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center">
+        {/* Eyebrow */}
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          className="mb-8 inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.28em]"
+          style={{ color: textMuted }}
+        >
+          <span
+            className="h-1.5 w-1.5 rounded-full"
+            style={{ background: '#FF4800', animation: 'hero-dot 2.2s ease-in-out infinite' }}
+          />
+          Business automation experts
+        </motion.p>
 
-        {/* ─── LEFT: Text content ─────────────────────────── */}
-        <div className="flex flex-col text-center xl:text-left">
+        {/* Headline */}
+        <h1
+          className="font-bold"
+          style={{
+            fontSize: 'clamp(2.1rem, 5vw, 4.4rem)',
+            lineHeight: 1.04,
+            letterSpacing: '-0.04em',
+            color: textPrimary,
+          }}
+        >
+          <MaskedLine delay={0.2}>AI that eliminates work.</MaskedLine>
+          <MaskedLine delay={0.34} className="text-[#FF4800]">
+            Software that runs your operations.
+          </MaskedLine>
+        </h1>
 
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-start xl:justify-start mb-5"
-          >
-            <span
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold"
-              style={{
-                background: isDark ? 'rgba(255,72,0,0.15)' : 'rgba(255,72,0,0.09)',
-                border: '1px solid rgba(255,72,0,0.28)',
-                color: '#FF4800',
-              }}
-            >
-              <span
-                className="h-1.5 w-1.5 rounded-full shrink-0 text-left"
-                style={{ background: '#FF4800', animation: 'pulse-dot 2.5s ease-in-out infinite' }}
-              />
-              Business Automation Experts
-            </span>
-          </motion.div>
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.75, ease: EASE }}
+          className="mt-8 max-w-2xl text-balance text-base leading-relaxed sm:text-lg"
+          style={{ color: textMuted }}
+        >
+          We build AI-powered business systems and custom software for mid-market
+          companies in India, cutting manual work by 50% in 25 days.
+        </motion.p>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.1 }}
-            className="font-bold mb-5 text-left xl:max-w-[400px]"
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
+          className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+        >
+          <motion.button
+            type="button"
+            onClick={() => onNavigate('contact')}
+            onMouseEnter={prefetchContact}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            className="group inline-flex items-center gap-3 rounded-full py-2 pl-7 pr-2 text-[14px] font-semibold uppercase tracking-wider"
             style={{
-              fontSize: 'clamp(2rem, 5vw, 3.25rem)',
-              lineHeight: 1.1,
-              letterSpacing: '-1.5px',
-              color: textPrimary,
+              background: isDark ? '#f5f2ea' : '#14110c',
+              color: isDark ? '#14110c' : '#f5f2ea',
+              boxShadow: isDark ? '0 14px 40px rgba(245,242,234,0.1)' : '0 14px 40px rgba(20,17,12,0.25)',
             }}
           >
-            AI that eliminates work.
-            <br />
-            <span style={{ color: '#FF4800' }}>Software that runs your operations</span>
-          </motion.h1>
+            Book strategy call
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF4800] text-white transition-transform duration-300 group-hover:rotate-45">
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
+          </motion.button>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-left max-w-[480px] xl:max-w-[400px] text-[16px] leading-[1.8]"
-            style={{ color: textMuted }}
+          <button
+            type="button"
+            onClick={() => onNavigate('services')}
+            className="group inline-flex items-center gap-2 px-4 py-3 text-[14px] font-semibold uppercase tracking-wider"
+            style={{ color: textPrimary }}
           >
-            We build AI-powered business systems and custom software for mid-market companies in India cutting manual work by 50% in 25 days.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.38 }}
-            className="flex flex-col sm:flex-row sm:items=start gap-3 mt-7"
-          >
-            <motion.button
-              type="button"
-              onClick={() => onNavigate('contact')}
-              onMouseEnter={prefetchContact}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              className="w-full sm:w-auto inline-flex  justify-center gap-2 rounded-full px-8 py-[15px] text-[15px] font-bold text-white"
-              style={{ background: '#FF4800', boxShadow: '0 10px 32px rgba(255,72,0,0.42)' }}
-            >
-              Book Strategy Call <ArrowUpRight className="h-4 w-4" />
-            </motion.button>
-
-            <motion.button
-              type="button"
-              onClick={() => onNavigate('services')}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border px-8 py-[14px] text-[14px] font-medium transition-colors duration-200"
-              style={{
-                background: 'transparent',
-                borderColor: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(15,23,42,0.2)',
-                color: isDark ? 'rgba(255,255,255,0.75)' : '#334155',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-            >
-              See What We Build <ArrowUpRight className="h-4 w-4" />
-            </motion.button>
-          </motion.div>
-
-          {/* Trust signals */}
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.58 }}
-            className="mt-6 flex flex-wrap items-center justify-start  gap-x-5 gap-y-2"
-          >
-            {['Fixed price quote', 'Weekly delivery', 'Full code ownership'].map(item => (
-              <span key={item} className="flex items-center gap-1.5 text-[12px] font-medium" style={{ color: textMuted }}>
-                <CheckCircle className="h-3.5 w-3.5 shrink-0" style={{ color: '#FF4800' }} />
-                {item}
-              </span>
-            ))}
-          </motion.div>
-
-          {/* Metric pills — in-flow below the two-column (xl) breakpoint */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="xl:hidden mt-8 flex flex-wrap items-center justify-center gap-3"
-          >
-            {[
-              { icon: TrendingDown, value: '−50%', label: 'Manual Work' },
-              { icon: Zap, value: '3–5×', label: 'Efficiency' },
-            ].map(({ icon: Icon, value, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 rounded-full px-4 py-2.5 backdrop-blur-sm"
-                style={{ background: isDark ? 'rgba(12,12,24,0.9)' : 'rgba(255,255,255,0.95)', border: `1px solid ${cardBorder}`, boxShadow: cardShadow }}
-              >
-                <Icon className="h-3.5 w-3.5" style={{ color: '#FF4800' }} />
-                <span className="text-[13px] font-black" style={{ color: isDark ? '#f0f0f5' : '#0f172a', letterSpacing: '-0.5px' }}>{value}</span>
-                <span className="text-[11px]" style={{ color: textMuted }}>{label}</span>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Dashboard visual — scaled-down, in-flow version for below the two-column (xl) breakpoint */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.65 }}
-            className="xl:hidden mt-8 flex justify-center"
-          >
-            <HeroDashboardVisual isDark={isDark} scale={0.4} />
-          </motion.div>
-        </div>
-
-        {/* ─── RIGHT: Flat floating UI cards ─────────── */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative hidden xl:flex items-center justify-center w-full min-w-0 xl:mt-12"
-          style={{ minHeight: '680px' }}
-        >
-          <HeroDashboardVisual isDark={isDark} />
+            <span className="border-b border-current pb-0.5 transition-opacity group-hover:opacity-60">
+              See what we build
+            </span>
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </button>
         </motion.div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div
+      {/* Proof strip */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
+        className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-5xl px-5 pb-10"
+      >
+        <div className="grid grid-cols-3 border-t pt-5" style={{ borderColor: lineStrong }}>
+          {stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={`px-2 text-center sm:px-6 ${i > 0 ? 'border-l' : ''}`}
+              style={{ borderColor: line }}
+            >
+              <div className="text-xl font-bold tracking-tight sm:text-3xl" style={{ color: textPrimary }}>
+                {s.value}
+              </div>
+              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] sm:text-[11px]" style={{ color: textMuted }}>
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1.5 }}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
-        style={{
-          zIndex: 5,
-          background: `linear-gradient(to bottom, transparent, ${isDark ? '#06060c' : '#fdfcf9'})`,
-        }}
-      />
-
-      {/* Scroll indicator */}
-      <motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.6, delay: 1.2 }}
-  className="hidden xl:flex absolute bottom-2 left-1/2 z-10 -translate-x-1/2 flex-col items-center"
->
-  <motion.div
-    animate={{ y: [0, 8, 0] }}
-    transition={{
-      duration: 2,
-      repeat: Infinity,
-      ease: 'easeInOut',
-    }}
-    className="flex flex-col items-center text-center"
-  >
-    <span
-      className="text-[11px] uppercase tracking-widest"
-      style={{ color: '#94a3b8' }}
-    >
-      Scroll
-    </span>
-
-    <div
-      className="mt-1 flex h-8 w-5 items-start justify-center rounded-full pt-1.5"
-      style={{
-        border: `1.5px solid ${
-          isDark
-            ? 'rgba(255,255,255,0.2)'
-            : 'rgba(43,35,88,0.25)'
-        }`,
-      }}
-    >
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="h-2 w-1 rounded-full"
-        style={{ background: '#FF4800' }}
-      />
-    </div>
-  </motion.div>
-</motion.div>
+        className="absolute bottom-40 left-8 z-10 hidden items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.25em] xl:flex"
+        style={{ color: textMuted, writingMode: 'vertical-rl' }}
+      >
+        Scroll
+        <motion.span animate={{ y: [0, 6, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}>
+          <ArrowDown className="h-3.5 w-3.5" />
+        </motion.span>
+      </motion.div>
     </section>
   );
 }

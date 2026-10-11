@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export default function ClientsSection() {
   return (
-    <section className="relative w-full overflow-hidden bg-white py-12 md:py-16 dark:bg-[#0a0a14]">
+    <section className="relative w-full overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       {/* Heading */}
       <div className="relative z-40 mx-auto max-w-7xl px-4 text-center">
         {/* Small Label */}
