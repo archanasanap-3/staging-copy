@@ -67,7 +67,7 @@ export default function PageHeader({
         )}
 
         <h1
-          className="heading-gradient font-normal"
+          className="heading-gradient font-bold"
           style={{
             fontSize: 'clamp(2rem, 4vw, 3rem)',
             lineHeight: 1.0,

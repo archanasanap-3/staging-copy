@@ -76,7 +76,7 @@ export default function Footer() {
             animate={{ y: [0, -5, 0], opacity: [0.8, 1, 0.8] }}
             transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
             className="text-[20vw] font-bold uppercase tracking-tighter"
-            style={{ fontFamily: 'var(--font-geist-sans), system-ui, sans-serif', lineHeight: '0.6', marginBottom: '20px' }}
+            style={{ fontFamily: 'var(--font-plus-jakarta-sans), "Plus Jakarta Sans", system-ui, sans-serif', lineHeight: '0.6', marginBottom: '20px' }}
           >
             <span className="relative inline-block text-black/[0.04] dark:text-white/[0.08] dark:drop-shadow-[0_0_15px_rgba(255,72,0,0.15)]">
               Straveda
@@ -87,7 +87,7 @@ export default function Footer() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 flex justify-center">
+      <div className="relative z-10 max-w-7xl mx-auto flex justify-center">
 
         {/* MOBILE */}
         <div className="flex flex-col items-center text-center md:hidden pb-2">

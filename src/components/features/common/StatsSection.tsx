@@ -131,7 +131,7 @@ export default function StatsSection() {
         <div className="absolute bottom-1/4 -left-24 w-[400px] h-[400px] bg-blue-500/5 blur-[120px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex justify-start">
 
           {/* CONTENT */}
@@ -144,21 +144,7 @@ export default function StatsSection() {
             >
               {/* Heading Section */}
               <div className="mb-12">
-              {/* Top Tag */}
-<motion.div
-  initial={{ opacity: 0, x: -10 }}
-  animate={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.8, delay: 0.2 }}
-  className="mb-8"
->
-  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF4800]">
-    Operations Reimagined
-  </span>
-</motion.div>
-
                 <h6 className="text-[#1a1a2e] dark:text-white text-3xl md:text-5xl font-bold uppercase leading-[1.05] tracking-tighter mb-10"></h6>
-
-                
               </div>
 
               {/* Body Content */}

@@ -66,7 +66,7 @@ export default function PrivacyHero({ effectiveDate, lastUpdated, readingTime, v
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease }}
-          className="heading-gradient font-normal"
+          className="heading-gradient font-bold"
           style={{ fontSize: 'clamp(2.5rem, 6vw, 4.25rem)', lineHeight: 1.0, letterSpacing: '-2px' }}
         >
           Privacy Policy

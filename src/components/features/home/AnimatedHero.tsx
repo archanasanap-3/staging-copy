@@ -212,7 +212,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
       </div>
 
       {/* ── Two-column layout ── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-10 xl:pb-35 md:pt-10 md:pb-12 grid grid-cols-1 xl:grid-cols-[0.85fr_1.25fr] gap-8 xl:gap-6 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl pt-8 pb-10 md:pt-10 md:pb-12 xl:pt-12 xl:pb-14 grid grid-cols-1 xl:grid-cols-[0.85fr_1.25fr] gap-8 xl:gap-6 items-center">
 
         {/* ─── LEFT: Text content ─────────────────────────── */}
         <div className="flex flex-col text-center xl:text-left">

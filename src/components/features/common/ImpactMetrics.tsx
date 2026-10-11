@@ -238,7 +238,7 @@ export default function ImpactMetrics() {
         }}
       />
 
-      <div className="relative mx-auto w-full max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}

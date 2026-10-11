@@ -2,8 +2,11 @@
 'use client';
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence, animate, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, animate, useMotionValueEvent, useMotionValue } from 'framer-motion';
+import { useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from 'next-themes';
 import {
   Star,
@@ -15,7 +18,18 @@ import {
   Globe,
   Plus,
   Users,
+  Zap,
+  Code,
+  Cpu,
 } from 'lucide-react';
+import {
+  BrainCircuit,
+  Settings,
+  Database,
+  Workflow,
+  Code2,
+  ShieldCheck,
+} from "lucide-react";
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SandesaSection from '@/components/features/home/SandesaSection';
@@ -55,211 +69,359 @@ const bentoItems: { title: string; description: string; size: 'large' | 'normal'
   { title: "Senior Execution", description: "We cap engagements each quarter so we can ship fast and stay accountable. You get senior attention on every build not a deck from partners and delivery from juniors.", size: "normal", icon: Users },
 ];
 
+// ─── Interactive Services (Section 2) ─────────────────────────────────────────
 
-// ─── Services Data ────────────────────────────────────────────────────────────
-
-interface ServiceItem {
+interface ServiceDetail {
+  number: string;
   badge: string;
   title: string;
-  bullets: string[];
-  metric?: string;
+  description: string;
   ctaLabel: string;
-  ctaDesc: string;
-  page: string;
+  route: string;
+  image: string;
 }
 
-const services: ServiceItem[] = [
+const servicesData: ServiceDetail[] = [
   {
-    badge: 'Automation',
+    number: '01',
+    badge: 'AUTOMATION',
     title: 'AI & Business Automation',
-    bullets: [
-      'WhatsApp flows that qualify leads and drive conversions',
-      'Behavior Triggered email sequences for engagement and retention',
-      'AI agents handling tier 1 customer support',
-      'Workflow automation reducing manual operational load',
-    ],
-    metric: '',
-    ctaLabel: 'See automation',
-    ctaDesc: 'Book a free strategy call',
-    page: 'automation',
+    description:
+      'WhatsApp flows, behavior-triggered email sequences, and AI agents that remove 30–60% of manual operations within the first 90 days.',
+    ctaLabel: 'Explore AI & Automation',
+    route: 'automation',
+    image: '/images/services/automation.jpg',
   },
   {
-    badge: 'Software',
+    number: '02',
+    badge: 'SOFTWARE',
     title: 'Custom Software & Systems',
-    bullets: [
-      'AI powered CRMs designed for real team adoption',
-      'Real time dashboards replacing fragmented monitoring tools',
-      'Internal systems built around your workflows (not rigid SaaS tools)',
-      'Centralized data systems for better decision making',
-    ],
-    ctaLabel: 'Explore custom',
-    ctaDesc: 'Built around your workflow',
-    page: 'custom-software',
+    description:
+      'AI-powered CRMs, real-time dashboards, and internal tools built around your exact workflow—free from rigid SaaS constraints.',
+    ctaLabel: 'Explore Custom Software',
+    route: 'custom-software',
+    image: '/images/services/custom-software.jpg',
   },
   {
-    badge: 'Strategy',
+    number: '03',
+    badge: 'STRATEGY',
     title: 'AI Strategy & Integration',
-    bullets: [
-      'Deployment of GPT Class models and advanced AI APIs',
-      'Custom LLM integration tailored to business workflows',
-      'End To End AI architecture, training, and deployment',
-      'Seamless integration into your existing tech stack',
-    ],
-    ctaLabel: 'Talk AI strategy',
-    ctaDesc: 'Embedded in your operations',
-    page: 'ai-strategy',
+    description:
+      'GPT-class models, custom fine-tuned LLMs, and enterprise RAG systems integrated directly into your operations stack for measurable ROI.',
+    ctaLabel: 'Explore AI Strategy',
+    route: 'ai-strategy',
+    image: '/images/services/ai-strategy.jpg',
   },
   {
-    badge: 'Digital',
-    title: 'Web Development & 3D Experiences',
-    bullets: [
-      'High Performance websites built using modern frameworks (e.g., Next.js)',
-      '3D interactive experiences for premium brand differentiation',
-      'Conversion Focused landing pages (not just visual design)',
-      'Fast loading, SEO Ready, Edge Deployed architecture',
-    ],
-    metric: '',
-    ctaLabel: 'View web capabilities',
-    ctaDesc: 'Edge Deployed, conversion first',
-    page: 'web-development',
+    number: '04',
+    badge: 'DIGITAL',
+    title: 'Web Design & Experiences',
+    description:
+      'High-performance Next.js sites, 3D interactive builds, and conversion funnels deployed to global edge infrastructure.',
+    ctaLabel: 'Explore Web Experiences',
+    route: 'web-development',
+    image: '/images/services/web-development.jpg',
   },
+  
 ];
 
-// ─── Service Card ─────────────────────────────────────────────────────────────
 
-function ServiceCard({ service, onNavigate, isDark }: { service: ServiceItem; onNavigate: (page: string) => void; isDark: boolean }) {
-  const bg = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.70)';
-  const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
-  const shadow = isDark ? '0 4px 24px rgba(0,0,0,0.30)' : '0 4px 24px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)';
+function InteractiveServicesSection({
+  isDark,
+  onNavigate,
+}: {
+  isDark: boolean;
+  onNavigate: (page: string) => void;
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = servicesData.length;
+
+ const sectionRef = useRef<HTMLElement | null>(null);
+
+ const scrollDirectionRef = useRef(0);
+
+useEffect(() => {
+  if (total <= 1 || !sectionRef.current) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = sectionRef.current;
+  
+
+const trigger = ScrollTrigger.create({
+  trigger: section,
+  start: "top top",
+  end: () => `+=${(total - 1) * window.innerHeight * 0.2}`,
+  pin: true,
+  scrub: false,
+  anticipatePin: 1,
+
+  // snap: {
+  //   snapTo: 1 / (total - 1),
+  //   duration: 0.15,
+  //   delay: 0,
+  //   ease: "power1.out",
+  // },
+
+  
+
+  onUpdate: (self) => {
+  const nextIndex = Math.min(
+    total - 1,
+    Math.floor(self.progress * total)
+  );
+
+  setActiveIndex((current) =>
+    current === nextIndex ? current : nextIndex
+  );
+},
+
+});
+
+  return () => {
+    trigger.kill();
+  };
+}, [total]);
+
+  if (total === 0) return null;
+
+  const activeService = servicesData[activeIndex];
 
   return (
-    <div
-      className="svc-card relative flex h-full flex-col overflow-hidden rounded-[20px]"
-      style={{
-        background: bg,
-        backdropFilter: 'blur(16px) saturate(1.8)',
-        WebkitBackdropFilter: 'blur(16px) saturate(1.8)',
-        border: `1px solid ${border}`,
-        boxShadow: shadow,
-        transition: 'box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease',
-        fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = 'translateY(-6px)';
-        el.style.borderColor = 'rgba(255,72,0,0.22)';
-        el.style.boxShadow = isDark
-          ? '0 8px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,72,0,0.18)'
-          : '0 8px 32px rgba(0,0,0,0.09), 0 0 0 1px rgba(255,72,0,0.14), 0 20px 40px rgba(255,72,0,0.08)';
-        const glow = el.querySelector('.svc-glow') as HTMLElement | null;
-        if (glow) glow.style.opacity = '1';
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget as HTMLDivElement;
-        el.style.transform = '';
-        el.style.borderColor = border;
-        el.style.boxShadow = shadow;
-        const glow = el.querySelector('.svc-glow') as HTMLElement | null;
-        if (glow) glow.style.opacity = '0';
-      }}
-    >
-      {/* Top glow line */}
-      <div className="svc-glow pointer-events-none absolute inset-x-[10%] top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.6), transparent)', opacity: 0, transition: 'opacity 0.3s ease' }} />
+    <section
+  ref={sectionRef}
+  id="section-services"
+  className="bg-white py-10 transition-colors duration-300 dark:bg-[#0a0a14] md:py-14"
+>
+      {/* Section heading */}
+      <div className="mx-auto max-w-7xl px-4 pb-7 sm:px-6 lg:px-8">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+          OUR Services
+        </p>
 
-      {/* Badge + Title */}
-      <div className="flex h-[7rem] flex-col  justify-start p-6 pb-0">
-        <span className="mb-3 w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: '#FF4800', background: 'rgba(255,72,0,0.09)', border: '1px solid rgba(255,72,0,0.15)' }}>
-          {service.badge}
-        </span>
-        <h3 className="text-xl font-bold leading-[1.2] tracking-tight text-gray-900 dark:text-white">
-          {service.title}
-        </h3>
-      </div>
-
-      {/* Divider */}
-      <div className="mx-6 my-4 mb-2 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03), rgba(0,0,0,0.06))' }} />
-
-      {/* Bullet list */}
-      <div className="px-6">
-        <ul className="flex flex-col gap-2.5">
-          {service.bullets.map((bullet, i) => (
-            <li key={i} className="flex items-start gap-3 text-[13.5px] font-normal leading-[1.5] text-gray-700 dark:text-gray-300">
-              <span className="mt-2 h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: '#FF4800', boxShadow: '0 0 4px rgba(255,72,0,0.4)' }} />
-              <span>{bullet}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Metric or invisible spacer */}
-      {service.metric ? (
-        <div className="mx-6 mt-5 rounded-[10px] px-4 py-3" style={{ background: 'rgba(255,72,0,0.07)', border: '1px solid rgba(255,72,0,0.13)', minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
-          <p className="text-[12px] font-semibold leading-[1.55]" style={{ color: '#FF4800' }}>→ {service.metric}</p>
-        </div>
-      ) : (
-        <div className="mx-6 mt-2 px-4 py-1 invisible" aria-hidden="true" style={{ minHeight: '3.875rem', display: 'flex', alignItems: 'flex-start' }}>
-          <p className="text-[12px] leading-[1.55]">30–60% reduction in manual operations within the first 90 days</p>
-        </div>
-      )}
-
-      {/* Orange footer strip */}
-      <div
-        className="relative mt-auto flex items-center justify-between gap-3 px-6 pb-6 pt-4"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255,72,0,0.18) 0%, rgba(255,72,0,0.11) 60%, rgba(255,72,0,0.07) 100%)',
-          borderTop: '1px solid rgba(255,72,0,0.12)',
-        }}
-      >
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-px"
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(255,72,0,0.35), transparent)',
-          }}
-        />
-
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <span
-            className="whitespace-nowrap text-[12.5px] font-bold tracking-[0.01em]"
-            style={{ color: '#FF4800' }}
-          >
-            {service.ctaLabel} →
-          </span>
-
-          <span
-            className="text-[11.5px] font-medium leading-[1.3]"
-            style={{ color: 'rgba(255,72,0,0.75)' }}
-          >
-            {service.ctaDesc}
-          </span>
-        </div>
-
-        <button
-          onClick={() => onNavigate(service.page)}
-          aria-label={service.ctaLabel}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200"
-          style={{
-            background: '#FF4800',
-            boxShadow: '0 4px 12px rgba(255,72,0,0.35)',
-          }}
-          onMouseEnter={e => {
-            const b = e.currentTarget as HTMLButtonElement;
-            b.style.background = '#e03e00';
-            b.style.transform = 'scale(1.1) translateX(1px)';
-            b.style.boxShadow = '0 6px 20px rgba(255,72,0,0.45)';
-          }}
-          onMouseLeave={e => {
-            const b = e.currentTarget as HTMLButtonElement;
-            b.style.background = '#FF4800';
-            b.style.transform = '';
-            b.style.boxShadow = '0 4px 12px rgba(255,72,0,0.35)';
-          }}
+        <h2
+          className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
+          style={{ color: isDark ? "#ffffff" : "#000000" }}
         >
-          <ArrowRight size={14} color="#fff" strokeWidth={2.5} />
-        </button>
+          Enterprise Software &amp; AI Automation Services
+        </h2>
+
+        <p className="mt-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+          We build high performance infrastructure and intelligent automation
+          systems designed for the next generation of enterprise growth.
+        </p>
       </div>
-    </div>
+
+      {/* 3D upward card transition */}
+      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div
+          className="relative h-[440px] sm:h-[390px] lg:h-[360px]"
+          style={{ perspective: "1400px" }}
+        >
+          {/* Cards behind the active card */}
+          {servicesData.map((service, index) => {
+            const distance = (index - activeIndex + total) % total;
+
+            if (distance === 0 || distance > 3) return null;
+
+            return (
+              <motion.div
+                key={service.number}
+                className="absolute inset-0"
+                initial={false}
+                animate={{
+                  y: distance * 18,
+                  scale: 1 - distance * 0.035,
+                  rotateX: -4 * distance,
+                  opacity: 1,
+                }}
+                transition={{
+                  duration: 0.45,
+                  ease: [0.76, 0, 0.24, 1],
+                }}
+                style={{
+                  zIndex: total - distance,
+                  transformOrigin: "center top",
+                  pointerEvents: "none",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                <StackedServiceCard
+                  service={service}
+                  index={index}
+                  total={total}
+                  isDark={isDark}
+                  onNavigate={onNavigate}
+                />
+              </motion.div>
+            );
+          })}
+
+          {/* Active card lifts upward and exits in 3D */}
+          <AnimatePresence initial={false} mode="sync">
+            <motion.div
+              key={activeService.number}
+              className="absolute inset-0"
+              initial={{
+                y: "100%",
+                rotateX: 12,
+                scale: 0.94,
+                opacity: 0,
+              }}
+              animate={{
+                y: 0,
+                rotateX: 0,
+                scale: 1,
+                opacity: 1,
+              }}
+              exit={{
+  y: "-45%",
+  rotateX: 90,
+  scale: 1,
+  opacity: 1,
+}}
+transition={{
+  duration: 1.2,
+  ease: [0.76, 0, 0.24, 1],
+}}
+style={{
+  zIndex: total + 10,
+  transformOrigin: "center top",
+  transformStyle: "preserve-3d",
+  backfaceVisibility: "visible",
+}}
+            >
+              <StackedServiceCard
+                service={activeService}
+                index={activeIndex}
+                total={total}
+                isDark={isDark}
+                onNavigate={onNavigate}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Current service indicator */}
+        <div className="mt-5 flex justify-center gap-2">
+          {servicesData.map((service, index) => (
+            <button
+              key={service.number}
+              type="button"
+              aria-label={`Show service ${index + 1}`}
+              onClick={() => setActiveIndex(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? "w-7 bg-[#FF4800]"
+                  : "w-2 bg-neutral-300 dark:bg-neutral-700"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
+
+
+
+function StackedServiceCard({
+  service,
+  index,
+  total,
+  isDark,
+  onNavigate,
+}: {
+  service: (typeof servicesData)[number];
+  index: number;
+  total: number;
+  isDark: boolean;
+  onNavigate: (page: string) => void;
+}) {
+  return (
+    <article className="h-full overflow-hidden rounded-2xl md:rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a14] shadow-xl">
+      <div className="grid h-full grid-cols-1 md:grid-cols-2">
+        {/* Text */}
+        <div className="flex min-h-0 flex-col justify-between overflow-y-auto p-5 sm:p-7 md:p-8 lg:p-10">
+          <div>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#FF4800]">
+                OUR SERVICES
+              </span>
+
+              <span className="font-mono text-xs sm:text-sm text-neutral-400">
+                {service.number} / {String(total).padStart(2, "0")}
+              </span>
+            </div>
+
+            <h3
+              className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight text-black dark:text-white"
+              style={{ color: isDark ? "#ffffff" : "#000000" }}
+            >
+              {service.title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+              {service.description}
+            </p>
+          </div>
+
+          <button
+            onClick={() => onNavigate(service.route)}
+            className="mt-5 self-start inline-flex items-center gap-2 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#FF4800] dark:hover:bg-[#FF4800] dark:hover:text-white transition-colors"
+          >
+            {service.ctaLabel}
+            <ArrowRight size={14} />
+          </button>
+        </div>
+
+        {/* Right Side: Service Icons */}
+<div className="flex items-center justify-center border-t md:border-t-0 md:border-l border-neutral-200 dark:border-neutral-800 bg-orange-50/40 dark:bg-[#101019] p-5 sm:p-6">
+  <div className="grid w-full max-w-sm grid-cols-2 gap-4">
+    {(
+      service.title.includes("AI")
+        ? [
+            { label: "AI Consulting", Icon: BrainCircuit },
+            { label: "LLM Development", Icon: Settings },
+            { label: "RAG Integration", Icon: Database },
+            { label: "AI Automation", Icon: Workflow },
+          ]
+        : service.title.includes("Cloud")
+        ? [
+            { label: "Cloud Services", Icon: Cloud },
+            { label: "Development", Icon: Code2 },
+            { label: "Integration", Icon: Workflow },
+            { label: "Security", Icon: ShieldCheck },
+          ]
+        : [
+            { label: "Development", Icon: Code2 },
+            { label: "Integration", Icon: Workflow },
+            { label: "Database", Icon: Database },
+            { label: "Security", Icon: ShieldCheck },
+          ]
+    ).map(({ label, Icon }) => (
+      <div key={label} className="flex flex-col items-center text-center gap-2">
+        <div className="flex h-20 w-full items-center justify-center rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a14] shadow-sm">
+          <Icon
+            size={30}
+            strokeWidth={1.7}
+            className="text-[#FF4800]"
+          />
+        </div>
+
+        <span className="text-xs text-neutral-700 dark:text-neutral-300">
+          {label}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+      </div>
+    </article>
+  );
+}
+
+
 
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
@@ -433,36 +595,15 @@ function TestimonialsCarousel() {
 
   return (
     <section
-      className="relative w-full overflow-hidden py-14 md:py-20"
+      className="hidden w-full overflow-hidden py-14 md:py-20 bg-white"
       style={{
         background: isDarkT
-          ? 'linear-gradient(135deg, #09042f 0%, #0d0b15 50%, #060606 100%)'
-          : 'linear-gradient(135deg, #f8f8fc 0%, #ffffff 50%, #f0f0f8 100%)',
+          ? '#0a0a14'
+          : '#ffffff',
       }}
     >
-      {/* Background dots */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(circle, ${isDarkT
-            ? 'rgba(255,255,255,0.05)'
-            : 'rgba(0,0,0,0.04)'
-            } 1px, transparent 1px)`,
-          backgroundSize: '28px 28px',
-        }}
-      />
-
-      {/* Orange glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, rgba(255,72,0,0.07) 0%, rgba(255,72,0,0.02) 40%, transparent 70%)',
-        }}
-      />
-
       {/* ================= HEADING ================= */}
-      <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-6 md:mb-12">
+      <div className="relative z-10 mx-auto mb-10 w-full max-w-[800px] px-5 md:mb-12">
         <div className="text-center">
           <p
             className="mb-4 text-[11px] font-medium uppercase tracking-widest"
@@ -472,11 +613,7 @@ function TestimonialsCarousel() {
           </p>
 
           <h2
-            className="heading-gradient mx-auto font-normal text-[clamp(1.75rem,5vw,3.5rem)]"
-            style={{
-              lineHeight: 1.05,
-              letterSpacing: '-2px',
-            }}
+            className="text-black dark:text-white mx-auto font-bold text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
           >
             What Our Clients Say
           </h2>
@@ -484,7 +621,7 @@ function TestimonialsCarousel() {
       </div>
 
       {/* ================= SINGLE MARQUEE ROW ================= */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl overflow-hidden px-6 md:px-10 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl overflow-hidden">
         <motion.div
           className="flex w-max items-stretch gap-5"
           animate={{
@@ -509,13 +646,11 @@ function TestimonialsCarousel() {
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 const faqs = [
-  { question: 'What services does Straveda Tech offer?', answer: 'We provide AI automation, custom software development, cloud & DevOps, cybersecurity, and data analytics solutions built to reduce manual work and scale your operations.' },
+  { question: 'What services does Straveda Tech offer?', answer: 'We provide AI automation, custom software development, cloud & DevOps, cybersecurity, and data analytics solutions built to reduce manual work as well We offer ongoing maintenance, optimization, and upgrades to keep your system aligned with business growth.' },
   { question: 'How can AI automation benefit my business?', answer: 'AI automation reduces repetitive tasks, lowers costs, and improves decision making. Common use cases include lead qualification, customer support, and workflow automation.' },
   { question: 'Do you build custom solutions and integrate with existing tools?', answer: 'We build fully custom solutions tailored to your workflows, goals, and scalability needs — ensuring better performance and long term ROI.' },
-  { question: 'How long does a project take?', answer: 'Small systems: 1 to 2 weeks. Medium projects: 3 to 5 weeks. Large solutions: 6 to 9+ weeks. We follow a structured process from planning to deployment.' },
+  { question: 'How long does a project take?', answer: 'Small systems: 1 to 2 weeks. Medium projects: 3 to 5 weeks. Large solutions: 6 to 9+ weeks. We follow a structured process from planning to deployment.Share your requirements → Get a tailored strategy → Start with a clear execution roadmap. Book a 30 Min call and we\'ll send a proposal within 48 hours.' },
   { question: 'How secure are your solutions?', answer: 'We follow industry standards like GDPR, ISO, SOC2, and HIPAA to ensure strong data protection and system security.' },
-  { question: 'Do you provide post launch support?', answer: 'Yes. We offer ongoing maintenance, optimization, and upgrades to keep your system aligned with business growth.' },
-  { question: 'How do I get started?', answer: 'Share your requirements → Get a tailored strategy → Start with a clear execution roadmap. Book a 30 Min call and we\'ll send a proposal within 48 hours.' },
 ];
 
 function FAQSection() {
@@ -527,33 +662,29 @@ function FAQSection() {
   return (
     <section
       id="section-faq"
-      className="glow-hover py-6 md:py-8 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
+      className="glow-hover py-12 md:py-16 bg-white dark:bg-[#0a0a14] border-t border-black/[0.06] dark:border-white/[0.06]"
     >
-      <div className="mt-0 mx-auto max-w-7xl px-6 md:px-10 lg:px-12">
+      <div className="mt-0 mx-auto max-w-7xl">
 
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.5fr] gap-12 lg:gap-24">
 
           {/* LEFT SIDE */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="mt-0 text-left lg:pt-0"
           >
             <p
-              className="mb-2 text-[11px] font-medium uppercase tracking-widest"
+              className="mb-2 text-[11px] font-bold uppercase tracking-widest"
               style={{ color: "#FF4800" }}
             >
               FREQUENTLY ASKED QUESTIONS
             </p>
 
             <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)]"
-              style={{
-                lineHeight: 1.02,
-                letterSpacing: "-2.5px",
-              }}
+              className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
             >
               Questions?
               <br />
@@ -568,7 +699,7 @@ function FAQSection() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-40px" }}
             variants={{
               hidden: {},
               visible: {
@@ -688,13 +819,179 @@ function SectionHeader({
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: '#FF4800' }}>{label}</p>
       <div className={`flex gap-4 ${isCenter ? 'justify-center' : 'justify-center md:justify-start'}`}>
         {/* Accent bar — desktop only */}
-        <h2 className="font-normal heading-gradient" style={{ fontSize: 'clamp(1.6rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-1px', overflowWrap: 'break-word' }}>
+        <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
           {heading}
         </h2>
       </div>
     </div>
   );
 }
+
+interface TechnologyPartner {
+  name: string;
+  srcLight: string;
+  srcDark: string;
+  width: number;
+  height: number;
+  className: string;
+  classNameLight?: string;
+}
+
+const technologyPartners: TechnologyPartner[] = [
+  {
+    name: 'Next.js',
+    srcLight: '/logos/nextjs-light.svg',
+    srcDark: '/logos/nextjs-dark.svg',
+    width: 110,
+    height: 34,
+    className: 'h-[38px] md:h-[46px] w-auto object-contain',
+    classNameLight: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'React',
+    srcLight: '/logos/react-light.svg',
+    srcDark: '/logos/react-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'TypeScript',
+    srcLight: '/logos/typescript-light.svg',
+    srcDark: '/logos/typescript-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Tailwind CSS',
+    srcLight: '/logos/tailwind-light.svg',
+    srcDark: '/logos/tailwind-dark.svg',
+    width: 210,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'OpenAI GPT-4o',
+    srcLight: '/logos/openai-light.svg',
+    srcDark: '/logos/openai-dark.svg',
+    width: 235,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Claude API',
+    srcLight: '/logos/claude-light.svg',
+    srcDark: '/logos/claude-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'LangChain',
+    srcLight: '/logos/langchain-light.svg',
+    srcDark: '/logos/langchain-dark.svg',
+    width: 185,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Vector DBs',
+    srcLight: '/logos/vectordb-light.svg',
+    srcDark: '/logos/vectordb-dark.svg',
+    width: 190,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'AWS',
+    srcLight: '/logos/aws-light.png',
+    srcDark: '/logos/aws-dark.png',
+    width: 100,
+    height: 60,
+    className: 'h-[44px] md:h-[52px] w-auto object-contain',
+  },
+  {
+    name: 'Google Cloud',
+    srcLight: '/logos/gcp-light.png',
+    srcDark: '/logos/gcp-dark.png',
+    width: 288,
+    height: 48,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'Microsoft Azure',
+    srcLight: '/logos/azure-light.png',
+    srcDark: '/logos/azure-dark.png',
+    width: 190,
+    height: 52,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'Docker',
+    srcLight: '/logos/docker-light.png',
+    srcDark: '/logos/docker-dark.png',
+    width: 220,
+    height: 52,
+    className: 'h-[38px] md:h-[44px] w-auto object-contain',
+  },
+  {
+    name: 'CI/CD',
+    srcLight: '/logos/cicd-light.svg',
+    srcDark: '/logos/cicd-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Security',
+    srcLight: '/logos/security-light.svg',
+    srcDark: '/logos/security-dark.svg',
+    width: 165,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'PostgreSQL',
+    srcLight: '/logos/postgresql-light.svg',
+    srcDark: '/logos/postgresql-dark.svg',
+    width: 65,
+    height: 60,
+    className: 'h-[48px] md:h-[56px] w-auto object-contain',
+  },
+  {
+    name: 'Redis',
+    srcLight: '/logos/redis-light.svg',
+    srcDark: '/logos/redis-dark.svg',
+    width: 135,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Node.js',
+    srcLight: '/logos/nodejs-light.svg',
+    srcDark: '/logos/nodejs-dark.svg',
+    width: 160,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'REST / GraphQL',
+    srcLight: '/logos/graphql-light.svg',
+    srcDark: '/logos/graphql-dark.svg',
+    width: 245,
+    height: 48,
+    className: 'h-[42px] md:h-[50px] w-auto object-contain',
+  },
+  {
+    name: 'Vercel',
+    srcLight: '/logos/vercel-light.svg',
+    srcDark: '/logos/vercel-dark.svg',
+    width: 130,
+    height: 26,
+    className: 'h-[28px] md:h-[34px] w-auto object-contain',
+  },
+];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -703,6 +1000,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const isDark = resolvedTheme === 'dark';
   const [capActiveIdx, setCapActiveIdx] = useState(0);
   const [activeService, setActiveService] = useState<string | null>(null);
+  const [direction, setDirection] = useState(1);
   const [count55, setCount55] = useState(0);
   const [count3, setCount3] = useState(0);
   const [count5, setCount5] = useState(0);
@@ -857,10 +1155,20 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   }, []);
 
   return (
-    <div className="overflow-x-hidden w-full">
+    <div className="overflow-x-hidden w-full bg-white dark:bg-[#0a0a14]">
+
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .problem-number-fade {
+          -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 85%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 85%);
+          transition: -webkit-mask-image 0.35s ease, mask-image 0.35s ease;
+        }
+        .group:hover .problem-number-fade {
+          -webkit-mask-image: none !important;
+          mask-image: none !important;
+        }
       `}</style>
 
       {/* ── Hero ── */}
@@ -868,455 +1176,187 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <AnimatedHero onNavigate={onNavigate} />
       </div>
 
-      {/* ── Honest Proof Strip ── */}
-      <motion.section
-        id="section-partners"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, ease }}
-        className="py-14 md:py-24 bg-white dark:bg-[#0a0a14] relative border-t border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
-      >
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative text-center">
-          <p className="-mt-6 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
-          <h2
-            className="font-normal heading-gradient mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 5vw, 3.5rem)', lineHeight: 1.05, letterSpacing: '-1.5px', overflowWrap: 'break-word', wordBreak: 'break-word' }}
-          >
-            A Foundation for What's Next
-          </h2>
-        </div>
-      </motion.section>
+      {/* ── Our Expertise / Services Section (2nd Section) ── */}
+      <div id="section-services">
+        <InteractiveServicesSection isDark={isDark} onNavigate={onNavigate} />
+      </div>
 
-      {/* ── Technology Partners ── */}
-      <div className="mx-auto  w-[1200] max-w-full overflow-hidden">
-        <motion.div
-          className="flex w-max"
-          animate={{ x: [0, '-50%'] }}
-          transition={{
-            duration: 25,
-            ease: 'linear',
-            repeat: Infinity,
-          }}
-        >
-          {/* First set */}
-          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-            ].map((partner) => (
-              <motion.div
-                key={`first-${partner.name}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex h-[145px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-                style={{
-                  background: isDark
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.75)',
-
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter:
-                    'blur(20px) saturate(1.8) brightness(1.02)',
-
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1.5px solid rgba(255,255,255,0.9)',
-
-                  // Shadow removed
-                  boxShadow: 'none',
-                }}
-              >
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-                  style={{ backgroundColor: partner.brandColor }}
-                />
-
-                {/* Colored Logo */}
-                <div className="relative h-16 w-full">
-                  <Image
-                    src={partner.src}
-                    alt={partner.name}
-                    fill
-                    sizes="170px"
-                    className={`object-contain ${partner.name === 'Vercel' || partner.name === 'Next.js'
-                      ? 'dark:invert'
-                      : 'brightness-[0.7] contrast-[1.4]'
-                      }`}
-                  />
-                </div>
-
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-                  {partner.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Duplicate set for seamless auto-scroll */}
-          <div className="flex shrink-0 items-center gap-6 md:gap-8 pr-6 md:pr-8">
-            {[
-              { name: 'AWS', brandColor: '#FF9900', src: '/logos/aws.png' },
-              { name: 'Google Cloud', brandColor: '#4285F4', src: '/logos/gcp.png' },
-              { name: 'Docker', brandColor: '#2496ED', src: '/logos/docker.png' },
-              { name: 'Microsoft Azure', brandColor: '#0078D4', src: '/logos/azure.png' },
-              { name: 'Vercel', brandColor: '#000000', src: '/logos/vercel.svg' },
-              { name: 'PostgreSQL', brandColor: '#336791', src: '/logos/postgresql.svg' },
-              { name: 'Next.js', brandColor: '#000000', src: '/logos/nextjs.svg' },
-            ].map((partner) => (
-              <motion.div
-                key={`second-${partner.name}`}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.25, ease }}
-                className="group relative flex h-[140px] w-[190px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 py-5 overflow-hidden cursor-default"
-                style={{
-                  background: isDark
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'rgba(255,255,255,0.75)',
-
-                  backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                  WebkitBackdropFilter:
-                    'blur(20px) saturate(1.8) brightness(1.02)',
-
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.12)'
-                    : '1.5px solid rgba(255,255,255,0.9)',
-
-                  // Shadow removed
-                  boxShadow: 'none',
-                }}
-              >
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"
-                  style={{ backgroundColor: partner.brandColor }}
-                />
-
-                <div className="relative h-16 w-full">
-                  <Image
-                    src={partner.src}
-                    alt={partner.name}
-                    fill
-                    sizes="170px"
-                    className={`object-contain ${partner.name === 'Vercel' || partner.name === 'Next.js'
-                      ? 'dark:invert'
-                      : 'brightness-[0.7] contrast-[1.4]'
-                      }`}
-                  />
-                </div>
-
-                <span className="relative text-[10px] sm:text-[11px] font-medium tracking-wide text-[#6b7280] dark:text-[#9ca3af]">
-                  {partner.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+      {/* ── Sandesa Section ── */}
+      <div id="section-sandesa">
+        <SandesaSection isDark={isDark} />
       </div>
 
 
-      {/* ── What We Build ── */}
-      <section className="py-10 md:py-16 bg-white dark:bg-[#0a0a14]">
-        <div className="-mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, ease }}
-            className="mt-12 md:mt-16 "
-          >
-            <SectionHeader
-              label="WHAT WE BUILD"
-              heading={
-                <span className='block w-full whitespace-normal break-words'>
-                  One Goal: Systems That Make<span style={{ color: '#FF4800' }}>Your Business Run Better</span>
-                </span>
-              }
-            />
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, delay: 0.2, ease }}
-            className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
-          >
-            {services
-              .filter(
-                (service) =>
-                  !activeService || service.page === activeService
-              )
-              .map((service, i) => (
-                <ServiceCard
-                  key={i}
-                  service={service}
-                  onNavigate={onNavigate}
-                  isDark={isDark}
-                />
-              ))}
-          </motion.div>
-        </div>
-      </section>
+{/* ── About / Who We Are / Stats Section ── */}
+<section
+  id="section-about"
+  className="relative overflow-hidden bg-white py-14 transition-colors duration-300 dark:bg-[#12121e] md:py-20 lg:py-24"
+>
+  <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
 
-      {/* ── Sandesa Section ── */}
-      <SandesaSection isDark={isDark} />
-
-
-
-
-      {/* ── Capabilities (Bento) ── */}
-      <section id="section-capabilities" className="py-12 md:py-14 md:pb-6  section-glow-top relative" style={{ background: isDark ? '#12121e' : '#f8f8fc' }}>
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="-mt-10 mb-8 md:mb-16"
-          >
-            <SectionHeader
-              label="WHY STRAVEDA"
-              heading="Enterprise Grade Execution, Without the Complexity"
-            />
-          </motion.div>
-
-          {/* Drag-to-swipe carousel — Framer Motion, no native scroll */}
-          <div
-            className="relative overflow-hidden"
-            style={{
-              maskImage:
-                'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-            }}
-          >
-            <motion.div
-              ref={trackRef}
-              style={{ x: dragX }}
-              drag="x"
-              dragConstraints={constraints}
-              dragMomentum={false}
-              dragElastic={0.05}
-              onDragEnd={handleDragEnd}
-              className="flex gap-5 cursor-grab active:cursor-grabbing px-4 sm:px-6 lg:px-8 pb-6 select-none"
-            >
-              {bentoItems.map((item, index) => (
-                <div
-                  key={item.title}
-                  data-cap-card
-                  className="group relative flex-shrink-0 overflow-hidden rounded-2xl flex flex-col w-[85%] xs:w-[78%] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)]"
-                  style={{
-                    minHeight: '18.75rem',
-                    padding: 'clamp(1.25rem, 5vw, 2.5rem) clamp(1rem, 4vw, 2.25rem)',
-                    background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.85)',
-                    backdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(1.8) brightness(1.02)',
-                    border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1.5px solid rgba(0,0,0,0.08)',
-                    boxShadow: isDark
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                      : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
-                    transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.borderColor = 'rgba(255,72,0,0.35)';
-                    el.style.boxShadow = isDark
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 40px rgba(255,72,0,0.15), 0 24px 48px rgba(0,0,0,0.4)'
-                      : '0 12px 40px rgba(255,72,0,0.12), 0 24px 48px rgba(0,0,0,0.06)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)';
-                    el.style.boxShadow = isDark
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45)'
-                      : '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)';
-                  }}
-                >
-                  <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(255,72,0,0.04) 0%, transparent 55%)' }} />
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl" style={{ background: isDark ? 'rgba(255,72,0,0.12)' : 'rgba(255,72,0,0.08)' }}>
-                    <item.icon className="h-7 w-7" style={{ color: '#FF4800' }} />
-                  </div>
-                  <h3 className="mb-3 font-semibold text-slate-900 dark:text-[#f0f0f5]" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.2, letterSpacing: '-0.3px' }}>
-                    {item.title}
-                  </h3>
-                  <p className="flex-grow text-[14.5px] leading-[1.7] text-slate-600 dark:text-[#9ca3af]"
-                    style={{
-                      textAlign: 'justify',
-                      textJustify: 'inter-word',
-                      wordSpacing: 'auto',
-                    }}>
-                    {item.description}
-                  </p>
-                  <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #FF4800, rgba(255,72,0,0.15))' }} />
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Pagination arrows */}
-          <div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => snapToCard(Math.max(0, capActiveIdx - 1))}
-              aria-label="Previous card"
-              className="flex items-center justify-center transition-all duration-300"
-              style={{
-                width: '2.25rem',
-                height: '2.25rem',
-                borderRadius: '50%',
-                border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
-                  }`,
-                background: 'transparent',
-                color: isDark ? '#f0f0f5' : '#1a1a2e',
-                padding: 0,
-                cursor: 'pointer',
-                fontSize: '1.5rem',
-                lineHeight: 1,
-              }}
-            >
-              ‹
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                snapToCard(Math.min(maxCapIndex, capActiveIdx + 1))
-              }
-              disabled={capActiveIdx >= maxCapIndex}
-              aria-label="Next card"
-              className="flex items-center justify-center transition-all duration-300 disabled:cursor-not-allowed"
-              style={{
-                width: '2.25rem',
-                height: '2.25rem',
-                borderRadius: '50%',
-                border: `1.5px solid ${capActiveIdx >= maxCapIndex
-                  ? 'rgba(0,0,0,0.10)'
-                  : isDark
-                    ? 'rgba(255,255,255,0.25)'
-                    : 'rgba(0,0,0,0.25)'
-                  }`,
-                background:
-                  capActiveIdx >= maxCapIndex
-                    ? 'rgba(0,0,0,0.05)'
-                    : 'transparent',
-                color:
-                  capActiveIdx >= maxCapIndex
-                    ? 'rgba(0,0,0,0.25)'
-                    : isDark
-                      ? '#f0f0f5'
-                      : '#1a1a2e',
-                padding: 0,
-                cursor:
-                  capActiveIdx >= maxCapIndex
-                    ? 'not-allowed'
-                    : 'pointer',
-                fontSize: '1.5rem',
-                lineHeight: 1,
-              }}
-            >
-              ›
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── About / Stats ── */}
-
-      <section
-        id="section-about"
-        className="relative py-8 md:py-14 bg-[#f8f8fc] dark:bg-[#0a0a14]"
+      {/* ── LEFT SIDE: WHO WE ARE ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{
+          duration: 0.6,
+          ease: [0.25, 0.1, 0.25, 1],
+        }}
+        className="flex flex-col items-start"
       >
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row lg:items-start relative">
 
-          {/* Stats column */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col lg:w-[40%]"
-          >
-            {/* On mobile: centered stats block; on desktop: left-bordered */}
-            <div
-              ref={statsRef}
-              className="grid grid-cols-1 gap-6 md:gap-8 border-l-[3px] border-[#FF4800] pl-6">
-              {[
-                { val: `${count55}%`, label: 'Manual Work Reduced' },
-                { val: `${count3}–${count5}x`, label: 'Operational Efficiency' },
-                { val: `${count100}%`, label: 'Code Ownership' },
-                { val: 'End-to-End', label: 'Strategy → Build → Deploy' },
-              ].map(s => (
-                <div key={s.label} className="text-center md:text-left">
-                  <p
-                    className="text-[#1a1a2e] dark:text-[#f0f0f5]"
-                    style={{ fontSize: 'clamp(2rem, 5.5vw, 4rem)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em' }}
-                  >
-                    {s.label === 'Manual Work Reduced'
-                      ? `${count55}%`
-                      : s.label === 'Operational Efficiency'
-                        ? `3–${count5}x`
-                        : s.label === 'Code Ownership'
-                          ? `${count100}%`
-                          : s.val}
-                  </p>
-                  <p className="mt-1.5 text-[13px] sm:text-[14px] font-normal tracking-wide" style={{ color: '#6b7280', letterSpacing: '0.01em' }}>
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+        {/* Small label */}
+        <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF4800]">
+          WHO WE ARE
+        </p>
 
-          {/* Text column */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="flex w-full flex-col lg:w-[50%]"
-          >
-            <p className="-mt-0 mb-5 text-[11px] font-medium uppercase tracking-widest text-center md:text-left" style={{ color: '#FF4800' }}>WHO WE ARE</p>
-            <div className="flex items-start gap-4 mb-6 justify-center md:justify-start">
-              <h2 className="font-normal heading-gradient text-center md:text-left text-[2.5rem]">
-                We Get It  Because We've Lived It
-              </h2>
-            </div>
-            <p className="text-base sm:text-[18px] leading-[1.65] text-[#6b7280] dark:text-[#9ca3af] text-justify ">
-              Every growing company hits the same wall: scattered tools, disconnected spreadsheets, and wasted manual hours. You don't need another vendor or enterprise bloat—you need a partner who truly understands the problem. At Straveda, we engineer unified, AI-powered systems that replace operational chaos with structure, clarity, and real efficiency.
+       {/* Small Label */}
+<p
+  className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em]"
+  style={{ color: "#FF4800" }}
+>
+  WHO WE ARE
+</p>
+
+        {/* Heading */}
+        <h2
+          className="max-w-xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.25rem]"
+          style={{
+            color: isDark ? "#ffffff" : "#000000",
+          }}
+        >
+          We Get It Because
+          <br className="hidden sm:block" /> We&apos;ve Lived It
+        </h2>
+
+        {/* Description */}
+        <p className="mt-6 max-w-[500px] text-[14px] leading-7 text-[#6b7280] dark:text-[#9ca3af] sm:text-[15px] sm:leading-7">
+          Every growing company hits the same wall: scattered tools, and wasted
+          manual hours. At Straveda, we engineer unified, AI-powered systems that
+          replace operational chaos with structure, clarity, and real efficiency.
+        </p>
+      </motion.div>
+
+      {/* ── RIGHT SIDE: STATISTICS ── */}
+      <motion.div
+        ref={statsRef}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{
+          duration: 0.6,
+          delay: 0.1,
+          ease: [0.25, 0.1, 0.25, 1],
+        }}
+        className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 lg:gap-x-12 lg:gap-y-14"
+      >
+        {/* STAT 1 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
+            <p
+              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
+              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
+            >
+              {count55}%
             </p>
-          </motion.div>
+          </div>
+
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
+            Manual Work Reduced
+          </span>
+
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
+            Reduce repetitive work and improve everyday operations.
+          </p>
         </div>
-      </section>
+
+        {/* STAT 2 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
+            <p
+              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
+              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
+            >
+              3–{count5}x
+            </p>
+          </div>
+
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
+            Operational Efficiency
+          </span>
+
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
+            Build faster workflows with connected systems.
+          </p>
+        </div>
+
+        {/* STAT 3 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
+            <p
+              className="font-bold leading-none tracking-[-0.04em] text-black dark:text-white"
+              style={{ fontSize: "clamp(2.25rem, 3.2vw, 2.75rem)" }}
+            >
+              {count100}%
+            </p>
+          </div>
+
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
+            Code Ownership
+          </span>
+
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
+            Scalable solutions with complete ownership of your codebase.
+          </p>
+        </div>
+
+        {/* STAT 4 */}
+        <div className="flex min-w-0 flex-col items-start">
+          <div className="flex h-[52px] items-end">
+            <p
+              className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-black dark:text-white"
+              style={{ fontSize: "clamp(1.8rem, 2.8vw, 2.5rem)" }}
+            >
+              End-to-End
+            </p>
+          </div>
+
+          <span className="mt-3 inline-flex max-w-full rounded-full bg-[#F1F1F1] px-3 py-1.5 text-[10px] font-medium uppercase tracking-wide text-[#555555] dark:bg-white/10 dark:text-neutral-300 sm:text-[11px]">
+            Strategy → Build → Deploy
+          </span>
+
+          <p className="mt-3 max-w-[270px] text-[13px] leading-6 text-[#6b7280] dark:text-[#9ca3af] sm:text-sm">
+            From strategy and development to deployment and optimization.
+          </p>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       <TestimonialsCarousel />
 
       {/* ── Client People / Connection Section ── */}
       <section
-        className="hidden relative w-full overflow-hidden bg-[#f8f8fc] py-8 md:py-10 dark:bg-[#0a0a14]"
+        className="relative w-full overflow-hidden bg-white py-8 md:py-10 dark:bg-[#0a0a14]"
       >
         {/* Heading */}
-        <div className="relative z-40 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p
-            className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-            style={{ color: "#FF4800" }}
-          >
-            OUR CLIENTS
-          </p>
+        <div className="relative z-40 mx-auto max-w-7xl px-0 text-center">
+         {/* Small Label */}
+<p
+  className="mb-4 text-[11px] font-bold uppercase tracking-[0.18em]"
+  style={{ color: "#FF4800" }}
+>
+  our clients
+</p>
 
 
           <h2
-            className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-            style={{
-              lineHeight: 1.05,
-              letterSpacing: "-2px",
-            }}
+            className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
           >
             Built Together Growing Together
           </h2>
@@ -1714,352 +1754,297 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
         </div>
       </section>
-      {/* ── Problem Section ── */}
-      {/* ── Problem Section ── */}
-      <section className="relative py-12 md:py-16 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
 
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
+ 
+{/* ── Problem Section ── */}
+<section className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden">
+  <div className="mx-auto max-w-7xl relative z-10">
+
+    {/* Heading */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+      className="text-left mb-6 md:mb-8"
+    >
+      <p
+  className="mb-4 text-[11px] font-bold uppercase tracking-widest"
+  style={{ color: "#FF4800" }}
+>
+  THE REAL PROBLEM
+</p>
+      <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
+        You&apos;re not short on software
+        <span className="mx-3"></span>
+        You&apos;re drowning in it
+      </h2>
+    </motion.div>
+
+    {/* Cards */}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.6,
+        delay: 0.1,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 text-center"
+    >
+      {[
+        {
+          num: "01",
+          heading: "The Tool Tax",
+          body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
+        },
+        {
+          num: "02",
+          heading: "The Integration Debt",
+          body: 'Every new tool requires a Zapier hack. IT says a "proper integration" is a 6 Month project.',
+        },
+        {
+          num: "03",
+          heading: "The Visibility Gap",
+          body: "Leadership can't see pipeline health, ops can't see inventory, and finance.",
+        },
+        {
+          num: "04",
+          heading: "The Process Drag",
+          body: "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
+        },
+        {
+          num: "05",
+          heading: "The Growth Barrier",
+          body: "As your business grows, disconnected systems become harder to manage.",
+        },
+      ].map((item) => (
+        <motion.div
+          key={item.num}
+          initial="rest"
+          whileHover="hover"
+          className="group flex flex-col items-center cursor-pointer"
+        >
+          {/* NUMBER AREA */}
+          <div className="relative h-[100px] sm:h-[110px] md:h-[118px] w-full flex items-end justify-center overflow-hidden">
+            <motion.div
+              variants={{
+                rest: {
+                  y: 20,
+                  opacity: 1,
+                  scale: 1,
+                  scaleX: 1.12,
+                  color: isDark
+                    ? "rgba(255,255,255,0.4)"
+                    : "#94A3B8",
+                },
+                hover: {
+                  y: 0,
+                  opacity: 1,
+                  scale: 1,
+                  scaleX: 1.18,
+                  color: "#FF4800",
+                },
+              }}
+              transition={{
+                duration: 0.45,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+                problem-number-fade
+                absolute
+                bottom-2
+                text-[86px]
+                sm:text-[94px]
+                md:text-[104px]
+                lg:text-[110px]
+                font-black
+                tracking-[-0.07em]
+                leading-[0.72]
+                select-none
+                origin-center
+                whitespace-nowrap
+              "
+            >
+              {item.num}
+            </motion.div>
+          </div>
 
           {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease }}
-            className="text-center mb-8 md:mb-10"
-          >
-            <p
-              className="mb-4 text-[11px] font-medium uppercase tracking-widest"
-              style={{ color: "#FF4800" }}
-            >
-              THE REAL PROBLEM
-            </p>
+          <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+            {item.heading}
+          </h3>
 
-            <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{
-                lineHeight: 1.05,
-                letterSpacing: "-2px",
-              }}
-            >
-              You&apos;re not short on software
-              <br />
-              You&apos;re drowning in it
-            </h2>
-          </motion.div>
+          {/* Description */}
+          <p className="mt-2 max-w-[320px] h-[72px] text-[16px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] text-center line-clamp-3 overflow-hidden">
+            {item.body}
+          </p>
+        </motion.div>
+      ))}
+    </motion.div>
 
-          {/* Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{
-              duration: 0.8,
-              delay: 0.1,
-              ease,
-            }}
-            className="grid w-full grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 text-center"
-          >
-            {[
-              {
-                num: "01",
-                heading: "The Tool Tax",
-                body:
-                  "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other. Your team spends 2 hours a day moving data between them manually.",
-              },
-              {
-                num: "02",
-                heading: "The Integration Debt",
-                body:
-                  'Every new tool requires a Zapier hack. Every Zapier hack breaks monthly. IT says a "proper integration" is a 6 Month project. So nothing gets built.',
-              },
-              {
-                num: "03",
-                heading: "The Visibility Gap",
-                body:
-                  "Leadership can't see pipeline health, ops can't see inventory, and finance finds out about problems when it's already too late to Course Correct.",
-              },
-            ].map((item) => (
-              <motion.div
-                key={item.num}
-                initial="rest"
-                whileHover="hover"
-                className="group flex flex-col items-center cursor-pointer"
-              >
+  </div>
+</section>
 
-                {/* NUMBER AREA */}
-                <div className="relative h-[96px] sm:h-[100px] md:h-[104px] w-full flex items-end justify-center overflow-hidden">
 
-                  <motion.div
-                    variants={{
-                      rest: {
-                        y: 18,
-                        opacity: 1,
-                        scale: 0.96,
-                        color: "#D1D5DB",
-                      },
-                      hover: {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        color: "#FF4800",
-                      },
-                    }}
-                    transition={{
-                      duration: 0.5,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="
-    absolute
-    bottom-0
-    text-[78px]
-    sm:text-[84px]
-    md:text-[90px]
-    lg:text-[96px]
-    font-semibold
-    tracking-[-0.07em]
-    leading-[0.72]
-    select-none
-  "
-                  >
-                    {item.num}
-                  </motion.div>
-
-                  {/* Orange underline */}
-                  <motion.span
-                    variants={{
-                      rest: {
-                        y: 35,
-                        opacity: 1,
-                        scale: 0.92,
-                        color: "#9ca3af00",
-                      },
-                      hover: {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        color: "#FF4800",
-                      },
-                    }}
-                    className="
-      absolute
-      bottom-[-2px]
-      left-1/2
-      -translate-x-1/2
-      h-[3px]
-      rounded-full
-      bg-[#FF4800]
-    "
-                  />
-                </div>
-
-                {/* Heading */}
-                <h3 className="mt-3 text-[17px] sm:text-[18px] md:text-[19px] font-semibold leading-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
-                  {item.heading}
-                </h3>
-
-                {/* Description */}
-                <p className="mt-2 max-w-[320px] text-[14px] sm:text-[15px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af]">
-                  {item.body}
-                </p>
-
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Bottom Text */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{
-              duration: 0.8,
-              delay: 0.2,
-              ease,
-            }}
-            className="mt-7 md:mt-8 text-center text-base sm:text-[17px] leading-[1.55] text-[#6b7280] dark:text-[#9ca3af] max-w-2xl mx-auto"
-          >
-          </motion.p>
-
-        </div>
-      </section>
       {/* ── Process Section ── */}
       <section
-        className="relative py-16 md:py-28"
+        className="relative py-12 md:py-16"
         style={{ background: isDark ? '#12121e' : '#ffffff' }}
       >
-        <div className="pointer-events-none absolute inset-0 dot-grid-dense" />
+        <div className="mx-auto max-w-7xl relative z-10">
 
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="relative">
+      {/* Connecting line */}
+      <div
+        className="pointer-events-none absolute left-[10%] right-[10%] top-10 hidden h-px md:block"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(255,72,0,0.15), #FF4800 20%, #FF4800 80%, rgba(255,72,0,0.15))",
+        }}
+      />
 
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-5 md:gap-5 lg:gap-7">
+        {[
+          {
+            step: "01",
+            label: "Discovery",
+            desc: "30-minute strategy call to analyze workflows and identify high-impact automation opportunities.",
+            icon: Activity,
+          },
+          {
+            step: "02",
+            label: "Architecture",
+            desc: "We architect the solution, define the tech stack, and prepare a clear fixed-price plan.",
+            icon: Brain,
+          },
+          {
+            step: "03",
+            label: "Build",
+            desc: "We build in weekly sprints with full visibility, testing, and control.",
+            icon: Shield,
+          },
+          {
+            step: "04",
+            label: "Automate",
+            desc: "We connect triggers, workflows, and AI agents so the system runs smoothly.",
+            icon: Globe,
+          },
+          {
+            step: "05",
+            label: "Scale",
+            desc: "We hand over documentation and code, giving your team full ownership.",
+            icon: Cloud,
+          },
+        ].map((item, index) => (
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            key={item.step}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
-            className="-mt-20 mb-10 md:mb-16"
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.08,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className="group relative flex min-w-0 flex-col items-center text-center"
           >
-            <SectionHeader
-              label="HOW WE WORK"
-              heading="From Strategy Call to Live System"
-            />
+            {/* Icon */}
+            <motion.div
+              whileHover={{ y: -4, scale: 1.04 }}
+              transition={{ duration: 0.25 }}
+              className="relative z-10 mb-5 flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-colors duration-300 group-hover:bg-[#FF4800] dark:bg-[#12121e] dark:group-hover:bg-[#FF4800]"
+            >
+              <item.icon
+                size={24}
+                strokeWidth={1.8}
+                className="text-[#FF4800] transition-colors duration-300 group-hover:text-white"
+              />
+            </motion.div>
+
+            {/* Step number */}
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#FF4800]">
+              STEP {item.step}
+            </p>
+
+            {/* Title */}
+            <h3 className="mb-3 text-base font-semibold tracking-tight text-[#1a1a2e] dark:text-[#f0f0f5]">
+              {item.label}
+            </h3>
+
+            {/* Description */}
+            <p className="w-full max-w-[240px] text-left text-sm leading-6 text-[#6b7280] dark:text-[#9ca3af] md:text-center">
+              {item.desc}
+            </p>
           </motion.div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-          <div className="relative isolate">
-
-            {/* Horizontal line */}
-            <div
-              className="hidden md:block absolute top-10 left-[8%] right-[8%] h-px z-0 pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(to right, rgba(255,72,0,0.15), #FF4800, rgba(255,72,0,0.15))',
-              }}
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5  lg:gap-6 relative z-10 ">
-
-              {[
-                {
-                  step: '01',
-                  label: 'Discovery',
-                  desc: '30-min strategy call to analyze your workflows, identify bottlenecks, and define high impact automation opportunities. You leave with a clear action plan not a sales pitch.',
-                  icon: Activity,
-                },
-                {
-                  step: '02',
-                  label: 'Architecture',
-                  desc: 'We design your custom solution, define the tech stack, and scope the build. You receive a fixed price proposal within 24 hours no hidden costs or ambiguity.',
-                  icon: Brain,
-                },
-                {
-                  step: '03',
-                  label: 'Build',
-                  desc: 'We develop your system in weekly sprints with full visibility. You review progress regularly, give feedback, and stay in control no black box development.',
-                  icon: Shield,
-                },
-                {
-                  step: '04',
-                  label: 'Automate',
-                  desc: 'We wire in the automation layer — triggers, workflows, AI agents. The system starts running without human intervention before we hand over.',
-                  icon: Globe,
-                },
-                {
-                  step: '05',
-                  label: 'Scale',
-                  desc: "Full handover with documentation. Your team owns it. We're available for retainer support if you need us but you won't need us to operate it.",
-                  icon: Cloud,
-                },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{
-                    duration: 0.6,
-                    delay: parseInt(item.step) * 0.08,
-                    ease,
-                  }}
-                  className="flex flex-col items-center text-center min-w-0"
-                >
-
-                  {/* Icon */}
-                  <div
-                    className="group relative z-20 flex items-center justify-center w-20 h-20 rounded-full mb-4"
-                    style={{
-                      background: isDark ? '#12121e' : '#ffffff',
-                      border: '1px solid #FF4800',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                      transition: 'background-color 200ms ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#FF4800';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = isDark ? '#12121e' : '#ffffff';
-                    }}
-                  >
-                    <item.icon
-                      size={24}
-                      strokeWidth={1.8}
-                      className="text-[#FF4800] group-hover:text-white transition-colors duration-200"
-
-                    />
-                  </div>
-
-                  {/* Step */}
-                  <p
-                    className="text-[14px] font-semibold uppercase tracking-wide mb-2"
-                    style={{ color: '#FF4800' }}
-                  >
-                    STEP {item.step}
-                  </p>
-
-                  {/* Title */}
-                  <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a2e] dark:text-[#f0f0f5]">
-                    {item.label}
-                  </h3>
-
-                  {/* Description - SAME */}
-                  <p
-                    className="w-full text-[14px] sm:text-[15px] leading-[1.7] text-[#6b7280] dark:text-[#9ca3af]"
-                    style={{
-                      textAlign: 'justify',
-                      textJustify: 'inter-word',
-                      hyphens: 'auto',
-                    }}
-                  >
-                    {item.desc}
-                  </p>
-
-                  {/* Badge */}
-                  <span
-                    className="mt-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[12px] font-medium whitespace-nowrap"
-                    style={{
-                      color: '#FF4800',
-                      background: 'rgba(255,72,0,0.05)',
-                      border: '1px solid rgba(255,72,0,0.15)',
-                    }}
-                  >
-                    ✓ Fast & Secure
-                  </span>
-
-                </motion.div>
-              ))}
-
-            </div>
-          </div>
-        </div>
-      </section>
       {/* ── Pricing Section ── */}
-      <section id="pricing"
-        className="relative pt-16 pb-8  md:pt-28 md:pb-12 bg-[#f8f8fc] dark:bg-[#0a0a14] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 grid-pattern" />
-        <div className="-mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <section
+        id="pricing"
+        className="relative py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
+      >
+        <div className="mx-auto max-w-7xl relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-10 md:mb-16"
           >
-            <p className="mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>PRICING</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-orange-500 dark:text-neutral-400">
+              PRICING
+            </p>
             <h2
-              className="font-normal heading-gradient text-[clamp(1.75rem,5vw,3.5rem)] mx-auto"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
+              className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
             >
               Flexible Engagement Models
             </h2>
-            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-[#6b7280] dark:text-[#9ca3af] max-w-xl mx-auto">
+            <p className="mt-4 text-base sm:text-[17px] leading-[1.6] text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">
               Tailored systems built around your business goals not predefined packages.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
             {[
-              { tier: 'Focused Automation Builds', coreValue: 'Streamline key workflows and reduce manual effort.', items: ['One custom automation workflow', 'Seamless integration with your tools', 'Documentation & handover'], timeline: '2-3 weeks', cta: 'Start here', highlight: false },
-              { tier: 'Custom Software & AI Systems', coreValue: 'Build scalable, business specific systems.', items: ['End To End custom development', 'AI workflow integration', 'Scalable, ownership ready code'], timeline: 'Based on scope', cta: 'Book a call', highlight: true },
-              { tier: 'Ongoing Optimization & Scale', coreValue: 'Improve, upgrade, and scale your systems.', items: ['Performance monitoring', 'Feature enhancements', 'Continuous optimization'], timeline: 'Monthly', cta: 'Book a call', highlight: false },
+              {
+                tier: 'Focused Automation Builds',
+                coreValue: 'Streamline key workflows and reduce manual effort.',
+                items: [
+                  'One custom automation workflow',
+                  'Seamless integration with your tools',
+                  'Documentation & handover',
+                ],
+                timeline: '2-3 weeks',
+                highlight: false,
+              },
+              {
+                tier: 'Custom Software & AI Systems',
+                coreValue: 'Build scalable, business specific systems.',
+                items: [
+                  'End To End custom development',
+                  'AI workflow integration',
+                  'Scalable, ownership ready code',
+                ],
+                timeline: 'Based on scope',
+                highlight: true,
+              },
+              {
+                tier: 'Ongoing Optimization & Scale',
+                coreValue: 'Improve, upgrade, and scale your systems.',
+                items: [
+                  'Performance monitoring',
+                  'Feature enhancements',
+                  'Continuous optimization',
+                ],
+                timeline: 'Monthly',
+                highlight: false,
+              },
             ].map((plan) => (
               <motion.div
                 key={plan.tier}
@@ -2067,102 +2052,163 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.7, ease }}
-                className={`rounded-xl p-5 sm:p-6 md:p-8 border flex flex-col ${plan.highlight ? 'border-[#FF4800]/40' : 'border-black/[0.06] dark:border-white/[0.08]'}`}
-                style={{
-                  background: plan.highlight
-                    ? isDark ? 'rgba(255,72,0,0.08)' : 'rgba(255,72,0,0.04)'
-                    : isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.68)',
-                  backdropFilter: 'blur(18px) saturate(1.6)',
-                  WebkitBackdropFilter: 'blur(18px) saturate(1.6)',
-                  boxShadow: plan.highlight
-                    ? '0 8px 32px rgba(255,72,0,0.12), inset 0 1px 0 rgba(255,72,0,0.1)'
-                    : '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
-                }}
+                className={`rounded-2xl p-6 sm:p-8 flex flex-col justify-between bg-white dark:bg-[#12121a] transition-shadow duration-200 ${
+                  plan.highlight
+                    ? 'border-2 border-black dark:border-white shadow-xl relative'
+                    : 'border border-neutral-200 dark:border-neutral-800 shadow-sm'
+                }`}
               >
-                <div className="h-6 mb-4 flex items-start">
-                  {plan.highlight && (
-                    <span className="inline-block rounded-full px-3 py-1 text-[10px] font-medium text-white" style={{ background: '#FF4800' }}>
-                      Most Popular
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] font-semibold uppercase tracking-widest mb-2 text-[#FF4800]">{plan.tier}</p>
-                <p className="text-[15px] font-medium leading-[1.5] mb-5 text-[#1a1a2e] dark:text-[#f0f0f5] min-h-[3rem]">{plan.coreValue}</p>
-                <div className="border-t border-black/[0.06] dark:border-white/[0.08] pt-4 mb-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-3 text-[#6b7280] dark:text-[#9ca3af]">Deliverables</p>
-                  <ul className="flex flex-col gap-2 flex-1">
-                    {plan.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-[13px] text-[#6b7280] dark:text-[#9ca3af]">
-                        <span className="mt-1 flex-shrink-0 text-[10px]" style={{ color: '#FF4800' }}>●</span>
-                        {item}
+                <div>
+                  {/* Top Badge Slot (Uniform height so all 3 card headings start at identical horizontal line) */}
+                  <div className="h-7 mb-3 flex items-center">
+                    {plan.highlight && (
+                      <span className="inline-flex items-center rounded-full bg-orange-500 px-3.5 py-1 text-xs font-semibold text-neutral-900 shrink-0">
+                        Most Popular
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Heading Title (Uniform min-height so descriptions & dividers align horizontally) */}
+                  <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white leading-tight min-h-[3.5rem] flex items-start">
+                    {plan.tier}
+                  </h3>
+
+                  {/* Description (Uniform min-height so divider line aligns horizontally) */}
+                  <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed min-h-[44px] flex items-start">
+                    {plan.coreValue}
+                  </p>
+
+                  {/* Horizontal Line & Features Heading (Aligned in exact same horizontal line across all cards) */}
+                  <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
+                    <p className="text-sm font-semibold text-neutral-900 dark:text-white mb-4">
+                      Features
+                    </p>
+                    <ul className="space-y-3.5">
+                      {plan.items.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-start gap-3 text-sm text-neutral-600 dark:text-neutral-300"
+                        >
+                          <span className="text-neutral-900 dark:text-white font-bold leading-none select-none text-base">
+                            •
+                          </span>
+                          <span className="leading-snug">{item}</span>
+                        </li>
+                      ))}
+                      {/* Timeline directly under 3 points  */}
+                      <li className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300">
+                        <span className="leading-snug">
+                          <strong className="font-semibold text-neutral-900 dark:text-white">
+                            Timeline:
+                          </strong>{' '}
+                          {plan.timeline}
+                        </span>
                       </li>
-                    ))}
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 mb-6 mt-auto">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#9ca3af]">Timeline:</span>
-                  <span className="text-[13px] text-[#6b7280] dark:text-[#9ca3af]">{plan.timeline}</span>
+
+                {/* Button placed directly after points and timeline */}
+                <div className="mt-8 pt-2">
+                 <button
+  onClick={() => onNavigate('contact')}
+  className={`w-full rounded-full py-3.5 px-6 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+    plan.highlight
+      ? 'bg-black text-white hover:bg-neutral-800 shadow-sm dark:bg-white dark:text-black dark:hover:bg-neutral-200'
+      : 'border border-neutral-300 bg-white text-neutral-900 hover:bg-black hover:text-white hover:border-black dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-neutral-100 dark:hover:bg-white dark:hover:text-black'
+  }`}
+>
+  {plan.tier === 'Focused Automation Builds'
+    ? 'Start Here'
+    : plan.tier === 'Ongoing Optimization & Scale'
+    ? 'Book a Call'
+    : 'Get Started'}
+</button>
                 </div>
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="w-full rounded-lg py-3 text-[14px] font-medium transition-all duration-200"
-                  style={{
-                    background: plan.highlight ? '#FF4800' : 'transparent',
-                    color: plan.highlight ? '#ffffff' : '#FF4800',
-                    border: plan.highlight ? 'none' : '1px solid rgba(255,72,0,0.3)',
-                  }}
-                  onMouseEnter={(e) => { if (!plan.highlight) e.currentTarget.style.background = 'rgba(255,72,0,0.06)'; }}
-                  onMouseLeave={(e) => { if (!plan.highlight) e.currentTarget.style.background = 'transparent'; }}
-                >
-                  {plan.cta}
-                </button>
               </motion.div>
             ))}
           </div>
-          <p className="mt-8 text-center text-[13px] text-[#9ca3af]">
-            All engagements include full source code ownership and zero vendor lock in. Fixed price quote after a 30-min discovery call.
-          </p>
         </div>
       </section>
 
-      {/* ── Closing CTA ── */}
-      <section className="relative py-16 md:py-24 overflow-hidden" style={{ background: isDark ? '#12121e' : '#1a1a2e' }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,72,0,0.12) 0%, transparent 70%)' }} />
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }} transition={{ duration: 0.8, ease }}>
-            <p className="-mt-10 mb-5 text-[11px] font-medium uppercase tracking-widest" style={{ color: '#FF4800' }}>GET STARTED</p>
-            <h2
-              className="text-white font-normal text-[clamp(1.75rem,5vw,3.75rem)] mb-6"
-              style={{ lineHeight: 1.05, letterSpacing: '-2px' }}
-            >
-              Stop paying a monthly tax on manual work
-            </h2>
-            <p className="text-base sm:text-[17px] leading-[1.6] mb-10 max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              Book a 30 Minute strategy call. You&apos;ll walk away with a working hypothesis for what to automate first. If it&apos;s a fit, we send a proposal within 48 hours.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => onNavigate('contact')}
-                className="glow-hover w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg px-8 py-4 text-[15px] font-medium text-white shadow-lg shadow-orange-500/20"
-                style={{ background: '#FF4800' }}
-              >
-                Book a 30-min working call <ArrowRight className="h-4 w-4" />
-              </motion.button>
-              <button
-                onClick={() => onNavigate('services')}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg px-8 py-4 text-[15px] transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
-              >
-                See how we work
-              </button>
+      {/* ── Where We Stand / Technology Partners ── */}
+      <section
+        id="section-partners"
+        className="py-12 md:py-16 bg-white dark:bg-[#0a0a14] overflow-hidden"
+      >
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center mb-10 md:mb-14">
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-widest" style={{ color: '#FF4800' }}>Where we stand</p>
+          <h2
+            className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto"
+          >
+            A Foundation for What&apos;s Next
+          </h2>
+        </div>
+
+        <div className="mx-auto w-full max-w-7xl overflow-hidden">
+          <motion.div
+            className="flex w-max items-center"
+            animate={{ x: [0, '-50%'] }}
+            transition={{
+              duration: 40,
+              ease: 'linear',
+              repeat: Infinity,
+            }}
+          >
+            {/* First set */}
+            <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
+              {technologyPartners.map((partner) => (
+                <div
+                  key={`first-${partner.name}`}
+                  className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
+                >
+                  <Image
+                    src={partner.srcLight}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.classNameLight ?? partner.className} block dark:hidden`}
+                  />
+                  <Image
+                    src={partner.srcDark}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.className} hidden dark:block`}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Duplicate set for seamless auto-scroll */}
+            <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
+              {technologyPartners.map((partner) => (
+                <div
+                  key={`second-${partner.name}`}
+                  className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
+                >
+                  <Image
+                    src={partner.srcLight}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.classNameLight ?? partner.className} block dark:hidden`}
+                  />
+                  <Image
+                    src={partner.srcDark}
+                    alt={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                    className={`${partner.className} hidden dark:block`}
+                  />
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
+
+
 
       <FAQSection />
     </div>
