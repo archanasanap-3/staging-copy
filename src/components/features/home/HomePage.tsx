@@ -180,37 +180,37 @@ function InteractiveServicesSection({
     offset: ['start start', 'end end'],
   });
   // 0 → total-1: integer values mean that card is fully in place
-  const stage = useTransform(scrollYProgress, [0, 0.88], [0, total - 1]);
+  const stage = useTransform(scrollYProgress, [0, 0.98], [0, total - 1]);
 
   if (total === 0) return null;
 
   return (
     <section
-      className="rounded-t-[36px] bg-[#F6F1E7] shadow-[0_-30px_60px_rgba(0,0,0,0.12)] transition-colors duration-300 dark:bg-[#0a0a14] md:rounded-t-[56px] pt-12 md:pt-16"
+      className="rounded-t-[36px] bg-[#F6F1E7] shadow-[0_-30px_60px_rgba(0,0,0,0.12)] transition-colors duration-300 dark:bg-[#0a0a14] md:rounded-t-[56px] pt-6 sm:pt-10 md:pt-16"
     >
-      <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
+      <div className="mx-auto max-w-7xl px-4 pb-4 sm:pb-8 sm:px-6 lg:px-8">
+        <p className="mb-2 sm:mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#FF4800]">
           OUR Services
         </p>
         <h2
-          className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-[2.5rem]"
+          className="text-2xl sm:text-3xl md:text-[2.5rem] font-bold leading-tight tracking-tight"
           style={{ color: isDark ? '#ffffff' : '#000000' }}
         >
           Enterprise Software &amp; AI Automation Services
         </h2>
-        <p className="mt-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+        <p className="mt-2 sm:mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base md:text-lg">
           We build high performance infrastructure and intelligent automation
           systems designed for the next generation of enterprise growth.
         </p>
       </div>
 
       {/* Scroll track: each service gets one viewport of scroll */}
-      <div ref={trackRef} style={{ height: `${total * 100}vh` }} className="relative">
+      <div ref={trackRef} className="relative h-[240vh] md:h-[400vh]">
         <div
-          className="sticky top-0 flex h-screen items-start justify-center overflow-hidden px-3 pt-24 sm:px-6 lg:px-8"
+          className="sticky top-0 flex h-screen items-start justify-center overflow-hidden px-3 pt-14 sm:pt-20 md:pt-24 sm:px-6 lg:px-8"
           style={{ perspective: '1600px' }}
         >
-          <div className="relative mx-auto h-[min(calc(100vh-9.5rem),580px)] w-full max-w-6xl">
+          <div className="relative mx-auto h-[min(calc(100dvh-12rem),460px)] md:h-[min(calc(100vh-9.5rem),580px)] w-full max-w-6xl">
             {servicesData.map((service, index) => (
               <StackedServiceCard
                 key={service.number}
@@ -282,9 +282,9 @@ function StackedServiceCard({
         className="pointer-events-none absolute inset-0 z-30 bg-black"
       />
       <div className="grid h-full grid-cols-1 md:grid-cols-[1.1fr_1fr]">
-        <div className="flex min-h-0 flex-col justify-between p-6 sm:p-8 lg:p-11">
+        <div className="flex min-h-0 flex-col justify-start md:justify-between overflow-y-auto p-5 sm:p-7 md:p-8 lg:p-11 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           <div>
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-4 sm:mb-6 flex items-center justify-between">
               <span
                 className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] sm:text-xs"
                 style={{ backgroundColor: theme.tab }}
@@ -296,27 +296,47 @@ function StackedServiceCard({
               </span>
             </div>
 
-            <h3 className="text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl lg:text-[3.4rem]">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[3.4rem] font-bold leading-[1.1] md:leading-[1.05] tracking-tight">
               {service.title}
             </h3>
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
+            <p className="mt-2.5 sm:mt-4 md:mt-5 max-w-xl text-xs sm:text-sm md:text-base leading-relaxed text-white/85">
               {service.description}
             </p>
-            <ul className="mt-5 hidden max-w-xl space-y-2 md:block">
+
+            {/* Bullet Points - visible on all screens */}
+            <ul className="mt-3.5 sm:mt-5 max-w-xl space-y-1.5 sm:space-y-2">
               {service.points.map((pt) => (
-                <li key={pt} className="flex items-start gap-2.5 text-sm font-medium text-white/95">
-                  <span className="mt-[3px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-white/20">
-                    <Check size={11} strokeWidth={3.5} />
+                <li key={pt} className="flex items-start gap-2 sm:gap-2.5 text-xs sm:text-sm font-medium text-white/95 leading-snug">
+                  <span className="mt-[2px] flex h-4 w-4 sm:h-[18px] sm:w-[18px] shrink-0 items-center justify-center rounded-full bg-white/20">
+                    <Check size={10} strokeWidth={3.5} className="sm:hidden" />
+                    <Check size={11} strokeWidth={3.5} className="hidden sm:block" />
                   </span>
-                  {pt}
+                  <span>{pt}</span>
                 </li>
               ))}
             </ul>
+
+            {/* Service Feature Tiles on Mobile/Tablet (< md) */}
+            <div className="mt-3.5 sm:mt-4 grid grid-cols-2 gap-2 sm:gap-2.5 md:hidden">
+              {tiles.map(({ label, Icon }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 sm:gap-2.5 rounded-xl bg-white/10 px-2.5 py-2 sm:px-3 sm:py-2.5 ring-1 ring-white/20 backdrop-blur-sm"
+                >
+                  <div className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-white/15">
+                    <Icon size={16} strokeWidth={1.8} className="text-white" />
+                  </div>
+                  <span className="text-[11px] sm:text-xs font-medium text-white/95 leading-tight">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
           <button
             onClick={() => onNavigate(service.route)}
-            className="mt-6 inline-flex items-center gap-2 self-start rounded-full bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-transform hover:scale-105"
+            className="mt-4 sm:mt-5 md:mt-6 inline-flex items-center gap-2 self-start rounded-full bg-white px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-semibold text-neutral-950 transition-transform hover:scale-105 shadow-md"
           >
             {service.ctaLabel}
             <ArrowRight size={16} />
@@ -1127,7 +1147,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <div className="relative">
         <motion.div
           id="section-hero"
-          className="lg:sticky lg:top-0"
+          className="-mt-4 sm:mt-0 lg:sticky lg:top-0"
           style={{ opacity: heroOpacity }}
         >
           <AnimatedHero onNavigate={onNavigate} />
@@ -1140,14 +1160,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* ── Sandesa Section ── */}
-      <div id="section-sandesa">
+      <div id="section-sandesa" className="-mt-[34vh] sm:-mt-[20vh] md:mt-0 relative z-20">
         <SandesaSection isDark={isDark} />
       </div>
 
-
-
 {/* ── Problem Section ── */}
-<section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-12 md:py-16">
+<section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-8 sm:py-12 md:py-16">
   <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
 
     {/* Heading */}
@@ -1159,14 +1177,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       className="text-left mb-6 md:mb-8"
     >
       <p
-  className="mb-4 text-[11px] font-bold uppercase tracking-widest"
-  style={{ color: "#FF4800" }}
->
-  THE REAL PROBLEM
-</p>
+        className="mb-4 text-[11px] font-bold uppercase tracking-widest"
+        style={{ color: "#FF4800" }}
+      >
+        THE REAL PROBLEM
+      </p>
+
       <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
-        You&apos;re not short on software
-        <span className="mx-3"></span>
+        You&apos;re not short on software.
+      
         You&apos;re drowning in it
       </h2>
     </motion.div>
@@ -1186,15 +1205,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         },
         {
           heading: "The Integration Debt",
-          body: 'Every new tool requires a Zapier hack. IT says a "proper integration" is a 6 Month project.',
+          body: 'Every new tool needs a Zapier hack. IT says a "proper integration" takes 6 months.'
         },
         {
           heading: "The Visibility Gap",
-          body: "Leadership can't see pipeline health, ops can't see inventory, and finance.",
+          body: "Leadership lacks pipeline visibility, operations lack inventory insights lacks clarity."
         },
         {
           heading: "The Process Drag",
-          body: "Manual approvals, repetitive data entry, and scattered workflows slow your team down.",
+          body: "Repetitive tasks and manual processes waste your team’s valuable time every day.",
         },
         {
           heading: "The Growth Barrier",
@@ -1205,10 +1224,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="problem-num-win" aria-hidden="true">
             <span className="problem-num">{String(i + 1).padStart(2, "0")}</span>
           </div>
+
           <h3 className="problem-title mt-4 text-xl font-bold leading-tight text-[#0b0b14] dark:text-white">
             {heading}
           </h3>
-          <p className="mt-4 max-w-[270px] text-[15px] leading-[1.9] text-neutral-600 dark:text-neutral-400">
+
+          <p className="mt-4 w-full max-w-[270px] mx-auto text-center text-[15px] leading-[1.6] text-neutral-600 dark:text-neutral-400">
             {body}
           </p>
         </div>
@@ -1217,6 +1238,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   </div>
 </section>
+
 
 {/* ── Client Projects ── */}
 <ClientProjectsSection />
@@ -1728,16 +1750,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
- 
-{/* ── Process Section ── */}
-      <section
-        className="relative py-12 md:py-16"
-        style={{ background: isDark ? '#0a0a14' : '#F6F1E7' }}
-      >
-        <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
 
+{/* ── Process Section ── */}
+<section
+  className="relative py-12 md:py-16"
+  style={{ background: isDark ? "#0a0a14" : "#F6F1E7" }}
+>
+  <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
     <div className="relative">
-      {/* Connecting line */}
+
+      {/* Connecting Line - Desktop */}
       <div
         className="pointer-events-none absolute left-[10%] right-[10%] top-10 hidden h-px md:block"
         style={{
@@ -1746,12 +1768,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         }}
       />
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-5 md:gap-5 lg:gap-7">
+      {/* Process Steps */}
+      <div className="flex flex-col md:grid md:grid-cols-5 md:gap-5 lg:gap-7">
         {[
           {
             step: "01",
             label: "Discovery",
-            desc: "30-minute strategy call to analyze workflows and identify high-impact automation opportunities.",
+            desc: "30-minute strategy call to analyze workflows and identify high-impact opportunities.",
             icon: Activity,
           },
           {
@@ -1763,7 +1786,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           {
             step: "03",
             label: "Build",
-            desc: "We build in weekly sprints with full visibility, testing, and control.",
+            desc: "We build in weekly sprints with full visibility, testing, and control and accurately.",
             icon: Shield,
           },
           {
@@ -1791,11 +1814,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             }}
             className="group relative flex min-w-0 flex-col items-center text-center"
           >
-            {/* Icon */}
+            {/* Line Above Circle - Mobile (Connects from previous step to top of circle) */}
+            {index > 0 && (
+              <div
+                className="pointer-events-none mt-4 flex h-12 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
+                aria-hidden="true"
+              />
+            )}
+
+            {/* Icon Circle */}
             <motion.div
               whileHover={{ y: -4, scale: 1.04 }}
               transition={{ duration: 0.25 }}
-              className="relative z-10 mb-5 flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-colors duration-300 group-hover:bg-[#FF4800] dark:bg-[#12121e] dark:group-hover:bg-[#FF4800]"
+              className="relative z-10 flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-colors duration-300 group-hover:bg-[#FF4800] dark:bg-[#12121e] dark:group-hover:bg-[#FF4800] md:mb-5"
             >
               <item.icon
                 size={24}
@@ -1804,7 +1835,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               />
             </motion.div>
 
-            {/* Step number */}
+            {/* Line Below Circle - Mobile (Connects from bottom of circle to STEP text) */}
+            <div
+              className="pointer-events-none mb-1.5 flex h-5 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
+              aria-hidden="true"
+            />
+
+            {/* Step Number */}
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#FF4800]">
               STEP {item.step}
             </p>
@@ -1815,7 +1852,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </h3>
 
             {/* Description */}
-            <p className="w-full max-w-[240px] text-left text-sm leading-6 text-[#6b7280] dark:text-[#9ca3af] md:text-center">
+            <p className="w-full max-w-[280px] text-center text-sm leading-6 text-[#6b7280] dark:text-[#9ca3af]">
               {item.desc}
             </p>
           </motion.div>
@@ -1824,6 +1861,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     </div>
   </div>
 </section>
+
+
 
       {/* ── Pricing Section ── */}
       <section
@@ -1977,22 +2016,24 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </h2>
         </div>
 
-        <div className="mx-auto w-full max-w-7xl overflow-hidden">
-          <motion.div
-            className="flex w-max items-center"
-            animate={{ x: [0, '-50%'] }}
-            transition={{
-              duration: 40,
-              ease: 'linear',
-              repeat: Infinity,
+        <div className="relative mx-auto w-full max-w-7xl overflow-hidden">
+          {/* Edge gradient masks for seamless floating visual effect */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-8 sm:w-16 bg-gradient-to-r from-[#F6F1E7] to-transparent dark:from-[#0a0a14]" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-8 sm:w-16 bg-gradient-to-l from-[#F6F1E7] to-transparent dark:from-[#0a0a14]" />
+
+          <div
+            className="flex w-max items-center hover:[animation-play-state:paused]"
+            style={{
+              animation: 'marqueeScroll 28s linear infinite',
+              willChange: 'transform',
             }}
           >
             {/* First set */}
-            <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
+            <div className="flex shrink-0 items-center gap-8 sm:gap-10 md:gap-14 pr-8 sm:pr-10 md:pr-14">
               {technologyPartners.map((partner) => (
                 <div
                   key={`first-${partner.name}`}
-                  className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
+                  className="flex h-14 md:h-20 shrink-0 items-center justify-center bg-transparent"
                 >
                   <Image
                     src={partner.srcLight}
@@ -2013,11 +2054,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </div>
 
             {/* Duplicate set for seamless auto-scroll */}
-            <div className="flex shrink-0 items-center gap-10 md:gap-14 pr-10 md:pr-14">
+            <div className="flex shrink-0 items-center gap-8 sm:gap-10 md:gap-14 pr-8 sm:pr-10 md:pr-14">
               {technologyPartners.map((partner) => (
                 <div
                   key={`second-${partner.name}`}
-                  className="flex h-16 md:h-20 shrink-0 items-center justify-center bg-transparent"
+                  className="flex h-14 md:h-20 shrink-0 items-center justify-center bg-transparent"
                 >
                   <Image
                     src={partner.srcLight}
@@ -2036,7 +2077,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
