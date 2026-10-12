@@ -224,9 +224,9 @@ function PageTopHeader() {
           </p>
 
           {/* Heading - Strictly in ONE SINGLE LINE */}
-          <h1 className="whitespace-nowrap max-sm:whitespace-normal text-xl font-bold tracking-tight text-black sm:text-2xl md:text-3xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
-            Enterprise Software &amp; AI Automation Services
-          </h1>
+<h1 className="whitespace-nowrap max-sm:whitespace-normal text-2xl font-bold tracking-tight text-black sm:text-2xl md:text-4xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
+  Enterprise Software &amp; AI Automation Services
+</h1>
         </motion.div>
       </div>
     </section>
@@ -417,39 +417,53 @@ function WhyStravedaSection() {
         {/* ================= STEPPER ================= */}
         <div className="relative">
 
-          {/* Horizontal Line */}
+          {/* Horizontal Line - Desktop */}
           <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-gray-200 md:block dark:bg-white/10" />
 
-          <div className="grid grid-cols-1 gap-14 md:grid-cols-3 md:gap-8">
-            {steps.map((step) => (
+          <div className="relative z-10 flex flex-col md:grid md:grid-cols-3 md:gap-8">
+            {steps.map((step, index) => (
               <div
                 key={step.number}
-                className="relative text-center"
+                className="group relative flex flex-col items-center text-center"
               >
-                {/* Step Number */}
+                {/* Line Above Circle - Mobile (Connects from previous step to top of circle) */}
+                {index > 0 && (
+                  <div
+                    className="pointer-events-none mt-4 flex h-12 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
+                    aria-hidden="true"
+                  />
+                )}
+
+                {/* Step Circle */}
                 <div
                   className="
-                    relative z-10 mx-auto flex h-12 w-12
+                    relative z-10 mx-auto flex h-12 w-12 shrink-0
                     cursor-pointer items-center justify-center
                     rounded-full
-                    border border-[#FF4800]/30
+                    border border-[#FF4800]
                     bg-white
                     text-xs font-bold text-[#FF4800]
+                    shadow-[0_4px_16px_rgba(0,0,0,0.06)]
                     transition-all duration-300 ease-out
                     hover:scale-110
-                    hover:border-[#FF4800]
                     hover:bg-[#FF4800]
                     hover:text-white
                     hover:shadow-[0_10px_30px_rgba(255,72,0,0.25)]
-                    dark:bg-[#0a0a14]
+                    dark:bg-[#12121e]
                     dark:hover:bg-[#FF4800]
                   "
                 >
                   {step.number}
                 </div>
 
+                {/* Line Below Circle - Mobile (Connects from bottom of circle to content) */}
+                <div
+                  className="pointer-events-none mb-1.5 flex h-5 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
+                  aria-hidden="true"
+                />
+
                 {/* Description */}
-                <div className="mx-auto mt-8 max-w-sm">
+                <div className="relative z-10 mx-auto mt-1 md:mt-8 max-w-sm">
                   <h3 className="text-xl font-normal tracking-[-0.02em] text-black md:text-2xl dark:text-white">
                     {step.heading}
                   </h3>

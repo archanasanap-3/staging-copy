@@ -142,63 +142,73 @@ export default function SandesaSection({ isDark }: Props) {
     return sign * x;
   };
 
-  return (
-    <section className="relative z-10 overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] transition-colors duration-300 py-12 md:py-16">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20"
-        style={{
-          background:
-            'radial-gradient(circle at 80% 50%, rgba(255, 72, 0, 0.15) 0%, transparent 60%)',
-        }}
-      />
+return (
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-left w-full mb-10 md:mb-14">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <span className="flex h-2 w-2 rounded-full bg-[#FF4800] animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
-              BUILT BY STRAVEDA • WHATSAPP AI
-            </span>
-          </div>
+<section className="relative z-10 -mt-28 overflow-hidden bg-[#F6F1E7] pt-0 pb-6 transition-colors duration-300 dark:bg-[#0a0a14] sm:-mt-12 sm:pt-4 sm:pb-10 md:-mt-10 md:pt-10 md:pb-16">
 
-          <h2 className="text-2xl sm:text-3xl md:text-[clamp(1.4rem,2.6vw,2.5rem)] md:whitespace-nowrap font-bold tracking-tight text-neutral-950 dark:text-white leading-tight">
-            Meet <span className="text-[#FF4800]">Sandesa</span> — WhatsApp Business Platform, Powered by AI
-          </h2>
+    {/* Background Gradient */}
+    <div
+      className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20"
+      style={{
+        background:
+          "radial-gradient(circle at 80% 50%, rgba(255, 72, 0, 0.15) 0%, transparent 60%)",
+      }}
+    />
 
-          <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-5xl leading-relaxed">
-            Run campaigns, chatbots, an AI agent and your customer conversations from one dashboard, all on WhatsApp.
-          </p>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Heading */}
+      <div className="text-left w-full mb-6 sm:mb-10 md:mb-14">
+        <div className="inline-flex items-center gap-2 mb-4">
+          <span className="flex h-2 w-2 rounded-full bg-[#FF4800] animate-pulse" />
+
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#FF4800]">
+            BUILT BY STRAVEDA • WHATSAPP AI
+          </span>
         </div>
 
-        {/* Persistent track: every story is always mounted and glides between slots */}
-        <div
-          ref={trackRef}
-          className="relative w-full"
-          style={{ height: centerH + 40 }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {sandesaStories.map((story, i) => {
-            const offset = ((i - active + 2 + count) % count) - 2; // -2..2
-            return (
-              <SandesaSlide
-                key={story.id}
-                story={story}
-                index={i}
-                offset={offset}
-                x={centerX(offset)}
-                centerW={centerW}
-                centerH={centerH}
-                visible={offset === 0 || (Math.abs(offset) === 1 && showSide1) || (Math.abs(offset) === 2 && showSide2)}
-                onSelect={() => setActive(i)}
-                onHoverOpen={() => selectOnHover(i)}
-              />
-            );
-          })}
-        </div>
+        <h2 className="text-2xl sm:text-3xl md:text-[clamp(1.4rem,2.6vw,2.5rem)] md:whitespace-nowrap font-bold tracking-tight text-neutral-950 dark:text-white leading-tight">
+          Meet <span className="text-[#FF4800]">Sandesa</span> WhatsApp Business Platform, Powered by AI
+        </h2>
+
+        <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-5xl leading-relaxed">
+          Run campaigns, chatbots, an AI agent and your customer conversations from one dashboard, all on WhatsApp.
+        </p>
       </div>
-    </section>
-  );
+
+      {/* Persistent Story Track */}
+      <div
+        ref={trackRef}
+        className="relative w-full"
+        style={{ height: centerH + 40 }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {sandesaStories.map((story, i) => {
+          const offset = ((i - active + 2 + count) % count) - 2;
+
+          return (
+            <SandesaSlide
+              key={story.id}
+              story={story}
+              index={i}
+              offset={offset}
+              x={centerX(offset)}
+              centerW={centerW}
+              centerH={centerH}
+              visible={
+                offset === 0 ||
+                (Math.abs(offset) === 1 && showSide1) ||
+                (Math.abs(offset) === 2 && showSide2)
+              }
+              onSelect={() => setActive(i)}
+              onHoverOpen={() => selectOnHover(i)}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
 }
 
 function SandesaSlide({
