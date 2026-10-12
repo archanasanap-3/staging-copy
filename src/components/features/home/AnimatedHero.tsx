@@ -65,7 +65,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
 
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-5 pb-32 pt-32 text-center"
+      className="relative flex min-h-[92dvh] sm:min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-5 pt-20 pb-16 sm:pt-28 sm:pb-28 md:pt-32 md:pb-32 text-center"
       style={{ background: bg }}
     >
       <style>{`
@@ -87,7 +87,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
-          className="mb-8 inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.28em]"
+          className="mb-6 sm:mb-8 inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.28em]"
           style={{ color: textMuted }}
         >
           <span
@@ -118,7 +118,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.75, ease: EASE }}
-          className="mt-8 max-w-2xl text-balance text-base leading-relaxed sm:text-lg"
+          className="mt-6 sm:mt-8 max-w-2xl text-balance text-base leading-relaxed sm:text-lg"
           style={{ color: textMuted }}
         >
           We build AI-powered business systems and custom software for mid-market
@@ -130,7 +130,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+          className="mt-8 sm:mt-10 flex flex-col items-center gap-4 sm:flex-row"
         >
           <motion.button
             type="button"
