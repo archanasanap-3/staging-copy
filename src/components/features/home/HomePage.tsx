@@ -35,6 +35,7 @@ import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SandesaSection from '@/components/features/home/SandesaSection';
 import ClientProjectsSection from '@/components/features/home/ClientProjectsSection';
 import WaveDivider from '@/components/animations/WaveDivider';
+import TechConstellationPopup from '@/components/features/home/TechConstellationPopup';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -2084,6 +2085,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
 
       <FAQSection />
+
+      {/* Screen Click Pop-up: Reveals constellation of tech stack tags upon clicking anywhere on homepage */}
+      <TechConstellationPopup isDark={isDark} />
     </div>
   );
 }

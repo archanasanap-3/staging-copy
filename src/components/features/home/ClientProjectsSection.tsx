@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Star, ArrowUpRight, Quote, RotateCcw } from 'lucide-react';
 import Image from 'next/image';
 
@@ -76,11 +76,16 @@ const clientProjects: ClientProject[] = [
   },
 ];
 
+interface FlipCardProps {
+  item: ClientProject;
+  index: number;
+  isFlipped: boolean;
+  onToggle: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}
 
-function FlipCard({ item, index }: { item: ClientProject; index: number }) {
-  const [flipped, setFlipped] = useState(false);
-  const toggle = () => setFlipped((f) => !f);
-
+function FlipCard({ item, index, isFlipped, onToggle, onMouseEnter, onMouseLeave }: FlipCardProps) {
   const frame =
     'absolute inset-0 overflow-hidden rounded-[24px] border border-neutral-300/80 bg-white shadow-[0_14px_35px_rgba(0,0,0,0.08)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] dark:border-white/15 dark:bg-[#181824]';
 
@@ -92,18 +97,20 @@ function FlipCard({ item, index }: { item: ClientProject; index: number }) {
       transition={{ duration: 0.7, delay: (index % 2) * 0.12, ease: [0.22, 1, 0.36, 1] }}
       className="group relative h-[340px] select-none sm:h-[350px] lg:h-[360px]"
       style={{ perspective: '1600px' }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div
         className="relative h-full w-full transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d]"
-        style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+        style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
       >
         {/* ── FRONT: project ── */}
         <div
           role="button"
-          tabIndex={flipped ? -1 : 0}
+          tabIndex={isFlipped ? -1 : 0}
           aria-label={`${item.company}: show client review`}
-          onClick={toggle}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }}
+          onClick={onToggle}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); } }}
           className={`${frame} flex cursor-pointer flex-col`}
         >
           <div className="relative min-h-0 flex-1 overflow-hidden bg-neutral-200">
@@ -136,10 +143,10 @@ function FlipCard({ item, index }: { item: ClientProject; index: number }) {
         {/* ── BACK: review ── */}
         <div
           role="button"
-          tabIndex={flipped ? 0 : -1}
+          tabIndex={isFlipped ? 0 : -1}
           aria-label={`${item.company}: show project`}
-          onClick={toggle}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }}
+          onClick={onToggle}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); } }}
           className={`${frame} flex cursor-pointer flex-col justify-between p-5`}
           style={{ transform: 'rotateY(180deg)' }}
         >
@@ -205,9 +212,54 @@ function FlipCard({ item, index }: { item: ClientProject; index: number }) {
 
 export default function ClientProjectsSection() {
   const items = clientProjects;
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInView(sectionRef, { margin: '-60px' });
+
+  // Track flipped state for each card; starts with card 0 flipped
+  const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({ 0: true });
+  const [isHovered, setIsHovered] = useState(false);
+  const currentAutoRef = useRef(0);
+  const pauseUntilRef = useRef(0);
+
+  // Auto-flip 1 card at a time every 3 seconds across both mobile and desktop
+  useEffect(() => {
+    if (!isInView) return;
+
+    const interval = setInterval(() => {
+      if (isHovered || Date.now() < pauseUntilRef.current) return;
+
+      const prev = currentAutoRef.current;
+      const next = (prev + 1) % items.length;
+      currentAutoRef.current = next;
+
+      setFlippedCards((curr) => ({
+        ...curr,
+        [prev]: false,
+        [next]: true,
+      }));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isInView, isHovered, items.length]);
+
+  const handleToggle = (index: number) => {
+    setFlippedCards((curr) => {
+      const isNowFlipped = !curr[index];
+      if (isNowFlipped) {
+        currentAutoRef.current = index;
+      }
+      return {
+        ...curr,
+        [index]: isNowFlipped,
+      };
+    });
+    // Pause auto-rotation for 5 seconds when user manually interacts
+    pauseUntilRef.current = Date.now() + 5000;
+  };
 
   return (
     <section
+      ref={sectionRef}
       id="section-clients"
       className="relative overflow-hidden bg-[#F6F1E7] transition-colors duration-300 dark:bg-[#0a0a14] py-12 md:py-16"
     >
@@ -227,7 +279,15 @@ export default function ClientProjectsSection() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
           {items.map((item, i) => (
-            <FlipCard key={item.company} item={item} index={i} />
+            <FlipCard
+              key={item.company}
+              item={item}
+              index={i}
+              isFlipped={!!flippedCards[i]}
+              onToggle={() => handleToggle(i)}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            />
           ))}
         </div>
       </div>
