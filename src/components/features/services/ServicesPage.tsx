@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import {
   ArrowRight,
   Database,
@@ -30,6 +30,10 @@ function ServicesPageStyles() {
     <style
       dangerouslySetInnerHTML={{
         __html: `
+      html {
+        scroll-behavior: smooth;
+      }
+
       .btn-shine {
         position: relative;
         overflow: hidden;
@@ -60,6 +64,56 @@ function ServicesPageStyles() {
     />
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Framer Motion Variants for Staggered Animations                    */
+/* ------------------------------------------------------------------ */
+
+const staggerContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12, // 120ms अंतर प्रत्येक कार्डमध्ये
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const staggerItemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const stepContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2, // 200ms अंतर प्रत्येक स्टेपमध्ये
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const stepItemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
 /* ------------------------------------------------------------------ */
 /* Data                                                               */
@@ -224,9 +278,9 @@ function PageTopHeader() {
           </p>
 
           {/* Heading - Strictly in ONE SINGLE LINE */}
-<h1 className="whitespace-nowrap max-sm:whitespace-normal text-2xl font-bold tracking-tight text-black sm:text-2xl md:text-4xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
-  Enterprise Software &amp; AI Automation Services
-</h1>
+          <h1 className="whitespace-nowrap max-sm:whitespace-normal text-2xl font-bold tracking-tight text-black sm:text-2xl md:text-4xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
+            Enterprise Software &amp; AI Automation Services
+          </h1>
         </motion.div>
       </div>
     </section>
@@ -306,16 +360,20 @@ function ServiceBlock({
                 {service.body}
               </p>
 
-              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {service.capabilities.map((cap, i) => {
+              {/* ── STAGGERED CAPABILITY CARDS ── */}
+              <motion.div
+                variants={staggerContainerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+                className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2"
+              >
+                {service.capabilities.map((cap) => {
                   const Icon = cap.icon;
                   return (
                     <motion.div
                       key={cap.title}
-                      initial={{ opacity: 0, y: 18 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: '-40px' }}
-                      transition={{ duration: 0.55, delay: 0.25 + i * 0.08, ease }}
+                      variants={staggerItemVariants}
                       className="group flex items-start gap-3.5 rounded-2xl border border-black/[0.05] bg-[#F6F1E7]/60 p-4 transition-colors duration-300 hover:border-[#FF4800]/40 hover:bg-[#FF4800]/[0.05] dark:border-white/10 dark:bg-white/[0.04]"
                     >
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white">
@@ -332,7 +390,7 @@ function ServiceBlock({
                     </motion.div>
                   );
                 })}
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -366,7 +424,6 @@ function PushNumbersServicesSection({
       {services.map((service, i) => (
         <ServiceBlock key={service.id} service={service} index={i} onNavigate={onNavigate} />
       ))}
-
     </div>
   );
 }
@@ -400,33 +457,43 @@ function WhyStravedaSection() {
   return (
     <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
         {/* ================= HEADING ================= */}
-        <div className="mb-14 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-14 text-center"
+        >
           <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Our Approach
           </span>
 
-          <h2
-            className="mt-4 font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
-          >
+          <h2 className="mt-4 font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
             Built for How You Work
           </h2>
-        </div>
+        </motion.div>
 
         {/* ================= STEPPER ================= */}
         <div className="relative">
-
           {/* Horizontal Line - Desktop */}
           <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-gray-200 md:block dark:bg-white/10" />
 
-          <div className="relative z-10 flex flex-col md:grid md:grid-cols-3 md:gap-8">
+          {/* ── STAGGERED STEPS (01 -> 02 -> 03) ── */}
+          <motion.div
+            variants={stepContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="relative z-10 flex flex-col md:grid md:grid-cols-3 md:gap-8"
+          >
             {steps.map((step, index) => (
-              <div
+              <motion.div
                 key={step.number}
+                variants={stepItemVariants}
                 className="group relative flex flex-col items-center text-center"
               >
-                {/* Line Above Circle - Mobile (Connects from previous step to top of circle) */}
+                {/* Line Above Circle - Mobile */}
                 {index > 0 && (
                   <div
                     className="pointer-events-none mt-4 flex h-12 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
@@ -456,7 +523,7 @@ function WhyStravedaSection() {
                   {step.number}
                 </div>
 
-                {/* Line Below Circle - Mobile (Connects from bottom of circle to content) */}
+                {/* Line Below Circle - Mobile */}
                 <div
                   className="pointer-events-none mb-1.5 flex h-5 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
                   aria-hidden="true"
@@ -472,11 +539,10 @@ function WhyStravedaSection() {
                     {step.body}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-
       </div>
     </section>
   );
@@ -509,7 +575,12 @@ export default function ServicesPage({
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#F6F1E7] dark:bg-[#0a0a14]">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="min-h-screen bg-[#F6F1E7] dark:bg-[#0a0a14] scroll-smooth"
+    >
       <ServicesPageStyles />
 
       {/* ── Top Header: Our Services / Enterprise Software & AI Automation Services (One Line, No paragraph) ── */}
@@ -525,7 +596,14 @@ export default function ServicesPage({
       <WhyStravedaSection />
 
       {/* ── Service Comparison ── */}
-      <ServiceComparison />
-    </main>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <ServiceComparison />
+      </motion.div>
+    </motion.main>
   );
 }
