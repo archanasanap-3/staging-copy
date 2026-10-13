@@ -74,7 +74,7 @@ const staggerContainerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12, // 120ms अंतर प्रत्येक कार्डमध्ये
+      staggerChildren: 0.12,
       delayChildren: 0.15,
     },
   },
@@ -97,7 +97,7 @@ const stepContainerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // 200ms अंतर प्रत्येक स्टेपमध्ये
+      staggerChildren: 0.2,
       delayChildren: 0.1,
     },
   },
@@ -312,47 +312,58 @@ function ServiceBlock({
     >
       <motion.div style={{ opacity: fade }} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-14">
-          {/* ── LEFT: number + title stacked, pinned while the card scrolls past ── */}
+          
+          {/* ── LEFT: Number (With Repeating Animation) + Title Pinned ── */}
           <div className="lg:col-span-5 lg:sticky lg:top-32">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.8, ease }}
-            >
-              <div className="select-none text-7xl font-bold leading-none tracking-tighter text-black dark:text-white sm:text-8xl lg:text-[8.5rem]">
-                {service.number}
-              </div>
-
-              <span className="mt-5 inline-block text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
-                {service.badge}
-              </span>
-
-              <h2 className="mt-2 text-2xl font-bold leading-[1.18] tracking-tight text-black dark:text-white sm:text-3xl lg:text-4xl">
-                {service.title}
-              </h2>
-
-              <p className="mt-3 text-sm font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
-                {service.category}
-              </p>
-
-              <button
-                type="button"
-                onClick={() => onNavigate('contact')}
-                className="group mt-6 inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white"
+            <div>
+              {/* Number with repeating slide-up & scale entrance */}
+              <motion.div
+                initial={{ opacity: 0, y: 56, scale: 0.94 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.8, ease }}
+                className="select-none text-7xl font-bold leading-none tracking-tighter text-black dark:text-white sm:text-8xl lg:text-[8.5rem]"
               >
-                <span>Book Strategy Call</span>
-                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-            </motion.div>
+                {service.number}
+              </motion.div>
+
+              {/* Title, Badge & Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.75, delay: 0.12, ease }}
+              >
+                <span className="mt-5 inline-block text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
+                  {service.badge}
+                </span>
+
+                <h2 className="mt-2 text-2xl font-bold leading-[1.18] tracking-tight text-black dark:text-white sm:text-3xl lg:text-4xl">
+                  {service.title}
+                </h2>
+
+                <p className="mt-3 text-sm font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
+                  {service.category}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => onNavigate('contact')}
+                  className="group mt-6 inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white"
+                >
+                  <span>Book Strategy Call</span>
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
+              </motion.div>
+            </div>
           </div>
 
-          {/* ── RIGHT: boxed detail card ── */}
+          {/* ── RIGHT: boxed detail card (Repeating) ── */}
           <motion.div
             className="lg:col-span-7"
             initial={{ opacity: 0, y: 56 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.8, delay: 0.12, ease }}
           >
             <div className="rounded-[28px] border border-black/[0.06] bg-white p-6 shadow-[0_18px_50px_rgba(20,17,12,0.07)] dark:border-white/10 dark:bg-[#181824] sm:p-8">
@@ -360,12 +371,12 @@ function ServiceBlock({
                 {service.body}
               </p>
 
-              {/* ── STAGGERED CAPABILITY CARDS ── */}
+              {/* ── STAGGERED CAPABILITY CARDS (Repeating) ── */}
               <motion.div
                 variants={staggerContainerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: '-40px' }}
+                viewport={{ once: false, amount: 0.2 }}
                 className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2"
               >
                 {service.capabilities.map((cap) => {
@@ -461,7 +472,7 @@ function WhyStravedaSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mb-14 text-center"
         >
@@ -479,12 +490,12 @@ function WhyStravedaSection() {
           {/* Horizontal Line - Desktop */}
           <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-gray-200 md:block dark:bg-white/10" />
 
-          {/* ── STAGGERED STEPS (01 -> 02 -> 03) ── */}
+          {/* ── STAGGERED STEPS (Repeating) ── */}
           <motion.div
             variants={stepContainerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: false, amount: 0.2 }}
             className="relative z-10 flex flex-col md:grid md:grid-cols-3 md:gap-8"
           >
             {steps.map((step, index) => (
@@ -595,11 +606,11 @@ export default function ServicesPage({
       {/* ── Approach Section ── */}
       <WhyStravedaSection />
 
-      {/* ── Service Comparison ── */}
+      {/* ── Service Comparison (Repeating) ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <ServiceComparison />
