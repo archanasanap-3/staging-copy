@@ -17,6 +17,14 @@ import {
   Mail,
   Bot,
   Users,
+  MonitorSmartphone,
+  Palette,
+  Target,
+  Gauge,
+  UserRound,
+  FileSearch,
+  Workflow as WorkflowIcon,
+  Rocket,
   type LucideIcon,
 } from 'lucide-react';
 import ServiceComparison from '@/components/features/services/ServiceComparison';
@@ -61,6 +69,7 @@ function ServicesPageStyles() {
   );
 }
 
+
 /* ------------------------------------------------------------------ */
 /* Data                                                               */
 /* ------------------------------------------------------------------ */
@@ -87,26 +96,26 @@ const services: ServiceBlockData[] = [
     badge: 'AUTOMATION',
     category: 'Business strategy & workflows',
     title: 'AI & Business Automation',
-    body: 'WhatsApp flows that qualify leads and drive conversions. Behavior Triggered email sequences for engagement and retention. AI agents handling tier 1 customer support. Workflow automation reducing manual operational load. 30 to 60% reduction in manual operations within the first 90 days.',
+    body: 'Automate repetitive tasks, respond to customer enquiries faster, and reduce the manual work that slows your team down.',
     capabilities: [
       {
         title: 'WhatsApp Automation',
-        desc: 'AI powered lead qualification & instant booking',
+        desc: 'Automatically respond to enquiries, collect customer details, answer common questions, and help customers book appointments.',
         icon: MessageCircle,
       },
       {
         title: 'Email Sequences',
-        desc: 'Behavioral triggers that run without touching CRM',
+        desc: 'Send timely emails, follow up with potential customers, and keep people informed without sending every message manually.',
         icon: Mail,
       },
       {
         title: 'AI Support',
-        desc: 'Tier 1 handled by AI, complex issues auto escalate',
+        desc: 'Let AI answer common customer questions and pass more complex issues to your team.',
         icon: Bot,
       },
       {
         title: 'Lead Qualification',
-        desc: 'AI powered lead scoring and smart qualification',
+        desc: 'Organize enquiries, identify promising prospects, and help your sales team follow up at the right time.',
         icon: Users,
       },
     ],
@@ -115,28 +124,28 @@ const services: ServiceBlockData[] = [
   {
     id: 'custom-software',
     badge: 'SOFTWARE',
-    category: 'Enterprise systems & data architecture',
+    category: 'Software Designed around your business',
     title: 'Custom Software & Systems',
-    body: 'AI powered CRMs designed for real team adoption. Real time dashboards replacing fragmented monitoring tools. Internal systems built around your workflows (not rigid SaaS tools). Centralized data systems for better decision making.',
+    body: 'We build software tailored to your business needs. Manage customers, track performance, connect your tools, and bring your daily operations together in one place.',
     capabilities: [
       {
-        title: 'AI Powered CRMs',
-        desc: 'Built around your specific sales process',
-        icon: Database,
+        title: 'Customer & Sales Management',
+        desc: 'Manage leads, customer details, follow-ups, and sales in one organized system.',
+        icon: UserRound,
       },
       {
-        title: 'Operational Dashboards',
-        desc: 'Real time visibility into your core metrics',
+        title: 'Business Dashboards',
+        desc: 'See your sales, performance, and key business numbers without checking multiple files.',
         icon: BarChart3,
       },
       {
-        title: 'Customer Portals',
-        desc: 'Reduce support volume with intelligent self service',
-        icon: Globe,
+        title: 'Customer & Employee Portals',
+        desc: 'Give customers, employees, or business partners a dedicated place to access information and complete tasks.',
+        icon: MonitorSmartphone,
       },
       {
-        title: 'Data Integration',
-        desc: 'Connect your systems into one unified workflow',
+        title: 'Connected Business Systems',
+        desc: 'Connect the software you already use and reduce duplicate data entry and disconnected workflows.',
         icon: Network,
       },
     ],
@@ -145,29 +154,29 @@ const services: ServiceBlockData[] = [
   {
     id: 'ai-strategy',
     badge: 'STRATEGY',
-    category: 'Model inference & intelligent deployment',
-    title: 'AI Strategy & Integration',
-    body: 'Deployment of GPT class models and advanced AI APIs. Custom LLM integration tailored to business workflows. End To End AI architecture, training, and deployment. Seamless integration into your existing tech stack.',
+    category: 'AI tolls that work with your business software',
+    title: 'AI Solutions for Real Business Needs',
+    body: 'We help businesses use AI to find information faster, handle repetitive tasks, and make their software more useful. We connect AI with your business processes to solve practical problems.',
     capabilities: [
       {
-        title: 'AI Architecture',
-        desc: 'Phased roadmap to deploy where it creates real ROI',
+        title: 'AI Strategy & Planning',
+        desc: 'Identify where AI can save time, reduce costs, or improve your business processes before investing in a solution.',
         icon: Cpu,
       },
       {
-        title: 'LLM Fine Tuning',
-        desc: 'Models trained on your specific business context',
-        icon: Workflow,
+        title: 'AI Knowledge Assistants',
+        desc: 'Help your team find answers from approved company documents, policies, manuals, and other business information.',
+        icon: FileSearch,
       },
       {
-        title: 'RAG Systems',
-        desc: 'AI that answers questions using private secure data',
-        icon: Network,
+        title: 'AI Integration',
+        desc: 'Connect AI capabilities to your existing applications and workflows to help automate everyday tasks.',
+        icon: WorkflowIcon,
       },
       {
-        title: 'AI Deployment',
-        desc: 'Production ready AI systems integrated into your stack',
-        icon: Zap,
+        title: 'AI Product Development',
+        desc: 'Turn a business idea into an AI-powered application, assistant, or digital product.',
+        icon: Rocket,
       },
     ],
     number: '03',
@@ -176,33 +185,34 @@ const services: ServiceBlockData[] = [
     id: 'web-development',
     badge: 'DIGITAL',
     category: 'High-performance interactive experiences',
-    title: 'Web Design & Experiences',
-    body: 'High Performance websites built using modern frameworks (e.g., Next.js). 3D interactive experiences for premium brand differentiation. Conversion focused landing pages (not just visual design). Fast loading, SEO Ready, edge deployed architecture. 2–4x improvement in conversion rates compared to template based sites.',
+    title: 'Websites That Build Trust and Grow Your Business.',
+    body: 'We design and develop fast, modern websites that showcase your business, make it easier for customers to find you, and turn visitors into enquiries.',
     capabilities: [
       {
-        title: 'Next.js Performance',
-        desc: 'Sub second loads and global edge deployment',
-        icon: Zap,
+        title: 'Business Websites',
+        desc: 'Present your services, showcase your work, and give customers a professional first impression on every device.',
+        icon: MonitorSmartphone,
       },
       {
-        title: '3D & Interactive',
-        desc: 'Make your brand unforgettable with immersive builds',
-        icon: Layers,
+        title: 'Website Design & UI/UX',
+        desc: 'Create clear, easy-to-use website experiences that help visitors understand your business and navigate with confidence.',
+        icon: Palette,
       },
       {
-        title: 'Conversion Funnels',
-        desc: 'A/B testing and analytics built into the core',
-        icon: TrendingDown,
+        title: 'Landing Pages',
+        desc: 'Build focused pages for advertising campaigns, product launches, and lead generation.',
+        icon: Target,
       },
       {
-        title: 'SEO & Analytics',
-        desc: 'Search optimized with measurable performance tracking',
-        icon: BarChart3,
+        title: 'Speed & Search Visibility',
+        desc: 'Improve loading performance, search engine accessibility, and website measurement to help you make better decisions.',
+        icon: Gauge,
       },
     ],
     number: '04',
   },
 ];
+
 
 /* ------------------------------------------------------------------ */
 /* Page Top Header                                                    */
@@ -225,7 +235,7 @@ function PageTopHeader() {
 
           {/* Heading - Strictly in ONE SINGLE LINE */}
 <h1 className="whitespace-nowrap max-sm:whitespace-normal text-2xl font-bold tracking-tight text-black sm:text-2xl md:text-4xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
-  Enterprise Software &amp; AI Automation Services
+Software Solutions Built Around Your Business.”
 </h1>
         </motion.div>
       </div>
@@ -287,7 +297,7 @@ function ServiceBlock({
                 onClick={() => onNavigate('contact')}
                 className="group mt-6 inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white"
               >
-                <span>Book Strategy Call</span>
+                <span>Discuss Your Business Needs</span>
                 <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
               </button>
             </motion.div>
@@ -379,21 +389,21 @@ function WhyStravedaSection() {
   const steps = [
     {
       number: '01',
-      title: 'AUTOMATION FIRST',
-      heading: 'Automation First',
-      body: 'We audit what can be removed before we build. We prune scope—then automate what remains.',
+      title: 'Solve the Right Problem',
+      heading: 'Solve the Right Problem',
+      body: 'We first understand your business and identify what needs to improve. Then we build only what adds value.',
     },
     {
       number: '02',
-      title: 'WEEKLY SHIPPING',
-      heading: 'Weekly Shipping',
-      body: 'One week sprints with visible builds every Friday. You see working code, not slide decks.',
+      title: 'See Progress as We Build',
+      heading: 'See Progress as We Build',
+      body: 'Stay involved through regular updates and working demonstrations, so you can share feedback before the final launch.',
     },
     {
       number: '03',
-      title: 'FULL OWNERSHIP',
-      heading: 'Full Ownership',
-      body: 'Zero vendor lock in. You own 100% of the source code and the intellectual property.',
+      title: 'Your Software, Your Control',
+      heading: 'Your Software, Your Control',
+      body: "Know what you're paying for, understand the handover process, and retain the ownership rights agreed in your contract.",
     },
   ];
 
@@ -402,23 +412,26 @@ function WhyStravedaSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ================= HEADING ================= */}
-        <div className="mb-14 text-center">
+        <div className="mb-10 md:mb-14 text-center">
           <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Our Approach
           </span>
 
-          <h2
-            className="mt-4 font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
-          >
-            Built for How You Work
+          <h2 className="mt-4 font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
+            A Better Way to Build Software
           </h2>
+
+          <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
+            We focus on what your business needs, keep you involved throughout
+            the process, and build solutions you can own.
+          </p>
         </div>
 
         {/* ================= STEPPER ================= */}
         <div className="relative">
 
           {/* Horizontal Line - Desktop */}
-          <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-gray-200 md:block dark:bg-white/10" />
+          <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-orange-400 md:block dark:bg-white/10" />
 
           <div className="relative z-10 flex flex-col md:grid md:grid-cols-3 md:gap-8">
             {steps.map((step, index) => (
@@ -426,7 +439,7 @@ function WhyStravedaSection() {
                 key={step.number}
                 className="group relative flex flex-col items-center text-center"
               >
-                {/* Line Above Circle - Mobile (Connects from previous step to top of circle) */}
+                {/* Line Above Circle - Mobile */}
                 {index > 0 && (
                   <div
                     className="pointer-events-none mt-4 flex h-12 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
@@ -438,7 +451,7 @@ function WhyStravedaSection() {
                 <div
                   className="
                     relative z-10 mx-auto flex h-12 w-12 shrink-0
-                    cursor-pointer items-center justify-center
+                    items-center justify-center
                     rounded-full
                     border border-[#FF4800]
                     bg-white
@@ -456,15 +469,15 @@ function WhyStravedaSection() {
                   {step.number}
                 </div>
 
-                {/* Line Below Circle - Mobile (Connects from bottom of circle to content) */}
+                {/* Line Below Circle - Mobile */}
                 <div
                   className="pointer-events-none mb-1.5 flex h-5 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
                   aria-hidden="true"
                 />
 
-                {/* Description */}
+                {/* Step Description */}
                 <div className="relative z-10 mx-auto mt-1 md:mt-8 max-w-sm">
-                  <h3 className="text-xl font-normal tracking-[-0.02em] text-black md:text-2xl dark:text-white">
+                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-black md:text-2xl dark:text-white">
                     {step.heading}
                   </h3>
 
