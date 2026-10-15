@@ -21,7 +21,7 @@ const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 const stats = [
-  { value: '−50%', label: 'Manual work in 25 days' },
+  { value: '−50%', label: 'Less Manual work' },
   { value: '3–5×', label: 'Operational efficiency' },
   { value: '100%', label: 'Code ownership' },
 ];
@@ -94,7 +94,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             className="h-1.5 w-1.5 rounded-full"
             style={{ background: '#FF4800', animation: 'hero-dot 2.2s ease-in-out infinite' }}
           />
-          Business automation experts
+        SOFTWARE THAT WORKS FOR YOUR BUSINESS
         </motion.p>
 
         {/* Headline */}
@@ -107,9 +107,9 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             color: textPrimary,
           }}
         >
-          <MaskedLine delay={0.2}>AI that eliminates work.</MaskedLine>
+          <MaskedLine delay={0.2}>Spend less time managing work.</MaskedLine>
           <MaskedLine delay={0.34} className="text-[#FF4800]">
-            Software that runs your operations.
+           More time growing your business.
           </MaskedLine>
         </h1>
 
@@ -118,11 +118,11 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.75, ease: EASE }}
-          className="mt-6 sm:mt-8 max-w-2xl text-balance text-base leading-relaxed sm:text-lg"
+          className="mt-6 sm:mt-8 max-w-6xl text-balance text-base leading-relaxed sm:text-lg"
           style={{ color: textMuted }}
         >
-          We build AI-powered business systems and custom software for mid-market
-          companies in India, cutting manual work by 50% in 25 days.
+        We build custom software and AI-powered tools that help businesses automate repetitive
+tasks, manage daily operations, and serve customers better.
         </motion.p>
 
         {/* CTAs */}
@@ -145,7 +145,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
               boxShadow: isDark ? '0 14px 40px rgba(245,242,234,0.1)' : '0 14px 40px rgba(20,17,12,0.25)',
             }}
           >
-            Book strategy call
+          Let's discuss your project
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF4800] text-white transition-transform duration-300 group-hover:rotate-45">
               <ArrowUpRight className="h-4 w-4" />
             </span>
@@ -158,7 +158,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
             style={{ color: textPrimary }}
           >
             <span className="border-b border-current pb-0.5 transition-opacity group-hover:opacity-60">
-              See what we build
+            Explore our work
             </span>
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </button>

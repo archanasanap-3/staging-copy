@@ -1,22 +1,25 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import {
   ArrowRight,
-  Database,
   BarChart3,
-  Globe,
   Network,
   Cpu,
-  Workflow,
-  Zap,
-  Layers,
-  TrendingDown,
   MessageCircle,
   Mail,
   Bot,
   Users,
+  MonitorSmartphone,
+  Palette,
+  Target,
+  Gauge,
+  UserRound,
+  FileSearch,
+  Workflow as WorkflowIcon,
+  Rocket,
   type LucideIcon,
 } from 'lucide-react';
 import ServiceComparison from '@/components/features/services/ServiceComparison';
@@ -30,43 +33,43 @@ function ServicesPageStyles() {
     <style
       dangerouslySetInnerHTML={{
         __html: `
-      html {
-        scroll-behavior: smooth;
-      }
+          html {
+            scroll-behavior: smooth;
+          }
 
-      .btn-shine {
-        position: relative;
-        overflow: hidden;
-      }
+          .btn-shine {
+            position: relative;
+            overflow: hidden;
+          }
 
-      .btn-shine::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-          45deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transform: rotate(45deg);
-        transition: 0.6s;
-      }
+          .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+              45deg,
+              transparent,
+              rgba(255, 255, 255, 0.2),
+              transparent
+            );
+            transform: rotate(45deg);
+            transition: 0.6s;
+          }
 
-      .btn-shine:hover::after {
-        left: 120%;
-      }
-    `,
+          .btn-shine:hover::after {
+            left: 120%;
+          }
+        `,
       }}
     />
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Framer Motion Variants for Staggered Animations                    */
+/* Framer Motion Variants                                             */
 /* ------------------------------------------------------------------ */
 
 const staggerContainerVariants: Variants = {
@@ -141,26 +144,26 @@ const services: ServiceBlockData[] = [
     badge: 'AUTOMATION',
     category: 'Business strategy & workflows',
     title: 'AI & Business Automation',
-    body: 'WhatsApp flows that qualify leads and drive conversions. Behavior Triggered email sequences for engagement and retention. AI agents handling tier 1 customer support. Workflow automation reducing manual operational load. 30 to 60% reduction in manual operations within the first 90 days.',
+    body: 'Automate repetitive tasks, respond to customer enquiries faster, and reduce the manual work that slows your team down.',
     capabilities: [
       {
         title: 'WhatsApp Automation',
-        desc: 'AI powered lead qualification & instant booking',
+        desc: 'Automatically respond to enquiries, collect customer details, answer common questions, and help customers book appointments.',
         icon: MessageCircle,
       },
       {
         title: 'Email Sequences',
-        desc: 'Behavioral triggers that run without touching CRM',
+        desc: 'Send timely emails, follow up with potential customers, and keep people informed without sending every message manually.',
         icon: Mail,
       },
       {
         title: 'AI Support',
-        desc: 'Tier 1 handled by AI, complex issues auto escalate',
+        desc: 'Let AI answer common customer questions and pass more complex issues to your team.',
         icon: Bot,
       },
       {
         title: 'Lead Qualification',
-        desc: 'AI powered lead scoring and smart qualification',
+        desc: 'Organize enquiries, identify promising prospects, and help your sales team follow up at the right time.',
         icon: Users,
       },
     ],
@@ -169,28 +172,28 @@ const services: ServiceBlockData[] = [
   {
     id: 'custom-software',
     badge: 'SOFTWARE',
-    category: 'Enterprise systems & data architecture',
+    category: 'Software designed around your business',
     title: 'Custom Software & Systems',
-    body: 'AI powered CRMs designed for real team adoption. Real time dashboards replacing fragmented monitoring tools. Internal systems built around your workflows (not rigid SaaS tools). Centralized data systems for better decision making.',
+    body: 'We build software tailored to your business needs. Manage customers, track performance, connect your tools, and bring your daily operations together in one place.',
     capabilities: [
       {
-        title: 'AI Powered CRMs',
-        desc: 'Built around your specific sales process',
-        icon: Database,
+        title: 'Customer & Sales Management',
+        desc: 'Manage leads, customer details, follow-ups, and sales in one organized system.',
+        icon: UserRound,
       },
       {
-        title: 'Operational Dashboards',
-        desc: 'Real time visibility into your core metrics',
+        title: 'Business Dashboards',
+        desc: 'See your sales, performance, and key business numbers without checking multiple files.',
         icon: BarChart3,
       },
       {
-        title: 'Customer Portals',
-        desc: 'Reduce support volume with intelligent self service',
-        icon: Globe,
+        title: 'Customer & Employee Portals',
+        desc: 'Give customers, employees, or business partners a dedicated place to access information and complete tasks.',
+        icon: MonitorSmartphone,
       },
       {
-        title: 'Data Integration',
-        desc: 'Connect your systems into one unified workflow',
+        title: 'Connected Business Systems',
+        desc: 'Connect the software you already use and reduce duplicate data entry and disconnected workflows.',
         icon: Network,
       },
     ],
@@ -199,29 +202,29 @@ const services: ServiceBlockData[] = [
   {
     id: 'ai-strategy',
     badge: 'STRATEGY',
-    category: 'Model inference & intelligent deployment',
-    title: 'AI Strategy & Integration',
-    body: 'Deployment of GPT class models and advanced AI APIs. Custom LLM integration tailored to business workflows. End To End AI architecture, training, and deployment. Seamless integration into your existing tech stack.',
+    category: 'AI tools that work with your business software',
+    title: 'AI Solutions for Real Business Needs',
+    body: 'We help businesses use AI to find information faster, handle repetitive tasks, and make their software more useful. We connect AI with your business processes to solve practical problems.',
     capabilities: [
       {
-        title: 'AI Architecture',
-        desc: 'Phased roadmap to deploy where it creates real ROI',
+        title: 'AI Strategy & Planning',
+        desc: 'Identify where AI can save time, reduce costs, or improve your business processes before investing in a solution.',
         icon: Cpu,
       },
       {
-        title: 'LLM Fine Tuning',
-        desc: 'Models trained on your specific business context',
-        icon: Workflow,
+        title: 'AI Knowledge Assistants',
+        desc: 'Help your team find answers from approved company documents, policies, manuals, and other business information.',
+        icon: FileSearch,
       },
       {
-        title: 'RAG Systems',
-        desc: 'AI that answers questions using private secure data',
-        icon: Network,
+        title: 'AI Integration',
+        desc: 'Connect AI capabilities to your existing applications and workflows to help automate everyday tasks.',
+        icon: WorkflowIcon,
       },
       {
-        title: 'AI Deployment',
-        desc: 'Production ready AI systems integrated into your stack',
-        icon: Zap,
+        title: 'AI Product Development',
+        desc: 'Turn a business idea into an AI-powered application, assistant, or digital product.',
+        icon: Rocket,
       },
     ],
     number: '03',
@@ -230,28 +233,28 @@ const services: ServiceBlockData[] = [
     id: 'web-development',
     badge: 'DIGITAL',
     category: 'High-performance interactive experiences',
-    title: 'Web Design & Experiences',
-    body: 'High Performance websites built using modern frameworks (e.g., Next.js). 3D interactive experiences for premium brand differentiation. Conversion focused landing pages (not just visual design). Fast loading, SEO Ready, edge deployed architecture. 2–4x improvement in conversion rates compared to template based sites.',
+    title: 'Websites That Build Trust and Grow Your Business.',
+    body: 'We design and develop fast, modern websites that showcase your business, make it easier for customers to find you, and turn visitors into enquiries.',
     capabilities: [
       {
-        title: 'Next.js Performance',
-        desc: 'Sub second loads and global edge deployment',
-        icon: Zap,
+        title: 'Business Websites',
+        desc: 'Present your services, showcase your work, and give customers a professional first impression on every device.',
+        icon: MonitorSmartphone,
       },
       {
-        title: '3D & Interactive',
-        desc: 'Make your brand unforgettable with immersive builds',
-        icon: Layers,
+        title: 'Website Design & UI/UX',
+        desc: 'Create clear, easy-to-use website experiences that help visitors understand your business and navigate with confidence.',
+        icon: Palette,
       },
       {
-        title: 'Conversion Funnels',
-        desc: 'A/B testing and analytics built into the core',
-        icon: TrendingDown,
+        title: 'Landing Pages',
+        desc: 'Build focused pages for advertising campaigns, product launches, and lead generation.',
+        icon: Target,
       },
       {
-        title: 'SEO & Analytics',
-        desc: 'Search optimized with measurable performance tracking',
-        icon: BarChart3,
+        title: 'Speed & Search Visibility',
+        desc: 'Improve loading performance, search engine accessibility, and website measurement to help you make better decisions.',
+        icon: Gauge,
       },
     ],
     number: '04',
@@ -264,7 +267,7 @@ const services: ServiceBlockData[] = [
 
 function PageTopHeader() {
   return (
-    <section className="relative overflow-hidden bg-[#F6F1E7] dark:bg-[#0a0a14] pt-32 md:pt-36 pb-4 md:pb-6">
+    <section className="relative overflow-hidden bg-[#F6F1E7] pt-32 pb-4 dark:bg-[#0a0a14] md:pt-36 md:pb-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -272,20 +275,22 @@ function PageTopHeader() {
           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           className="max-w-full"
         >
-          {/* Eyebrow Badge - Renamed to Our Services */}
           <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Our Services
           </p>
 
-          {/* Heading - Strictly in ONE SINGLE LINE */}
-          <h1 className="whitespace-nowrap max-sm:whitespace-normal text-2xl font-bold tracking-tight text-black sm:text-2xl md:text-4xl lg:text-[2.35rem] xl:text-[2.7rem] leading-tight dark:text-white">
-            Enterprise Software &amp; AI Automation Services
+          <h1 className="whitespace-nowrap text-2xl font-bold leading-tight tracking-tight text-black dark:text-white max-sm:whitespace-normal sm:text-2xl md:text-4xl lg:text-[2.35rem] xl:text-[2.7rem]">
+            Software Solutions Built Around Your Business
           </h1>
         </motion.div>
       </div>
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Individual Service Block                                          */
+/* ------------------------------------------------------------------ */
 
 function ServiceBlock({
   service,
@@ -298,25 +303,37 @@ function ServiceBlock({
 }) {
   const ease = [0.22, 1, 0.36, 1] as const;
   const ref = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 95%', 'end 5%'] });
-  // Soft fade as a service enters and as it leaves, fully clear in the middle
-  const fade = useTransform(scrollYProgress, [0, 0.22, 0.78, 1], [0, 1, 1, 0.12]);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 95%', 'end 5%'],
+  });
+
+  const fade = useTransform(
+    scrollYProgress,
+    [0, 0.22, 0.78, 1],
+    [0, 1, 1, 0.12],
+  );
 
   return (
     <section
       ref={ref}
       id={service.id}
       className={`relative scroll-mt-24 ${
-        index > 0 ? 'border-t border-black/[0.08] py-10 dark:border-white/10 md:py-14' : 'pb-10 pt-2 md:pb-14 md:pt-4'
+        index > 0
+          ? 'border-t border-black/[0.08] py-10 dark:border-white/10 md:py-14'
+          : 'pb-10 pt-2 md:pb-14 md:pt-4'
       }`}
     >
-      <motion.div style={{ opacity: fade }} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <motion.div
+        style={{ opacity: fade }}
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+      >
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-14">
-          
-          {/* ── LEFT: Number (With Repeating Animation) + Title Pinned ── */}
-          <div className="lg:col-span-5 lg:sticky lg:top-32">
+          {/* LEFT: Number, Title and Button */}
+
+          <div className="lg:sticky lg:top-32 lg:col-span-5">
             <div>
-              {/* Number with repeating slide-up & scale entrance */}
               <motion.div
                 initial={{ opacity: 0, y: 56, scale: 0.94 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -327,7 +344,6 @@ function ServiceBlock({
                 {service.number}
               </motion.div>
 
-              {/* Title, Badge & Button */}
               <motion.div
                 initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -351,14 +367,18 @@ function ServiceBlock({
                   onClick={() => onNavigate('contact')}
                   className="group mt-6 inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FF4800] dark:bg-white dark:text-black dark:hover:bg-[#FF4800] dark:hover:text-white"
                 >
-                  <span>Book Strategy Call</span>
-                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  <span>Discuss Your Business Needs</span>
+                  <ArrowRight
+                    size={14}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
                 </button>
               </motion.div>
             </div>
           </div>
 
-          {/* ── RIGHT: boxed detail card (Repeating) ── */}
+          {/* RIGHT: Service Details and Capability Cards */}
+
           <motion.div
             className="lg:col-span-7"
             initial={{ opacity: 0, y: 56 }}
@@ -371,7 +391,6 @@ function ServiceBlock({
                 {service.body}
               </p>
 
-              {/* ── STAGGERED CAPABILITY CARDS (Repeating) ── */}
               <motion.div
                 variants={staggerContainerVariants}
                 initial="hidden"
@@ -381,6 +400,7 @@ function ServiceBlock({
               >
                 {service.capabilities.map((cap) => {
                   const Icon = cap.icon;
+
                   return (
                     <motion.div
                       key={cap.title}
@@ -390,10 +410,12 @@ function ServiceBlock({
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white">
                         <Icon size={17} strokeWidth={1.8} />
                       </div>
+
                       <div>
                         <h3 className="text-[14px] font-bold leading-snug tracking-tight text-black dark:text-white">
                           {cap.title}
                         </h3>
+
                         <p className="mt-1 text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
                           {cap.desc}
                         </p>
@@ -411,7 +433,7 @@ function ServiceBlock({
 }
 
 /* ------------------------------------------------------------------ */
-/* Services Section with Pure Sticky Touch & Push Numbers             */
+/* Services Section                                                   */
 /* ------------------------------------------------------------------ */
 
 function PushNumbersServicesSection({
@@ -423,74 +445,85 @@ function PushNumbersServicesSection({
 }) {
   useEffect(() => {
     if (!selectedService) return;
-    const el = document.getElementById(selectedService);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const element = document.getElementById(selectedService);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
   }, [selectedService]);
 
   return (
     <div className="relative bg-[#F6F1E7] dark:bg-[#0a0a14]">
-      {/* ── 4 Sequential Service Blocks with Reduced Gaps & Touching Sticky Numbers ── */}
-      {services.map((service, i) => (
-        <ServiceBlock key={service.id} service={service} index={i} onNavigate={onNavigate} />
+      {services.map((service, index) => (
+        <ServiceBlock
+          key={service.id}
+          service={service}
+          index={index}
+          onNavigate={onNavigate}
+        />
       ))}
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Approach Section                                                   */
+/* Our Approach Section                                               */
 /* ------------------------------------------------------------------ */
 
 function WhyStravedaSection() {
   const steps = [
     {
       number: '01',
-      title: 'AUTOMATION FIRST',
-      heading: 'Automation First',
-      body: 'We audit what can be removed before we build. We prune scope—then automate what remains.',
+      heading: 'Solve the Right Problem',
+      body: 'We first understand your business and identify what needs to improve. Then we build only what adds value.',
     },
     {
       number: '02',
-      title: 'WEEKLY SHIPPING',
-      heading: 'Weekly Shipping',
-      body: 'One week sprints with visible builds every Friday. You see working code, not slide decks.',
+      heading: 'See Progress as We Build',
+      body: 'Stay involved through regular updates and working demonstrations, so you can share feedback before the final launch.',
     },
     {
       number: '03',
-      title: 'FULL OWNERSHIP',
-      heading: 'Full Ownership',
-      body: 'Zero vendor lock in. You own 100% of the source code and the intellectual property.',
+      heading: 'Your Software, Your Control',
+      body: "Know what you're paying for, understand the handover process, and retain the ownership rights agreed in your contract.",
     },
   ];
 
   return (
-    <section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] py-12 md:py-16">
+    <section className="relative bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* ================= HEADING ================= */}
+        {/* Heading */}
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-14 text-center"
+          className="mb-10 text-center md:mb-14"
         >
           <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
             Our Approach
           </span>
 
-          <h2 className="mt-4 font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
-            Built for How You Work
+          <h2 className="mt-4 text-3xl font-bold leading-[1.2] tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]">
+            A Better Way to Build Software
           </h2>
+
+          <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
+            We focus on what your business needs, keep you involved throughout
+            the process, and build solutions you can own.
+          </p>
         </motion.div>
 
-        {/* ================= STEPPER ================= */}
-        <div className="relative">
-          {/* Horizontal Line - Desktop */}
-          <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-gray-200 md:block dark:bg-white/10" />
+        {/* Stepper */}
 
-          {/* ── STAGGERED STEPS (Repeating) ── */}
+        <div className="relative">
+          <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-orange-400 dark:bg-white/10 md:block" />
+
           <motion.div
             variants={stepContainerVariants}
             initial="hidden"
@@ -504,7 +537,6 @@ function WhyStravedaSection() {
                 variants={stepItemVariants}
                 className="group relative flex flex-col items-center text-center"
               >
-                {/* Line Above Circle - Mobile */}
                 {index > 0 && (
                   <div
                     className="pointer-events-none mt-4 flex h-12 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
@@ -512,41 +544,23 @@ function WhyStravedaSection() {
                   />
                 )}
 
-                {/* Step Circle */}
                 <div
-                  className="
-                    relative z-10 mx-auto flex h-12 w-12 shrink-0
-                    cursor-pointer items-center justify-center
-                    rounded-full
-                    border border-[#FF4800]
-                    bg-white
-                    text-xs font-bold text-[#FF4800]
-                    shadow-[0_4px_16px_rgba(0,0,0,0.06)]
-                    transition-all duration-300 ease-out
-                    hover:scale-110
-                    hover:bg-[#FF4800]
-                    hover:text-white
-                    hover:shadow-[0_10px_30px_rgba(255,72,0,0.25)]
-                    dark:bg-[#12121e]
-                    dark:hover:bg-[#FF4800]
-                  "
+                  className="relative z-10 mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white text-xs font-bold text-[#FF4800] shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:scale-110 hover:bg-[#FF4800] hover:text-white hover:shadow-[0_10px_30px_rgba(255,72,0,0.25)] dark:bg-[#12121e] dark:hover:bg-[#FF4800]"
                 >
                   {step.number}
                 </div>
 
-                {/* Line Below Circle - Mobile */}
                 <div
                   className="pointer-events-none mb-1.5 flex h-5 w-[3px] shrink-0 items-center justify-center rounded-full bg-[#FF4800] md:hidden"
                   aria-hidden="true"
                 />
 
-                {/* Description */}
-                <div className="relative z-10 mx-auto mt-1 md:mt-8 max-w-sm">
-                  <h3 className="text-xl font-normal tracking-[-0.02em] text-black md:text-2xl dark:text-white">
+                <div className="relative z-10 mx-auto mt-1 max-w-sm md:mt-8">
+                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-black dark:text-white md:text-2xl">
                     {step.heading}
                   </h3>
 
-                  <p className="mt-4 text-base font-normal leading-7 text-neutral-600 md:text-[17px] dark:text-neutral-400">
+                  <p className="mt-4 text-base font-normal leading-7 text-neutral-600 dark:text-neutral-400 md:text-[17px]">
                     {step.body}
                   </p>
                 </div>
@@ -560,7 +574,7 @@ function WhyStravedaSection() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Main Page Export                                                   */
+/* Main Page Export                                                    */
 /* ------------------------------------------------------------------ */
 
 export default function ServicesPage({
@@ -590,23 +604,19 @@ export default function ServicesPage({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="min-h-screen bg-[#F6F1E7] dark:bg-[#0a0a14] scroll-smooth"
+      className="min-h-screen scroll-smooth bg-[#F6F1E7] dark:bg-[#0a0a14]"
     >
       <ServicesPageStyles />
 
-      {/* ── Top Header: Our Services / Enterprise Software & AI Automation Services (One Line, No paragraph) ── */}
       <PageTopHeader />
 
-      {/* ── Services Section with Reduced Gaps & Touching Sticky Numbers (01 touches 02) ── */}
       <PushNumbersServicesSection
         onNavigate={onNavigate}
         selectedService={selectedService}
       />
 
-      {/* ── Approach Section ── */}
       <WhyStravedaSection />
 
-      {/* ── Service Comparison (Repeating) ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
