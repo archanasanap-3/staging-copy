@@ -144,7 +144,7 @@ export default function SandesaSection({ isDark }: Props) {
 
 return (
 
-<section className="relative z-10 -mt-28 overflow-hidden bg-[#F6F1E7] pt-0 pb-6 transition-colors duration-300 dark:bg-[#0a0a14] sm:-mt-12 sm:pt-4 sm:pb-10 md:-mt-10 md:pt-10 md:pb-16">
+<section className="relative z-10 -mt-12 overflow-hidden bg-[#F6F1E7] pt-6 pb-8 transition-colors duration-300 dark:bg-[#0a0a14] sm:-mt-12 sm:pt-6 sm:pb-10 md:-mt-10 md:pt-10 md:pb-16">
 
     {/* Background Gradient */}
     <div
@@ -166,9 +166,9 @@ return (
           </span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl md:text-[clamp(1.4rem,2.6vw,2.5rem)] md:whitespace-nowrap font-bold tracking-tight text-neutral-950 dark:text-white leading-tight">
-          Meet <span className="text-[#FF4800]">Sandesa</span> WhatsApp Business Platform, Powered by AI
-        </h2>
+       <h2 className="text-2xl sm:text-3xl md:text-[clamp(1.4rem,2.6vw,2.5rem)] md:whitespace-nowrap font-bold tracking-tight text-neutral-950 dark:text-white leading-[1.1] sm:leading-tight">
+  Meet <span className="text-[#FF4800]">Sandesa</span> WhatsApp Business Platform, Powered by AI
+</h2>
 
         <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-5xl leading-relaxed">
           Run campaigns, chatbots, an AI agent and your customer conversations from one dashboard, all on WhatsApp.

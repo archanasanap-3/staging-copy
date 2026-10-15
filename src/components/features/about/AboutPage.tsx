@@ -576,24 +576,22 @@ function StorySection() {
           >
             Two Paths{" "}
             One Choice
-         
           </h2>
-
         </div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
 
-          {/* OLD WAY */}
+          
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col transition-all duration-300 hover:shadow-xl"
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col bg-[#E8DDD0] dark:bg-[#161624] border border-black/[0.08] dark:border-white/10 transition-all duration-300 hover:shadow-xl"
           >
             <div className="mb-6">
-              <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800]/60 border border-[#FF4800]/20 px-2.5 py-1 rounded-full mb-3">
+              <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800]/70 border border-[#FF4800]/25 bg-[#FF4800]/5 px-2.5 py-1 rounded-full mb-3">
                 The Old Way
               </span>
 
@@ -607,12 +605,12 @@ function StorySection() {
                 <motion.div
                   key={i}
                   initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 0.55 }}
+                  whileInView={{ opacity: 0.65 }}
                   viewport={{ once: true, amount: 0.6 }}
                   transition={{ duration: 0.5, delay: 0.3 + i * 0.08 }}
                   className="flex items-start gap-3"
                 >
-                  <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/40 shrink-0" />
+                  <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/50 shrink-0" />
 
                   <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">
                     {item}
@@ -622,17 +620,17 @@ function StorySection() {
             </div>
           </motion.div>
 
-          {/* STRAVEDA WAY */}
+         
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border-[#FF4800]/20 transition-all duration-300 hover:shadow-xl"
-            style={{ background: 'rgba(255,72,0,0.05)' }}
+            className="glass-card relative rounded-2xl overflow-hidden p-7 md:p-9 flex flex-col border border-[#FF4800]/30 transition-all duration-300 hover:shadow-xl"
+            style={{ background: 'rgba(255, 72, 0, 0.12)' }}
           >
             <div className="mb-6">
-              <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800] bg-[#FF4800]/15 px-2.5 py-1 rounded-full mb-3">
+              <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800] bg-[#FF4800]/20 border border-[#FF4800]/30 px-2.5 py-1 rounded-full mb-3">
                 The Straveda Way
               </span>
 
@@ -669,8 +667,6 @@ function StorySection() {
     </section>
   );
 }
-
-
 /* ─────────────────────────────────────────────────────────────────────── */
 /* 5. Results Section                                                      */
 /* ─────────────────────────────────────────────────────────────────────── */

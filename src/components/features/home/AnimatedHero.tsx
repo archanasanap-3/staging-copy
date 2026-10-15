@@ -101,7 +101,7 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
         <h1
           className="font-bold"
           style={{
-            fontSize: 'clamp(2.1rem, 5vw, 4.4rem)',
+            fontSize: 'clamp(1.9rem, 5vw, 4.4rem)',
             lineHeight: 1.04,
             letterSpacing: '-0.04em',
             color: textPrimary,
@@ -130,7 +130,7 @@ tasks, manage daily operations, and serve customers better.
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
-          className="mt-8 sm:mt-10 flex flex-col items-center gap-4 sm:flex-row"
+          className="mt-8 sm:mt-10 flex flex-col items-center gap-[-1] sm:flex-row sm:gap-4"
         >
           <motion.button
             type="button"
@@ -170,7 +170,7 @@ tasks, manage daily operations, and serve customers better.
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
-        className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-5xl px-5 pb-10"
+        className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-5xl px-5 pb-6 sm:pb-10"
       >
         <div className="grid grid-cols-3 border-t pt-5" style={{ borderColor: lineStrong }}>
           {stats.map((s, i) => (

@@ -268,14 +268,14 @@ export default function Navbar({ onSearchToggle }: NavbarProps) {
               <Link
                 href="/"
                 className="relative select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF4800] rounded-sm"
-                style={{ height: 48, width: 220 }}
+                style={{ height: 100, width: 320 }}
                 onClick={() => setMobileOpen(false)}
               >
                 <Image
                   src="/logos/blackmain_logo.png"
                   alt="Straveda"
                   fill
-                  sizes="220px"
+                  sizes="320px"
                   className="object-contain object-center"
                   priority
                 />
