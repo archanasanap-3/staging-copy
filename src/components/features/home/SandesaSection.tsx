@@ -34,7 +34,7 @@ const sandesaStories: SandesaStory[] = [
   },
   {
     id: 1,
-    badge: 'Approved Templates',
+    badge: 'WhatsApp Message Templates',
     highlight: 'Design once, preview exactly as customers see it',
     description:
       'Build marketing and utility templates with media, buttons and variables, then submit them to Meta without leaving the screen.',
@@ -167,7 +167,7 @@ return (
         </div>
 
        <h2 className="text-2xl sm:text-3xl md:text-[clamp(1.4rem,2.6vw,2.5rem)] md:whitespace-nowrap font-bold tracking-tight text-neutral-950 dark:text-white leading-[1.1] sm:leading-tight">
-  Meet <span className="text-[#FF4800]">Sandesa</span> WhatsApp Business Platform, Powered by AI
+  Meet <span className="text-blue-400">Sandesa</span> WhatsApp Business Platform, Powered by AI
 </h2>
 
         <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-5xl leading-relaxed">

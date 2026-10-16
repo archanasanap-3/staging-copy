@@ -1,8 +1,12 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from 'framer-motion';
 import {
   ArrowRight,
   BarChart3,
@@ -61,6 +65,10 @@ function ServicesPageStyles() {
 
           .btn-shine:hover::after {
             left: 120%;
+          }
+
+          .capability-title {
+            word-spacing: 5px;
           }
         `,
       }}
@@ -152,17 +160,17 @@ const services: ServiceBlockData[] = [
         icon: MessageCircle,
       },
       {
-        title: 'Email Sequences',
+        title: 'Email Automation',
         desc: 'Send timely emails, follow up with potential customers, and keep people informed without sending every message manually.',
         icon: Mail,
       },
       {
-        title: 'AI Support',
+        title: 'AI Customer Support',
         desc: 'Let AI answer common customer questions and pass more complex issues to your team.',
         icon: Bot,
       },
       {
-        title: 'Lead Qualification',
+        title: 'Lead Management',
         desc: 'Organize enquiries, identify promising prospects, and help your sales team follow up at the right time.',
         icon: Users,
       },
@@ -173,7 +181,7 @@ const services: ServiceBlockData[] = [
     id: 'custom-software',
     badge: 'SOFTWARE',
     category: 'Software designed around your business',
-    title: 'Custom Software & Systems',
+    title: 'Custom Software & Business Systems”',
     body: 'We build software tailored to your business needs. Manage customers, track performance, connect your tools, and bring your daily operations together in one place.',
     capabilities: [
       {
@@ -289,7 +297,7 @@ function PageTopHeader() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Individual Service Block                                          */
+/* Individual Service Block                                           */
 /* ------------------------------------------------------------------ */
 
 function ServiceBlock({
@@ -405,18 +413,18 @@ function ServiceBlock({
                     <motion.div
                       key={cap.title}
                       variants={staggerItemVariants}
-                      className="group flex items-start gap-3.5 rounded-2xl border border-black/[0.05] bg-[#F6F1E7]/60 p-4 transition-colors duration-300 hover:border-[#FF4800]/40 hover:bg-[#FF4800]/[0.05] dark:border-white/10 dark:bg-white/[0.04]"
+                      className="group flex min-w-0 items-start gap-4 rounded-2xl border border-black/[0.05] bg-[#F6F1E7]/60 p-4 transition-colors duration-300 hover:border-[#FF4800]/40 hover:bg-[#FF4800]/[0.05] dark:border-white/10 dark:bg-white/[0.04] sm:p-5"
                     >
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white">
-                        <Icon size={17} strokeWidth={1.8} />
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white">
+                        <Icon size={19} strokeWidth={1.8} />
                       </div>
 
-                      <div>
-                        <h3 className="text-[14px] font-bold leading-snug tracking-tight text-black dark:text-white">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="capability-title break-words text-[14px] font-bold leading-[1.5] tracking-[0.015em] text-black dark:text-white sm:text-[15px]">
                           {cap.title}
                         </h3>
 
-                        <p className="mt-1 text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                        <p className="mt-2 text-[13px] leading-[1.7] text-neutral-800 dark:text-neutral-300 sm:text-[14px]">
                           {cap.desc}
                         </p>
                       </div>
@@ -496,8 +504,6 @@ function WhyStravedaSection() {
   return (
     <section className="relative bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -518,8 +524,6 @@ function WhyStravedaSection() {
             the process, and build solutions you can own.
           </p>
         </motion.div>
-
-        {/* Stepper */}
 
         <div className="relative">
           <div className="absolute left-[16.66%] right-[16.66%] top-6 hidden h-px bg-orange-400 dark:bg-white/10 md:block" />
@@ -544,9 +548,7 @@ function WhyStravedaSection() {
                   />
                 )}
 
-                <div
-                  className="relative z-10 mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white text-xs font-bold text-[#FF4800] shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:scale-110 hover:bg-[#FF4800] hover:text-white hover:shadow-[0_10px_30px_rgba(255,72,0,0.25)] dark:bg-[#12121e] dark:hover:bg-[#FF4800]"
-                >
+                <div className="relative z-10 mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#FF4800] bg-white text-xs font-bold text-[#FF4800] shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:scale-110 hover:bg-[#FF4800] hover:text-white hover:shadow-[0_10px_30px_rgba(255,72,0,0.25)] dark:bg-[#12121e] dark:hover:bg-[#FF4800]">
                   {step.number}
                 </div>
 
@@ -574,7 +576,7 @@ function WhyStravedaSection() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Main Page Export                                                    */
+/* Main Page Export                                                   */
 /* ------------------------------------------------------------------ */
 
 export default function ServicesPage({

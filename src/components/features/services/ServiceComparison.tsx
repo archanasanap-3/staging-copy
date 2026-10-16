@@ -3,10 +3,17 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Braces, Compass, ClipboardCheck, Server, GitCompareArrows } from 'lucide-react';
+import Link from 'next/link';
+import {
+  Braces,
+  Compass,
+  ClipboardCheck,
+  Server,
+  GitCompareArrows,
+} from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
-/*  Data                                                               */
+/* Data                                                               */
 /* ------------------------------------------------------------------ */
 
 const ease = [0.4, 0, 0.2, 1] as const;
@@ -26,9 +33,11 @@ const comparisonData: Record<string, ServiceData> = {
   'enterprise-architecture': {
     name: 'Enterprise Architecture',
     icon: <Braces size={16} />,
-    focus: 'Application portfolio modernization through adaptive, open-standards architecture',
+    focus:
+      'Application portfolio modernization through adaptive, open-standards architecture',
     duration: '3–12 months',
-    idealFor: 'Enterprises with legacy systems needing scalable, maintainable architecture',
+    idealFor:
+      'Enterprises with legacy systems needing scalable, maintainable architecture',
     deliverables: [
       'Architecture assessment & roadmap',
       'Microservices migration strategy',
@@ -37,12 +46,15 @@ const comparisonData: Record<string, ServiceData> = {
     investment: '$25K+',
     successRate: 94,
   },
+
   'technology-strategy': {
     name: 'Technology Strategy',
     icon: <Compass size={16} />,
-    focus: 'Aligning IT investments with business goals for sustainable digital transformation',
+    focus:
+      'Aligning IT investments with business goals for sustainable digital transformation',
     duration: '2–6 months',
-    idealFor: 'Organizations planning digital transformation or cloud migration',
+    idealFor:
+      'Organizations planning digital transformation or cloud migration',
     deliverables: [
       'Digital transformation roadmap',
       'IT investment framework',
@@ -51,12 +63,15 @@ const comparisonData: Record<string, ServiceData> = {
     investment: '$15K+',
     successRate: 91,
   },
+
   'management-consulting': {
     name: 'Management Consulting',
     icon: <ClipboardCheck size={16} />,
-    focus: 'Product, program & project management through agile delivery frameworks',
+    focus:
+      'Product, program & project management through agile delivery frameworks',
     duration: '1–6 months',
-    idealFor: 'Teams needing delivery governance, stakeholder alignment, or PMO setup',
+    idealFor:
+      'Teams needing delivery governance, stakeholder alignment, or PMO setup',
     deliverables: [
       'Delivery governance model',
       'Agile playbook & PMO framework',
@@ -65,12 +80,15 @@ const comparisonData: Record<string, ServiceData> = {
     investment: '$10K+',
     successRate: 97,
   },
+
   'software-solutions': {
     name: 'Software Solutions',
     icon: <Server size={16} />,
-    focus: 'Deploying enterprise middleware and virtualization to maximize application performance',
+    focus:
+      'Deploying enterprise middleware and virtualization to maximize application performance',
     duration: '2–8 months',
-    idealFor: 'Companies deploying or optimizing Red Hat, container, or integration platforms',
+    idealFor:
+      'Companies deploying or optimizing Red Hat, container, or integration platforms',
     deliverables: [
       'Platform deployment & config',
       'Performance tuning & optimization',
@@ -90,21 +108,56 @@ const criteria = [
 ];
 
 const toggleConfig = [
-  { id: 'enterprise-architecture', label: 'Enterprise Architecture', icon: <Braces size={15} /> },
-  { id: 'technology-strategy', label: 'Technology Strategy', icon: <Compass size={15} /> },
-  { id: 'management-consulting', label: 'Management Consulting', icon: <ClipboardCheck size={15} /> },
-  { id: 'software-solutions', label: 'Software Solutions', icon: <Server size={15} /> },
+  {
+    id: 'enterprise-architecture',
+    label: 'Enterprise Architecture',
+    icon: <Braces size={15} />,
+  },
+  {
+    id: 'technology-strategy',
+    label: 'Technology Strategy',
+    icon: <Compass size={15} />,
+  },
+  {
+    id: 'management-consulting',
+    label: 'Management Consulting',
+    icon: <ClipboardCheck size={15} />,
+  },
+  {
+    id: 'software-solutions',
+    label: 'Software Solutions',
+    icon: <Server size={15} />,
+  },
 ] as const;
 
 /* ------------------------------------------------------------------ */
-/*  Success Rate Bar                                                   */
+/* Success Rate Bar                                                   */
 /* ------------------------------------------------------------------ */
 
-function SuccessRateBar({ rate, isDark }: { rate: number; isDark: boolean }) {
+function SuccessRateBar({
+  rate,
+  isDark,
+}: {
+  rate: number;
+  isDark: boolean;
+}) {
   return (
     <div className="flex items-center gap-3">
-      <span className="font-semibold text-sm" style={{ color: isDark ? '#f0f0f5' : '#1a1a2e' }}>{rate}%</span>
-      <div className="flex-1 h-2 rounded-full overflow-hidden min-w-[60px]" style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}>
+      <span
+        className="font-semibold text-sm"
+        style={{ color: isDark ? '#f0f0f5' : '#1a1a2e' }}
+      >
+        {rate}%
+      </span>
+
+      <div
+        className="flex-1 h-2 rounded-full overflow-hidden min-w-[60px]"
+        style={{
+          background: isDark
+            ? 'rgba(255,255,255,0.08)'
+            : 'rgba(0,0,0,0.06)',
+        }}
+      >
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${rate}%` }}
@@ -117,7 +170,7 @@ function SuccessRateBar({ rate, isDark }: { rate: number; isDark: boolean }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Cell Renderer                                                      */
+/* Cell Renderer                                                      */
 /* ------------------------------------------------------------------ */
 
 function CellContent({
@@ -133,8 +186,14 @@ function CellContent({
     return (
       <ul className="flex flex-col gap-1">
         {service.deliverables.map((d, i) => (
-          <li key={i} className="flex items-start gap-1.5 text-sm" style={{ color: isDark ? '#f0f0f5' : '#4a4a5a' }}>
-            <span className="mt-0.5 text-[#FF4800] text-[10px] leading-none">•</span>
+          <li
+            key={i}
+            className="flex items-start gap-1.5 text-sm"
+            style={{ color: isDark ? '#f0f0f5' : '#4a4a5a' }}
+          >
+            <span className="mt-0.5 text-[#FF4800] text-[10px] leading-none">
+              •
+            </span>
             {d}
           </li>
         ))}
@@ -146,17 +205,24 @@ function CellContent({
     return <SuccessRateBar rate={service.successRate} isDark={isDark} />;
   }
 
-const value = service[criterion.key];
+  const value = service[criterion.key];
 
   if (typeof value === 'string') {
-    return <span className="text-sm" style={{ color: isDark ? '#f0f0f5' : '#4a4a5a' }}>{value}</span>;
+    return (
+      <span
+        className="text-sm"
+        style={{ color: isDark ? '#f0f0f5' : '#4a4a5a' }}
+      >
+        {value}
+      </span>
+    );
   }
 
   return null;
 }
 
 /* ------------------------------------------------------------------ */
-/*  ServiceComparison Component                                        */
+/* ServiceComparison Component                                        */
 /* ------------------------------------------------------------------ */
 
 export default function ServiceComparison() {
@@ -173,11 +239,13 @@ export default function ServiceComparison() {
   const toggleService = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
+
       if (next.has(id)) {
         next.delete(id);
       } else {
         next.add(id);
       }
+
       return next;
     });
   };
@@ -187,6 +255,7 @@ export default function ServiceComparison() {
       if (prev.size === 4) {
         return new Set();
       }
+
       return new Set(toggleConfig.map((t) => t.id));
     });
   };
@@ -194,7 +263,10 @@ export default function ServiceComparison() {
   const allSelected = selected.size === 4;
 
   return (
-    <section className="px-6 py-12 md:py-16" style={{ background: isDark ? '#0a0a14' : '#F6F1E7' }}>
+    <section
+      className="px-6 py-12 md:py-16"
+      style={{ background: isDark ? '#0a0a14' : '#F6F1E7' }}
+    >
       <div className="mx-auto max-w-6xl">
         {/* Section header */}
         <div className="mb-12 text-center">
@@ -207,6 +279,7 @@ export default function ServiceComparison() {
           >
             SERVICE COMPARISON
           </motion.p>
+
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -214,8 +287,17 @@ export default function ServiceComparison() {
             transition={{ duration: 0.7, delay: 0.15, ease }}
             className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]"
           >
-            Find the right solution for your enterprise.
+            FIND YOUR SOLUTION
           </motion.h2>
+
+          <h2 className="mt-3 text-black dark:text-white whitespace-nowrap">
+            What Does Your Business Need?
+          </h2>
+
+          <p className="mt-3 text-gray-600 dark:text-gray-300">
+            Tell us what you want to improve. We’ll help you find the right
+            software, website, or automation solution for your business.
+          </p>
         </div>
 
         {/* Toggle Bar */}
@@ -228,6 +310,7 @@ export default function ServiceComparison() {
         >
           {toggleConfig.map((t) => {
             const isActive = selected.has(t.id);
+
             return (
               <motion.button
                 key={t.id}
@@ -237,10 +320,16 @@ export default function ServiceComparison() {
                 className="flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium transition-colors border"
                 style={
                   isActive
-                    ? { background: '#FF4800', color: '#ffffff', borderColor: '#FF4800' }
+                    ? {
+                        background: '#FF4800',
+                        color: '#ffffff',
+                        borderColor: '#FF4800',
+                      }
                     : {
                         background: isDark ? '#1a1a2e' : '#FFFFFF',
-                        borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+                        borderColor: isDark
+                          ? 'rgba(255,255,255,0.08)'
+                          : 'rgba(0,0,0,0.08)',
                         color: isDark ? '#9ca3af' : '#6b7280',
                       }
                 }
@@ -263,7 +352,11 @@ export default function ServiceComparison() {
                   : 'border border-[#FF4800]/40 text-[#FF4800] hover:bg-[#FF4800]/5'
               }
             `}
-            style={allSelected ? undefined : { background: isDark ? 'transparent' : '#FFFFFF' }}
+            style={
+              allSelected
+                ? undefined
+                : { background: isDark ? 'transparent' : '#FFFFFF' }
+            }
           >
             <GitCompareArrows size={15} />
             <span className="hidden sm:inline">Compare All</span>
@@ -282,11 +375,27 @@ export default function ServiceComparison() {
               className="flex flex-col items-center justify-center rounded-xl py-20 text-center"
               style={{
                 background: isDark ? '#12121e' : '#FFFFFF',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+                border: `1px solid ${
+                  isDark
+                    ? 'rgba(255,255,255,0.08)'
+                    : 'rgba(0,0,0,0.06)'
+                }`,
               }}
             >
-              <GitCompareArrows size={48} className="mb-4" style={{ color: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)' }} />
-              <p className="text-lg" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>
+              <GitCompareArrows
+                size={48}
+                className="mb-4"
+                style={{
+                  color: isDark
+                    ? 'rgba(255,255,255,0.15)'
+                    : 'rgba(0,0,0,0.15)',
+                }}
+              />
+
+              <p
+                className="text-lg"
+                style={{ color: isDark ? '#9ca3af' : '#6b7280' }}
+              >
                 Select services above to compare
               </p>
             </motion.div>
@@ -300,7 +409,11 @@ export default function ServiceComparison() {
               className="overflow-hidden rounded-xl"
               style={{
                 background: isDark ? '#12121e' : '#FFFFFF',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+                border: `1px solid ${
+                  isDark
+                    ? 'rgba(255,255,255,0.08)'
+                    : 'rgba(0,0,0,0.06)'
+                }`,
               }}
             >
               {/* Scrollable wrapper for mobile */}
@@ -308,23 +421,45 @@ export default function ServiceComparison() {
                 <table className="w-full min-w-[500px] border-collapse">
                   {/* Header Row */}
                   <thead>
-                    <tr style={{ background: isDark ? '#1a1a2e' : '#f3f4f6' }}>
-                      <th className="px-5 py-4 text-left text-[12px] font-semibold uppercase tracking-[0.15em] w-[160px]" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>
+                    <tr
+                      style={{
+                        background: isDark ? '#1a1a2e' : '#f3f4f6',
+                      }}
+                    >
+                      <th
+                        className="px-5 py-4 text-left text-[12px] font-semibold uppercase tracking-[0.15em] w-[160px]"
+                        style={{
+                          color: isDark ? '#9ca3af' : '#6b7280',
+                        }}
+                      >
                         Criteria
                       </th>
+
                       {Array.from(selected).map((id) => {
                         const service = comparisonData[id];
+
                         return (
                           <th
                             key={id}
                             className="px-5 py-4 text-left text-sm font-semibold"
-                            style={{ color: isDark ? '#f0f0f5' : '#1a1a2e' }}
+                            style={{
+                              color: isDark ? '#f0f0f5' : '#1a1a2e',
+                            }}
                           >
                             <div className="flex items-center gap-2">
-                              <span className="text-[#FF4800]">{service.icon}</span>
-                              <span className="hidden md:inline">{service.name}</span>
+                              <span className="text-[#FF4800]">
+                                {service.icon}
+                              </span>
+
+                              <span className="hidden md:inline">
+                                {service.name}
+                              </span>
+
                               <span className="md:hidden">
-                                {service.name.split(' ').map((w) => w[0]).join('')}
+                                {service.name
+                                  .split(' ')
+                                  .map((w) => w[0])
+                                  .join('')}
                               </span>
                             </div>
                           </th>
@@ -340,18 +475,33 @@ export default function ServiceComparison() {
                         key={criterion.key}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, ease, delay: rowIdx * 0.05 }}
+                        transition={{
+                          duration: 0.3,
+                          ease,
+                          delay: rowIdx * 0.05,
+                        }}
                         style={
                           rowIdx % 2 !== 0
-                            ? { background: isDark ? 'rgba(26,26,46,0.4)' : 'rgba(250,250,250,1)' }
+                            ? {
+                                background: isDark
+                                  ? 'rgba(26,26,46,0.4)'
+                                  : 'rgba(250,250,250,1)',
+                              }
                             : undefined
                         }
                       >
-                        <td className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.1em] align-top whitespace-nowrap" style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>
+                        <td
+                          className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.1em] align-top whitespace-nowrap"
+                          style={{
+                            color: isDark ? '#9ca3af' : '#6b7280',
+                          }}
+                        >
                           {criterion.label}
                         </td>
+
                         {Array.from(selected).map((id) => {
                           const service = comparisonData[id];
+
                           return (
                             <td key={id} className="px-5 py-4 align-top">
                               <CellContent
@@ -370,6 +520,32 @@ export default function ServiceComparison() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* ── Discuss Your Project CTA ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+          className="mt-8 rounded-md border border-neutral-500/30 bg-[#303030] px-4 py-5 text-center"
+        >
+          <h3 className="text-base font-semibold text-white sm:text-lg">
+            Not Sure Which Solution You Need?
+          </h3>
+
+          <p className="mt-2 text-sm text-neutral-300">
+            Tell us about your business challenge. We&apos;ll discuss the
+            options that make sense for your requirements.
+          </p>
+
+         <Link
+  href="/contact#project-request"
+  className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#FF4800] px-4 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#e64100]"
+>
+  Discuss Your Project
+  <span aria-hidden="true">↗</span>
+</Link>
+        </motion.div>
       </div>
     </section>
   );
