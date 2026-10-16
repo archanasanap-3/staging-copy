@@ -270,8 +270,12 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* PROJECT REQUEST WIZARD */}
-      <section className="bg-[#F6F1E7] px-4 py-12 dark:bg-[#0a0a14] sm:px-6 md:py-16 lg:px-8">
+    
+     {/* PROJECT REQUEST WIZARD */}
+<section
+  id="project-request"
+  className="bg-[#F6F1E7] px-4 py-12 dark:bg-[#0a0a14] sm:px-6 md:py-16 lg:px-8"
+>
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           {/* LEFT: intro + what happens next */}
           <motion.div
