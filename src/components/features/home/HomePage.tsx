@@ -1042,9 +1042,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     return card ? card.offsetWidth + 20 : 300; // 20 = gap-5
   }, []);
 
-  // How many cards fit in the visible track at the current breakpoint (1 on
-  // mobile, 2 on tablet, 3 on desktop) — drives how far snapping can go so
-  // every card stays reachable instead of assuming 3 are always in view.
   const getVisibleCount = useCallback(() => {
     if (!trackRef.current) return 3;
     const cardW = getCardWidth();
@@ -1079,8 +1076,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     [capActiveIdx, dragX, getCardWidth, snapToCard],
   );
 
-  // Last reachable snap index at the current breakpoint — used to disable
-  // the "next" arrow once no more cards can scroll into view.
   const maxCapIndex = Math.max(0, bentoItems.length - getVisibleCount());
 
   const [constraints, setConstraints] = useState({ left: 0, right: 0 });
@@ -1143,7 +1138,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         .problem-title { transition: color 0.3s ease; }
       `}</style>
 
-      {/* ── Hero ── */}
+  
       {/* Hero stays pinned (lg+) while the services section slides up and covers it */}
       <div className="relative">
         <motion.div
@@ -1165,9 +1160,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <SandesaSection isDark={isDark} />
       </div>
 
+
+
+
 {/* ── Problem Section ── */}
-<section className="relative bg-[#F6F1E7] dark:bg-[#0a0a14] overflow-hidden py-8 sm:py-12 md:py-16">
-  <div className="mx-auto max-w-7xl relative z-10 px-5 sm:px-6 lg:px-8">
+<section className="relative overflow-hidden bg-[#F6F1E7] py-8 dark:bg-[#0a0a14] sm:py-12 md:py-16">
+  <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
     {/* Heading */}
     <motion.div
@@ -1175,62 +1173,74 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="text-left mb-6 md:mb-8"
+      className="mb-6 text-left md:mb-8"
     >
       <p
         className="mb-4 text-[11px] font-bold uppercase tracking-widest"
         style={{ color: "#FF4800" }}
       >
-        THE REAL PROBLEM
+        WHAT'S SLOWING YOUR BUSINESS DOWN?
       </p>
 
-      <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2]">
-        You&apos;re not short on software.
-      
-        You&apos;re drowning in it
+      <h2 className="text-3xl font-bold leading-[1.2] tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]">
+        Your Business Has the Tools. But Are They Working Together?
       </h2>
+
+      <p className="mt-4 max-w-7xl text-[15px] leading-7 text-neutral-600 dark:text-neutral-400 sm:text-base">
+        Disconnected software, repetitive tasks, and scattered information can slow down your
+        operations, waste valuable time, and make business growth harder than it should be.
+      </p>
     </motion.div>
 
-    {/* Problem columns */}
+    {/* Problem Columns */}
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-14 lg:grid-cols-5 lg:gap-x-6"
+      transition={{
+        duration: 0.6,
+        delay: 0.1,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      className="mt-10 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-5 lg:gap-x-6"
     >
       {[
         {
-          heading: "The Tool Tax",
-          body: "You're paying 6 to 14 SaaS subscriptions. Half overlap. None talk to each other.",
+          heading: "Too Many Tools",
+          body: "Your team switches between multiple applications to get work done, while overlapping subscriptions add unnecessary costs.",
         },
         {
-          heading: "The Integration Debt",
-          body: 'Every new tool needs a Zapier hack. IT says a "proper integration" takes 6 months.'
+          heading: "Disconnected Systems",
+          body: "Your tools don't communicate with each other, forcing your team to transfer information manually and manage disconnected workflows.",
         },
         {
-          heading: "The Visibility Gap",
-          body: "Leadership lacks pipeline visibility, operations lack inventory insights lacks clarity."
+          heading: "Limited Business Visibility",
+          body: "Customer information, sales figures, and reports are scattered across different platforms, making it harder to see the complete picture.",
         },
         {
-          heading: "The Process Drag",
-          body: "Repetitive tasks and manual processes waste your team’s valuable time every day.",
+          heading: "Repetitive Manual Work",
+          body: "Data entry, customer follow-ups, and routine tasks consume valuable time that could be spent on growing your business.",
         },
         {
-          heading: "The Growth Barrier",
-          body: "As your business grows, disconnected systems become harder to manage.",
+          heading: "Growing Complexity",
+          body: "As your business expands, managing customers, teams, and daily operations becomes increasingly difficult with systems that can't keep up.",
         },
       ].map(({ heading, body }, i) => (
-        <div key={heading} className="problem-step flex flex-col items-center text-center">
+        <div
+          key={heading}
+          className="problem-step flex min-w-0 flex-col items-center text-center"
+        >
           <div className="problem-num-win" aria-hidden="true">
-            <span className="problem-num">{String(i + 1).padStart(2, "0")}</span>
+            <span className="problem-num">
+              {String(i + 1).padStart(2, "0")}
+            </span>
           </div>
 
-          <h3 className="problem-title mt-4 text-xl font-bold leading-tight text-[#0b0b14] dark:text-white">
+          <h3 className="problem-title mt-5 flex min-h-[3.5rem] w-full max-w-[230px] items-start justify-center text-center text-lg font-bold leading-[1.4] tracking-[0.015em] text-[#0b0b14] dark:text-white sm:text-xl">
             {heading}
           </h3>
 
-          <p className="mt-4 w-full max-w-[270px] mx-auto text-center text-[15px] leading-[1.6] text-neutral-600 dark:text-neutral-400">
+          <p className="mt-3 mx-auto w-full max-w-[270px] text-center text-[15px] leading-[1.7] text-neutral-600 dark:text-neutral-400">
             {body}
           </p>
         </div>
