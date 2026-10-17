@@ -271,35 +271,33 @@ function TemplateScene() {
 
 function BotScene() {
   const nodes = [
-    { t: 'Keyword', v: '"property tax"' },
-    { t: 'Auto reply', v: 'Documents needed' },
-    { t: 'Handoff', v: 'Talk to an officer' },
+    { t: '01 · Customer Message', v: '“I need information about your services.”' },
+    { t: '02 · Automatic Reply', v: '“Of course! Choose a service to learn more.”' },
+    { t: '03 · Next Action', v: 'Share details or connect to team' },
   ];
   return (
     <>
       <div className="absolute right-[34px] top-[10px]">
-        <Phone name="City Help Desk">
-          <Bubble side="out" delay={0.2} time="9:02">property tax bharaycha ahe</Bubble>
+        <Phone name="Sandesa Assistant">
+          <Bubble side="out" delay={0.2} time="9:02">I need information about your services.</Bubble>
           <Bubble delay={0.9} time="9:02">
-            <p>Sure! Please keep these ready:</p>
-            <p className="mt-0.5">1. Property number</p>
-            <p>2. Owner name</p>
+            <p>Of course! Choose a service to learn more.</p>
             <div className="mt-1.5 space-y-1 border-t border-neutral-100 pt-1.5 text-center text-[10.5px] font-semibold text-[#0A7CFF]">
-              <p>Pay online</p>
-              <p>Talk to an officer</p>
+              <p>Explore services</p>
+              <p>Connect to our team</p>
             </div>
           </Bubble>
-          <Bubble side="out" delay={1.8} time="9:03">Talk to an officer</Bubble>
-          <Bubble delay={2.5} time="9:03">Connecting you to a human agent…</Bubble>
+          <Bubble side="out" delay={1.8} time="9:03">Connect to our team</Bubble>
+          <Bubble delay={2.5} time="9:03">Connecting you to our team…</Bubble>
         </Phone>
       </div>
 
-      <Hero big="24/7" caption="automatic replies in English, हिंदी and मराठी" size="text-[64px]" />
+      <Hero big="24/7" caption="Every question. A smarter response." size="text-[58px]" />
 
       <Glass className="top-[200px]" delay={0.45}>
         <div className="mb-2 flex items-center justify-between">
-          <p className={glassLabel}>Flow builder</p>
-          <span className="rounded-full bg-white px-2 py-0.5 text-[9.5px] font-bold text-emerald-600">● Live</span>
+          <p className={glassLabel}>WhatsApp Chat Flow</p>
+          <span className="rounded-full bg-white px-2 py-0.5 text-[9.5px] font-bold text-emerald-600">● Active</span>
         </div>
         {nodes.map((n, i) => (
           <React.Fragment key={n.t}>
@@ -324,20 +322,20 @@ function AgentScene() {
   return (
     <>
       <div className="absolute right-[34px] top-[10px]">
-        <Phone name="City Hospital">
-          <Bubble side="out" delay={0.2} time="8:15">What are your OPD timings?</Bubble>
-          <Bubble delay={1.0} time="8:15">
-            <p>Our OPD runs 9 AM to 8 PM, Monday to Saturday. Emergency care is open 24×7. 🏥</p>
+        <Phone name="AI Customer Agent">
+          <Bubble side="out" delay={0.2} time="10:15">What are your business hours?</Bubble>
+          <Bubble delay={1.0} time="10:15">
+            <p>Our business hours are Monday to Saturday, 9 AM to 6 PM. How else can I help you?</p>
             <p className="mt-1 flex items-center gap-1 text-[9.5px] text-neutral-400">
-              <FileText size={10} /> hospital-faq.pdf
+              <FileText size={10} /> company-faq.pdf
             </p>
           </Bubble>
-          <Bubble side="out" delay={2.1} time="8:16">Do you accept insurance?</Bubble>
-          <Bubble delay={2.8} time="8:16">Yes, we support cashless insurance. Share your policy number and we&apos;ll verify it.</Bubble>
+          <Bubble side="out" delay={2.1} time="10:16">Do you offer customer support?</Bubble>
+          <Bubble delay={2.8} time="10:16">Yes! Our team is available to assist you anytime during working hours.</Bubble>
         </Phone>
       </div>
 
-      <Hero big="Your docs" caption="are the only source of every answer" size="text-[50px]" />
+      <Hero big="AI Agent" caption="Your business knowledge. Ready to answer." size="text-[48px]" />
 
       <Glass className="top-[200px]" delay={0.45}>
         <div className="mb-2 flex items-center justify-between">
@@ -349,8 +347,8 @@ function AgentScene() {
             <FileText size={15} />
           </span>
           <div className="leading-tight">
-            <p className="text-[11.5px] font-bold">hospital-faq.pdf</p>
-            <p className="text-[10px] text-white/75">Indexed and ready to answer</p>
+            <p className="text-[11.5px] font-bold">company-faq.pdf</p>
+            <p className="text-[10px] text-white/75">Business knowledge document</p>
           </div>
         </div>
         <div className="mt-3 flex items-center justify-between text-[11.5px]">
@@ -371,10 +369,10 @@ function AgentScene() {
 function InsightsScene() {
   const bars = [38, 62, 48, 80, 66, 92, 74];
   const kpis: [string, string][] = [
-    ['Leads', '9'],
-    ['Chats', '7'],
-    ['Messages', '24'],
-    ['Delivery', '100%'],
+    ['Customer enquiries', '128'],
+    ['Conversations', '76'],
+    ['Messages sent', '540'],
+    ['Delivery rate', '96%'],
   ];
   return (
     <>
@@ -391,12 +389,12 @@ function InsightsScene() {
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
             </span>
             <div className="leading-tight">
-              <p className="text-[13px] font-bold text-neutral-900 dark:text-white">WhatsApp is Live</p>
-              <p className="text-[10.5px] text-neutral-500 dark:text-neutral-400">Connected and ready to automate</p>
+              <p className="text-[13px] font-bold text-neutral-900 dark:text-white">WhatsApp Connection</p>
+              <p className="text-[10.5px] text-neutral-500 dark:text-neutral-400">Monitor your account connection</p>
             </div>
           </div>
-          <span className="rounded-lg bg-white px-2.5 py-1 text-[10.5px] font-semibold text-neutral-700 shadow-sm dark:bg-white/10 dark:text-neutral-200">
-            Test connection
+          <span className="rounded-lg bg-white px-2.5 py-1 text-[10.5px] font-semibold text-emerald-600 shadow-sm dark:bg-white/10 dark:text-emerald-400">
+            Connected
           </span>
         </div>
 
@@ -454,9 +452,9 @@ function InsightsScene() {
       </motion.div>
 
       <Float className="right-[6px] top-[0px] w-[150px]" delay={0.7}>
-        <p className={label}>Read rate</p>
-        <p className="text-[22px] font-extrabold leading-tight text-neutral-900 dark:text-white">71%</p>
-        <p className="text-[9px] text-neutral-400">Sample data</p>
+        <p className={label}>Delivery rate</p>
+        <p className="text-[22px] font-extrabold leading-tight text-neutral-900 dark:text-white">96%</p>
+        <p className="text-[9px] text-neutral-400">Sandesa AI metrics</p>
       </Float>
     </>
   );
