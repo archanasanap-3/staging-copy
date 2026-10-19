@@ -16,7 +16,7 @@ export default function Services() {
               ? '/services#automation'
               : page === 'custom-software'
                 ? '/services#custom-software'
-                : page === 'strategy'
+                : page === 'strategy' || page === 'ai-strategy'
                   ? '/services#ai-strategy'
                   : page === 'web-development'
                     ? '/services#web-development'

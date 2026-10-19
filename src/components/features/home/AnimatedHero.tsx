@@ -29,7 +29,7 @@ const stats = [
 /** One headline line, revealed from behind a mask */
 function MaskedLine({ children, delay, className }: { children: React.ReactNode; delay: number; className?: string }) {
   return (
-    <span className="block overflow-hidden pb-[0.08em]">
+    <span className="block overflow-hidden pb-[0.04em]">
       <motion.span
         className={`block ${className ?? ''}`}
         initial={{ y: '110%' }}
@@ -87,29 +87,30 @@ export default function AnimatedHero({ onNavigate }: AnimatedHeroProps) {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
-          className="mb-6 sm:mb-8 inline-flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.28em]"
-          style={{ color: textMuted }}
+          className="mb-6 sm:mb-8 inline-flex items-center gap-2.5 text-xs sm:text-sm md:text-[14px] font-bold uppercase tracking-[0.24em]"
+          style={{ color: isDark ? '#e2ddd3' : '#383329' }}
         >
           <span
-            className="h-1.5 w-1.5 rounded-full"
+            className="h-2 w-2 rounded-full shrink-0"
             style={{ background: '#FF4800', animation: 'hero-dot 2.2s ease-in-out infinite' }}
           />
-        SOFTWARE THAT WORKS FOR YOUR BUSINESS
+          SOFTWARE THAT WORKS FOR YOUR BUSINESS
         </motion.p>
 
         {/* Headline */}
         <h1
           className="font-bold"
           style={{
-            fontSize: 'clamp(1.9rem, 5vw, 4.4rem)',
-            lineHeight: 1.04,
-            letterSpacing: '-0.04em',
+            fontSize: 'clamp(2.1rem, 5.2vw, 4.5rem)',
+            lineHeight: 1.07,
+            letterSpacing: '-0.02em',
+            wordSpacing: '0.18em',
             color: textPrimary,
           }}
         >
           <MaskedLine delay={0.2}>Spend less time managing work.</MaskedLine>
           <MaskedLine delay={0.34} className="text-[#FF4800]">
-           More time growing your business.
+            More time growing your business.
           </MaskedLine>
         </h1>
 
