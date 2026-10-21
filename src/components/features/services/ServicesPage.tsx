@@ -27,6 +27,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import ServiceComparison from '@/components/features/services/ServiceComparison';
+import ImprovementFinderSection from '@/components/features/services/ImprovementFinderSection';
 
 /* ------------------------------------------------------------------ */
 /* Component-level Styles                                             */
@@ -413,9 +414,9 @@ function ServiceBlock({
                     <motion.div
                       key={cap.title}
                       variants={staggerItemVariants}
-                      className="group flex min-w-0 items-start gap-4 rounded-2xl border border-black/[0.05] bg-[#F6F1E7]/60 p-4 transition-colors duration-300 hover:border-[#FF4800]/40 hover:bg-[#FF4800]/[0.05] dark:border-white/10 dark:bg-white/[0.04] sm:p-5"
+                      className="group flex min-w-0 items-start gap-4 rounded-2xl border border-black/[0.05] bg-[#F6F1E7]/60 p-4 transition-colors duration-300 hover:border-[#FF4800]/40 hover:bg-[#FF4800]/[0.05] dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-[#FF4800]/50 dark:hover:bg-[#FF4800]/10 sm:p-5"
                     >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-black shadow-sm transition-all duration-300 group-hover:bg-[#FF4800] group-hover:text-white dark:bg-white/10 dark:text-white dark:group-hover:bg-[#FF4800] dark:group-hover:text-white">
                         <Icon size={19} strokeWidth={1.8} />
                       </div>
 
@@ -519,7 +520,7 @@ function WhyStravedaSection() {
             A Better Way to Build Software
           </h2>
 
-          <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
+          <p className="mx-auto mt-4 max-w-4xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
             We focus on what your business needs, keep you involved throughout
             the process, and build solutions you can own.
           </p>
@@ -616,6 +617,8 @@ export default function ServicesPage({
         onNavigate={onNavigate}
         selectedService={selectedService}
       />
+
+      <ImprovementFinderSection onNavigate={onNavigate} />
 
       <WhyStravedaSection />
 
