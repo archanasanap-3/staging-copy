@@ -8,9 +8,9 @@ export function generateStaticParams() {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }> | { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const slug = resolvedParams?.slug || OPEN_APPLICATION_SLUG;
   return <CareerApplyPage slug={slug} />;
 }
