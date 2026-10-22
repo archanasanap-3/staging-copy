@@ -33,6 +33,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import AnimatedHero from '@/components/features/home/AnimatedHero';
 import SandesaSection from '@/components/features/home/SandesaSection';
+import SandesaGrowthSection from '@/components/features/home/SandesaGrowthSection';
 import ClientProjectsSection from '@/components/features/home/ClientProjectsSection';
 import WaveDivider from '@/components/animations/WaveDivider';
 import TechConstellationPopup from '@/components/features/home/TechConstellationPopup';
@@ -1157,7 +1158,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       {/* ── Sandesa Section ── */}
       <div id="section-sandesa" className="-mt-[34vh] sm:-mt-[20vh] md:mt-0 relative z-20">
-        <SandesaSection isDark={isDark} />
+        {/* Legacy Sandesa carousel preserved in code, hidden from UI as requested */}
+        {/* <SandesaSection isDark={isDark} /> */}
+        <SandesaGrowthSection isDark={isDark} />
       </div>
 
 
