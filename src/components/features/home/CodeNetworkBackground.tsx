@@ -33,12 +33,13 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
     const SEP = 85; // nodes closer than this push each other apart
     const MAX_LINKS = 3; // each node links to at most its 3 nearest neighbours
 
-    type Node = { x: number; y: number; vx: number; vy: number; r: number; label: string; rv: number; phase: number };
+    type Node = { x: number; y: number; vx: number; vy: number; r: number; label: string; rv: number; phase: number; index: number };
     const strength = new Map<number, number>();
     let t = 0;
     let nodes: Node[] = [];
     let w = 0, h = 0, raf = 0, visible = true;
     const mouse = { x: -9999, y: -9999 };
+    let hoverStartedAt: number | null = null;
 
     const resize = () => {
       const dpr = lowPower ? 1 : Math.min(window.devicePixelRatio || 1, 2);
@@ -61,6 +62,7 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
         label: SNIPPETS[i % SNIPPETS.length],
         rv: 0,
         phase: Math.random() * Math.PI * 2,
+        index: i,
       }));
       strength.clear();
       // shuffle labels so neighbours differ
@@ -114,6 +116,18 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
         }
       }
 
+      const nearbyNodes = nodes
+        .map((node) => ({ node, distance: Math.hypot(node.x - mouse.x, node.y - mouse.y) }))
+        .filter(({ distance }) => distance < REVEAL)
+        .sort((a, b) => a.node.index - b.node.index);
+      const batchCount = Math.ceil(nearbyNodes.length / 3);
+      const activeBatch = batchCount > 1 && hoverStartedAt !== null
+        ? Math.floor((performance.now() - hoverStartedAt) / 2000) % batchCount
+        : 0;
+      const visibleNodeIndexes = new Set(
+        nearbyNodes.slice(activeBatch * 3, activeBatch * 3 + 3).map(({ node }) => node.index),
+      );
+
       for (const n of nodes) {
         if (!reduced) {
           // the cursor gently parts the nodes around it
@@ -132,8 +146,7 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
         }
         if (n.x < -20) n.x = w + 20; else if (n.x > w + 20) n.x = -20;
         if (n.y < -20) n.y = h + 20; else if (n.y > h + 20) n.y = -20;
-        const d = Math.hypot(n.x - mouse.x, n.y - mouse.y);
-        n.rv += ((d < REVEAL ? 1 : 0) - n.rv) * 0.14;
+        n.rv += ((visibleNodeIndexes.has(n.index) ? 1 : 0) - n.rv) * 0.12;
       }
 
       // links: nearest-neighbour candidates; each link fades in/out and also breaks on its own
@@ -187,10 +200,21 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
 
     const onMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+        mouse.x = -9999;
+        mouse.y = -9999;
+        hoverStartedAt = null;
+        return;
+      }
+      if (hoverStartedAt === null) hoverStartedAt = performance.now();
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
     };
-    const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
+    const onLeave = () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+      hoverStartedAt = null;
+    };
 
     resize();
     raf = requestAnimationFrame(draw);
