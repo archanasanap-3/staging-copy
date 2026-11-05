@@ -33,10 +33,10 @@ export default function TechConstellationPopup({ isDark }: { isDark: boolean }) 
 
   const spawnBurst = useCallback((clientX: number, clientY: number) => {
     const burstId = `${Date.now()}-${Math.random()}`;
-    const count = 5;
+    const count = 1;
     const items: BurstItem[] = [];
 
-    // Select 5 unique snippets per click
+    // Show one new snippet per click
     const chosenLabels: string[] = [];
     for (let k = 0; k < count; k++) {
       const idx = (nextSnippetIdxRef.current + k) % SNIPPETS.length;
@@ -45,9 +45,9 @@ export default function TechConstellationPopup({ isDark }: { isDark: boolean }) 
     nextSnippetIdxRef.current = (nextSnippetIdxRef.current + count) % SNIPPETS.length;
 
     // Distribute smoothly around click position
-    const baseRadii = [60, 85, 68, 92, 72];
+    const baseRadii = [72];
     for (let i = 0; i < count; i++) {
-      const baseAngle = (i * 2 * Math.PI) / count - Math.PI / 4;
+      const baseAngle = Math.PI / 2;
       const angleJitter = (Math.random() - 0.5) * 0.2;
       const angle = baseAngle + angleJitter;
       const radius = baseRadii[i % baseRadii.length] + (Math.random() - 0.5) * 8;
@@ -83,7 +83,8 @@ export default function TechConstellationPopup({ isDark }: { isDark: boolean }) 
       items,
     };
 
-    setBursts((prev) => [...prev.slice(-3), newBurst]);
+    // Keep the popup to one word at a time; a new click replaces the current word.
+    setBursts([newBurst]);
 
     // Visibility set to 1 second
     setTimeout(() => {
@@ -139,26 +140,16 @@ export default function TechConstellationPopup({ isDark }: { isDark: boolean }) 
                 initial={{
                   scale: 0.65,
                   opacity: 0,
-                  x: item.dx * 0.45,
-                  y: item.dy * 0.45,
+                  x: item.dx - 9,
+                  y: item.dy,
+                  rotate: -7,
                 }}
                 animate={{
                   scale: [0.65, 1.04, 1, 1, 0.96],
                   opacity: [0, 1, 1, 1, 0],
-                  x: [
-                    item.dx * 0.45,
-                    item.dx * 0.98,
-                    item.dx,
-                    item.dx,
-                    item.dx + (item.dx >= 0 ? 3 : -3),
-                  ],
-                  y: [
-                    item.dy * 0.45,
-                    item.dy * 0.98,
-                    item.dy,
-                    item.dy,
-                    item.dy - 4,
-                  ],
+                  x: [item.dx - 9, item.dx + 7, item.dx - 4, item.dx + 2, item.dx],
+                  y: [item.dy, item.dy, item.dy, item.dy, item.dy],
+                  rotate: [-7, 5, -3, 1, 0],
                 }}
                 transition={{
                   duration: 1.0, // Exactly 1 second
