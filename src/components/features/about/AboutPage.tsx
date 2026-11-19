@@ -234,12 +234,12 @@ function HeroSection() {
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const stats = [
-  { label: "Clients", value: "15+", count: 15, suffix: "+", prefix: "", barClass: "h-12 md:h-32" },
-  { label: "Projects", value: "20+", count: 20, suffix: "+", prefix: "", barClass: "h-24 md:h-56" },
-  { label: "Avg ROI", value: "3–5x", count: null, suffix: "", prefix: "", barClass: "h-20 md:h-44" },
-  { label: "Retention", value: "88%+", count: 88, suffix: "%+", prefix: "", barClass: "h-28 md:h-64" },
-  { label: "Impl. Time", value: "4-5w", count: null, suffix: "", prefix: "", barClass: "h-20 md:h-48" },
-  { label: "Uptime", value: "99.5%", count: 99.5, suffix: "%", prefix: "", barClass: "h-16 md:h-36" },
+  { label: "Clients Served", value: "15+", count: 15, suffix: "+", prefix: "", desc: "Building technology solutions for businesses across different industries.", barClass: "h-12 md:h-32" },
+  { label: "Projects Delivered", value: "20+", count: 20, suffix: "+", prefix: "", desc: "Experience across software development, web solutions and business automation.", barClass: "h-24 md:h-56" },
+  { label: "Average Client ROI", value: "3–5x", count: null, suffix: "", prefix: "", desc: "Reported return on investment, subject to project measurement and validation.", barClass: "h-20 md:h-44" },
+  { label: "Client Retention", value: "88%+", count: 88, suffix: "%+", prefix: "", desc: "Reflecting continued client relationships and ongoing engagements.", barClass: "h-28 md:h-64" },
+  { label: "Typical Implementation", value: "4–5 Weeks", count: null, suffix: "", prefix: "", desc: "An indicative delivery timeframe, depending on project requirements and scope.", barClass: "h-20 md:h-48" },
+  { label: "System Uptime", value: "99.5%", count: 99.5, suffix: "%", prefix: "", desc: "Platform availability across applicable managed systems.", barClass: "h-16 md:h-36" },
 ];
 
 function AnimatedStatValue({ stat }: { stat: typeof stats[0] }) {
@@ -292,9 +292,9 @@ const inView = useInView(ref, {
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const whoWeAreStats = [
-  { value: 55, suffix: "%", label: "Manual Work Reduced", desc: "Less repetitive work, more time to grow." },
-  { value: 100, suffix: "%", label: "Code Ownership", desc: "Every system we build is yours to keep." },
-  { value: null, display: "3–5×", label: "Operational Efficiency", desc: "Connected workflows that run faster." },
+  { value: null, display: "END-TO-END", label: "SOFTWARE DEVELOPMENT", desc: "Comprehensive development services, from requirement analysis and planning to implementation and deployment." },
+  { value: null, display: "TECHNOLOGY INTEGRATION", label: "AI & BUSINESS AUTOMATION", desc: "Integrating modern technologies and automated workflows to improve business processes and system connectivity." },
+  { value: null, display: "SCALABLE", label: "DIGITAL SOLUTIONS", desc: "Developing reliable, adaptable software solutions that support changing business requirements and future growth." },
 ];
 
 function AnimatedWhoWeAreStat({
@@ -347,8 +347,8 @@ function WhoWeAreSection() {
             transition={{ duration: 0.7, ease }}
           >
             <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">Who we are</p>
-            <h2 className="max-w-3xl text-[2.1rem] font-bold leading-[1.08] tracking-[-0.035em] text-black dark:text-white sm:text-5xl lg:text-[3.75rem]">
-              Built by operators,
+            <h2 className="max-w-3xl text-[2rem] font-bold leading-[1.1] tracking-[-0.035em] text-black dark:text-white sm:text-[2.5rem] lg:text-[clamp(2.5rem,4vw,3.25rem)]">
+              Technology solutions
               <br />
               <motion.span
                 initial={{ backgroundSize: "0% 100%" }}
@@ -362,7 +362,7 @@ function WhoWeAreSection() {
                   backgroundPosition: "left center",
                 }}
               >
-                driven by outcomes.
+                designed for evolving business needs.
               </motion.span>
             </h2>
           </motion.div>
@@ -374,9 +374,9 @@ function WhoWeAreSection() {
             transition={{ duration: 0.7, delay: 0.15, ease }}
             className="self-end text-[15px] leading-[1.8] text-neutral-600 dark:text-neutral-400"
           >
-            Every growing business hits the same wall: disconnected tools and wasted manual hours. We engineer
-            unified systems that replace operational chaos with clarity and speed, built from the ground up for
-            resilience, scale, and high-velocity teams.
+            Straveda is a software development and technology solutions company focused on helping businesses
+            improve their digital capabilities. We provide custom software development, AI integration, business
+            process automation and web solutions tailored to specific operational requirements.
           </motion.p>
         </div>
 
@@ -396,15 +396,15 @@ function WhoWeAreSection() {
               }`}
             >
               <p
-                className="whitespace-nowrap font-bold leading-none tracking-[-0.045em] text-[#FF4800] tabular-nums"
-                style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)" }}
+                className="whitespace-nowrap font-bold leading-tight tracking-[-0.035em] text-[#FF4800]"
+                style={{ fontSize: "clamp(1.05rem, 1.9vw, 1.65rem)" }}
               >
                 <AnimatedWhoWeAreStat target={stat.value} suffix={stat.suffix} display={stat.display} />
               </p>
-              <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-900 dark:text-white">
+              <p className="mt-4 text-[12px] font-semibold uppercase tracking-[0.12em] text-neutral-900 dark:text-white">
                 {stat.label}
               </p>
-              <p className="mt-2 max-w-[260px] text-[13px] leading-6 text-neutral-600 dark:text-neutral-400">
+              <p className="mt-2 max-w-[320px] text-[15px] leading-6 text-neutral-600 dark:text-neutral-400">
                 {stat.desc}
               </p>
             </div>
@@ -441,8 +441,11 @@ function StatsSection() {
             className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
             style={{ color: isDark ? "#ffffff" : "#000000" }}
           >
-            Measurable Operational Impact
+            Company Overview &amp; Performance
           </motion.h2>
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base">
+            An overview of our project experience, client relationships and technology delivery.
+          </p>
         </div>
 
         {/* Stats */}
@@ -466,12 +469,15 @@ function StatsSection() {
                 }}
                 className="mb-4 md:mb-5"
               >
-                <p className="text-2xl md:text-4xl font-semibold text-[#1a1a1a] dark:text-white tracking-tighter text-center">
+                <p className="text-xl md:text-2xl font-semibold text-[#1a1a1a] dark:text-white tracking-tight text-center">
                   <AnimatedStatValue stat={s} />
                 </p>
 
-                <p className="text-[10px] text-[#666] uppercase tracking-widest mt-2 text-center">
+                <p className="text-[10px] md:text-[11px] text-black dark:text-white font-medium uppercase tracking-wide mt-2 text-center">
                   {s.label}
+                </p>
+                <p className="mt-2 max-w-[180px] text-[13px] leading-5 text-neutral-600 dark:text-neutral-400 text-center">
+                  {s.desc}
                 </p>
               </motion.div>
 
@@ -509,13 +515,13 @@ function StatsSection() {
         </div>
 
         {/* Bottom Information */}
-        <div className="flex justify-between items-center mt-4">
-          <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-[#777]">
-            Typical client size: ₹1Cr–₹50Cr annual revenue
+        <div className="flex flex-wrap justify-between items-center gap-x-6 gap-y-2 mt-4">
+          <span className="text-[11px] md:text-xs font-bold uppercase tracking-[0.12em] text-[#777]">
+            Client profile: Businesses with &#8377;1 Cr–&#8377;50 Cr annual revenue
           </span>
 
-          <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-[#777]">
-            Location: Pune, Maharashtra
+          <span className="text-[11px] md:text-xs font-bold uppercase tracking-[0.12em] text-[#777]">
+            Location: Pune, Maharashtra, India
           </span>
         </div>
 
@@ -543,19 +549,19 @@ const principles = [
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const chaosItems = [
-  "Paying for 5 tools. None of them talk.",
-  "Fridays spent on reports that should write themselves.",
-  "A decision needs 2 days just to get the data.",
-  "Implementation started 6 months ago. Still setting it up.",
-  "Your best hire is doing data entry.",
+  "Switching between multiple tools just to get things done.",
+  "Spending hours on reports that could be automated.",
+  "Searching across platforms for the right information.",
+  "Managing workflows that don’t connect with each other.",
+  "Spending more time on routine tasks than actual work.",
 ];
 
 const clarityItems = [
-  "One platform, built for how you actually work.",
-  "Reports run overnight. Your Fridays are yours again.",
-  "Every decision backed by live data instantly.",
-  "You're live in 5 weeks. Paying back in 90 days.",
-  "Your best hire is doing their best work.",
+  "Connected tools. One seamless workflow.",
+  "Automated reports. Information when you need it.",
+  "Centralised data. Better business visibility.",
+  "Integrated systems. Smoother operations.",
+  "Less repetitive work. More time for what matters.",
 ];
 
 function StorySection() {
@@ -566,7 +572,7 @@ function StorySection() {
         <div className="mb-10 md:mb-16 text-left">
           <div className="mb-4">
             <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#FF4800]">
-              Our Story
+              Our Approach
             </span>
           </div>
 
@@ -574,9 +580,12 @@ function StorySection() {
           <h2
             className="text-3xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-4xl md:text-[2.5rem]"
           >
-            Two Paths{" "}
-            One Choice
+            Less busywork. Better ways to work.
           </h2>
+          <p className="mt-3 w-full text-base leading-relaxed text-[#5f5d5b] dark:text-white/70 md:text-lg">
+            Too many tools, repetitive tasks and disconnected systems slow businesses down.
+            Straveda brings everything together with smarter software, AI-powered automation and connected digital solutions.
+          </p>
         </div>
 
         {/* Cards */}
@@ -592,11 +601,11 @@ function StorySection() {
           >
             <div className="mb-6">
               <span className="inline-block text-[8px] font-bold uppercase tracking-[0.4em] text-[#FF4800]/70 border border-[#FF4800]/25 bg-[#FF4800]/5 px-2.5 py-1 rounded-full mb-3">
-                The Old Way
+                The Usual Way
               </span>
 
               <h3 className="text-xl font-bold uppercase tracking-tight text-[#1a1a2e]/70 dark:text-white/60">
-                Chaos
+                More Complexity
               </h3>
             </div>
 
@@ -612,7 +621,7 @@ function StorySection() {
                 >
                   <span className="mt-[5px] w-1.5 h-1.5 rounded-full border border-[#FF4800]/50 shrink-0" />
 
-                  <span className="text-[13px] leading-snug text-[#1a1a2e] dark:text-white">
+                  <span className="text-sm leading-snug text-[#1a1a2e] dark:text-white">
                     {item}
                   </span>
                 </motion.div>
@@ -635,7 +644,7 @@ function StorySection() {
               </span>
 
               <h3 className="text-xl font-bold uppercase tracking-tight text-[#1a1a2e] dark:text-white">
-                Structure
+                Simpler Operations
               </h3>
             </div>
 
@@ -654,7 +663,7 @@ function StorySection() {
                     className="mt-[2px] text-[#FF4800] shrink-0"
                   />
 
-                  <span className="text-[13px] font-medium leading-snug text-[#1a1a2e] dark:text-white/90">
+                  <span className="text-sm font-medium leading-snug text-[#1a1a2e] dark:text-white/90">
                     {item}
                   </span>
                 </motion.div>

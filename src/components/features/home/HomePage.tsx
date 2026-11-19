@@ -1275,10 +1275,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           Who we are
         </p>
         <h2
-          className="max-w-3xl text-[2.1rem] font-bold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-[3.75rem]"
+          className="max-w-3xl text-[2rem] font-bold leading-[1.1] tracking-[-0.035em] sm:text-[2.5rem] lg:text-[clamp(2.5rem,4vw,3.25rem)]"
           style={{ color: isDark ? "#ffffff" : "#0b0b14" }}
         >
-          We get it because{" "}
+          We turn complex business needs into{" "}
           <motion.span
             initial={{ backgroundSize: "0% 100%", color: isDark ? "#ffffff" : "#0b0b14" }}
             whileInView={{ backgroundSize: "100% 100%", color: "#ffffff" }}
@@ -1291,7 +1291,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               backgroundPosition: "left center",
             }}
           >
-            we&apos;ve lived it.
+            practical technology.
           </motion.span>
         </h2>
       </motion.div>
@@ -1301,11 +1301,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-        className="self-end text-[15px] leading-[1.8] text-neutral-600 dark:text-neutral-400"
+        className="self-end text-[17px] leading-[1.8] text-neutral-600 dark:text-neutral-400"
       >
-        Every growing company hits the same wall: scattered tools and wasted
-        manual hours. At Straveda, we engineer unified, AI-powered systems that
-        replace operational chaos with structure, clarity, and real efficiency.
+        At Straveda, we combine software engineering, AI and business process
+        automation to build technology that solves real business challenges.
+        From custom applications and intelligent systems to digital experiences,
+        we help businesses work smarter, operate efficiently and scale with confidence.
       </motion.p>
     </div>
 
@@ -1319,25 +1320,25 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       className="mt-14 grid grid-cols-2 gap-y-10 border-t border-neutral-300/80 pt-10 dark:border-white/15 md:mt-20 lg:grid-cols-4"
     >
       {[
-        { value: `${count55}%`, label: 'Manual work reduced', desc: 'Reduce repetitive work and improve everyday operations.' },
-        { value: `3–${count5}x`, label: 'Operational efficiency', desc: 'Build faster workflows with connected systems.' },
-        { value: `${count100}%`, label: 'Code ownership', desc: 'Scalable solutions with complete ownership of your codebase.' },
-        { value: 'End-to-End', label: 'Strategy → Build → Deploy', desc: 'From strategy and development to deployment and optimization.' },
+        { value: 'Custom-built', label: 'Software solutions', desc: 'Applications and platforms designed around your business requirements.' },
+        { value: 'AI-powered', label: 'Intelligent automation', desc: 'AI agents and automated workflows that simplify everyday operations.' },
+        { value: 'Connected', label: 'Integrated systems', desc: 'Connected platforms, data and tools for seamless business processes.' },
+        { value: 'End-to-End', label: 'Strategy → Build → Deploy', desc: 'From initial consultation and development to deployment and ongoing support.' },
       ].map((stat, i) => (
         <div
           key={stat.label}
           className={`min-w-0 pl-5 sm:pl-8 ${i > 0 ? 'border-l border-neutral-300/80 dark:border-white/15' : 'border-l border-transparent lg:pl-0'} ${i === 2 ? 'max-lg:border-l-transparent max-lg:pl-0' : ''}`}
         >
           <p
-            className="whitespace-nowrap max-sm:whitespace-normal font-bold leading-none tracking-[-0.045em] text-[#FF4800]"
-            style={{ fontSize: stat.value === 'End-to-End' ? 'clamp(1.5rem, 3.2vw, 3rem)' : 'clamp(2.75rem, 5vw, 4.5rem)' }}
+            className="whitespace-normal break-words font-bold leading-[1.05] tracking-[-0.045em] text-[#FF4800]"
+            style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)' }}
           >
             {stat.value}
           </p>
           <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-900 dark:text-white">
             {stat.label}
           </p>
-          <p className="mt-2 max-w-[240px] text-[13px] leading-6 text-neutral-600 dark:text-neutral-400">
+          <p className="mt-2 max-w-[240px] text-[14px] leading-6 text-neutral-600 dark:text-neutral-400">
             {stat.desc}
           </p>
         </div>
@@ -1787,32 +1788,32 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         {[
           {
             step: "01",
-            label: "Discovery",
-            desc: "30-minute strategy call to analyze workflows and identify high-impact opportunities.",
+            label: "Discover & Understand",
+            desc: "We understand your business objectives, existing systems, challenges and requirements to identify the right technology opportunities.",
             icon: Activity,
           },
           {
             step: "02",
-            label: "Architecture",
-            desc: "We architect the solution, define the tech stack, and prepare a clear fixed-price plan.",
+            label: "Strategise & Architect",
+            desc: "We define the solution architecture, technology stack, project roadmap and implementation strategy aligned with your business goals.",
             icon: Brain,
           },
           {
             step: "03",
-            label: "Build",
-            desc: "We build in weekly sprints with full visibility, testing, and control and accurately.",
+            label: "Design & Develop",
+            desc: "We design intuitive user experiences and develop secure, scalable software solutions through an iterative development process.",
             icon: Shield,
           },
           {
             step: "04",
-            label: "Automate",
-            desc: "We connect triggers, workflows, and AI agents so the system runs smoothly.",
+            label: "Integrate & Optimise",
+            desc: "We integrate APIs, AI capabilities, third-party platforms and automated workflows, followed by rigorous testing and optimisation.",
             icon: Globe,
           },
           {
             step: "05",
-            label: "Scale",
-            desc: "We hand over documentation and code, giving your team full ownership.",
+            label: "Deploy & Scale",
+            desc: "We deploy your solution, provide technical documentation and ongoing support, and help your technology evolve as your business grows.",
             icon: Cloud,
           },
         ].map((item, index) => (
@@ -1866,7 +1867,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </h3>
 
             {/* Description */}
-            <p className="w-full max-w-[280px] text-center text-sm leading-6 text-[#6b7280] dark:text-[#9ca3af]">
+            <p className="w-full max-w-[280px] text-center text-base leading-6 text-[#6b7280] dark:text-[#9ca3af]">
               {item.desc}
             </p>
           </motion.div>
