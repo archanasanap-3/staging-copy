@@ -44,34 +44,13 @@ export default function TechConstellationPopup({ isDark }: { isDark: boolean }) 
     }
     nextSnippetIdxRef.current = (nextSnippetIdxRef.current + count) % SNIPPETS.length;
 
-    // Distribute smoothly around click position
-    const baseRadii = [72];
+    // Keep the technology label anchored to the exact point the user clicked.
     for (let i = 0; i < count; i++) {
-      const baseAngle = Math.PI / 2;
-      const angleJitter = (Math.random() - 0.5) * 0.2;
-      const angle = baseAngle + angleJitter;
-      const radius = baseRadii[i % baseRadii.length] + (Math.random() - 0.5) * 8;
-
-      let dx = Math.cos(angle) * radius;
-      let dy = Math.sin(angle) * radius;
-
-      // Keep within screen edges
-      if (typeof window !== 'undefined') {
-        const targetX = clientX + dx;
-        const targetY = clientY + dy;
-        const maxX = window.innerWidth - 85;
-        const maxY = window.innerHeight - 36;
-        if (targetX < 18) dx += 18 - targetX;
-        else if (targetX > maxX) dx -= targetX - maxX;
-        if (targetY < 18) dy += 18 - targetY;
-        else if (targetY > maxY) dy -= targetY - maxY;
-      }
-
       items.push({
         id: `${burstId}-${i}`,
         label: chosenLabels[i],
-        dx,
-        dy,
+        dx: 0,
+        dy: 0,
         delay: i * 0.02,
       });
     }
@@ -140,14 +119,14 @@ export default function TechConstellationPopup({ isDark }: { isDark: boolean }) 
                 initial={{
                   scale: 0.65,
                   opacity: 0,
-                  x: item.dx - 9,
+                  x: item.dx,
                   y: item.dy,
                   rotate: -7,
                 }}
                 animate={{
                   scale: [0.65, 1.04, 1, 1, 0.96],
                   opacity: [0, 1, 1, 1, 0],
-                  x: [item.dx - 9, item.dx + 7, item.dx - 4, item.dx + 2, item.dx],
+                  x: [item.dx, item.dx + 7, item.dx - 4, item.dx + 2, item.dx],
                   y: [item.dy, item.dy, item.dy, item.dy, item.dy],
                   rotate: [-7, 5, -3, 1, 0],
                 }}

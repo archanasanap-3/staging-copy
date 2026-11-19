@@ -38,6 +38,7 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
     let t = 0;
     let nodes: Node[] = [];
     let w = 0, h = 0, raf = 0, visible = true;
+    let touchRevealTimeout: ReturnType<typeof setTimeout> | undefined;
     const mouse = { x: -9999, y: -9999 };
     let hoverStartedAt: number | null = null;
 
@@ -210,6 +211,21 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
     };
+    const onPointerDown = (e: PointerEvent) => {
+      // Touch devices have no hover state, so reveal the nearby tech labels on tap.
+      if (e.pointerType !== 'touch') return;
+      const rect = canvas.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) return;
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      hoverStartedAt = performance.now();
+      if (touchRevealTimeout) clearTimeout(touchRevealTimeout);
+      touchRevealTimeout = setTimeout(() => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+        hoverStartedAt = null;
+      }, 3200);
+    };
     const onLeave = () => {
       mouse.x = -9999;
       mouse.y = -9999;
@@ -223,6 +239,7 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
     io.observe(host);
     window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('pointerleave', onLeave);
 
     return () => {
@@ -230,7 +247,9 @@ export default function CodeNetworkBackground({ isDark }: { isDark: boolean }) {
       ro.disconnect();
       io.disconnect();
       window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerdown', onPointerDown);
       document.removeEventListener('pointerleave', onLeave);
+      if (touchRevealTimeout) clearTimeout(touchRevealTimeout);
     };
   }, [isDark]);
 

@@ -179,69 +179,68 @@ const workflow = [
 ];
 
 const oldWay = [
-  "Basic Store",
-  "Limited Reporting",
-  "Separate Marketing Tools",
-  "Manual Order Processing",
-  "Third-party Integrations",
-  "Multiple Software",
+  "Basic storefront with limited customisation.",
+  "Reports scattered across multiple platforms.",
+  "Marketing tools working independently.",
+  "Manual order processing and updates.",
+  "Separate inventory and shipping systems.",
+  "Customer data spread across different tools.",
 ];
 
 const stravedaWay = [
-  "Premium Custom Store",
-  "Business Analytics",
-  "Marketing Intelligence",
-  "Shipment Management",
-  "Inventory Management",
-  "CRM & Customer Tracking",
-  "AI Automation",
-  "Complete Business Workflow",
-  "Built Around Your Business",
+  "Customisable storefront built around your brand.",
+  "Centralised analytics and business reporting.",
+  "Integrated marketing and campaign intelligence.",
+  "Streamlined order and fulfilment management.",
+  "Connected inventory and shipment tracking.",
+  "Unified CRM and customer management.",
+  "AI-powered business automation.",
+  "Connected workflows across your operations.",
 ];
 
 const finalFeatures = [
-  "Premium Custom eCommerce Website",
+  "Custom eCommerce Storefront",
   "Product & Customer Experience",
-  "Secure Payments & Checkout",
-  "Order Management",
-  "Inventory Management",
-  "Shipment Integration",
+  "Payments & Seamless Checkout",
+  "Smart Order Management",
+  "Real-Time Inventory Control",
+  "Shipping & Delivery Integration",
   "Business Analytics Dashboard",
-  "Marketing Intelligence",
-  "CRM & Lead Management",
-  "AI Automation & Custom Admin Panel",
+  "Marketing & Campaign Intelligence",
+  "CRM & Customer Management",
+  "AI Automation & Admin Dashboard",
 ];
 
 const featureDescriptions: Record<string, string> = {
-  "Premium Custom eCommerce Website":
-    "fully custom UI, mobile-responsive design, fast performance, SEO readiness, and a premium brand experience",
+  "Custom eCommerce Storefront":
+    "Your brand deserves more than a basic template. Get a custom-designed, mobile-first storefront with responsive layouts, fast performance and SEO-ready architecture.",
 
   "Product & Customer Experience":
-    "unlimited products, categories, variants, collections, wishlist, reviews, coupons, and loyalty features",
+    "Make shopping effortless. Manage unlimited products, categories, variants and collections, with wishlists, reviews, coupons and loyalty features.",
 
-  "Secure Payments & Checkout":
-    "UPI, cards, net banking, wallets, cash on delivery, international payments, and secure payment gateways",
+  "Payments & Seamless Checkout":
+    "Make every transaction simple and secure. Support UPI, cards, net banking, digital wallets, cash on delivery and international payment gateways.",
 
-  "Order Management":
-    "order processing, order tracking, returns, refunds, and streamlined order workflows",
+  "Smart Order Management":
+    "Keep every order in check. Manage processing, tracking, returns, refunds and fulfilment through a streamlined workflow.",
 
-  "Inventory Management":
-    "real-time stock updates, low-stock alerts, warehouse support, and multi-location inventory",
+  "Real-Time Inventory Control":
+    "Stay ahead of stock movement. Track inventory, receive low-stock alerts and manage warehouse operations across multiple locations.",
 
-  "Shipment Integration":
-    "Shiprocket and Shipmozo integration, delivery tracking, shipping labels, and AWB generation",
+  "Shipping & Delivery Integration":
+    "Make fulfilment easier. Connect Shiprocket and Shipmozo for shipping labels, AWB generation and delivery tracking.",
 
   "Business Analytics Dashboard":
-    "real-time revenue tracking, sales reports, customer insights, profit tracking, and smart reporting",
+    "Know what's happening across your store. Track revenue, sales performance, customer insights, profit and business reports from one dashboard.",
 
-  "Marketing Intelligence":
-    "Google Ads and Meta Ads integration, campaign performance tracking, conversion insights, and ROI reporting",
+  "Marketing & Campaign Intelligence":
+    "Get more visibility into campaign performance. Connect Google Ads and Meta Ads to monitor results, conversions and advertising ROI.",
 
-  "CRM & Lead Management":
-    "customer database, lead tracking, follow-ups, customer history, and customer retention workflows",
+  "CRM & Customer Management":
+    "Keep every customer interaction organised. Manage customer profiles, leads, follow-ups, purchase history and retention workflows.",
 
-  "AI Automation & Custom Admin Panel":
-    "AI recommendations, automated notifications, workflow automation, and a unified admin panel for business operations",
+  "AI Automation & Admin Dashboard":
+    "Simplify everyday operations with AI recommendations, automated notifications, intelligent workflows and a centralised business management dashboard.",
 };
 
 function SectionLabel({
@@ -1244,16 +1243,16 @@ export default function CommerceOSPage() {
 
       <section className="bg-[#F6F1E7] py-12 dark:bg-[#0a0a14] md:py-16">
         <div className="-mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl">
+          <div className="w-full">
             <SectionLabel>
-               The Straveda Advantage
+              WHY STRAVEDA
             </SectionLabel>
 
             <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto">
-              Why Business Choose Straveda
+              Less fragmentation. More control.
             </h2>
-            <p className="mt-6 text-base leading-7 text-neutral-600 dark:text-neutral-400 lg:whitespace-nowrap">
-              A side-by-side reality check on what changes when you move from stitched-together tools to one unified Commerce OS.
+            <p className="mt-6 w-full text-base leading-7 text-neutral-600 dark:text-neutral-400">
+              Running an online business shouldn't mean managing a dozen different tools. Straveda brings your store, operations, marketing and analytics together in one connected Commerce OS.
             </p>
           </div>
 
@@ -1269,12 +1268,10 @@ export default function CommerceOSPage() {
               <Layers size={28} strokeWidth={1.5} className="text-[#14110c]/80" />
 
               <h3 className="mt-5 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
-                Traditional
-                <br />
-                eCommerce
+                THE TOOL STACK
               </h3>
               <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#14110c]/65">
-                The old way of running an online store: many separate tools that never quite work together.
+                Different platforms. Disconnected workflows. More to manage.
               </p>
 
               <ul className="mt-5 flex-1 space-y-2">
@@ -1289,7 +1286,7 @@ export default function CommerceOSPage() {
               </ul>
 
               <span className="mt-6 inline-flex w-fit items-center rounded-full bg-[#14110c] px-5 py-2.5 text-[13px] font-semibold text-[#F6F1E7]">
-                6+ tools · fragmented ops
+                6+ TOOLS. ZERO UNIFIED CONTROL.
               </span>
             </motion.div>
 
@@ -1304,12 +1301,10 @@ export default function CommerceOSPage() {
               <Sparkles size={28} strokeWidth={1.5} className="text-[#FF4800]" />
 
               <h3 className="mt-5 text-xl font-bold leading-tight tracking-tight sm:text-2xl">
-                Straveda
-                <br />
-                Commerce Platform
+                ONE CONNECTED COMMERCE OS
               </h3>
               <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#F6F1E7]/65">
-                One unified Commerce OS that runs your store, your operations and your growth from a single dashboard.
+                Your store, operations and business insights — all working together.
               </p>
 
               <ul className="mt-5 flex-1 space-y-2">
@@ -1327,17 +1322,17 @@ export default function CommerceOSPage() {
                 href="/contact"
                 className="mt-6 inline-flex w-fit items-center rounded-full bg-[#F6F1E7] px-5 py-2.5 text-[13px] font-semibold text-[#14110c] transition-colors hover:bg-[#FF4800] hover:text-white"
               >
-                1 platform · Get started
+                ONE PLATFORM. COMPLETE VISIBILITY.
               </Link>
             </motion.div>
           </div>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
-            <span>One Platform.</span>
+            <span>One platform.</span>
             <span className="text-[#FF4800]">•</span>
-            <span>One Dashboard.</span>
+            <span>One dashboard.</span>
             <span className="text-[#FF4800]">•</span>
-            <span>Complete Business Control.</span>
+            <span>Better business management.</span>
           </div>
         </div>
       </section>
@@ -1352,12 +1347,16 @@ export default function CommerceOSPage() {
         <div className="-mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           <SectionLabel>
-            Your Commerce Partner
+            YOUR COMMERCE PARTNER
           </SectionLabel>
 
           <h2 className="font-bold text-black dark:text-white text-3xl sm:text-4xl md:text-[2.5rem] tracking-tight leading-[1.2] mx-auto">
-            Premium eCommerce, Built to Scale
+            A Complete Commerce Platform for Growing Brands.
           </h2>
+
+          <p className="mt-4 w-full text-base leading-7 text-neutral-600 dark:text-neutral-400">
+            A complete eCommerce ecosystem designed to simplify store management, improve customer experiences and keep your business ready for growth.
+          </p>
 
           {/* Features: open, divider-led list (no boxes) */}
           <div className="mt-10 grid grid-cols-1 gap-x-16 md:grid-cols-2">
