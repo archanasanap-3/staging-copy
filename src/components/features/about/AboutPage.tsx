@@ -291,7 +291,15 @@ const inView = useInView(ref, {
 /* Who We Are Section                                                      */
 /* ─────────────────────────────────────────────────────────────────────── */
 
-const whoWeAreStats = [
+type WhoWeAreStat = {
+  value: number | null;
+  display?: string;
+  label: string;
+  desc: string;
+  suffix?: string;
+};
+
+const whoWeAreStats: WhoWeAreStat[] = [
   { value: null, display: "END-TO-END", label: "SOFTWARE DEVELOPMENT", desc: "Comprehensive development services, from requirement analysis and planning to implementation and deployment." },
   { value: null, display: "TECHNOLOGY INTEGRATION", label: "AI & BUSINESS AUTOMATION", desc: "Integrating modern technologies and automated workflows to improve business processes and system connectivity." },
   { value: null, display: "SCALABLE", label: "DIGITAL SOLUTIONS", desc: "Developing reliable, adaptable software solutions that support changing business requirements and future growth." },
